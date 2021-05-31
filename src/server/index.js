@@ -1,5 +1,5 @@
 import { API_URL } from '@/config';
-import { createServer, Model, JSONAPISerializer } from 'miragejs';
+import { createServer, Model, JSONAPISerializer, belongsTo, hasMany } from 'miragejs';
 import { authRoutes } from './auth';
 
 const persistentDB = {
@@ -21,7 +21,22 @@ export function makeServer({ environment = 'test' }) {
     },
 
     models: {
-      user: Model,
+      user: Model.extend({
+        admin_team: belongsTo('admin'),
+        team: belongsTo(),
+      }),
+      team: Model.extend({
+        admin: belongsTo('user'),
+        members: hasMany('user'),
+        discussions: hasMany(),
+      }),
+      discussion: Model.extend({
+        team: belongsTo(),
+        comments: hasMany(),
+      }),
+      comment: Model.extend({
+        discussion: belongsTo(),
+      }),
     },
 
     routes() {

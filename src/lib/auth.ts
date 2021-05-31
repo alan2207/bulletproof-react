@@ -11,7 +11,6 @@ import storage from '@/utils/storage';
 async function handleUserResponse(data: UserResponse) {
   const { jwt, user } = data;
   storage.setToken(jwt);
-  console.log({ jwt, user });
   return user;
 }
 
@@ -37,6 +36,7 @@ async function registerFn(data: any) {
 
 async function logoutFn() {
   storage.clearToken();
+  window.location.assign(window.location as unknown as string);
 }
 
 const authConfig = {
