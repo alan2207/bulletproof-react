@@ -1,4 +1,4 @@
-const storagePrefix = 'trello_clone_';
+const storagePrefix = 'bulletproof_clone_';
 
 const storage = {
   getToken: () => {

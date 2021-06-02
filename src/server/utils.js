@@ -49,3 +49,9 @@ export function requireAuth(request) {
     throw new Error(err);
   }
 }
+
+export function requireAdmin(user) {
+  if (!user.role === 'ADMIN') {
+    throw Error();
+  }
+}

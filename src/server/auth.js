@@ -1,20 +1,22 @@
-import { authenticate, hash, db, requireAuth } from "./utils";
+import { authenticate, hash, db, requireAuth } from './utils';
 
 export function authRoutes(server) {
-  server.post("/auth/register", (schema, request) => {
+  server.post('/auth/register', (schema, request) => {
     const userObject = JSON.parse(request.requestBody);
 
+    userObject.role = 'ADMIN';
     const existingUser = schema.users.findBy({ email: userObject.email });
 
     if (existingUser) {
-      throw new Error("The user already exists");
+      throw new Error('The user already exists');
     }
 
-    console.log({ userObject });
+    const team = schema.teams.create({ name: `${userObject.first_name} Team` });
 
-    schema.users.create({ ...userObject, password: hash(userObject.password) });
+    schema.users.create({ ...userObject, password: hash(userObject.password), team });
 
-    db.persist("users", schema);
+    db.persist('users', schema);
+    db.persist('teams', schema);
 
     const { jwt, user } = authenticate(
       { email: userObject.email, password: userObject.password },
@@ -26,12 +28,15 @@ export function authRoutes(server) {
       user,
     };
   });
-  server.post("/auth/login", (schema, request) => {
+  server.post('/auth/login', (schema, request) => {
     const credentials = JSON.parse(request.requestBody);
 
     return authenticate(credentials, schema);
   });
-  server.get("/auth/me", (schema, request) => {
+  server.post('/auth/complete-invitation', (schema, request) => {
+    return {};
+  });
+  server.get('/auth/me', (schema, request) => {
     const user = requireAuth(request);
 
     return {

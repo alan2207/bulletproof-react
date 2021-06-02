@@ -20,3 +20,6 @@ axios.interceptors.request.use(authRequestInterceptor);
 axios.interceptors.response.use(function (response) {
   return response.data;
 });
+
+//@ts-ignore
+window.axios = axios;

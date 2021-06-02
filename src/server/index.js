@@ -1,6 +1,11 @@
 import { API_URL } from '@/config';
-import { createServer, Model, JSONAPISerializer, belongsTo, hasMany } from 'miragejs';
+import { createServer, Model, belongsTo, hasMany } from 'miragejs';
 import { authRoutes } from './auth';
+import { commentsRoutes } from './comments';
+import { discussionsRoutes } from './discussions';
+import { invitesRoutes } from './invites';
+import { teamsRoutes } from './teams';
+import { usersRoutes } from './users';
 
 const persistentDB = {
   getDb() {
@@ -16,19 +21,18 @@ const persistentDB = {
 export function makeServer({ environment = 'test' }) {
   return createServer({
     environment,
-    serializers: {
-      application: JSONAPISerializer,
-    },
-
     models: {
       user: Model.extend({
-        admin_team: belongsTo('admin'),
         team: belongsTo(),
+        comments: hasMany(),
       }),
       team: Model.extend({
-        admin: belongsTo('user'),
-        members: hasMany('user'),
+        users: hasMany(),
         discussions: hasMany(),
+        invites: hasMany(),
+      }),
+      invite: Model.extend({
+        team: belongsTo(),
       }),
       discussion: Model.extend({
         team: belongsTo(),
@@ -36,6 +40,7 @@ export function makeServer({ environment = 'test' }) {
       }),
       comment: Model.extend({
         discussion: belongsTo(),
+        author: belongsTo('user'),
       }),
     },
 
@@ -43,6 +48,11 @@ export function makeServer({ environment = 'test' }) {
       this.urlPrefix = API_URL;
       this.timing = 1000;
       authRoutes(this);
+      commentsRoutes(this);
+      discussionsRoutes(this);
+      invitesRoutes(this);
+      teamsRoutes(this);
+      usersRoutes(this);
     },
 
     seeds(server) {
