@@ -21,5 +21,4 @@ axios.interceptors.response.use(function (response) {
   return response.data;
 });
 
-//@ts-ignore
-window.axios = axios;
+// window.axios = axios;

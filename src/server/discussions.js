@@ -9,7 +9,6 @@ export function discussionsRoutes(server) {
   server.get('/discussions/:discussionId', (schema, request) => {
     const user = requireAuth(request);
     const { discussionId } = request.params;
-    requireOwnTeam(user, teamId);
     return schema.discussions.findBy({ teamId: user.teamId, id: discussionId });
   });
 

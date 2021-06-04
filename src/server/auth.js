@@ -11,7 +11,7 @@ export function authRoutes(server) {
       throw new Error('The user already exists');
     }
 
-    const team = schema.teams.create({ name: `${userObject.first_name} Team` });
+    const team = schema.teams.create({ name: `${userObject.firstName} Team` });
 
     schema.users.create({ ...userObject, password: hash(userObject.password), team });
 
