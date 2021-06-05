@@ -1,10 +1,9 @@
 import { rest } from 'msw';
 
 import { API_URL } from '@/config';
-import { requireAdmin } from '@/server/utils';
 
 import { db, persistDb } from '../db';
-import { requireAuth } from '../utils';
+import { requireAuth, requireAdmin } from '../utils';
 
 type TeamBody = {
   name: string;

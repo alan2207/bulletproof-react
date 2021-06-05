@@ -12,27 +12,27 @@ export const RoutesConfig = {
     goTo: () => '/auth/register',
   },
   dashboard: {
-    path: '/dashboard',
-    goTo: () => '/dashboard',
+    path: '/app',
+    goTo: () => '/app',
   },
   team: {
-    path: '/team',
-    goTo: () => '/team',
+    path: '/app/team',
+    goTo: () => '/app/team',
   },
   profile: {
-    path: '/profile',
-    goTo: () => '/profile',
+    path: '/app/profile',
+    goTo: () => '/app/profile',
   },
   discussions: {
-    path: '/discussions',
-    goTo: () => '/discussions',
+    path: '/app/discussions',
+    goTo: () => '/app/discussions',
   },
   discussionDetails: {
-    path: '/discussions/:discussionId',
-    goTo: ({ discussionId }: { discussionId: string }) => `/discussions/${discussionId}`,
+    path: '/app/discussions/:discussionId',
+    goTo: ({ discussionId }: { discussionId: string }) => `/app/discussions/${discussionId}`,
   },
   createDiscussion: {
-    path: '/discussions/create',
-    goTo: () => '/discussions/create',
+    path: '/app/discussions/create',
+    goTo: () => '/app/discussions/create',
   },
 };

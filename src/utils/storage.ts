@@ -1,4 +1,4 @@
-const storagePrefix = 'bulletproof_clone_';
+const storagePrefix = 'bulletproof_react_';
 
 const storage = {
   getToken: () => {
