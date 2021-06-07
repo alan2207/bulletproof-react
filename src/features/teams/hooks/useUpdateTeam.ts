@@ -1,13 +1,16 @@
 import { useMutation } from 'react-query';
 
+import { MutationConfig } from '@/lib/react-query';
+
 import { updateTeam } from '../api';
 
 type UseUpdateDiscussionOptions = {
-  teamId: string;
+  config?: MutationConfig<typeof updateTeam>;
 };
 
-export const useUpdateDiscussion = ({ teamId }: UseUpdateDiscussionOptions) => {
+export const useUpdateDiscussion = ({ config }: UseUpdateDiscussionOptions = {}) => {
   return useMutation({
-    mutationFn: (data: Parameters<typeof updateTeam>[0]['data']) => updateTeam({ data, teamId }),
+    ...config,
+    mutationFn: updateTeam,
   });
 };

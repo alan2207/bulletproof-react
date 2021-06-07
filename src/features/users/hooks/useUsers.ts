@@ -1,9 +1,16 @@
 import { useQuery } from 'react-query';
 
+import { QueryConfig } from '@/lib/react-query';
+
 import { getUsers } from '../api';
 
-export const useUsers = () => {
+type UseUsersOptions = {
+  config?: QueryConfig<typeof getUsers>;
+};
+
+export const useUsers = ({ config }: UseUsersOptions = {}) => {
   return useQuery({
+    ...config,
     queryKey: ['users'],
     queryFn: () => getUsers(),
   });

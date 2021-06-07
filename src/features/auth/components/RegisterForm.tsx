@@ -1,10 +1,9 @@
 import { Switch } from '@headlessui/react';
 import { useState } from 'react';
-import { useQuery } from 'react-query';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { Form, InputField, SelectField } from '@/components/Form';
-import { getTeams } from '@/features/teams';
+import { useTeams } from '@/features/teams';
 import { useAuth } from '@/lib/auth';
 
 type RegisterValues = {
@@ -21,12 +20,10 @@ export const RegisterForm = () => {
   const navigate = useNavigate();
   const [chooseTeam, setChooseTeam] = useState(false);
 
-  const { data: teamData } = useQuery({
-    queryKey: 'teams',
-    queryFn: () => {
-      return getTeams();
+  const teamsQuery = useTeams({
+    config: {
+      enabled: chooseTeam,
     },
-    enabled: chooseTeam,
   });
 
   return (
@@ -63,14 +60,7 @@ export const RegisterForm = () => {
               label="Password"
               registration={register('password')}
             />
-            {!chooseTeam && (
-              <InputField
-                name="teamName"
-                type="text"
-                label="Team Name"
-                registration={register('teamName')}
-              />
-            )}
+
             <Switch.Group>
               <div className="flex items-center">
                 <Switch
@@ -90,15 +80,22 @@ export const RegisterForm = () => {
               </div>
             </Switch.Group>
 
-            {chooseTeam && teamData && (
+            {chooseTeam && teamsQuery.data ? (
               <SelectField
                 label="Team"
                 name="teamId"
                 registration={register('teamId')}
-                options={teamData?.map((team) => ({
+                options={teamsQuery?.data?.map((team) => ({
                   label: team.name,
                   value: team.id,
                 }))}
+              />
+            ) : (
+              <InputField
+                name="teamName"
+                type="text"
+                label="Team Name"
+                registration={register('teamName')}
               />
             )}
             <div>

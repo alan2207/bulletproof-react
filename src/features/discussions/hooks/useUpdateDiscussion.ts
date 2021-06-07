@@ -1,14 +1,16 @@
 import { useMutation } from 'react-query';
 
+import { MutationConfig } from '@/lib/react-query';
+
 import { updateDiscussion } from '../api';
 
 type UseUpdateDiscussionOptions = {
-  discussionId: string;
+  config?: MutationConfig<typeof updateDiscussion>;
 };
 
-export const useUpdateDiscussion = ({ discussionId }: UseUpdateDiscussionOptions) => {
+export const useUpdateDiscussion = ({ config }: UseUpdateDiscussionOptions = {}) => {
   return useMutation({
-    mutationFn: (data: Parameters<typeof updateDiscussion>[0]['data']) =>
-      updateDiscussion({ data, discussionId }),
+    ...config,
+    mutationFn: updateDiscussion,
   });
 };
