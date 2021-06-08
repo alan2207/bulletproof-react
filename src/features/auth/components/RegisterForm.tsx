@@ -2,6 +2,7 @@ import { Switch } from '@headlessui/react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+import { Button } from '@/components/Elements/Button';
 import { Form, InputField, SelectField } from '@/components/Form';
 import { useTeams } from '@/features/teams';
 import { useAuth } from '@/lib/auth';
@@ -34,30 +35,30 @@ export const RegisterForm = () => {
           navigate('/app');
         }}
       >
-        {({ register }) => (
+        {({ register, formState }) => (
           <>
             <InputField
-              name="firstName"
               type="text"
               label="First Name"
+              error={formState.errors['firstName']}
               registration={register('firstName')}
             />
             <InputField
-              name="lastName"
               type="text"
               label="Last Name"
+              error={formState.errors['lastName']}
               registration={register('lastName')}
             />
             <InputField
-              name="email"
               type="email"
               label="Email Address"
+              error={formState.errors['email']}
               registration={register('email')}
             />
             <InputField
-              name="password"
               type="password"
               label="Password"
+              error={formState.errors['password']}
               registration={register('password')}
             />
 
@@ -83,7 +84,7 @@ export const RegisterForm = () => {
             {chooseTeam && teamsQuery.data ? (
               <SelectField
                 label="Team"
-                name="teamId"
+                error={formState.errors['teamId']}
                 registration={register('teamId')}
                 options={teamsQuery?.data?.map((team) => ({
                   label: team.name,
@@ -92,19 +93,16 @@ export const RegisterForm = () => {
               />
             ) : (
               <InputField
-                name="teamName"
                 type="text"
                 label="Team Name"
+                error={formState.errors['teamName']}
                 registration={register('teamName')}
               />
             )}
             <div>
-              <button
-                type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-              >
+              <Button type="submit" className="w-full">
                 Log in
-              </button>
+              </Button>
             </div>
           </>
         )}

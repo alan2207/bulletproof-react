@@ -7,6 +7,7 @@ type FormProps<TFormValues> = {
   onSubmit: SubmitHandler<TFormValues>;
   children: (methods: UseFormReturn<TFormValues>) => ReactNode;
   options?: UseFormProps<TFormValues>;
+  id?: string;
 };
 
 export const Form = <TFormValues extends Record<string, any> = Record<string, any>>({
@@ -14,10 +15,15 @@ export const Form = <TFormValues extends Record<string, any> = Record<string, an
   children,
   className,
   options,
+  id,
 }: FormProps<TFormValues>) => {
   const methods = useForm<TFormValues>(options);
   return (
-    <form className={clsx('space-y-6', className)} onSubmit={methods.handleSubmit(onSubmit)}>
+    <form
+      className={clsx('space-y-6', className)}
+      onSubmit={methods.handleSubmit(onSubmit)}
+      id={id}
+    >
       {children(methods)}
     </form>
   );

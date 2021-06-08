@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 
+import { Button } from '@/components/Elements/Button';
 import { Form, InputField } from '@/components/Form';
 import { useAuth } from '@/lib/auth';
 
@@ -20,27 +21,24 @@ export const LoginForm = () => {
           navigate('/app');
         }}
       >
-        {({ register }) => (
+        {({ register, formState }) => (
           <>
             <InputField
-              name="email"
               type="email"
               label="Email Address"
+              error={formState.errors['email']}
               registration={register('email')}
             />
             <InputField
-              name="password"
               type="password"
               label="Password"
+              error={formState.errors['password']}
               registration={register('password')}
             />
             <div>
-              <button
-                type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-              >
+              <Button type="submit" className="w-full">
                 Log in
-              </button>
+              </Button>
             </div>
           </>
         )}

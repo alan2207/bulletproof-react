@@ -2,15 +2,15 @@ import clsx from 'clsx';
 import React from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
+import { FieldWrapper, FieldWrapperPassThroughProps } from './FieldWrapper';
+
 type Option = {
   label: React.ReactNode;
   value: string | number | string[];
 };
 
-type SelectFieldProps = {
+type SelectFieldProps = FieldWrapperPassThroughProps & {
   options: Option[];
-  name: string;
-  label?: string;
   className?: string;
   defaultValue?: string;
   placeholder?: string;
@@ -18,14 +18,10 @@ type SelectFieldProps = {
 };
 
 export const SelectField = (props: SelectFieldProps) => {
-  const { label, options, name, className, defaultValue, registration, placeholder } = props;
+  const { label, options, error, className, defaultValue, registration, placeholder } = props;
   return (
-    <div>
-      <label htmlFor={name} className="block text-sm font-medium text-gray-700">
-        {label}
-      </label>
+    <FieldWrapper label={label} error={error}>
       <select
-        id={name}
         placeholder={placeholder}
         name="location"
         className={clsx(
@@ -41,6 +37,6 @@ export const SelectField = (props: SelectFieldProps) => {
           </option>
         ))}
       </select>
-    </div>
+    </FieldWrapper>
   );
 };
