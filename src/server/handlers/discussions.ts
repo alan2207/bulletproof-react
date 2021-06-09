@@ -77,7 +77,13 @@ export const discussionsHandlers = [
     const user = requireAuth(req);
     const { discussionId } = req.params;
     requireAdmin(user);
-    const result = db.discussion.delete(discussionId);
+    const result = db.discussion.delete({
+      where: {
+        id: {
+          equals: discussionId,
+        },
+      },
+    });
     persistDb('discussion');
     return delayedResponse(ctx.json(result));
   }),

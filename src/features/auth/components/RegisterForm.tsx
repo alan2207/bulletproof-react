@@ -2,7 +2,7 @@ import { Switch } from '@headlessui/react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { Button } from '@/components/Elements/Button';
+import { Button } from '@/components/Elements';
 import { Form, InputField, SelectField } from '@/components/Form';
 import { useTeams } from '@/features/teams';
 import { useAuth } from '@/lib/auth';

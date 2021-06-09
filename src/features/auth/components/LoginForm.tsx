@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 
-import { Button } from '@/components/Elements/Button';
+import { Button } from '@/components/Elements';
 import { Form, InputField } from '@/components/Form';
 import { useAuth } from '@/lib/auth';
 

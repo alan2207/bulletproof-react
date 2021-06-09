@@ -41,7 +41,13 @@ export const commentsHandlers = [
     const user = requireAuth(req);
     const { commentId } = req.params;
     requireAdmin(user);
-    const result = db.comment.delete(commentId);
+    const result = db.comment.delete({
+      where: {
+        id: {
+          equals: commentId,
+        },
+      },
+    });
     persistDb('comment');
     return delayedResponse(ctx.json(result));
   }),

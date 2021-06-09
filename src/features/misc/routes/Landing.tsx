@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router';
 
 import logo from '@/assets/logo.svg';
-import { Button } from '@/components/Elements/Button';
+import { Button } from '@/components/Elements';
 import { useAuth } from '@/lib/auth';
 
 export const Landing = () => {

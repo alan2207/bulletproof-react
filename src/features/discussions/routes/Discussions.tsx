@@ -1,22 +1,17 @@
-import { Spinner } from '@/components/Elements/Spinner';
 import { ContentLayout } from '@/components/Layout';
 
 import { CreateDiscussionForm } from '../components/CreateDiscussionForm';
-import { useDiscussions } from '../hooks/useDiscussions';
+import { DiscussionsList } from '../components/DiscussionsList';
 
 export const Discussions = () => {
-  const discussionsQuery = useDiscussions();
-
-  if (discussionsQuery.isLoading) {
-    return <Spinner />;
-  }
-
   return (
     <ContentLayout title="Discussions">
-      <CreateDiscussionForm />
-      {discussionsQuery.data?.map((discussion) => (
-        <div key={discussion.id}>{discussion.title}</div>
-      ))}
+      <div className="flex justify-end">
+        <CreateDiscussionForm />
+      </div>
+      <div className="mt-4">
+        <DiscussionsList />
+      </div>
     </ContentLayout>
   );
 };

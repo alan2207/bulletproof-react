@@ -1,4 +1,4 @@
-import { Button } from '@/components/Elements/Button';
+import { Button } from '@/components/Elements';
 import { Form, InputField } from '@/components/Form';
 import { FormDrawer } from '@/components/Form/FormDrawer';
 import { TextAreaField } from '@/components/Form/TextareaField';
@@ -20,7 +20,7 @@ export const CreateDiscussionForm = () => {
   return (
     <FormDrawer
       isDone={createDiscussionMutation.isSuccess}
-      triggerButton={<Button size="sm">Open</Button>}
+      triggerButton={<Button size="sm">Create Discussion</Button>}
       title="Create Discussion"
       submitButton={
         <Button form="create-discussion" type="submit" size="sm">
