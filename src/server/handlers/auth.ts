@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid';
 import { API_URL } from '@/config';
 
 import { db, persistDb } from '../db';
-import { authenticate, hash, requireAuth } from '../utils';
+import { authenticate, delayedResponse, hash, requireAuth } from '../utils';
 
 type RegisterBody = {
   firstName: string;
@@ -75,19 +75,19 @@ export const authHandlers = [
 
     const result = authenticate({ email: userObject.email, password: userObject.password });
 
-    return res(ctx.json(result));
+    return delayedResponse(ctx.json(result));
   }),
 
   rest.post<LoginBody>(`${API_URL}/auth/login`, (req, res, ctx) => {
     const credentials = req.body;
     const result = authenticate(credentials);
-    return res(ctx.json(result));
+    return delayedResponse(ctx.json(result));
   }),
 
   rest.get(`${API_URL}/auth/me`, (req, res, ctx) => {
     const user = requireAuth(req);
 
-    return res(
+    return delayedResponse(
       ctx.json({
         data: user,
       })

@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid';
 import { API_URL } from '@/config';
 
 import { db, persistDb } from '../db';
-import { requireAuth, requireAdmin } from '../utils';
+import { requireAuth, requireAdmin, delayedResponse } from '../utils';
 
 type CreateCommentBody = {
   body: string;
@@ -22,7 +22,7 @@ export const commentsHandlers = [
         },
       },
     });
-    return res(ctx.json(result));
+    return delayedResponse(ctx.json(result));
   }),
 
   rest.post<CreateCommentBody>(`${API_URL}/comments`, (req, res, ctx) => {
@@ -34,7 +34,7 @@ export const commentsHandlers = [
       ...data,
     });
     persistDb('comment');
-    return res(ctx.json(result));
+    return delayedResponse(ctx.json(result));
   }),
 
   rest.delete(`${API_URL}/comments/:commentId`, (req, res, ctx) => {
@@ -43,6 +43,6 @@ export const commentsHandlers = [
     requireAdmin(user);
     const result = db.comment.delete(commentId);
     persistDb('comment');
-    return res(ctx.json(result));
+    return delayedResponse(ctx.json(result));
   }),
 ];

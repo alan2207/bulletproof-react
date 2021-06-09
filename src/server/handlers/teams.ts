@@ -3,7 +3,7 @@ import { rest } from 'msw';
 import { API_URL } from '@/config';
 
 import { db, persistDb } from '../db';
-import { requireAuth, requireAdmin } from '../utils';
+import { requireAuth, requireAdmin, delayedResponse } from '../utils';
 
 type TeamBody = {
   name: string;
@@ -22,12 +22,12 @@ export const teamsHandlers = [
       },
     });
 
-    return res(ctx.json(result));
+    return delayedResponse(ctx.json(result));
   }),
 
   rest.get(`${API_URL}/teams`, (req, res, ctx) => {
     const result = db.team.getAll();
-    return res(ctx.json(result));
+    return delayedResponse(ctx.json(result));
   }),
 
   rest.patch<TeamBody>(`${API_URL}/team/:teamId`, (req, res, ctx) => {
@@ -42,6 +42,6 @@ export const teamsHandlers = [
     });
     persistDb('team');
 
-    return res(ctx.json(result));
+    return delayedResponse(ctx.json(result));
   }),
 ];

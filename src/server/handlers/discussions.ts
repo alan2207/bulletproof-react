@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid';
 import { API_URL } from '@/config';
 
 import { db, persistDb } from '../db';
-import { requireAuth, requireAdmin } from '../utils';
+import { requireAuth, requireAdmin, delayedResponse } from '../utils';
 
 type DiscussionBody = {
   title: string;
@@ -21,7 +21,7 @@ export const discussionsHandlers = [
         },
       },
     });
-    return res(ctx.json(result));
+    return delayedResponse(ctx.json(result));
   }),
 
   rest.get(`${API_URL}/discussions/:discussionId`, (req, res, ctx) => {
@@ -37,7 +37,7 @@ export const discussionsHandlers = [
         },
       },
     });
-    return res(ctx.json(result));
+    return delayedResponse(ctx.json(result));
   }),
 
   rest.post<DiscussionBody>(`${API_URL}/discussions`, (req, res, ctx) => {
@@ -50,7 +50,7 @@ export const discussionsHandlers = [
       ...data,
     });
     persistDb('discussion');
-    return res(ctx.json(result));
+    return delayedResponse(ctx.json(result));
   }),
 
   rest.patch<DiscussionBody>(`${API_URL}/discussions/:discussionId`, (req, res, ctx) => {
@@ -70,7 +70,7 @@ export const discussionsHandlers = [
       data,
     });
     persistDb('discussion');
-    return res(ctx.json(result));
+    return delayedResponse(ctx.json(result));
   }),
 
   rest.delete(`${API_URL}/discussions/:discussionId`, (req, res, ctx) => {
@@ -79,6 +79,6 @@ export const discussionsHandlers = [
     requireAdmin(user);
     const result = db.discussion.delete(discussionId);
     persistDb('discussion');
-    return res(ctx.json(result));
+    return delayedResponse(ctx.json(result));
   }),
 ];

@@ -3,7 +3,7 @@ import { rest } from 'msw';
 import { API_URL } from '@/config';
 
 import { db, persistDb } from '../db';
-import { requireAuth, requireAdmin } from '../utils';
+import { requireAuth, requireAdmin, delayedResponse } from '../utils';
 
 export const usersHandlers = [
   rest.get(`${API_URL}/users`, (req, res, ctx) => {
@@ -14,7 +14,7 @@ export const usersHandlers = [
       },
     });
 
-    return res(ctx.json(result));
+    return delayedResponse(ctx.json(result));
   }),
 
   rest.delete(`${API_URL}/users/:userId`, (req, res, ctx) => {
@@ -32,6 +32,6 @@ export const usersHandlers = [
       },
     });
     persistDb('user');
-    return res(ctx.json(result));
+    return delayedResponse(ctx.json(result));
   }),
 ];

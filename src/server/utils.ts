@@ -1,10 +1,12 @@
 import jwt from 'jsonwebtoken';
 import omit from 'lodash/omit';
-import { RestRequest } from 'msw';
+import { RestRequest, createResponseComposition, context } from 'msw';
 
 import { JWT_SECRET } from '@/config';
 
 import { db } from './db';
+
+export const delayedResponse = createResponseComposition(undefined, [context.delay(1000)]);
 
 export const hash = (str: string) => {
   let hash = 5381,
