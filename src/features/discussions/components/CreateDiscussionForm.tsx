@@ -2,7 +2,6 @@ import { Button } from '@/components/Elements';
 import { Form, InputField } from '@/components/Form';
 import { FormDrawer } from '@/components/Form/FormDrawer';
 import { TextAreaField } from '@/components/Form/TextareaField';
-import { queryClient } from '@/lib/react-query';
 
 import { useCreateDiscussion } from '../hooks/useCreateDiscussion';
 
@@ -12,11 +11,8 @@ type DiscussionValues = {
 };
 
 export const CreateDiscussionForm = () => {
-  const createDiscussionMutation = useCreateDiscussion({
-    config: {
-      onSuccess: () => queryClient.invalidateQueries(['discussions']),
-    },
-  });
+  const createDiscussionMutation = useCreateDiscussion();
+
   return (
     <FormDrawer
       isDone={createDiscussionMutation.isSuccess}
