@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { MutateOptions, QueryClient, UseQueryOptions } from 'react-query';
+import { QueryClient, UseQueryOptions, UseMutationOptions } from 'react-query';
 import { PromiseValue } from 'type-fest';
 
 const queryConfig = {
@@ -15,7 +15,7 @@ export type QueryConfig<FetcherFnType extends (...args: any) => any> = UseQueryO
   PromiseValue<ReturnType<FetcherFnType>>
 >;
 
-export type MutationConfig<FetcherFnType extends (...args: any) => any> = MutateOptions<
+export type MutationConfig<FetcherFnType extends (...args: any) => any> = UseMutationOptions<
   PromiseValue<ReturnType<FetcherFnType>>,
   AxiosError,
   Parameters<FetcherFnType>[0]
