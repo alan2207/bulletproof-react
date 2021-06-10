@@ -1,5 +1,6 @@
 import { initReactQueryAuth } from 'react-query-auth';
 
+import { Spinner } from '@/components/Elements';
 import {
   loginWithEmailAndPassword,
   getUserProfile,
@@ -44,6 +45,12 @@ const authConfig = {
   loginFn,
   registerFn,
   logoutFn,
+  // eslint-disable-next-line react/display-name
+  renderLoader: () => (
+    <div className="w-screen h-screen flex justify-center items-center">
+      <Spinner size="xl" />
+    </div>
+  ),
 };
 
 export const { AuthProvider, useAuth } = initReactQueryAuth(authConfig);

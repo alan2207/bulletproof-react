@@ -9,7 +9,11 @@ export const DiscussionsList = () => {
   const discussionsQuery = useDiscussions();
 
   if (discussionsQuery.isLoading) {
-    return <Spinner />;
+    return (
+      <div className="w-full h-48 flex justify-center items-center">
+        <Spinner size="lg" />
+      </div>
+    );
   }
 
   if (!discussionsQuery.data) return null;

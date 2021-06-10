@@ -19,7 +19,12 @@ export const CreateDiscussionForm = () => {
       triggerButton={<Button size="sm">Create Discussion</Button>}
       title="Create Discussion"
       submitButton={
-        <Button form="create-discussion" type="submit" size="sm">
+        <Button
+          form="create-discussion"
+          type="submit"
+          size="sm"
+          disabled={createDiscussionMutation.isLoading}
+        >
           Submit
         </Button>
       }

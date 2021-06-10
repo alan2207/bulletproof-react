@@ -1,6 +1,7 @@
 import { ExclamationIcon, InformationCircleIcon } from '@heroicons/react/outline';
 import { useRef, useState, ReactElement, cloneElement, MouseEvent } from 'react';
 
+// import { Button } from './Button';
 import { Dialog, DialogTitle } from './Dialog';
 
 type ConfirmationDialogProps = {
