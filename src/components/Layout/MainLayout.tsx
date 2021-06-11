@@ -8,7 +8,7 @@ import {
   XIcon,
 } from '@heroicons/react/outline';
 import clsx from 'clsx';
-import React, { Fragment, ReactNode, useState } from 'react';
+import * as React from 'react';
 import { NavLink, Link } from 'react-router-dom';
 
 import { useAuth } from '@/lib/auth';
@@ -74,7 +74,7 @@ const UserNavigation = () => {
           </div>
           <Transition
             show={open}
-            as={Fragment}
+            as={React.Fragment}
             enter="transition ease-out duration-100"
             enterFrom="transform opacity-0 scale-95"
             enterTo="transform opacity-100 scale-100"
@@ -117,7 +117,7 @@ type MobileSidebarProps = {
 
 const MobileSidebar = ({ sidebarOpen, setSidebarOpen }: MobileSidebarProps) => {
   return (
-    <Transition.Root show={sidebarOpen} as={Fragment}>
+    <Transition.Root show={sidebarOpen} as={React.Fragment}>
       <Dialog
         as="div"
         static
@@ -126,7 +126,7 @@ const MobileSidebar = ({ sidebarOpen, setSidebarOpen }: MobileSidebarProps) => {
         onClose={setSidebarOpen}
       >
         <Transition.Child
-          as={Fragment}
+          as={React.Fragment}
           enter="transition-opacity ease-linear duration-300"
           enterFrom="opacity-0"
           enterTo="opacity-100"
@@ -137,7 +137,7 @@ const MobileSidebar = ({ sidebarOpen, setSidebarOpen }: MobileSidebarProps) => {
           <Dialog.Overlay className="fixed inset-0 bg-gray-600 bg-opacity-75" />
         </Transition.Child>
         <Transition.Child
-          as={Fragment}
+          as={React.Fragment}
           enter="transition ease-in-out duration-300 transform"
           enterFrom="-translate-x-full"
           enterTo="translate-x-0"
@@ -147,7 +147,7 @@ const MobileSidebar = ({ sidebarOpen, setSidebarOpen }: MobileSidebarProps) => {
         >
           <div className="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-gray-800">
             <Transition.Child
-              as={Fragment}
+              as={React.Fragment}
               enter="ease-in-out duration-300"
               enterFrom="opacity-0"
               enterTo="opacity-100"
@@ -216,11 +216,11 @@ const Logo = () => {
 };
 
 type MainLayoutProps = {
-  children: ReactNode;
+  children: React.ReactNode;
 };
 
 export const MainLayout = ({ children }: MainLayoutProps) => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = React.useState(false);
 
   return (
     <div className="h-screen flex overflow-hidden bg-gray-100">

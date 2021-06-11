@@ -1,12 +1,12 @@
 import { ExclamationIcon, InformationCircleIcon } from '@heroicons/react/outline';
-import { useRef, useState, ReactElement, cloneElement, MouseEvent } from 'react';
+import * as React from 'react';
 
-// import { Button } from './Button';
+import { Button } from './Button';
 import { Dialog, DialogTitle } from './Dialog';
 
 type ConfirmationDialogProps = {
-  triggerButton: ReactElement;
-  confirmButton: ReactElement;
+  triggerButton: React.ReactElement;
+  confirmButton: React.ReactElement;
   title: string;
   body?: string;
   cancelButtonText?: string;
@@ -21,17 +21,17 @@ export const ConfirmationDialog = ({
   cancelButtonText = 'Cancel',
   icon = 'danger',
 }: ConfirmationDialogProps) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = React.useState(false);
   const onClose = () => setOpen(false);
 
-  const cancelButtonRef = useRef(null);
+  const cancelButtonRef = React.useRef(null);
 
-  const trigger = cloneElement(triggerButton, {
+  const trigger = React.cloneElement(triggerButton, {
     onClick: () => setOpen(true),
   });
 
-  const confirmation = cloneElement(confirmButton, {
-    onClick: async (event: MouseEvent<HTMLButtonElement>) => {
+  const confirmation = React.cloneElement(confirmButton, {
+    onClick: async (event: React.MouseEvent<HTMLButtonElement>) => {
       await confirmButton.props.onClick?.(event);
       onClose();
     },
@@ -67,14 +67,14 @@ export const ConfirmationDialog = ({
           </div>
           <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
             {confirmation}
-            <button
+            <Button
               type="button"
               className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
               onClick={() => setOpen(false)}
               ref={cancelButtonRef}
             >
               {cancelButtonText}
-            </button>
+            </Button>
           </div>
         </div>
       </Dialog>

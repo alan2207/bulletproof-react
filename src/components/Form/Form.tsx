@@ -1,11 +1,11 @@
 import clsx from 'clsx';
-import { ReactNode } from 'react';
+import * as React from 'react';
 import { useForm, UseFormReturn, SubmitHandler, UseFormProps } from 'react-hook-form';
 
 type FormProps<TFormValues> = {
   className?: string;
   onSubmit: SubmitHandler<TFormValues>;
-  children: (methods: UseFormReturn<TFormValues>) => ReactNode;
+  children: (methods: UseFormReturn<TFormValues>) => React.ReactNode;
   options?: UseFormProps<TFormValues>;
   id?: string;
 };

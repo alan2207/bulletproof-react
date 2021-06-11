@@ -1,11 +1,11 @@
 import { Dialog as UIDialog, Transition } from '@headlessui/react';
-import { Fragment, MutableRefObject, ReactNode } from 'react';
+import * as React from 'react';
 
 type DialogProps = {
   isOpen: boolean;
   onClose: () => void;
-  children: ReactNode;
-  initialFocus?: MutableRefObject<null>;
+  children: React.ReactNode;
+  initialFocus?: React.MutableRefObject<null>;
 };
 
 export const DialogTitle = UIDialog.Title;
@@ -15,7 +15,7 @@ export const DialogDescription = UIDialog.Description;
 export const Dialog = ({ isOpen, onClose, children, initialFocus }: DialogProps) => {
   return (
     <>
-      <Transition.Root show={isOpen} as={Fragment}>
+      <Transition.Root show={isOpen} as={React.Fragment}>
         <UIDialog
           as="div"
           static
@@ -26,7 +26,7 @@ export const Dialog = ({ isOpen, onClose, children, initialFocus }: DialogProps)
         >
           <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <Transition.Child
-              as={Fragment}
+              as={React.Fragment}
               enter="ease-out duration-300"
               enterFrom="opacity-0"
               enterTo="opacity-100"
@@ -42,7 +42,7 @@ export const Dialog = ({ isOpen, onClose, children, initialFocus }: DialogProps)
               &#8203;
             </span>
             <Transition.Child
-              as={Fragment}
+              as={React.Fragment}
               enter="ease-out duration-300"
               enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               enterTo="opacity-100 translate-y-0 sm:scale-100"

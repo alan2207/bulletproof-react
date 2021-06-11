@@ -1,7 +1,7 @@
-import { ReactNode } from 'react';
+import * as React from 'react';
 
 type ContentLayoutProps = {
-  children: ReactNode;
+  children: React.ReactNode;
   title: string;
 };
 

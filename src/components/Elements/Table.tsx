@@ -1,10 +1,10 @@
 import { ArchiveIcon } from '@heroicons/react/outline';
-import { ReactElement } from 'react';
+import * as React from 'react';
 
 type TableColumn<Entry> = {
   title: string;
   field: keyof Entry;
-  Cell?({ entry }: { entry: Entry }): ReactElement;
+  Cell?({ entry }: { entry: Entry }): React.ReactElement;
 };
 
 type TableProps<Entry> = {

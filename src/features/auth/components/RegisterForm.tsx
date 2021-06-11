@@ -1,5 +1,5 @@
 import { Switch } from '@headlessui/react';
-import { useState } from 'react';
+import * as React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { Button } from '@/components/Elements';
@@ -19,7 +19,7 @@ type RegisterValues = {
 export const RegisterForm = () => {
   const { register } = useAuth();
   const navigate = useNavigate();
-  const [chooseTeam, setChooseTeam] = useState(false);
+  const [chooseTeam, setChooseTeam] = React.useState(false);
 
   const teamsQuery = useTeams({
     config: {

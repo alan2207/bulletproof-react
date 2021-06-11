@@ -1,14 +1,14 @@
-import { ReactNode, useState, useEffect, ReactElement, cloneElement } from 'react';
+import * as React from 'react';
 
 import { Button } from '../Elements/Button';
 import { Drawer } from '../Elements/Drawer';
 
 type FormDrawerProps = {
   isDone: boolean;
-  triggerButton: ReactElement;
-  submitButton: ReactElement;
+  triggerButton: React.ReactElement;
+  submitButton: React.ReactElement;
   title: string;
-  children: ReactNode;
+  children: React.ReactNode;
 };
 
 export const FormDrawer = ({
@@ -18,9 +18,9 @@ export const FormDrawer = ({
   triggerButton,
   submitButton,
 }: FormDrawerProps) => {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (isDone) {
       setVisible(false);
     }
@@ -28,7 +28,7 @@ export const FormDrawer = ({
 
   return (
     <>
-      {cloneElement(triggerButton, { onClick: () => setVisible(true) })}
+      {React.cloneElement(triggerButton, { onClick: () => setVisible(true) })}
       <Drawer
         isOpen={visible}
         onClose={() => setVisible(false)}

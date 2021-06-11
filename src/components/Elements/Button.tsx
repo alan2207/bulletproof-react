@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { ReactElement } from 'react';
+import * as React from 'react';
 
 import { Spinner } from './Spinner';
 
@@ -16,8 +16,8 @@ const sizes = {
 };
 
 type IconProps =
-  | { startIcon: ReactElement; endIcon?: never }
-  | { endIcon: ReactElement; startIcon?: never }
+  | { startIcon: React.ReactElement; endIcon?: never }
+  | { endIcon: React.ReactElement; startIcon?: never }
   | { endIcon?: undefined; startIcon?: undefined };
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -26,30 +26,38 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   isLoading?: boolean;
 } & IconProps;
 
-export const Button = ({
-  type = 'button',
-  className = '',
-  variant = 'primary',
-  size = 'md',
-  isLoading = false,
-  startIcon,
-  endIcon,
-  ...props
-}: ButtonProps) => {
-  return (
-    <button
-      type={type}
-      className={clsx(
-        'inline-flex justify-center items-center border border-gray-300 disabled:opacity-70 disabled:cursor-not-allowed rounded-md shadow-sm font-medium focus:outline-none',
-        variants[variant],
-        sizes[size],
-        className
-      )}
-      {...props}
-    >
-      {isLoading && <Spinner size={size} className="text-current" />}
-      {!isLoading && startIcon}
-      <span className="mx-2">{props.children}</span> {!isLoading && endIcon}
-    </button>
-  );
-};
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      type = 'button',
+      className = '',
+      variant = 'primary',
+      size = 'md',
+      isLoading = false,
+      startIcon,
+      endIcon,
+      ...props
+    },
+    ref
+  ) => {
+    return (
+      <button
+        ref={ref}
+        type={type}
+        className={clsx(
+          'inline-flex justify-center items-center border border-gray-300 disabled:opacity-70 disabled:cursor-not-allowed rounded-md shadow-sm font-medium focus:outline-none',
+          variants[variant],
+          sizes[size],
+          className
+        )}
+        {...props}
+      >
+        {isLoading && <Spinner size={size} className="text-current" />}
+        {!isLoading && startIcon}
+        <span className="mx-2">{props.children}</span> {!isLoading && endIcon}
+      </button>
+    );
+  }
+);
+
+Button.displayName = 'Button';
