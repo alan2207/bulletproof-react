@@ -6,20 +6,20 @@ The application is used for having discussions between team members.
 
 The goal if this application is to showcase the following real-world problems of a React application:
 
-- [ ] Authentitication
+- [x] Authentitication
 - [ ] Authorization
 - [ ] Routing
-- [ ] Forms
-- [ ] API calls
+- [x] Forms
+- [x] API calls
 - [ ] Client related state
-- [ ] Server related state
-- [ ] Project structure
-- [ ] TypeScript
+- [x] Server related state
+- [x] Project structure
+- [x] TypeScript
 - [ ] a11y
 - [ ] i18n
 - [ ] ESLint, Prettier, Husky setup
 - [ ] Testing
-- [ ] API Mocking
+- [x] API Mocking
 
 ## Data model
 

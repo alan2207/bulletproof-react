@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Button } from '../Elements/Button';
-import { Drawer } from '../Elements/Drawer';
+import { Drawer, DrawerProps } from '../Elements/Drawer';
 
 type FormDrawerProps = {
   isDone: boolean;
@@ -9,6 +9,7 @@ type FormDrawerProps = {
   submitButton: React.ReactElement;
   title: string;
   children: React.ReactNode;
+  size?: DrawerProps['size'];
 };
 
 export const FormDrawer = ({
@@ -17,6 +18,7 @@ export const FormDrawer = ({
   isDone,
   triggerButton,
   submitButton,
+  size = 'md',
 }: FormDrawerProps) => {
   const [visible, setVisible] = React.useState(false);
 
@@ -33,6 +35,7 @@ export const FormDrawer = ({
         isOpen={visible}
         onClose={() => setVisible(false)}
         title={title}
+        size={size}
         renderFooter={() => (
           <>
             <Button variant="inverse" size="sm" onClick={() => setVisible(false)}>

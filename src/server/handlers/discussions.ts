@@ -27,7 +27,7 @@ export const discussionsHandlers = [
   rest.get(`${API_URL}/discussions/:discussionId`, (req, res, ctx) => {
     const user = requireAuth(req);
     const { discussionId } = req.params;
-    const result = db.discussion.findMany({
+    const result = db.discussion.findFirst({
       where: {
         id: {
           equals: discussionId,
