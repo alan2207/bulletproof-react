@@ -16,8 +16,8 @@ import { useAuth } from '@/lib/auth';
 const SideNavigation = () => {
   const navigation = [
     { name: 'Dashboard', to: '.', icon: HomeIcon },
-    { name: 'Team', to: './team', icon: UsersIcon },
     { name: 'Discussions', to: './discussions', icon: FolderIcon },
+    { name: 'Users', to: './users', icon: UsersIcon },
   ];
 
   return (

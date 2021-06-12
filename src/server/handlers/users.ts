@@ -8,9 +8,11 @@ import { requireAuth, requireAdmin, delayedResponse } from '../utils';
 export const usersHandlers = [
   rest.get(`${API_URL}/users`, (req, res, ctx) => {
     const user = requireAuth(req);
-    const result = db.user.findFirst({
+    const result = db.user.findMany({
       where: {
-        teamId: user.teamId,
+        teamId: {
+          equals: user.teamId,
+        },
       },
     });
 

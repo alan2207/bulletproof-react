@@ -40,7 +40,7 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "lint": "eslint --fix --ext .js,.ts,.tsx --ignore-path .gitignore .",
+    "lint": "eslint --fix --ext .js,.ts,.tsx --ignore-path .gitignore ./src",
     "prettier": "prettier --ignore-path .gitignore --write \"**/*.+(js|json|ts|tsx)\"",
     "format": "npm run prettier -- --write",
     "check-types": "tsc --project tsconfig.json --pretty --noEmit",

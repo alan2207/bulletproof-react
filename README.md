@@ -8,15 +8,13 @@ The goal if this application is to showcase the following real-world problems of
 
 - [x] Authentitication
 - [ ] Authorization
-- [ ] Routing
+- [x] Routing
 - [x] Forms
 - [x] API calls
 - [ ] Client related state
 - [x] Server related state
 - [x] Project structure
 - [x] TypeScript
-- [ ] a11y
-- [ ] i18n
 - [ ] ESLint, Prettier, Husky setup
 - [ ] Testing
 - [x] API Mocking

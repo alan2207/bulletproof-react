@@ -87,10 +87,6 @@ export const authHandlers = [
   rest.get(`${API_URL}/auth/me`, (req, res, ctx) => {
     const user = requireAuth(req);
 
-    return delayedResponse(
-      ctx.json({
-        data: user,
-      })
-    );
+    return delayedResponse(ctx.json(user));
   }),
 ];

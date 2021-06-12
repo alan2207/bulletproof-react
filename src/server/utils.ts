@@ -45,7 +45,19 @@ export function requireAuth(request: RestRequest) {
     if (!encodedToken) {
       throw new Error('No authorization token provided!');
     }
-    const user = jwt.verify(encodedToken, JWT_SECRET);
+    const decodedToken = jwt.verify(encodedToken, JWT_SECRET) as { id: string };
+
+    const user = db.user.findFirst({
+      where: {
+        id: {
+          equals: decodedToken.id,
+        },
+      },
+    });
+
+    if (!user) {
+      throw Error('Unauthorized');
+    }
 
     return sanitizeUser(user);
   } catch (err) {

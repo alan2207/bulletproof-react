@@ -18,7 +18,7 @@ async function handleUserResponse(data: UserResponse) {
 async function loadUser() {
   if (storage.getToken()) {
     const data = await getUserProfile();
-    return data?.data;
+    return data;
   }
   return null;
 }

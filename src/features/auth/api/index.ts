@@ -32,6 +32,6 @@ export const registerWithEmailAndPassword = (data: RegisterCredentials): Promise
   return axios.post('/auth/register', data);
 };
 
-export const getUserProfile = (): Promise<{ data: AuthUser }> => {
+export const getUserProfile = (): Promise<AuthUser> => {
   return axios.get('/auth/me');
 };
