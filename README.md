@@ -2,9 +2,9 @@
 
 [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)
 
-Simple, scalable and powerful architecture of React applications.
+A simple, scalable, and powerful architecture of React applications.
 
-### Motivation
+## Motivation
 
 React is an amazing tool for building feature rich applications. It has a very diverse eco-system with hundreds of libraries for literally anything you might need. Which is great, but in the other hand it can be overwhelming to be forced to make so many choices.
 
@@ -16,20 +16,7 @@ This is an attempt to present the way how I prefer to structure React applicatio
 
 The goal of this repo is to serve as a collection of good practices when developing React applications. It is supposed to showcase most of real-world problems in a practical way.
 
-### The Application
-
-The application is very simple. Users can create teams where other users can join, and they can run discussions on different topics between each other.
-
-### Data model
-
-The development of this project is driven by mocking API server and the data with msw. It contains the following models:
-
-- User: this can be a team admin or a team user. It's been determined during user's registration. Admins can manage teams.
-- Team: represents a team that has 1 admin and many users that can create discussions between each other.
-- Discussion: represents discussions created by team members.
-- Comment: represents all the messages in a discussion.
-
-### Roadmap
+## Roadmap
 
 - [x] Authentitication
 - [ ] Authorization
