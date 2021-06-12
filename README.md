@@ -1,10 +1,35 @@
-# Bulletproof React
+# Bulletproof React 🛡️ ⚛️
 
-A real-world team based discussion application built with React.
+[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)
 
-The application is used for having discussions between team members.
+Simple, scalable and powerful architecture of React applications.
 
-The goal if this application is to showcase the following real-world problems of a React application:
+### Motivation
+
+React is an amazing tool for building feature rich applications. It has a very diverse eco-system with hundreds of libraries for literally anything you might need. Which is great, but in the other hand it can be overwhelming to be forced to make so many choices.
+
+It is also very flexible, you can write React applications in any way you like. That flexibility comes with a cost.
+
+There is no pre-defined architecture developers can to follow which often leads to messy, uncosistent or over-complicated codebases.
+
+This is an attempt to present the way how I prefer to structure React applications using the best tools in the eco-system and a good project structure.
+
+The goal of this repo is to serve as a collection of good practices when developing React applications. It is supposed to showcase most of real-world problems in a practical way.
+
+### The Application
+
+The application is very simple. Users can create teams where other users can join, and they can run discussions on different topics between each other.
+
+### Data model
+
+The development of this project is driven by mocking API server and the data with msw. It contains the following models:
+
+- User: this can be a team admin or a team user. It's been determined during user's registration. Admins can manage teams.
+- Team: represents a team that has 1 admin and many users that can create discussions between each other.
+- Discussion: represents discussions created by team members.
+- Comment: represents all the messages in a discussion.
+
+### Roadmap
 
 - [x] Authentitication
 - [ ] Authorization
@@ -18,27 +43,7 @@ The goal if this application is to showcase the following real-world problems of
 - [ ] ESLint, Prettier, Husky setup
 - [ ] Testing
 - [x] API Mocking
-
-## Data model
-
-The development of this project is driven by mocking API server and the data with msw. It contains the following models:
-
-- User: this can be a team admin or a team user. It's been determined during user's registration. Admins can manage teams.
-- Team: represents a team that has 1 admin and many users that can create discussions between each other.
-- Discussion: represents discussions created by team members. During the creation, the creator of the discussion adds all the participants.
-- Comment: represents all the messages in a discussion.
-
-## Tech Stack
-
-- TypeScript
-- React with CRA setup
-- react-query
-- react-router v6
-- react-hook-form
-- tailwindcss
-- headless-ui
-- jest
-- react-testing-library
+- [ ] Appendix
 
 ### Available Scripts
 
@@ -68,3 +73,7 @@ Your app is ready to be deployed!
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
 ##### `yarn eject`
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
