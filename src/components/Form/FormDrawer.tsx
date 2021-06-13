@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import { useDisclosure } from '@/hooks/useDisclosure';
+
 import { Button } from '../Elements/Button';
 import { Drawer, DrawerProps } from '../Elements/Drawer';
 
@@ -20,25 +22,25 @@ export const FormDrawer = ({
   submitButton,
   size = 'md',
 }: FormDrawerProps) => {
-  const [visible, setVisible] = React.useState(false);
+  const { close, open, isOpen } = useDisclosure();
 
   React.useEffect(() => {
     if (isDone) {
-      setVisible(false);
+      close();
     }
-  }, [isDone]);
+  }, [isDone, close]);
 
   return (
     <>
-      {React.cloneElement(triggerButton, { onClick: () => setVisible(true) })}
+      {React.cloneElement(triggerButton, { onClick: open })}
       <Drawer
-        isOpen={visible}
-        onClose={() => setVisible(false)}
+        isOpen={isOpen}
+        onClose={close}
         title={title}
         size={size}
         renderFooter={() => (
           <>
-            <Button variant="inverse" size="sm" onClick={() => setVisible(false)}>
+            <Button variant="inverse" size="sm" onClick={close}>
               Cancel
             </Button>
             {submitButton}
