@@ -12,13 +12,25 @@ import * as React from 'react';
 import { NavLink, Link } from 'react-router-dom';
 
 import { useAuth } from '@/lib/auth';
+import { useRBAC, ROLES } from '@/lib/rbac';
+
+type SideNavigationItem = {
+  name: string;
+  to: string;
+  icon: (props: React.SVGProps<SVGSVGElement>) => JSX.Element;
+};
 
 const SideNavigation = () => {
+  const { checkAccess } = useRBAC();
   const navigation = [
     { name: 'Dashboard', to: '.', icon: HomeIcon },
     { name: 'Discussions', to: './discussions', icon: FolderIcon },
-    { name: 'Users', to: './users', icon: UsersIcon },
-  ];
+    checkAccess({ allowedRoles: [ROLES.ADMIN] }) && {
+      name: 'Users',
+      to: './users',
+      icon: UsersIcon,
+    },
+  ].filter(Boolean) as SideNavigationItem[];
 
   return (
     <>
@@ -47,12 +59,19 @@ const SideNavigation = () => {
   );
 };
 
+type UserNavigationItem = {
+  name: string;
+  to: string;
+  onClick?: () => void;
+};
+
 const UserNavigation = () => {
   const { logout } = useAuth();
+  const { checkAccess } = useRBAC();
 
   const userNavigation = [
     { name: 'Your Profile', to: './profile' },
-    { name: 'Your Team', to: './team' },
+    checkAccess({ allowedRoles: [ROLES.ADMIN] }) && { name: 'Your Team', to: './team' },
     {
       name: 'Sign out',
       to: '',
@@ -60,7 +79,7 @@ const UserNavigation = () => {
         logout();
       },
     },
-  ];
+  ].filter(Boolean) as UserNavigationItem[];
 
   return (
     <Menu as="div" className="ml-3 relative">
