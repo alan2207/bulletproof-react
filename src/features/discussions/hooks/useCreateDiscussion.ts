@@ -1,5 +1,6 @@
 import { useMutation } from 'react-query';
 
+import { useNotificationStore } from '@/hooks/useNotificationStore';
 import { MutationConfig, queryClient } from '@/lib/react-query';
 
 import { createDiscussion } from '../api';
@@ -10,6 +11,7 @@ type UseCreateDiscussionOptions = {
 };
 
 export const useCreateDiscussion = ({ config }: UseCreateDiscussionOptions = {}) => {
+  const { addNotification } = useNotificationStore();
   return useMutation({
     onMutate: async (newDiscussion) => {
       await queryClient.cancelQueries('discussions');
@@ -27,6 +29,10 @@ export const useCreateDiscussion = ({ config }: UseCreateDiscussionOptions = {})
     },
     onSettled: () => {
       queryClient.invalidateQueries('discussions');
+      addNotification({
+        type: 'success',
+        title: 'Discussion Created',
+      });
     },
     ...config,
     mutationFn: createDiscussion,

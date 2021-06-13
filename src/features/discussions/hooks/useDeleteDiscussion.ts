@@ -1,5 +1,6 @@
 import { useMutation } from 'react-query';
 
+import { useNotificationStore } from '@/hooks/useNotificationStore';
 import { MutationConfig, queryClient } from '@/lib/react-query';
 
 import { deleteDiscussion } from '../api';
@@ -10,6 +11,8 @@ type UseDeleteDiscussionOptions = {
 };
 
 export const useDeleteDiscussion = ({ config }: UseDeleteDiscussionOptions = {}) => {
+  const { addNotification } = useNotificationStore();
+
   return useMutation({
     onMutate: async (deletedDiscussion) => {
       await queryClient.cancelQueries('discussions');
@@ -32,6 +35,10 @@ export const useDeleteDiscussion = ({ config }: UseDeleteDiscussionOptions = {})
     },
     onSettled: () => {
       queryClient.invalidateQueries('discussions');
+      addNotification({
+        type: 'success',
+        title: 'Discussion Deleted',
+      });
     },
     ...config,
     mutationFn: deleteDiscussion,
