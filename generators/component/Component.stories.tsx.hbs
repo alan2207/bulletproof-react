@@ -1,0 +1,18 @@
+import { Meta, Story } from '@storybook/react';
+
+import { {{ properCase name }} } from './{{ properCase name }}';
+
+const meta: Meta = {
+  title: 'Components/{{ properCase name }}',
+  component: {{ properCase name }},
+  parameters: {
+    controls: { expanded: true },
+  },
+};
+
+export default meta;
+
+const Template: Story = (props) => <{{ properCase name }} {...props}>Hello</{{ properCase name }}>;
+
+export const Default = Template.bind({});
+Default.args = {};

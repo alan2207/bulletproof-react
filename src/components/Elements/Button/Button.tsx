@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import * as React from 'react';
 
-import { Spinner } from './Spinner';
+import { Spinner } from '@/components/Elements/Spinner';
 
 const variants = {
   primary: 'bg-blue-600 text-white hover:bg-gray-50:text-blue-600',
