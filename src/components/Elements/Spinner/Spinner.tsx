@@ -12,7 +12,7 @@ const variants = {
   primary: 'text-blue-600',
 };
 
-type SpinnerProps = {
+export type SpinnerProps = {
   size?: keyof typeof sizes;
   variant?: keyof typeof variants;
   className?: string;

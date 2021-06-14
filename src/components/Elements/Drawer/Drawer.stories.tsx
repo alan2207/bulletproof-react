@@ -1,9 +1,13 @@
 import { Meta, Story } from '@storybook/react';
 
+import { useDisclosure } from '@/hooks/useDisclosure';
+
+import { Button } from '../Button';
+
 import { Drawer } from './Drawer';
 
 const meta: Meta = {
-  title: 'Elements/Drawer',
+  title: 'Components/Elements/Drawer',
   component: Drawer,
   parameters: {
     controls: { expanded: true },
@@ -12,11 +16,27 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story = (props) => (
-  <Drawer isOpen onClose={() => {}} title="Hello" renderFooter={() => <div>Footer</div>} {...props}>
-    Hello
-  </Drawer>
-);
+export const Demo = () => {
+  const { close, open, isOpen } = useDisclosure();
 
-export const Default = Template.bind({});
-Default.args = {};
+  return (
+    <>
+      <Button onClick={open}>Open Drawer</Button>
+      <Drawer
+        isOpen={isOpen}
+        onClose={close}
+        title="Sample Drawer"
+        size="md"
+        renderFooter={() => (
+          <>
+            <Button variant="inverse" size="sm" onClick={close}>
+              Cancel
+            </Button>
+          </>
+        )}
+      >
+        Hello
+      </Drawer>
+    </>
+  );
+};

@@ -1,9 +1,9 @@
 import { Meta, Story } from '@storybook/react';
 
-import { Table } from './Table';
+import { Table, TableProps } from './Table';
 
 const meta: Meta = {
-  title: 'Elements/Table',
+  title: 'Components/Elements/Table',
   component: Table,
   parameters: {
     controls: { expanded: true },
@@ -37,30 +37,27 @@ const data: User[] = [
   },
 ];
 
-const Template: Story = (props) => (
-  <Table<User>
-    data={data}
-    columns={[
-      {
-        title: 'Name',
-        field: 'name',
-      },
-      {
-        title: 'Title',
-        field: 'title',
-      },
-      {
-        title: 'Role',
-        field: 'role',
-      },
-      {
-        title: 'Email',
-        field: 'email',
-      },
-    ]}
-    {...props}
-  />
-);
+const Template: Story<TableProps<User>> = (props) => <Table<User> {...props} />;
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+  data,
+  columns: [
+    {
+      title: 'Name',
+      field: 'name',
+    },
+    {
+      title: 'Title',
+      field: 'title',
+    },
+    {
+      title: 'Role',
+      field: 'role',
+    },
+    {
+      title: 'Email',
+      field: 'email',
+    },
+  ],
+};

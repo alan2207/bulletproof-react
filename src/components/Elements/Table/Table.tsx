@@ -7,7 +7,7 @@ type TableColumn<Entry> = {
   Cell?({ entry }: { entry: Entry }): React.ReactElement;
 };
 
-type TableProps<Entry> = {
+export type TableProps<Entry> = {
   data: Entry[];
   columns: TableColumn<Entry>[];
 };

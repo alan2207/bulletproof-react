@@ -3,7 +3,7 @@ import marked from 'marked';
 
 const DOMPurify = createDOMPurify(window);
 
-type MDPreviewProps = {
+export type MDPreviewProps = {
   value: string;
 };
 

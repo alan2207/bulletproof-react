@@ -3,7 +3,7 @@ import { Meta, Story } from '@storybook/react';
 import { Link } from './Link';
 
 const meta: Meta = {
-  title: 'Elements/Link',
+  title: 'Components/Elements/Link',
   component: Link,
   parameters: {
     controls: { expanded: true },

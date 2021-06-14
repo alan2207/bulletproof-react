@@ -2,7 +2,7 @@
 
 [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)
 
-A simple, scalable, and powerful architecture of React applications.
+A simple, scalable, and powerful architecture for building production ready React applications.
 
 ## Motivation
 
@@ -19,16 +19,17 @@ The goal of this repo is to serve as a collection of good practices when develop
 ## Roadmap
 
 - [x] Authentitication
-- [ ] Authorization
+- [x] Authorization
 - [x] Routing
 - [x] Forms
 - [x] API calls
-- [ ] Client related state
+- [x] Client related state
 - [x] Server related state
 - [x] Project structure
 - [x] TypeScript
 - [ ] ESLint, Prettier, Husky setup
 - [ ] Testing
+- [x] Storybook
 - [x] API Mocking
 - [ ] Appendix
 
