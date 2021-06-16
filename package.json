@@ -47,6 +47,7 @@
     "check-types": "tsc --project tsconfig.json --pretty --noEmit",
     "check-format": "npm run prettier -- --list-different",
     "validate-and-build": "npm-run-all --parallel check-types check-format lint build",
+    "validate": "npm-run-all --parallel check-types && lint-staged",
     "generate": "plop",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public"
@@ -112,11 +113,6 @@
         }
       }
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm-run-all --parallel check-types && lint-staged"
-    }
   },
   "lint-staged": {
     "*.+(js|ts|tsx)": [
