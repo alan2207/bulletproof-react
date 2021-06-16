@@ -112,5 +112,15 @@
         }
       }
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm-run-all --parallel check-types && lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.+(js|ts|tsx)": [
+      "yarn lint"
+    ]
   }
 }

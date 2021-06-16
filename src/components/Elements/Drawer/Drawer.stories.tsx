@@ -16,7 +16,7 @@ const meta: Meta = {
 
 export default meta;
 
-export const Demo = () => {
+export const Demo: Story = () => {
   const { close, open, isOpen } = useDisclosure();
 
   return (

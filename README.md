@@ -27,7 +27,7 @@ The goal of this repo is to serve as a collection of good practices when develop
 - [x] Server related state
 - [x] Project structure
 - [x] TypeScript
-- [ ] ESLint, Prettier, Husky setup
+- [x] ESLint, Prettier, Husky setup
 - [ ] Testing
 - [x] Storybook
 - [x] API Mocking
