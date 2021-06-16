@@ -3,7 +3,7 @@ import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import { MainLayout } from '@/components/Layout';
 import { DiscussionsRoutes } from '@/features/discussions';
 import { Landing, Dashboard } from '@/features/misc';
-import { Users } from '@/features/users';
+import { Profile, Users } from '@/features/users';
 
 const App = () => {
   return (
@@ -19,6 +19,7 @@ export const ProtectedRoutes = () => {
       <Route path="/app" element={<App />}>
         <Route path="/discussions/*" element={<DiscussionsRoutes />} />
         <Route path="/users/*" element={<Users />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/" element={<Dashboard />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Route>

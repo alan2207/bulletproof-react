@@ -1,6 +1,6 @@
 export type Discussion = {
   id: string;
   title: string;
-  description: string;
+  body: string;
   teamId: string;
 };

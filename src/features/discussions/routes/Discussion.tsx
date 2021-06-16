@@ -1,9 +1,11 @@
 import { useParams } from 'react-router-dom';
 
 import { Spinner } from '@/components/Elements';
+import { MDPreview } from '@/components/Elements/MDPreview';
 import { ContentLayout } from '@/components/Layout';
 import { Comments } from '@/features/comments';
 
+import { UpdateDiscussion } from '../components/UpdateDiscussion';
 import { useDiscussion } from '../hooks/useDiscussion';
 
 export const Discussion = () => {
@@ -20,19 +22,17 @@ export const Discussion = () => {
 
   if (!discussionQuery.data) return null;
 
-  console.log(discussionQuery.data);
-
   return (
     <ContentLayout title={discussionQuery.data.title}>
       <div className="mt-6 flex flex-col space-y-16">
+        <div className="flex justify-end">
+          <UpdateDiscussion discussionId={discussionId} />
+        </div>
         <div>
           <div className="bg-white shadow overflow-hidden sm:rounded-lg">
             <div className="px-4 py-5 sm:px-6">
-              <h3 className="text-lg leading-6 font-medium text-gray-900">
-                {discussionQuery.data.title}
-              </h3>
               <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                {discussionQuery.data.description}
+                <MDPreview value={discussionQuery.data.body} />
               </p>
             </div>
           </div>

@@ -9,6 +9,7 @@ const models = {
     password: String,
     teamId: String,
     role: String,
+    bio: String,
   },
   team: {
     id: primaryKey(String),
@@ -18,7 +19,7 @@ const models = {
   discussion: {
     id: primaryKey(String),
     title: String,
-    description: String,
+    body: String,
     teamId: String,
   },
   comment: {
@@ -26,6 +27,7 @@ const models = {
     body: String,
     authorId: String,
     discussionId: String,
+    createdAt: String,
   },
 };
 

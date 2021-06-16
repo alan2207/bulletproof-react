@@ -13,3 +13,18 @@ type DeleteUserOptions = {
 export const deleteUser = ({ userId }: DeleteUserOptions) => {
   return axios.delete(`/users/${userId}`);
 };
+
+type ProfileBody = {
+  email: string;
+  firstName: string;
+  lastName: string;
+  bio: string;
+};
+
+type UpdateProfileOptions = {
+  data: ProfileBody;
+};
+
+export const updateProfile = ({ data }: UpdateProfileOptions) => {
+  return axios.patch(`/users/profile`, data);
+};

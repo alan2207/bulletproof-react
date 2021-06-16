@@ -26,10 +26,7 @@ export const DiscussionsList = () => {
           title: 'Title',
           field: 'title',
         },
-        {
-          title: 'Description',
-          field: 'description',
-        },
+
         {
           title: '',
           field: 'id',

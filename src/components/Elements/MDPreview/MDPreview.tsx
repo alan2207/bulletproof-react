@@ -7,7 +7,7 @@ export type MDPreviewProps = {
   value: string;
 };
 
-export const MDPreview = ({ value }: MDPreviewProps) => {
+export const MDPreview = ({ value = '' }: MDPreviewProps) => {
   return (
     <div
       className="p-2 w-full prose prose-indigo"

@@ -1,6 +1,6 @@
 import { useMutation } from 'react-query';
 
-import { MutationConfig } from '@/lib/react-query';
+import { MutationConfig, queryClient } from '@/lib/react-query';
 
 import { updateDiscussion } from '../api';
 
@@ -12,5 +12,8 @@ export const useUpdateDiscussion = ({ config }: UseUpdateDiscussionOptions = {})
   return useMutation({
     ...config,
     mutationFn: updateDiscussion,
+    onSuccess: (data) => {
+      queryClient.refetchQueries(['discussion', data.id]);
+    },
   });
 };

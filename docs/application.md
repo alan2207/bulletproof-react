@@ -9,7 +9,6 @@ The development of this project is driven by mocking API server and the data wit
 - User - can have one of these roles:
 
   - `ADMIN` can:
-    - edit team
     - create/edit/delete discussions
     - create/delete all comments
     - delete users

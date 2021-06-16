@@ -8,7 +8,7 @@ import { requireAuth, requireAdmin, delayedResponse } from '../utils';
 
 type DiscussionBody = {
   title: string;
-  description: string;
+  body: string;
 };
 
 export const discussionsHandlers = [

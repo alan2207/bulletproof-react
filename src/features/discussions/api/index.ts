@@ -16,14 +16,14 @@ export const getDiscussion = ({ discussionId }: GetDiscussionOptions): Promise<D
 
 type DiscussionBody = {
   title: string;
-  description: string;
+  body: string;
 };
 
 type CreateDiscussionOptions = {
   data: DiscussionBody;
 };
 
-export const createDiscussion = ({ data }: CreateDiscussionOptions) => {
+export const createDiscussion = ({ data }: CreateDiscussionOptions): Promise<Discussion> => {
   return axios.post(`/discussions`, data);
 };
 
@@ -32,8 +32,11 @@ type UpdateDiscussionOptions = {
   discussionId: string;
 };
 
-export const updateDiscussion = ({ data, discussionId }: UpdateDiscussionOptions) => {
-  return axios.post(`/discussions/${discussionId}`, data);
+export const updateDiscussion = ({
+  data,
+  discussionId,
+}: UpdateDiscussionOptions): Promise<Discussion> => {
+  return axios.patch(`/discussions/${discussionId}`, data);
 };
 
 type DeleteDiscussionOptions = {

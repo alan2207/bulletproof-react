@@ -1,3 +1,5 @@
+import { PlusIcon } from '@heroicons/react/outline';
+
 import { Button } from '@/components/Elements';
 import { Form, MDField } from '@/components/Form';
 import { FormDrawer } from '@/components/Form/FormDrawer';
@@ -14,7 +16,11 @@ export const CreateComment = ({ discussionId }: CreateCommentProps) => {
     <>
       <FormDrawer
         isDone={createCommentMutation.isSuccess}
-        triggerButton={<Button size="sm">Create Comment</Button>}
+        triggerButton={
+          <Button size="sm" startIcon={<PlusIcon className="h-4 w-4" />}>
+            Create Comment
+          </Button>
+        }
         title="Create Comment"
         size="xl"
         submitButton={

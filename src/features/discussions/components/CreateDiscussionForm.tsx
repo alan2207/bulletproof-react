@@ -1,13 +1,12 @@
 import { Button } from '@/components/Elements';
-import { Form, InputField } from '@/components/Form';
+import { Form, InputField, MDField } from '@/components/Form';
 import { FormDrawer } from '@/components/Form/FormDrawer';
-import { TextAreaField } from '@/components/Form/TextareaField';
 
 import { useCreateDiscussion } from '../hooks/useCreateDiscussion';
 
 type DiscussionValues = {
   title: string;
-  description: string;
+  body: string;
 };
 
 export const CreateDiscussionForm = () => {
@@ -35,7 +34,7 @@ export const CreateDiscussionForm = () => {
           await createDiscussionMutation.mutateAsync({ data: values });
         }}
       >
-        {({ register, formState }) => (
+        {({ register, formState, control }) => (
           <>
             <InputField
               label="Title"
@@ -43,11 +42,7 @@ export const CreateDiscussionForm = () => {
               registration={register('title')}
             />
 
-            <TextAreaField
-              label="Description"
-              error={formState.errors['description']}
-              registration={register('description')}
-            />
+            <MDField name="body" label="Body" error={formState.errors['body']} control={control} />
           </>
         )}
       </Form>
