@@ -1,4 +1,5 @@
 import { PencilIcon } from '@heroicons/react/solid';
+import * as z from 'zod';
 
 import { Button } from '@/components/Elements';
 import { Form, InputField, MDField } from '@/components/Form';
@@ -6,7 +7,6 @@ import { FormDrawer } from '@/components/Form/FormDrawer';
 
 import { useDiscussion } from '../hooks/useDiscussion';
 import { useUpdateDiscussion } from '../hooks/useUpdateDiscussion';
-
 type DiscussionValues = {
   title: string;
   body: string;
@@ -15,6 +15,11 @@ type DiscussionValues = {
 type UpdateDiscussionProps = {
   discussionId: string;
 };
+
+const schema = z.object({
+  title: z.string().nonempty({ message: 'Required' }),
+  body: z.string().nonempty({ message: 'Required' }),
+});
 
 export const UpdateDiscussion = ({ discussionId }: UpdateDiscussionProps) => {
   const discussionQuery = useDiscussion({ discussionId });
@@ -40,7 +45,7 @@ export const UpdateDiscussion = ({ discussionId }: UpdateDiscussionProps) => {
         </Button>
       }
     >
-      <Form<DiscussionValues>
+      <Form<DiscussionValues, typeof schema>
         id="update-discussion"
         onSubmit={async (values) => {
           await updateDiscussionMutation.mutateAsync({ data: values, discussionId });
@@ -51,6 +56,7 @@ export const UpdateDiscussion = ({ discussionId }: UpdateDiscussionProps) => {
             body: discussionQuery.data?.body,
           },
         }}
+        schema={schema}
       >
         {({ register, formState, control }) => (
           <>

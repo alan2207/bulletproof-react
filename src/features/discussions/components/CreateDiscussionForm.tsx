@@ -1,8 +1,15 @@
+import * as z from 'zod';
+
 import { Button } from '@/components/Elements';
 import { Form, InputField, MDField } from '@/components/Form';
 import { FormDrawer } from '@/components/Form/FormDrawer';
 
 import { useCreateDiscussion } from '../hooks/useCreateDiscussion';
+
+const schema = z.object({
+  title: z.string().nonempty({ message: 'Required' }),
+  body: z.string().nonempty({ message: 'Required' }),
+});
 
 type DiscussionValues = {
   title: string;
@@ -28,11 +35,12 @@ export const CreateDiscussionForm = () => {
         </Button>
       }
     >
-      <Form<DiscussionValues>
+      <Form<DiscussionValues, typeof schema>
         id="create-discussion"
         onSubmit={async (values) => {
           await createDiscussionMutation.mutateAsync({ data: values });
         }}
+        schema={schema}
       >
         {({ register, formState, control }) => (
           <>

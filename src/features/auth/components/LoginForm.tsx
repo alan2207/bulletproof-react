@@ -1,8 +1,14 @@
 import { Link, useNavigate } from 'react-router-dom';
+import * as z from 'zod';
 
 import { Button } from '@/components/Elements';
 import { Form, InputField } from '@/components/Form';
 import { useAuth } from '@/lib/auth';
+
+const schema = z.object({
+  email: z.string().nonempty({ message: 'Required' }),
+  password: z.string().nonempty({ message: 'Required' }),
+});
 
 type LoginValues = {
   email: string;
@@ -15,11 +21,12 @@ export const LoginForm = () => {
 
   return (
     <div>
-      <Form<LoginValues>
+      <Form<LoginValues, typeof schema>
         onSubmit={async (values) => {
           await login(values);
           navigate('/app');
         }}
+        schema={schema}
       >
         {({ register, formState }) => (
           <>

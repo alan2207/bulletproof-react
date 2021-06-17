@@ -1,10 +1,15 @@
 import { PlusIcon } from '@heroicons/react/outline';
+import * as z from 'zod';
 
 import { Button } from '@/components/Elements';
 import { Form, MDField } from '@/components/Form';
 import { FormDrawer } from '@/components/Form/FormDrawer';
 
 import { useCreateComment } from '../hooks/useCreateComment';
+
+const schema = z.object({
+  body: z.string().nonempty({ message: 'Required' }),
+});
 
 type CreateCommentProps = {
   discussionId: string;
@@ -35,7 +40,7 @@ export const CreateComment = ({ discussionId }: CreateCommentProps) => {
           </Button>
         }
       >
-        <Form<{ body: string }>
+        <Form<{ body: string }, typeof schema>
           id="create-comment"
           onSubmit={async (values) => {
             await createCommentMutation.mutateAsync({
@@ -45,6 +50,7 @@ export const CreateComment = ({ discussionId }: CreateCommentProps) => {
               },
             });
           }}
+          schema={schema}
         >
           {({ control, formState }) => (
             <MDField name="body" control={control} error={formState.errors['body']} label="Body" />

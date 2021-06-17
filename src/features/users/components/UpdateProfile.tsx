@@ -1,4 +1,5 @@
 import { PencilIcon } from '@heroicons/react/solid';
+import * as z from 'zod';
 
 import { Button } from '@/components/Elements';
 import { Form, InputField } from '@/components/Form';
@@ -7,6 +8,12 @@ import { TextAreaField } from '@/components/Form/TextareaField';
 import { useAuth } from '@/lib/auth';
 
 import { useUpdateProfile } from '../hooks/useUpdateProfile';
+
+const schema = z.object({
+  email: z.string().nonempty({ message: 'Required' }),
+  firstName: z.string().nonempty({ message: 'Required' }),
+  lastName: z.string().nonempty({ message: 'Required' }),
+});
 
 type ProfileValues = {
   email: string;
@@ -39,7 +46,7 @@ export const UpdateProfile = () => {
         </Button>
       }
     >
-      <Form<ProfileValues>
+      <Form<ProfileValues, typeof schema>
         id="update-profile"
         onSubmit={async (values) => {
           await updateProfileMutation.mutateAsync({ data: values });
@@ -52,6 +59,7 @@ export const UpdateProfile = () => {
             bio: user?.bio,
           },
         }}
+        schema={schema}
       >
         {({ register, formState }) => (
           <>

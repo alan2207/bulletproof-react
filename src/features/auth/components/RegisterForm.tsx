@@ -1,11 +1,19 @@
 import { Switch } from '@headlessui/react';
 import * as React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import * as z from 'zod';
 
 import { Button } from '@/components/Elements';
 import { Form, InputField, SelectField } from '@/components/Form';
 import { useTeams } from '@/features/teams';
 import { useAuth } from '@/lib/auth';
+
+const schema = z.object({
+  email: z.string().nonempty({ message: 'Required' }),
+  firstName: z.string().nonempty({ message: 'Required' }),
+  lastName: z.string().nonempty({ message: 'Required' }),
+  password: z.string().nonempty({ message: 'Required' }),
+});
 
 type RegisterValues = {
   firstName: string;
@@ -29,11 +37,12 @@ export const RegisterForm = () => {
 
   return (
     <div>
-      <Form<RegisterValues>
+      <Form<RegisterValues, typeof schema>
         onSubmit={async (values) => {
           await register(values);
           navigate('/app');
         }}
+        schema={schema}
       >
         {({ register, formState }) => (
           <>
