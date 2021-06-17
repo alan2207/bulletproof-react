@@ -1,3 +1,4 @@
+import { PlusIcon } from '@heroicons/react/outline';
 import * as z from 'zod';
 
 import { Button } from '@/components/Elements';
@@ -16,13 +17,17 @@ type DiscussionValues = {
   body: string;
 };
 
-export const CreateDiscussionForm = () => {
+export const CreateDiscussion = () => {
   const createDiscussionMutation = useCreateDiscussion();
 
   return (
     <FormDrawer
       isDone={createDiscussionMutation.isSuccess}
-      triggerButton={<Button size="sm">Create Discussion</Button>}
+      triggerButton={
+        <Button size="sm" startIcon={<PlusIcon className="h-4 w-4" />}>
+          Create Discussion
+        </Button>
+      }
       title="Create Discussion"
       submitButton={
         <Button
