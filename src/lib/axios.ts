@@ -1,6 +1,7 @@
 import Axios, { AxiosRequestConfig } from 'axios';
 
 import { API_URL } from '@/config';
+import { useNotificationStore } from '@/hooks/useNotificationStore';
 import storage from '@/utils/storage';
 
 function authRequestInterceptor(config: AxiosRequestConfig) {
@@ -17,8 +18,18 @@ export const axios = Axios.create({
 });
 
 axios.interceptors.request.use(authRequestInterceptor);
-axios.interceptors.response.use(function (response) {
-  return response.data;
-});
+axios.interceptors.response.use(
+  (response) => {
+    return response.data;
+  },
+  (error) => {
+    console.log(error);
+    useNotificationStore.getState().addNotification({
+      type: 'error',
+      title: 'Error',
+      message: error.message,
+    });
+  }
+);
 
 // window.axios = axios;
