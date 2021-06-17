@@ -1,7 +1,8 @@
 import { useAuth } from '@/lib/auth';
+import { lazyImport } from '@/utils/lazyImport';
 
-import { ProtectedRoutes } from './ProtectedRoutes';
-import { PublicRoutes } from './PublicRoutes';
+const { ProtectedRoutes } = lazyImport(() => import('./ProtectedRoutes'), 'ProtectedRoutes');
+const { PublicRoutes } = lazyImport(() => import('./PublicRoutes'), 'PublicRoutes');
 
 export const AppRoutes = () => {
   const auth = useAuth();

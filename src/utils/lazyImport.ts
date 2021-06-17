@@ -12,4 +12,4 @@ export function lazyImport<
 }
 
 // Usage
-// const { Home } = lazyImport(() => import("./Home.component.tsx"), "Home");
+// const { Home } = lazyImport(() => import("./Home"), "Home");

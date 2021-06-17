@@ -11,7 +11,7 @@ interface AppProviderProps {
   children: React.ReactNode;
 }
 
-const AppProvider = ({ children }: AppProviderProps) => {
+export const AppProvider = ({ children }: AppProviderProps) => {
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools />
@@ -22,5 +22,3 @@ const AppProvider = ({ children }: AppProviderProps) => {
     </QueryClientProvider>
   );
 };
-
-export default AppProvider;
