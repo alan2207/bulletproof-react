@@ -16,12 +16,8 @@ type ProfileValues = {
 };
 
 export const UpdateProfile = () => {
-  const { user, refetch } = useAuth();
-  const updateProfileMutation = useUpdateProfile({
-    config: {
-      onSuccess: () => refetch({ cancelRefetch: false, throwOnError: false }),
-    },
-  });
+  const { user } = useAuth();
+  const updateProfileMutation = useUpdateProfile();
 
   return (
     <FormDrawer
@@ -37,7 +33,7 @@ export const UpdateProfile = () => {
           form="update-profile"
           type="submit"
           size="sm"
-          disabled={updateProfileMutation.isLoading}
+          isLoading={updateProfileMutation.isLoading}
         >
           Submit
         </Button>
@@ -52,7 +48,7 @@ export const UpdateProfile = () => {
           defaultValues: {
             firstName: user?.firstName,
             lastName: user?.lastName,
-            email: user?.lastName,
+            email: user?.email,
             bio: user?.bio,
           },
         }}

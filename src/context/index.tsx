@@ -31,8 +31,8 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   return (
     <React.Suspense
       fallback={
-        <div className="h-screen w-screen">
-          <Spinner />
+        <div className="h-screen w-screen flex items-center justify-center">
+          <Spinner size="xl" />
         </div>
       }
     >

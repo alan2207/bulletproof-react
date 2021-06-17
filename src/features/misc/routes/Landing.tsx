@@ -23,7 +23,7 @@ export const Landing = () => {
           <span className="block">Bulletproof React</span>
         </h2>
         <img src={logo} alt="react" />
-        <p>Best Practices For Building React App</p>
+        <p>Showcasing Best Practices For Building React Applications</p>
         <div className="mt-8 flex justify-center">
           <div className="inline-flex rounded-md shadow">
             <Button

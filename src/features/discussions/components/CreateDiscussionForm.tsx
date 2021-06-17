@@ -22,7 +22,7 @@ export const CreateDiscussionForm = () => {
           form="create-discussion"
           type="submit"
           size="sm"
-          disabled={createDiscussionMutation.isLoading}
+          isLoading={createDiscussionMutation.isLoading}
         >
           Submit
         </Button>

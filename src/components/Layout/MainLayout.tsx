@@ -11,6 +11,7 @@ import clsx from 'clsx';
 import * as React from 'react';
 import { NavLink, Link } from 'react-router-dom';
 
+import logo from '@/assets/logo.svg';
 import { useAuth } from '@/lib/auth';
 import { useRBAC, ROLES } from '@/lib/rbac';
 
@@ -67,11 +68,9 @@ type UserNavigationItem = {
 
 const UserNavigation = () => {
   const { logout } = useAuth();
-  const { checkAccess } = useRBAC();
 
   const userNavigation = [
     { name: 'Your Profile', to: './profile' },
-    checkAccess({ allowedRoles: [ROLES.ADMIN] }) && { name: 'Your Team', to: './team' },
     {
       name: 'Sign out',
       to: '',
@@ -224,12 +223,9 @@ const Sidebar = () => {
 
 const Logo = () => {
   return (
-    <Link to=".">
-      <img
-        className="h-8 w-auto"
-        src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
-        alt="Workflow"
-      />
+    <Link className="flex items-center text-white" to=".">
+      <img className="h-8 w-auto" src={logo} alt="Workflow" />
+      <span className="text-xl text-white font-semibold">Bulletproof React</span>
     </Link>
   );
 };

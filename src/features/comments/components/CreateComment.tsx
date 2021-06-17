@@ -25,6 +25,7 @@ export const CreateComment = ({ discussionId }: CreateCommentProps) => {
         size="xl"
         submitButton={
           <Button
+            isLoading={createCommentMutation.isLoading}
             form="create-comment"
             type="submit"
             size="sm"
