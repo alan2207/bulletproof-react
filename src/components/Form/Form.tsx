@@ -15,7 +15,7 @@ type FormProps<TFormValues, Schema> = {
 
 export const Form = <
   TFormValues extends Record<string, any> = Record<string, any>,
-  Schema extends ZodType<any, any, any> = any
+  Schema extends ZodType<any, any, any> = ZodType<any, any, any>
 >({
   onSubmit,
   children,
