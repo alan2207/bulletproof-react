@@ -16,7 +16,7 @@ type LoginValues = {
 };
 
 export const LoginForm = () => {
-  const { login } = useAuth();
+  const { login, isLoggingIn } = useAuth();
   const navigate = useNavigate();
 
   return (
@@ -43,7 +43,7 @@ export const LoginForm = () => {
               registration={register('password')}
             />
             <div>
-              <Button type="submit" className="w-full">
+              <Button isLoading={isLoggingIn} type="submit" className="w-full">
                 Log in
               </Button>
             </div>

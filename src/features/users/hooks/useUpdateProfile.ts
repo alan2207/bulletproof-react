@@ -12,14 +12,14 @@ type UseUpdateProfileOptions = {
 
 export const useUpdateProfile = ({ config }: UseUpdateProfileOptions = {}) => {
   const { addNotification } = useNotificationStore();
-  const { refetch } = useAuth();
+  const { refetchUser } = useAuth();
   return useMutation({
     onSuccess: () => {
       addNotification({
         type: 'success',
         title: 'User Updated',
       });
-      refetch({ cancelRefetch: false, throwOnError: false });
+      refetchUser();
     },
     ...config,
     mutationFn: updateProfile,

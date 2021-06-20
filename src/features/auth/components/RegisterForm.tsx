@@ -25,7 +25,7 @@ type RegisterValues = {
 };
 
 export const RegisterForm = () => {
-  const { register } = useAuth();
+  const { register, isRegistering } = useAuth();
   const navigate = useNavigate();
   const [chooseTeam, setChooseTeam] = React.useState(false);
 
@@ -109,8 +109,8 @@ export const RegisterForm = () => {
               />
             )}
             <div>
-              <Button type="submit" className="w-full">
-                Log in
+              <Button isLoading={isRegistering} type="submit" className="w-full">
+                Register
               </Button>
             </div>
           </>
