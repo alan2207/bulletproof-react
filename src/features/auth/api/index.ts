@@ -1,30 +1,30 @@
 import { axios } from '@/lib/axios';
 
-export interface LoginCredentials {
+export type LoginCredentials = {
   email: string;
   password: string;
-}
+};
 
-export interface RegisterCredentials {
+export type RegisterCredentials = {
   email: string;
   password: string;
   firstName: string;
   lastName: string;
-}
+};
 
-export interface AuthUser {
+export type AuthUser = {
   id: string;
   email: string;
   firstName: string;
   lastName: string;
   bio: string;
   role: 'ADMIN' | 'USER';
-}
+};
 
-export interface UserResponse {
+export type UserResponse = {
   jwt: string;
   user: AuthUser;
-}
+};
 
 export const loginWithEmailAndPassword = (data: LoginCredentials): Promise<UserResponse> => {
   return axios.post('/auth/login', data);
