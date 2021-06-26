@@ -65,17 +65,17 @@ export const ConfirmationDialog = ({
               )}
             </div>
           </div>
-          <div className="mt-4 flex flex-row-reverse">
-            {confirmation}
+          <div className="mt-4 flex space-x-2 justify-end">
             <Button
               type="button"
               variant="inverse"
-              className="w-full inline-flex justify-center rounded-md border   focus:ring-1 focus:ring-offset-1 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
+              className="w-full inline-flex justify-center rounded-md border focus:ring-1 focus:ring-offset-1 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
               onClick={close}
               ref={cancelButtonRef}
             >
               {cancelButtonText}
             </Button>
+            {confirmation}
           </div>
         </div>
       </Dialog>
