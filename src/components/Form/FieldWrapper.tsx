@@ -20,7 +20,7 @@ export const FieldWrapper = (props: FieldWrapperProps) => {
         {label}
         <div className="mt-1">{children}</div>
       </label>
-      <div className="text-sm font-semibold text-red-500">{error?.message}</div>
+      {error?.message && <div className="text-sm font-semibold text-red-500">{error?.message}</div>}
     </div>
   );
 };

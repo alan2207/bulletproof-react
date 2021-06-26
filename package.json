@@ -110,6 +110,11 @@
   "msw": {
     "workerDirectory": "public"
   },
+  "jest": {
+    "moduleNameMapper": {
+      "^@/(.+)": "<rootDir>/src/$1"
+    }
+  },
   "eslintConfig": {
     "overrides": [
       {

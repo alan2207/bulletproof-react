@@ -47,4 +47,4 @@ export const render = async (
 
 // eslint-disable-next-line import/export
 export * from '@testing-library/react';
-export { userEvent };
+export { userEvent, rtlRender };
