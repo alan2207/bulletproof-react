@@ -6,7 +6,9 @@ import { JWT_SECRET } from '@/config';
 
 import { db } from './db';
 
-export const delayedResponse = createResponseComposition(undefined, [context.delay(1000)]);
+export const delayedResponse = createResponseComposition(undefined, [
+  context.delay(process.env.NODE_ENV === 'test' ? 0 : 1000),
+]);
 
 export const hash = (str: string) => {
   let hash = 5381,

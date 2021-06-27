@@ -1,6 +1,6 @@
 import { Switch } from '@headlessui/react';
 import * as React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import * as z from 'zod';
 
 import { Button } from '@/components/Elements';
@@ -24,9 +24,12 @@ type RegisterValues = {
   teamName?: string;
 };
 
-export const RegisterForm = () => {
+type RegisterFormProps = {
+  onRegister: () => void;
+};
+
+export const RegisterForm = ({ onRegister }: RegisterFormProps) => {
   const { register, isRegistering } = useAuth();
-  const navigate = useNavigate();
   const [chooseTeam, setChooseTeam] = React.useState(false);
 
   const teamsQuery = useTeams({
@@ -40,7 +43,7 @@ export const RegisterForm = () => {
       <Form<RegisterValues, typeof schema>
         onSubmit={async (values) => {
           await register(values);
-          navigate('/app');
+          onRegister();
         }}
         schema={schema}
       >

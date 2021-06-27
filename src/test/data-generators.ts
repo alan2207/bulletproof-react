@@ -9,6 +9,7 @@ export const userGenerator = (overrides: Overrides) => ({
   email: faker.internet.email(),
   password: faker.internet.password(),
   teamId: faker.datatype.uuid(),
+  teamName: faker.company.companyName(),
   role: 'ADMIN',
   bio: faker.lorem.sentence(),
   ...overrides,

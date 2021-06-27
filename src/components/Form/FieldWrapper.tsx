@@ -20,7 +20,11 @@ export const FieldWrapper = (props: FieldWrapperProps) => {
         {label}
         <div className="mt-1">{children}</div>
       </label>
-      {error?.message && <div className="text-sm font-semibold text-red-500">{error?.message}</div>}
+      {error?.message && (
+        <div role="alert" aria-label={error.message} className="text-sm font-semibold text-red-500">
+          {error.message}
+        </div>
+      )}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import * as z from 'zod';
 
 import { Button } from '@/components/Elements';
@@ -15,16 +15,19 @@ type LoginValues = {
   password: string;
 };
 
-export const LoginForm = () => {
+type LoginFormProps = {
+  onLogin: () => void;
+};
+
+export const LoginForm = ({ onLogin }: LoginFormProps) => {
   const { login, isLoggingIn } = useAuth();
-  const navigate = useNavigate();
 
   return (
     <div>
       <Form<LoginValues, typeof schema>
         onSubmit={async (values) => {
           await login(values);
-          navigate('/app');
+          onLogin();
         }}
         schema={schema}
       >

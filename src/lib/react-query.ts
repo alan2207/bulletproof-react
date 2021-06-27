@@ -6,6 +6,7 @@ const queryConfig = {
   queries: {
     useErrorBoundary: true,
     refetchOnWindowFocus: false,
+    retry: false,
   },
 };
 

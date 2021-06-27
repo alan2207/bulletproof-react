@@ -7,11 +7,16 @@ import storage from '@/utils/storage';
 
 import { userGenerator } from './data-generators';
 import { db } from './server/db';
-import { authenticate } from './server/utils';
+import { authenticate, hash } from './server/utils';
+
+export const createUser = async (userProperties?: any) => {
+  const user = userGenerator(userProperties);
+  await db.user.create({ ...user, password: hash(user.password) });
+  return user;
+};
 
 export const loginAsUser = async (userProperties?: any) => {
-  const user = userGenerator(userProperties);
-  await db.user.create(user);
+  const user = await createUser(userProperties);
   const authUser = await authenticate(user);
   storage.setToken(authUser.jwt);
   return authUser;
@@ -19,7 +24,7 @@ export const loginAsUser = async (userProperties?: any) => {
 
 export const waitForLoadingToFinish = () =>
   waitForElementToBeRemoved(
-    () => [...screen.queryAllByLabelText(/loading/i), ...screen.queryAllByText(/loading/i)],
+    () => [...screen.queryAllByTestId(/loading/i), ...screen.queryAllByText(/loading/i)],
     { timeout: 4000 }
   );
 

@@ -39,6 +39,7 @@ export const loadDb = () =>
   Object.assign(JSON.parse(window.localStorage.getItem('msw-db') || '{}'));
 
 export const persistDb = (model: Model) => {
+  if (process.env.NODE_ENV === 'test') return;
   const data = loadDb();
   data[model] = db[model].getAll();
   window.localStorage.setItem('msw-db', JSON.stringify(data));
@@ -56,6 +57,11 @@ export const initializeDb = () => {
       });
     }
   });
+};
+
+export const resetDb = () => {
+  // db.
+  window.localStorage.clear();
 };
 
 initializeDb();
