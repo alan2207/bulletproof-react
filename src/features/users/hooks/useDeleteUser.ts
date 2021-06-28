@@ -31,7 +31,7 @@ export const useDeleteUser = ({ config }: UseDeleteUserOptions = {}) => {
         queryClient.setQueryData('users', context.previousUsers);
       }
     },
-    onSettled: () => {
+    onSuccess: () => {
       queryClient.invalidateQueries('users');
       addNotification({
         type: 'success',

@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid';
 import { API_URL } from '@/config';
 
 import { db, persistDb } from '../db';
-import { requireAuth, requireAdmin, delayedResponse } from '../utils';
+import { requireAuth, delayedResponse } from '../utils';
 
 type CreateCommentBody = {
   body: string;
@@ -13,42 +13,56 @@ type CreateCommentBody = {
 
 export const commentsHandlers = [
   rest.get(`${API_URL}/comments`, (req, res, ctx) => {
-    requireAuth(req);
-    const discussionId = req.url.searchParams.get('discussionId') || '';
-    const result = db.comment.findMany({
-      where: {
-        discussionId: {
-          equals: discussionId,
+    try {
+      requireAuth(req);
+      const discussionId = req.url.searchParams.get('discussionId') || '';
+      const result = db.comment.findMany({
+        where: {
+          discussionId: {
+            equals: discussionId,
+          },
         },
-      },
-    });
-    return delayedResponse(ctx.json(result));
+      });
+      return delayedResponse(ctx.json(result));
+    } catch (error) {
+      return delayedResponse(ctx.status(400), ctx.json({ message: error.message }));
+    }
   }),
 
   rest.post<CreateCommentBody>(`${API_URL}/comments`, (req, res, ctx) => {
-    const user = requireAuth(req);
-    const data = req.body;
-    const result = db.comment.create({
-      authorId: user.id,
-      id: nanoid(),
-      ...data,
-    });
-    persistDb('comment');
-    return delayedResponse(ctx.json(result));
+    try {
+      const user = requireAuth(req);
+      const data = req.body;
+      const result = db.comment.create({
+        authorId: user.id,
+        id: nanoid(),
+        ...data,
+      });
+      persistDb('comment');
+      return delayedResponse(ctx.json(result));
+    } catch (error) {
+      return delayedResponse(ctx.status(400), ctx.json({ message: error.message }));
+    }
   }),
 
   rest.delete(`${API_URL}/comments/:commentId`, (req, res, ctx) => {
-    const user = requireAuth(req);
-    const { commentId } = req.params;
-    requireAdmin(user);
-    const result = db.comment.delete({
-      where: {
-        id: {
-          equals: commentId,
+    try {
+      const user = requireAuth(req);
+      const { commentId } = req.params;
+      const result = db.comment.delete({
+        where: {
+          id: {
+            equals: commentId,
+          },
+          authorId: {
+            equals: user.id,
+          },
         },
-      },
-    });
-    persistDb('comment');
-    return delayedResponse(ctx.json(result));
+      });
+      persistDb('comment');
+      return delayedResponse(ctx.json(result));
+    } catch (error) {
+      return delayedResponse(ctx.status(400), ctx.json({ message: error.message }));
+    }
   }),
 ];

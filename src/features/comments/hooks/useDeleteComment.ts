@@ -31,7 +31,7 @@ export const useDeleteComment = ({ config, discussionId }: UseDeleteComment) => 
         queryClient.setQueryData(['comments', discussionId], context.previousComments);
       }
     },
-    onSettled: () => {
+    onSuccess: () => {
       queryClient.invalidateQueries(['comments', discussionId]);
       addNotification({
         type: 'success',

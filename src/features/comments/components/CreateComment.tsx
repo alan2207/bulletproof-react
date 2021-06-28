@@ -8,7 +8,7 @@ import { FormDrawer } from '@/components/Form/FormDrawer';
 import { useCreateComment } from '../hooks/useCreateComment';
 
 const schema = z.object({
-  body: z.string().nonempty({ message: 'Required' }),
+  body: z.string().min(1, 'Required'),
 });
 
 type CreateCommentProps = {

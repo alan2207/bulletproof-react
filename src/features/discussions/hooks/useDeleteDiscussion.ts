@@ -33,7 +33,7 @@ export const useDeleteDiscussion = ({ config }: UseDeleteDiscussionOptions = {})
         queryClient.setQueryData('discussions', context.previousDiscussions);
       }
     },
-    onSettled: () => {
+    onSuccess: () => {
       queryClient.invalidateQueries('discussions');
       addNotification({
         type: 'success',

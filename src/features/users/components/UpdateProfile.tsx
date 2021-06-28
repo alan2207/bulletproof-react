@@ -10,9 +10,9 @@ import { useAuth } from '@/lib/auth';
 import { useUpdateProfile } from '../hooks/useUpdateProfile';
 
 const schema = z.object({
-  email: z.string().nonempty({ message: 'Required' }),
-  firstName: z.string().nonempty({ message: 'Required' }),
-  lastName: z.string().nonempty({ message: 'Required' }),
+  email: z.string().min(1, 'Required'),
+  firstName: z.string().min(1, 'Required'),
+  lastName: z.string().min(1, 'Required'),
 });
 
 type ProfileValues = {

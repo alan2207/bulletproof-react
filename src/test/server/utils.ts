@@ -69,6 +69,6 @@ export function requireAuth(request: RestRequest) {
 
 export function requireAdmin(user: any) {
   if (user.role !== 'ADMIN') {
-    throw Error();
+    throw Error('Unauthorized');
   }
 }

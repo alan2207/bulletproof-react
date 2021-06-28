@@ -29,7 +29,7 @@ export const CommentsList = ({ discussionId }: CommentsListProps) => {
     <div className="flex flex-col space-y-3">
       {commentsQuery.data.map((comment) => (
         <div key={comment.id} className="w-full bg-white shadow-sm p-4">
-          {(user?.role === 'ADMIN' || comment.authorId === user?.id) && (
+          {comment.authorId === user?.id && (
             <div className="flex justify-end">
               <DeleteComment discussionId={discussionId} id={comment.id} />
             </div>

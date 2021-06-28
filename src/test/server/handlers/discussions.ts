@@ -13,78 +13,98 @@ type DiscussionBody = {
 
 export const discussionsHandlers = [
   rest.get(`${API_URL}/discussions`, (req, res, ctx) => {
-    const user = requireAuth(req);
-    const result = db.discussion.findMany({
-      where: {
-        teamId: {
-          equals: user.teamId,
+    try {
+      const user = requireAuth(req);
+      const result = db.discussion.findMany({
+        where: {
+          teamId: {
+            equals: user.teamId,
+          },
         },
-      },
-    });
-    return delayedResponse(ctx.json(result));
+      });
+      return delayedResponse(ctx.json(result));
+    } catch (error) {
+      return delayedResponse(ctx.status(400), ctx.json({ message: error.message }));
+    }
   }),
 
   rest.get(`${API_URL}/discussions/:discussionId`, (req, res, ctx) => {
-    const user = requireAuth(req);
-    const { discussionId } = req.params;
-    const result = db.discussion.findFirst({
-      where: {
-        id: {
-          equals: discussionId,
+    try {
+      const user = requireAuth(req);
+      const { discussionId } = req.params;
+      const result = db.discussion.findFirst({
+        where: {
+          id: {
+            equals: discussionId,
+          },
+          teamId: {
+            equals: user.teamId,
+          },
         },
-        teamId: {
-          equals: user.teamId,
-        },
-      },
-    });
-    return delayedResponse(ctx.json(result));
+      });
+      return delayedResponse(ctx.json(result));
+    } catch (error) {
+      return delayedResponse(ctx.status(400), ctx.json({ message: error.message }));
+    }
   }),
 
   rest.post<DiscussionBody>(`${API_URL}/discussions`, (req, res, ctx) => {
-    const user = requireAuth(req);
-    const data = req.body;
-    requireAdmin(user);
-    const result = db.discussion.create({
-      teamId: user.teamId,
-      id: nanoid(),
-      ...data,
-    });
-    persistDb('discussion');
-    return delayedResponse(ctx.json(result));
+    try {
+      const user = requireAuth(req);
+      const data = req.body;
+      requireAdmin(user);
+      const result = db.discussion.create({
+        teamId: user.teamId,
+        id: nanoid(),
+        ...data,
+      });
+      persistDb('discussion');
+      return delayedResponse(ctx.json(result));
+    } catch (error) {
+      return delayedResponse(ctx.status(400), ctx.json({ message: error.message }));
+    }
   }),
 
   rest.patch<DiscussionBody>(`${API_URL}/discussions/:discussionId`, (req, res, ctx) => {
-    const user = requireAuth(req);
-    const data = req.body;
-    const { discussionId } = req.params;
-    requireAdmin(user);
-    const result = db.discussion.update({
-      where: {
-        teamId: {
-          equals: user.teamId,
+    try {
+      const user = requireAuth(req);
+      const data = req.body;
+      const { discussionId } = req.params;
+      requireAdmin(user);
+      const result = db.discussion.update({
+        where: {
+          teamId: {
+            equals: user.teamId,
+          },
+          id: {
+            equals: discussionId,
+          },
         },
-        id: {
-          equals: discussionId,
-        },
-      },
-      data,
-    });
-    persistDb('discussion');
-    return delayedResponse(ctx.json(result));
+        data,
+      });
+      persistDb('discussion');
+      return delayedResponse(ctx.json(result));
+    } catch (error) {
+      return delayedResponse(ctx.status(400), ctx.json({ message: error.message }));
+    }
   }),
 
   rest.delete(`${API_URL}/discussions/:discussionId`, (req, res, ctx) => {
-    const user = requireAuth(req);
-    const { discussionId } = req.params;
-    requireAdmin(user);
-    const result = db.discussion.delete({
-      where: {
-        id: {
-          equals: discussionId,
+    try {
+      const user = requireAuth(req);
+      const { discussionId } = req.params;
+      requireAdmin(user);
+      const result = db.discussion.delete({
+        where: {
+          id: {
+            equals: discussionId,
+          },
         },
-      },
-    });
-    persistDb('discussion');
-    return delayedResponse(ctx.json(result));
+      });
+      persistDb('discussion');
+      return delayedResponse(ctx.json(result));
+    } catch (error) {
+      return delayedResponse(ctx.status(400), ctx.json({ message: error.message }));
+    }
   }),
 ];

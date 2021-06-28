@@ -3,12 +3,12 @@ import { render, screen, userEvent, waitFor } from '@/test/test-utils';
 
 import { RegisterForm } from '../components/RegisterForm';
 
-test('should register new user and call onRegister cb which should navigate the user to the app', async () => {
+test('should register new user and call onSuccess cb which should navigate the user to the app', async () => {
   const newUser = userGenerator({});
 
-  const onRegister = jest.fn();
+  const onSuccess = jest.fn();
 
-  await render(<RegisterForm onRegister={onRegister} />, { user: null });
+  await render(<RegisterForm onSuccess={onSuccess} />, { user: null });
 
   userEvent.type(screen.getByLabelText(/first name/i), newUser.firstName);
   userEvent.type(screen.getByLabelText(/last name/i), newUser.lastName);
@@ -18,5 +18,5 @@ test('should register new user and call onRegister cb which should navigate the 
 
   userEvent.click(screen.getByRole('button', { name: /register/i }));
 
-  await waitFor(() => expect(onRegister).toHaveBeenCalledTimes(1));
+  await waitFor(() => expect(onSuccess).toHaveBeenCalledTimes(1));
 });

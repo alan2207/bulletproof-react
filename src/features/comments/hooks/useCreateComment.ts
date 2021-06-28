@@ -31,7 +31,7 @@ export const useCreateComment = ({ config, discussionId }: UseCreateCommentOptio
         queryClient.setQueryData(['comments', discussionId], context.previousComments);
       }
     },
-    onSettled: () => {
+    onSuccess: () => {
       queryClient.invalidateQueries(['comments', discussionId]);
       addNotification({
         type: 'success',

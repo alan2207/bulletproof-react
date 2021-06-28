@@ -27,7 +27,7 @@ export const useCreateDiscussion = ({ config }: UseCreateDiscussionOptions = {})
         queryClient.setQueryData('discussions', context.previousDiscussions);
       }
     },
-    onSettled: () => {
+    onSuccess: () => {
       queryClient.invalidateQueries('discussions');
       addNotification({
         type: 'success',

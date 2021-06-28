@@ -12,36 +12,48 @@ type TeamBody = {
 
 export const teamsHandlers = [
   rest.get(`${API_URL}/team`, (req, res, ctx) => {
-    const user = requireAuth(req);
+    try {
+      const user = requireAuth(req);
 
-    const result = db.team.findFirst({
-      where: {
-        id: {
-          equals: user.teamId,
+      const result = db.team.findFirst({
+        where: {
+          id: {
+            equals: user.teamId,
+          },
         },
-      },
-    });
+      });
 
-    return delayedResponse(ctx.json(result));
+      return delayedResponse(ctx.json(result));
+    } catch (error) {
+      return delayedResponse(ctx.status(400), ctx.json({ message: error.message }));
+    }
   }),
 
   rest.get(`${API_URL}/teams`, (req, res, ctx) => {
-    const result = db.team.getAll();
-    return delayedResponse(ctx.json(result));
+    try {
+      const result = db.team.getAll();
+      return delayedResponse(ctx.json(result));
+    } catch (error) {
+      return delayedResponse(ctx.status(400), ctx.json({ message: error.message }));
+    }
   }),
 
   rest.patch<TeamBody>(`${API_URL}/team/:teamId`, (req, res, ctx) => {
-    const user = requireAuth(req);
-    const data = req.body;
-    requireAdmin(user);
-    const result = db.team.update({
-      where: {
-        id: user.teamId,
-      },
-      data,
-    });
-    persistDb('team');
+    try {
+      const user = requireAuth(req);
+      const data = req.body;
+      requireAdmin(user);
+      const result = db.team.update({
+        where: {
+          id: user.teamId,
+        },
+        data,
+      });
+      persistDb('team');
 
-    return delayedResponse(ctx.json(result));
+      return delayedResponse(ctx.json(result));
+    } catch (error) {
+      return delayedResponse(ctx.status(400), ctx.json({ message: error.message }));
+    }
   }),
 ];

@@ -11,7 +11,7 @@ const testData = {
 };
 
 const schema = z.object({
-  title: z.string().nonempty({ message: 'Required' }),
+  title: z.string().min(1, 'Required'),
 });
 
 test('should render and submit a basic Form component', async () => {

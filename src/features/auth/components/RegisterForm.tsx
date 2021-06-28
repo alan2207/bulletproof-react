@@ -8,12 +8,20 @@ import { Form, InputField, SelectField } from '@/components/Form';
 import { useTeams } from '@/features/teams';
 import { useAuth } from '@/lib/auth';
 
-const schema = z.object({
-  email: z.string().nonempty({ message: 'Required' }),
-  firstName: z.string().nonempty({ message: 'Required' }),
-  lastName: z.string().nonempty({ message: 'Required' }),
-  password: z.string().nonempty({ message: 'Required' }),
-});
+const schema = z
+  .object({
+    email: z.string().min(1, 'Required'),
+    firstName: z.string().min(1, 'Required'),
+    lastName: z.string().min(1, 'Required'),
+    password: z.string().min(1, 'Required'),
+  })
+  .and(
+    z
+      .object({
+        teamId: z.string().min(1, 'Required'),
+      })
+      .or(z.object({ teamName: z.string().min(1, 'Required') }))
+  );
 
 type RegisterValues = {
   firstName: string;
@@ -25,10 +33,10 @@ type RegisterValues = {
 };
 
 type RegisterFormProps = {
-  onRegister: () => void;
+  onSuccess: () => void;
 };
 
-export const RegisterForm = ({ onRegister }: RegisterFormProps) => {
+export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
   const { register, isRegistering } = useAuth();
   const [chooseTeam, setChooseTeam] = React.useState(false);
 
@@ -43,9 +51,12 @@ export const RegisterForm = ({ onRegister }: RegisterFormProps) => {
       <Form<RegisterValues, typeof schema>
         onSubmit={async (values) => {
           await register(values);
-          onRegister();
+          onSuccess();
         }}
         schema={schema}
+        options={{
+          shouldUnregister: true,
+        }}
       >
         {({ register, formState }) => (
           <>

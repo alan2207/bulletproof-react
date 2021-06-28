@@ -33,7 +33,7 @@ export const Drawer = ({
       <Dialog
         as="div"
         static
-        className="fixed inset-0 overflow-hidden z-50"
+        className="fixed inset-0 overflow-hidden z-40"
         open={isOpen}
         onClose={onClose}
       >

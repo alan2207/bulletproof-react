@@ -10,7 +10,7 @@ The development of this project is driven by mocking API server and the data wit
 
   - `ADMIN` can:
     - create/edit/delete discussions
-    - create/delete all comments
+    - create/delete own comments
     - delete users
     - edit own profile
   - `USER` - can:
