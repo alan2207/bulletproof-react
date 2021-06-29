@@ -44,6 +44,7 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
+    "test:coverage": "CI=1 yarn test -- --coverage",
     "eject": "react-scripts eject",
     "lint": "eslint --fix --ext .js,.ts,.tsx --ignore-path .gitignore ./src",
     "prettier": "prettier --ignore-path .gitignore --write \"**/*.+(js|json|ts|tsx)\"",
@@ -91,10 +92,12 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-import-resolver-typescript": "^2.4.0",
     "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jest-dom": "^3.9.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-testing-library": "^4.6.0",
     "faker": "^5.5.3",
     "husky": "^6.0.0",
     "lint-staged": "^11.0.0",
@@ -113,7 +116,12 @@
   "jest": {
     "moduleNameMapper": {
       "^@/(.+)": "<rootDir>/src/$1"
-    }
+    },
+    "coveragePathIgnorePatterns": [
+      "node_modules",
+      "<rootDir>/src/index.tsx",
+      "<rootDir>/src/test"
+    ]
   },
   "eslintConfig": {
     "overrides": [
