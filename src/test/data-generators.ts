@@ -2,7 +2,7 @@ import faker from 'faker';
 
 type Overrides = Record<string, any>;
 
-export const userGenerator = (overrides: Overrides) => ({
+export const userGenerator = (overrides?: Overrides) => ({
   id: faker.datatype.uuid(),
   firstName: faker.internet.userName(),
   lastName: faker.internet.userName(),
@@ -15,21 +15,21 @@ export const userGenerator = (overrides: Overrides) => ({
   ...overrides,
 });
 
-export const teamGenerator = (overrides: Overrides) => ({
+export const teamGenerator = (overrides?: Overrides) => ({
   id: faker.datatype.uuid(),
   name: faker.company.companyName(),
   description: faker.lorem.sentence(),
   ...overrides,
 });
 
-export const discussionGenerator = (overrides: Overrides) => ({
+export const discussionGenerator = (overrides?: Overrides) => ({
   id: faker.datatype.uuid(),
   title: faker.company.catchPhrase(),
   body: faker.lorem.sentence(),
   ...overrides,
 });
 
-export const commentGenerator = (overrides: Overrides) => ({
+export const commentGenerator = (overrides?: Overrides) => ({
   id: faker.datatype.uuid(),
   body: faker.lorem.sentence(),
   createdAt: Date().toString(),

@@ -2,7 +2,7 @@ import { PlusIcon } from '@heroicons/react/outline';
 import * as z from 'zod';
 
 import { Button } from '@/components/Elements';
-import { Form, MDField } from '@/components/Form';
+import { Form, TextAreaField } from '@/components/Form';
 import { FormDrawer } from '@/components/Form/FormDrawer';
 
 import { useCreateComment } from '../hooks/useCreateComment';
@@ -52,8 +52,12 @@ export const CreateComment = ({ discussionId }: CreateCommentProps) => {
           }}
           schema={schema}
         >
-          {({ control, formState }) => (
-            <MDField name="body" control={control} error={formState.errors['body']} label="Body" />
+          {({ register, formState }) => (
+            <TextAreaField
+              label="Body"
+              error={formState.errors['body']}
+              registration={register('body')}
+            />
           )}
         </Form>
       </FormDrawer>

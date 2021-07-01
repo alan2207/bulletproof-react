@@ -2,7 +2,7 @@ import { PlusIcon } from '@heroicons/react/outline';
 import * as z from 'zod';
 
 import { Button } from '@/components/Elements';
-import { Form, InputField, MDField } from '@/components/Form';
+import { Form, InputField, TextAreaField } from '@/components/Form';
 import { FormDrawer } from '@/components/Form/FormDrawer';
 import { RBAC, ROLES } from '@/lib/rbac';
 
@@ -49,7 +49,7 @@ export const CreateDiscussion = () => {
           }}
           schema={schema}
         >
-          {({ register, formState, control }) => (
+          {({ register, formState }) => (
             <>
               <InputField
                 label="Title"
@@ -57,11 +57,10 @@ export const CreateDiscussion = () => {
                 registration={register('title')}
               />
 
-              <MDField
-                name="body"
+              <TextAreaField
                 label="Body"
                 error={formState.errors['body']}
-                control={control}
+                registration={register('body')}
               />
             </>
           )}

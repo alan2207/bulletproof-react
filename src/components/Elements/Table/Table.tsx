@@ -42,7 +42,10 @@ export const Table = <Entry extends { id: string }>({ data, columns }: TableProp
               </thead>
               <tbody>
                 {data.map((entry, entryIndex) => (
-                  <tr key={entry?.id} className={entryIndex % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
+                  <tr
+                    key={entry?.id || entryIndex}
+                    className={entryIndex % 2 === 0 ? 'bg-white' : 'bg-gray-100'}
+                  >
                     {columns.map(({ Cell, field, title }, columnIndex) => (
                       <td
                         key={title + columnIndex}

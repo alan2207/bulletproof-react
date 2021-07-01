@@ -5,7 +5,7 @@ import { FunctionComponent } from 'react';
 import { AppProvider } from '@/context';
 import storage from '@/utils/storage';
 
-import { userGenerator } from './data-generators';
+import { discussionGenerator, userGenerator } from './data-generators';
 import { db } from './server/db';
 import { authenticate, hash } from './server/utils';
 
@@ -15,8 +15,13 @@ export const createUser = async (userProperties?: any) => {
   return user;
 };
 
-export const loginAsUser = async (userProperties?: any) => {
-  const user = await createUser(userProperties);
+export const createDiscussion = async (discussionProperties?: any) => {
+  const discussion = discussionGenerator(discussionProperties);
+  const res = await db.discussion.create(discussion);
+  return res;
+};
+
+export const loginAsUser = async (user: any) => {
   const authUser = await authenticate(user);
   storage.setToken(authUser.jwt);
   return authUser;
@@ -28,13 +33,24 @@ export const waitForLoadingToFinish = () =>
     { timeout: 4000 }
   );
 
+const initializeUser = async (user: any) => {
+  if (typeof user === 'undefined') {
+    return await loginAsUser(await createUser());
+  } else if (user) {
+    return await loginAsUser(user);
+  } else {
+    return null;
+  }
+};
+
 // eslint-disable-next-line import/export
 export const render = async (
   ui: any,
   { route = '/', user, ...renderOptions }: Record<string, any> = {}
 ) => {
   // if you want to render the app unauthenticated then pass "null" as the user
-  user = typeof user === 'undefined' ? await loginAsUser() : user;
+  user = await initializeUser(user);
+
   window.history.pushState({}, 'Test page', route);
 
   const returnValue = {

@@ -2,7 +2,7 @@ import { PencilIcon } from '@heroicons/react/solid';
 import * as z from 'zod';
 
 import { Button } from '@/components/Elements';
-import { Form, InputField, MDField } from '@/components/Form';
+import { Form, InputField, TextAreaField } from '@/components/Form';
 import { FormDrawer } from '@/components/Form/FormDrawer';
 import { RBAC, ROLES } from '@/lib/rbac';
 
@@ -60,18 +60,17 @@ export const UpdateDiscussion = ({ discussionId }: UpdateDiscussionProps) => {
           }}
           schema={schema}
         >
-          {({ register, formState, control }) => (
+          {({ register, formState }) => (
             <>
               <InputField
                 label="Title"
                 error={formState.errors['title']}
                 registration={register('title')}
               />
-              <MDField
-                name="body"
+              <TextAreaField
                 label="Body"
                 error={formState.errors['body']}
-                control={control}
+                registration={register('body')}
               />
             </>
           )}
