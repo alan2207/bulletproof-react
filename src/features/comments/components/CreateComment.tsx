@@ -27,7 +27,6 @@ export const CreateComment = ({ discussionId }: CreateCommentProps) => {
           </Button>
         }
         title="Create Comment"
-        size="xl"
         submitButton={
           <Button
             isLoading={createCommentMutation.isLoading}

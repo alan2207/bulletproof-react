@@ -26,17 +26,21 @@ export const CommentsList = ({ discussionId }: CommentsListProps) => {
   if (!commentsQuery.data) return <div>No Comments</div>;
 
   return (
-    <div className="flex flex-col space-y-3">
-      {commentsQuery.data.map((comment) => (
-        <div key={comment.id} className="w-full bg-white shadow-sm p-4">
+    <ul aria-label="comments" className="flex flex-col space-y-3">
+      {commentsQuery.data.map((comment, index) => (
+        <li
+          aria-label={`comment-${comment.id || index}`}
+          key={comment.id || index}
+          className="w-full bg-white shadow-sm p-4"
+        >
           {comment.authorId === user?.id && (
             <div className="flex justify-end">
               <DeleteComment discussionId={discussionId} id={comment.id} />
             </div>
           )}
           <MDPreview value={comment.body} />
-        </div>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 };

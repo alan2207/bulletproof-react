@@ -12,6 +12,7 @@ export type ConfirmationDialogProps = {
   body?: string;
   cancelButtonText?: string;
   icon?: 'danger' | 'info';
+  isDone?: boolean;
 };
 
 export const ConfirmationDialog = ({
@@ -21,20 +22,20 @@ export const ConfirmationDialog = ({
   body = '',
   cancelButtonText = 'Cancel',
   icon = 'danger',
+  isDone = false,
 }: ConfirmationDialogProps) => {
   const { close, open, isOpen } = useDisclosure();
 
   const cancelButtonRef = React.useRef(null);
 
+  React.useEffect(() => {
+    if (isDone) {
+      close();
+    }
+  }, [isDone, close]);
+
   const trigger = React.cloneElement(triggerButton, {
     onClick: open,
-  });
-
-  const confirmation = React.cloneElement(confirmButton, {
-    onClick: async (event: React.MouseEvent<HTMLButtonElement>) => {
-      await confirmButton.props.onClick?.(event);
-      close();
-    },
   });
 
   return (
@@ -75,7 +76,7 @@ export const ConfirmationDialog = ({
             >
               {cancelButtonText}
             </Button>
-            {confirmation}
+            {confirmButton}
           </div>
         </div>
       </Dialog>

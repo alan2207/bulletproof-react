@@ -14,6 +14,7 @@ export const DeleteComment = ({ id, discussionId }: DeleteCommentProps) => {
 
   return (
     <ConfirmationDialog
+      isDone={deleteCommentMutation.isSuccess}
       icon="danger"
       title="Delete Comment"
       body="Are you sure you want to delete this comment?"
@@ -24,10 +25,10 @@ export const DeleteComment = ({ id, discussionId }: DeleteCommentProps) => {
       }
       confirmButton={
         <Button
-          disabled={deleteCommentMutation.isLoading}
+          isLoading={deleteCommentMutation.isLoading}
           type="button"
           className="bg-red-600"
-          onClick={() => deleteCommentMutation.mutate({ commentId: id })}
+          onClick={async () => await deleteCommentMutation.mutateAsync({ commentId: id })}
         >
           Delete
         </Button>

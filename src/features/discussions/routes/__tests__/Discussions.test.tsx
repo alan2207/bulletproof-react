@@ -3,7 +3,15 @@ import { render, screen, userEvent, waitFor, within } from '@/test/test-utils';
 
 import { Discussions } from '../Discussions';
 
-test('should create and render discussions', async () => {
+beforeAll(() => {
+  jest.spyOn(console, 'error').mockImplementation(() => {});
+});
+
+afterAll(() => {
+  (console.error as jest.Mock).mockRestore();
+});
+
+test('should create, render and delete discussions', async () => {
   await render(<Discussions />);
 
   const newDiscussion = discussionGenerator();
@@ -30,9 +38,37 @@ test('should create and render discussions', async () => {
 
   await waitFor(() => expect(drawer).not.toBeInTheDocument());
 
+  const row = screen.getByRole('row', {
+    name: `${newDiscussion.title} View Delete`,
+  });
+
   expect(
-    screen.getByRole('cell', {
+    within(row).getByRole('cell', {
       name: newDiscussion.title,
     })
   ).toBeInTheDocument();
+
+  userEvent.click(
+    within(row).getByRole('button', {
+      name: /delete/i,
+    })
+  );
+
+  const confirmationDialog = screen.getByRole('dialog', {
+    name: /delete discussion/i,
+  });
+
+  const confirmationDeleteButton = within(confirmationDialog).getByRole('button', {
+    name: /delete/i,
+  });
+
+  userEvent.click(confirmationDeleteButton);
+
+  await screen.findByText(/discussion deleted/i);
+
+  expect(
+    within(row).queryByRole('cell', {
+      name: newDiscussion.title,
+    })
+  ).not.toBeInTheDocument();
 });

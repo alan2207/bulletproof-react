@@ -22,7 +22,7 @@ export const DeleteDiscussion = ({ id }: DeleteDiscussionProps) => {
             isLoading={deleteDiscussionMutation.isLoading}
             type="button"
             className="bg-red-600"
-            onClick={() => deleteDiscussionMutation.mutate({ discussionId: id })}
+            onClick={async () => await deleteDiscussionMutation.mutateAsync({ discussionId: id })}
           >
             Delete
           </Button>
