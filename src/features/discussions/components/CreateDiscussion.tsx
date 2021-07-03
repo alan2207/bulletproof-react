@@ -2,8 +2,7 @@ import { PlusIcon } from '@heroicons/react/outline';
 import * as z from 'zod';
 
 import { Button } from '@/components/Elements';
-import { Form, InputField, TextAreaField } from '@/components/Form';
-import { FormDrawer } from '@/components/Form/FormDrawer';
+import { Form, FormDrawer, InputField, TextAreaField } from '@/components/Form';
 import { RBAC, ROLES } from '@/lib/rbac';
 
 import { useCreateDiscussion } from '../hooks/useCreateDiscussion';

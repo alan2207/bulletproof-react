@@ -2,8 +2,7 @@ import { PlusIcon } from '@heroicons/react/outline';
 import * as z from 'zod';
 
 import { Button } from '@/components/Elements';
-import { Form, TextAreaField } from '@/components/Form';
-import { FormDrawer } from '@/components/Form/FormDrawer';
+import { Form, FormDrawer, TextAreaField } from '@/components/Form';
 
 import { useCreateComment } from '../hooks/useCreateComment';
 

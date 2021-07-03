@@ -2,8 +2,7 @@ import { PencilIcon } from '@heroicons/react/solid';
 import * as z from 'zod';
 
 import { Button } from '@/components/Elements';
-import { Form, InputField, TextAreaField } from '@/components/Form';
-import { FormDrawer } from '@/components/Form/FormDrawer';
+import { Form, FormDrawer, InputField, TextAreaField } from '@/components/Form';
 import { RBAC, ROLES } from '@/lib/rbac';
 
 import { useDiscussion } from '../hooks/useDiscussion';

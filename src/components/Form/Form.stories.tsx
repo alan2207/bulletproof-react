@@ -6,7 +6,6 @@ import { Button } from '../Elements';
 import { Form } from './Form';
 import { FormDrawer } from './FormDrawer';
 import { InputField } from './InputField';
-import { MDField } from './MDField';
 import { SelectField } from './SelectField';
 import { TextAreaField } from './TextareaField';
 
@@ -25,7 +24,7 @@ const MyForm = ({ hideSubmit = false }: { hideSubmit?: boolean }) => {
       }}
       id="my-form"
     >
-      {({ register, formState, control }) => (
+      {({ register, formState }) => (
         <>
           <InputField
             label="Title"
@@ -45,12 +44,6 @@ const MyForm = ({ hideSubmit = false }: { hideSubmit?: boolean }) => {
               label: type,
               value: type,
             }))}
-          />
-          <MDField
-            name="content"
-            control={control}
-            error={formState.errors['content']}
-            label="Content"
           />
 
           {!hideSubmit && (

@@ -1,6 +1,5 @@
 import 'react-markdown-editor-lite/lib/index.css';
-import { Spinner } from '@/components/Elements';
-import { MDPreview } from '@/components/Elements/MDPreview';
+import { Spinner, MDPreview } from '@/components/Elements';
 import { useAuth } from '@/lib/auth';
 
 import { useDiscussionComments } from '../hooks/useDiscussionComments';
