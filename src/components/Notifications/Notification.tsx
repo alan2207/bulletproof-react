@@ -42,7 +42,7 @@ export const Notification = ({
         leaveTo="opacity-0"
       >
         <div className="max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden">
-          <div className="p-4">
+          <div className="p-4" role="alert" aria-label={title}>
             <div className="flex items-start">
               <div className="flex-shrink-0">{icons[type]}</div>
               <div className="ml-3 w-0 flex-1 pt-0.5">

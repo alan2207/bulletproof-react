@@ -28,7 +28,7 @@ export const CommentsList = ({ discussionId }: CommentsListProps) => {
     <ul aria-label="comments" className="flex flex-col space-y-3">
       {commentsQuery.data.map((comment, index) => (
         <li
-          aria-label={`comment-${comment.id || index}`}
+          aria-label={`comment-${comment.body}-${index}`}
           key={comment.id || index}
           className="w-full bg-white shadow-sm p-4"
         >
