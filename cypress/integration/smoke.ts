@@ -36,6 +36,31 @@ describe('smoke', () => {
       name: `Welcome ${user.firstName} ${user.lastName}`,
     }).should('exist');
 
+    // log out:
+    cy.findByRole('button', {
+      name: /open user menu/i,
+    }).click();
+
+    cy.findByRole('menuitem', {
+      name: /sign out/i,
+    }).click();
+
+    // log in:
+    cy.visit('http://localhost:3000/auth/login');
+
+    cy.findByRole('textbox', {
+      name: /email address/i,
+    }).type(user.email);
+    cy.findByLabelText(/password/i).type(user.password);
+
+    cy.findByRole('button', {
+      name: /log in/i,
+    }).click();
+
+    cy.findByRole('heading', {
+      name: `Welcome ${user.firstName} ${user.lastName}`,
+    }).should('exist');
+
     cy.findByRole('link', {
       name: /discussions/i,
     }).click();
@@ -56,12 +81,9 @@ describe('smoke', () => {
         name: /submit/i,
       }).click();
     });
-    cy.findByRole('alert', {
-      name: /discussion created/i,
-    }).within(() => {
-      cy.findByText(/discussion created/i).should('exist');
-      cy.findByRole('button').click();
-    });
+
+    cy.checkAndDismissNotification(/discussion created/i);
+
     cy.findByRole('dialog').should('not.exist');
 
     cy.wait(200);
@@ -79,8 +101,7 @@ describe('smoke', () => {
       name: discussion.title,
     }).should('exist');
 
-    // update
-
+    // update discussion:
     cy.findByRole('button', {
       name: /update discussion/i,
     }).click();
@@ -102,19 +123,14 @@ describe('smoke', () => {
         name: /submit/i,
       }).click();
     });
-    cy.findByRole('alert', {
-      name: /discussion updated/i,
-    }).within(() => {
-      cy.findByText(/discussion updated/i).should('exist');
-      cy.findByRole('button').click();
-    });
+
+    cy.checkAndDismissNotification(/discussion updated/i);
 
     cy.findByRole('heading', {
       name: updatedDiscussion.title,
     }).should('exist');
 
-    // create comment
-
+    // create comment:
     const comment = commentGenerator();
 
     cy.findByRole('button', {
@@ -130,12 +146,8 @@ describe('smoke', () => {
         name: /submit/i,
       }).click();
     });
-    cy.findByRole('alert', {
-      name: /comment created/i,
-    }).within(() => {
-      cy.findByText(/comment created/i).should('exist');
-      cy.findByRole('button').click();
-    });
+
+    cy.checkAndDismissNotification(/comment created/i);
 
     cy.findByRole('list', {
       name: 'comments',
@@ -145,8 +157,7 @@ describe('smoke', () => {
 
     cy.wait(200);
 
-    // delete comment
-
+    // delete comment:
     cy.findByRole('list', {
       name: 'comments',
     }).within(() => {
@@ -165,12 +176,7 @@ describe('smoke', () => {
       }).click();
     });
 
-    cy.findByRole('alert', {
-      name: /comment deleted/i,
-    }).within(() => {
-      cy.findByText(/comment deleted/i).should('exist');
-      cy.findByRole('button').click();
-    });
+    cy.checkAndDismissNotification(/comment deleted/i);
 
     cy.findByRole('list', {
       name: 'comments',
@@ -178,8 +184,7 @@ describe('smoke', () => {
       cy.findByText(comment.body).should('not.exist');
     });
 
-    // go back to discussions list
-
+    // go back to discussions list:
     cy.findByRole('link', {
       name: /discussions/i,
     }).click();
@@ -201,12 +206,7 @@ describe('smoke', () => {
       }).click();
     });
 
-    cy.findByRole('alert', {
-      name: /discussion deleted/i,
-    }).within(() => {
-      cy.findByText(/discussion deleted/i).should('exist');
-      cy.findByRole('button').click();
-    });
+    cy.checkAndDismissNotification(/discussion deleted/i);
 
     cy.findByRole('row', {
       name: `${updatedDiscussion.title} View Delete`,

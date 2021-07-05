@@ -24,3 +24,12 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 import '@testing-library/cypress/add-commands';
+
+Cypress.Commands.add('checkAndDismissNotification', (matcher) => {
+  cy.findByRole('alert', {
+    name: matcher,
+  }).within(() => {
+    cy.findByText(matcher).should('exist');
+    cy.findByRole('button').click();
+  });
+});

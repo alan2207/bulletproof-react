@@ -16,7 +16,7 @@ This is an attempt to present the way how I prefer to structure React applicatio
 
 The goal of this repo is to serve as a collection of good practices when developing React applications. It is supposed to showcase most of real-world problems in a practical way.
 
-## Roadmap
+## Includes
 
 - [x] Authentitication
 - [x] Authorization
@@ -28,10 +28,10 @@ The goal of this repo is to serve as a collection of good practices when develop
 - [x] Project structure
 - [x] TypeScript
 - [x] ESLint, Prettier, Husky setup
-- [ ] Testing
+- [x] Testing
 - [x] Storybook
 - [x] API Mocking
-- [ ] Appendix
+- [ ] CI/CD
 
 ### Available Scripts
 
