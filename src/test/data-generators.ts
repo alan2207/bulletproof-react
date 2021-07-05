@@ -1,4 +1,4 @@
-import faker from 'faker';
+import * as faker from 'faker';
 
 type Overrides = Record<string, any>;
 

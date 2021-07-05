@@ -1,19 +1,14 @@
-const faker = require('faker');
+import {
+  userGenerator,
+  discussionGenerator,
+  commentGenerator,
+} from '../../src/test/data-generators';
 
 describe('smoke', () => {
   it('should handle normal app flow', () => {
-    const user = {
-      firstName: faker.internet.userName(),
-      lastName: faker.internet.userName(),
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-      teamName: faker.company.companyName(),
-    };
+    const user = userGenerator();
 
-    const discussion = {
-      title: faker.company.catchPhrase(),
-      body: faker.lorem.sentence(),
-    };
+    const discussion = discussionGenerator();
 
     // registration:
     cy.visit('http://localhost:3000/auth/register');
@@ -90,10 +85,7 @@ describe('smoke', () => {
       name: /update discussion/i,
     }).click();
 
-    const updatedDiscussion = {
-      title: faker.company.catchPhrase(),
-      body: faker.lorem.sentence(),
-    };
+    const updatedDiscussion = discussionGenerator();
 
     cy.findByRole('dialog').within(() => {
       cy.findByRole('textbox', {
@@ -123,9 +115,7 @@ describe('smoke', () => {
 
     // create comment
 
-    const comment = {
-      body: faker.lorem.sentence(),
-    };
+    const comment = commentGenerator();
 
     cy.findByRole('button', {
       name: /create comment/i,
