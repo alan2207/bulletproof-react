@@ -1,5 +1,8 @@
 import * as React from 'react';
 
+import { Comment } from '@/features/comments';
+import { User } from '@/features/users';
+
 import { useAuth } from './auth';
 
 export enum ROLES {
@@ -9,15 +12,19 @@ export enum ROLES {
 
 type RoleTypes = keyof typeof ROLES;
 
-type RolesTypes =
-  | {
-      allowedRoles: RoleTypes[];
-      forbiddenRoles?: never;
+export const POLICIES = {
+  'comment:delete': (user: User, comment: Comment) => {
+    if (user.role === 'ADMIN') {
+      return true;
     }
-  | {
-      allowedRoles?: never;
-      forbiddenRoles: RoleTypes[];
-    };
+
+    if (user.role === 'USER' && comment.authorId === user.id) {
+      return true;
+    }
+
+    return false;
+  },
+};
 
 export const useRBAC = () => {
   const { user } = useAuth();
@@ -27,13 +34,9 @@ export const useRBAC = () => {
   }
 
   const checkAccess = React.useCallback(
-    ({ allowedRoles, forbiddenRoles }: RolesTypes) => {
+    ({ allowedRoles }: { allowedRoles: RoleTypes[] }) => {
       if (allowedRoles && allowedRoles.length > 0) {
         return allowedRoles?.includes(user.role);
-      }
-
-      if (forbiddenRoles && forbiddenRoles.length > 0) {
-        return !forbiddenRoles.includes(user.role);
       }
 
       return true;
@@ -41,18 +44,26 @@ export const useRBAC = () => {
     [user.role]
   );
 
-  return { checkAccess };
+  return { checkAccess, role: user.role };
 };
 
-type RBACProps =
+type RBACProps = {
+  forbiddenFallback?: React.ReactNode;
+  children: React.ReactNode;
+} & (
   | {
-      forbiddenFallback?: React.ReactNode;
-      children: React.ReactNode;
-    } & RolesTypes;
+      allowedRoles: RoleTypes[];
+      policyCheck?: never;
+    }
+  | {
+      allowedRoles?: never;
+      policyCheck: boolean;
+    }
+);
 
 export const RBAC = ({
+  policyCheck,
   allowedRoles,
-  forbiddenRoles,
   forbiddenFallback = null,
   children,
 }: RBACProps) => {
@@ -62,8 +73,10 @@ export const RBAC = ({
 
   if (allowedRoles) {
     canAccess = checkAccess({ allowedRoles });
-  } else if (forbiddenRoles) {
-    canAccess = checkAccess({ forbiddenRoles });
+  }
+
+  if (typeof policyCheck !== 'undefined') {
+    canAccess = policyCheck;
   }
 
   return <>{canAccess ? children : forbiddenFallback}</>;
