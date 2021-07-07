@@ -4,63 +4,34 @@
 
 A simple, scalable, and powerful architecture for building production ready React applications.
 
-## Motivation
+## Introduction
 
-React is an amazing tool for building feature rich applications. It has a very diverse eco-system with hundreds of libraries for literally anything you might need. Which is great, but in the other hand it can be overwhelming to be forced to make so many choices.
+React is an amazing tool for building frontends. It has a very diverse eco-system with hundreds of great libraries for literally anything you might need. However it can be overwhelming to be forced to make so many choices.
 
-It is also very flexible, you can write React applications in any way you like. That flexibility comes with a cost.
+It is also very flexible, you can write React applications in any way you like but that flexibility comes with a cost.
 
 There is no pre-defined architecture developers can to follow which often leads to messy, uncosistent or over-complicated codebases.
 
-This is an attempt to present the way how I prefer to structure React applications using the best tools in the eco-system and a good project structure.
+This is an attempt to present the way of creating React applications using the best tools in the eco-system and a good project structure that scales very well.
 
-The goal of this repo is to serve as a collection of good practices when developing React applications. It is supposed to showcase most of real-world problems in a practical way.
+The goal of this repo is to serve as a collection of good practices when developing React applications. It is supposed to showcase most of real-world problems of an application in a practical way.
 
-## Includes
+## Table Of Contents:
 
-- [x] Authentitication
-- [x] Authorization
-- [x] Routing
-- [x] Forms
-- [x] API calls
-- [x] Client related state
-- [x] Server related state
-- [x] Project structure
-- [x] TypeScript
-- [x] ESLint, Prettier, Husky setup
-- [x] Testing
-- [x] Storybook
-- [x] API Mocking
-- [ ] CI/CD
-
-### Available Scripts
-
-In the project directory, you can run:
-
-##### `yarn start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-##### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-##### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-##### `yarn eject`
+- [The Application](docs/application.md)
+- [Setup Overview](docs/setup-overview.md)
+- [Project Structure](docs/project-structure.md)
+- [Components And Styling](docs/components-and-styling.md)
+- [Forms](docs/forms.md)
+- [Routing](docs/routing.md)
+- [API Layer](docs/api-layer.md)
+- [UI State](docs/ui-state.md)
+- [Server Cache State](docs/server-cache-state.md)
+- [Auth](docs/auth.md)
+- [API Mock Server](docs/api-mock-server.md)
+- [Testing](docs/testing.md)
+- [Storybook](docs/storybook.md)
+- [Deployment](docs/deployment.md)
 
 ## License
 
