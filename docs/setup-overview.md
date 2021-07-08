@@ -2,11 +2,9 @@
 
 The application has been bootstraped using `Create React App` for simplicity reasons. It allows us to create applications quickly without dealing with complex tooling setup such as bundling, transpiling etc.
 
-For static analysis and code quality we are using ESLint, Prettier, TypeScript and Husky.
-
 ## Code Quality:
 
-Here are some of static analysis tools used in the app:
+For static analysis and code quality we are using ESLint, Prettier, TypeScript and Husky.
 
 #### ESLint
 
@@ -33,3 +31,35 @@ Usually the application is communicating with an external server API, however, i
 The backend API is built with mswjs, an amazing tool for quickly prototyping frontends without worrying about servers. It is not an actual backend, but a mocked server inside a service worker that intercepts all http requests and returns desired response based on the handlers we defined. Business logic can also be created in it's handlers. This is especially useful if you only have access to frontend and are blocked by some not implemented feature on the backend. This way you will not be forced to wait for the feature to be completed or harcode some objects or arrays in the code, but use actual http calls in order to build frontends.
 
 This is also handy when it comes to testing, we don't have to mock fetch, but make requests to the mocked server with the data we expect.
+
+## Absolute imports
+
+Absolute imports should always be configured and used because it makes it easier to move files around and avoid messy import paths such as `../../../Component`. Wherever you move the file, all the imports will remain intact. Here is how to configure it:
+
+For JavaScript projects:
+
+```
+// jsconfig.json
+"compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+```
+
+For TypeScript projects:
+
+```
+// tsconfig.json
+"compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+```
+
+In this project we have to create another tsconfig file `tsconfig.paths.json` where we configure this and merge it with the base configuration, because CRA will override it otherwise.
+
+It is also possible to define multiple paths for various folders, but using `@/*` works very good because it is short enough so there is no need to configure multiple paths and it differs from other modules so there is no confusion in what comes from `node_modules` and what is our source files. That means that anything in the `src` folder can be accessed via `@`, e.g some file that lives in `src/components/MyComponent` can be accessed using `@/components/MyComponents`.
