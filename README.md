@@ -18,8 +18,8 @@ The goal of this repo is to serve as a collection of good practices when develop
 
 ## Table Of Contents:
 
-- [The Application](docs/application.md)
-- [Setup Overview](docs/setup-overview.md)
+- [The Application Overview](docs/application-overview.md)
+- [Project Configuration](docs/project-configuration.md)
 - [Project Structure](docs/project-structure.md)
 - [Components And Styling](docs/components-and-styling.md)
 - [Forms](docs/forms.md)
@@ -30,8 +30,9 @@ The goal of this repo is to serve as a collection of good practices when develop
 - [Auth](docs/auth.md)
 - [API Mock Server](docs/api-mock-server.md)
 - [Testing](docs/testing.md)
-- [Storybook](docs/storybook.md)
-- [Deployment](docs/deployment.md)
+- [Error Handling](docs/error-handling.md)
+- [Performance](docs/performance.md)
+- [Production](docs/production.md)
 
 ## License
 

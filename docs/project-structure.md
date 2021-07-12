@@ -1,7 +1,5 @@
 # Project Structure
 
-The project structure is highly inspired by this [tweet](https://twitter.com/dan_abramov/status/1042364018848145408).
-
 Most of the code lives in the `src` folder and looks like this:
 
 ```
@@ -28,7 +26,7 @@ src
 +-- utils             # shared utility functions
 ```
 
-In order to scale the application in the easiest and most maintainable way, we have the `features` folder, that contains different feature-based modules. Every `feature` folder should contain domain specific code for a specific feature. This allows us to keep functionalities scoped to a feature and not mix it with shared things. This is much easier to maintain than a flat folder structure especially for medium and large projects because flat folders with many files get quickly out of control, the files are more difficult to find, etc.
+In order to scale the application in the easiest and most maintainable way, have the `features` folder, that contains different feature-based modules. Every `feature` folder should contain domain specific code for a specific feature. This allows to keep functionalities scoped to a feature and not mix it with shared things. This is much easier to maintain than a flat folder structure with many files.
 
 A feature could have the following structure:
 
@@ -54,10 +52,26 @@ The features could also contain other features(if used only within the parent fe
 
 Since `index.ts` behaves as the public API of the feature, it is good idea to import stuff from other features only by using:
 
-`import {AwesomeComponent} from "@features/awesome-feature" `js
+`import {AwesomeComponent} from "@/features/awesome-feature" `js
 
 and not
 
-`import {AwesomeComponent} from "@features/awesome-feature/components/AwesomeComponent`
+`import {AwesomeComponent} from "@/features/awesome-feature/components/AwesomeComponent`
 
-This was inspired by how [NX](https://nx.dev/) handles libraries and applications. We can think of a feature as a library that is self-contained but can expose different part to other features via it's entry point.
+This has also been configured in the ESLint configuration to disallow the later import by the following rule:
+
+```
+{
+    rules: {
+        'no-restricted-imports': [
+            'error',
+            {
+            patterns: ['@/features/*/*'],
+            },
+        ],
+
+    ...rest of the configuration
+}
+```
+
+This was inspired by how [NX](https://nx.dev/) handles libraries and applications. Think of a feature as a library or a module that is self-contained but can expose different part to other features via it's entry point.

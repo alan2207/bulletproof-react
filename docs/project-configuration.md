@@ -1,4 +1,4 @@
-# Setup Overview
+# Project Configuration
 
 The application has been bootstraped using `Create React App` for simplicity reasons. It allows us to create applications quickly without dealing with complex tooling setup such as bundling, transpiling etc.
 
