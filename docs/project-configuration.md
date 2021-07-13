@@ -6,9 +6,13 @@ The application has been bootstraped using `Create React App` for simplicity rea
 
 ESLint is a linting tool for JavaScript. By providing specific configuration defined in the`.eslintrc.js` file it prevents developers from making silly mistakes in their code and enforces consistency in the codebase.
 
+[Example Code](../.eslintrc.js)
+
 #### Prettier
 
 This is a great tool for formatting code. By utilising "format on save" feature in our IDE we can automatically format code based on the configuration provided in the `.prettierrc` file. It also gives us a good feedback when something is wrong with the code. If it doesn't auto-format we know something is wrong with the code.
+
+[Example Code](../.prettierrc)
 
 #### TypeScript
 
@@ -51,3 +55,5 @@ For TypeScript projects:
 In this project we have to create another tsconfig file `tsconfig.paths.json` where we configure this and merge it with the base configuration, because CRA will override it otherwise.
 
 It is also possible to define multiple paths for various folders, but using `@/*` works very good because it is short enough so there is no need to configure multiple paths and it differs from other modules so there is no confusion in what comes from `node_modules` and what is our source files. That means that anything in the `src` folder can be accessed via `@`, e.g some file that lives in `src/components/MyComponent` can be accessed using `@/components/MyComponents`.
+
+[Example Code](../tsconfig.json)

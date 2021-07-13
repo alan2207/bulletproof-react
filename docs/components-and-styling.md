@@ -2,7 +2,7 @@
 
 ### Abstract shared components
 
-For larger projects, it is good idea to build abstractions around the shared components. It makes the application more consistent and easier to maintain. It is a good idea identify repetitions before creating the components in order to avoid wrong abstractions.
+For larger projects, it is good idea to build abstractions around the shared components. It makes the application more consistent and easier to maintain. Identify repetitions before creating the components in order to avoid wrong abstractions.
 
 It is a good idea to wrap 3rd party components as well in order to adapt them to the applications needs. It might be easier to make the underlying changes in the future without affecting the application's functionality.
 
@@ -33,9 +33,13 @@ function Component() {
 }
 ```
 
+### Consistency
+
+Keep your style consistent. It is preferrable to keep component files pascal-cased. If you define your components with arrow functions, do it everywhere.
+
 ### Limit number of props a component is accepting as input
 
-If your component accepts more than 4-5 props, it is a good idea to accept a single prop instead which is an object containing all of the config properties.
+If your component accepts more than 4-5 props, it is a good idea to accept a single prop instead which is an object containing all of the config properties or even better, split it into multiple components.
 
 ### Component libraries
 
@@ -76,7 +80,7 @@ There are multiple ways to style a react application. Some of the good options a
 
 - ChakraUI + emotion
 - RadixUI + stitches
-- HeadlessUI + Tailwind
+- HeadlessUI + tailwind
 
 ### Storybook
 
