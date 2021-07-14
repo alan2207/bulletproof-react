@@ -13,7 +13,7 @@ There is no pre-defined architecture developers can to follow which often leads 
 
 This is an attempt to present the way of creating React applications using the best tools in the eco-system and a good project structure that scales very well.
 
-The goal of this repo is to serve as a collection of good practices when developing React applications. It is supposed to showcase most of real-world problems of an application in a practical way.
+The goal of this repo is to serve as a collection of good practices when developing React applications. It is supposed to showcase most of real-world problems of an application in a practical way. It is based on the experience on working with many different codebases, and this turns out to be the most effective one.
 
 Feel free to explore the codebase to get most of it.
 
@@ -31,9 +31,10 @@ Feel free to explore the codebase to get most of it.
 - [Testing](docs/testing.md)
 - [Error Handling](docs/error-handling.md)
 - [Performance](docs/performance.md)
-- [Production](docs/production.md)
 
 ## Contributing
+
+Contributions are always welcome! You can contribute to this repo by:
 
 1. Clone this repo
 2. Create a branch: `git checkout -b your-feature`

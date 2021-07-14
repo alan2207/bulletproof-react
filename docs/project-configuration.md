@@ -8,13 +8,13 @@ You should always configure and use the following tools:
 
 ESLint is a linting tool for JavaScript. By providing specific configuration defined in the`.eslintrc.js` file it prevents developers from making silly mistakes in their code and enforces consistency in the codebase.
 
-[Example Code](../.eslintrc.js)
+[ESLint Configuration Example Code](../.eslintrc.js)
 
 #### Prettier
 
 This is a great tool for formatting code. By utilising "format on save" feature in our IDE you can automatically format the code based on the configuration provided in the `.prettierrc` file. It also gives us a good feedback when something is wrong with the code. If it doesn't auto-format, something is wrong with the code.
 
-[Example Code](../.prettierrc)
+[Prettier Configuration Example Code](../.prettierrc)
 
 #### TypeScript
 
@@ -52,10 +52,8 @@ For TypeScript projects:
   }
 ```
 
-[Example Code](../tsconfig.paths.json)
+[Paths Configuration Example Code](../tsconfig.paths.json)
 
 In this project we have to create another tsconfig file `tsconfig.paths.json` where we configure this and merge it with the base configuration, because CRA will override it otherwise.
 
 It is also possible to define multiple paths for various folders, but using `@/*` works very good because it is short enough so there is no need to configure multiple paths and it differs from other modules so there is no confusion in what comes from `node_modules` and what is our source files. That means that anything in the `src` folder can be accessed via `@`, e.g some file that lives in `src/components/MyComponent` can be accessed using `@/components/MyComponents`.
-
-[Example Code](../tsconfig.json)

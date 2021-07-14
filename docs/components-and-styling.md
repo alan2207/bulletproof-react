@@ -37,17 +37,17 @@ Keep your code style consistent. e.g If you name your components by using pascal
 
 If your component accepts a lot of props you might consider splitting it into multiple components or use composition.
 
-[Example Code](../src/components/Elements/ConfirmationDialog/ConfirmationDialog.tsx)
+[Composition Example Code](../src/components/Elements/ConfirmationDialog/ConfirmationDialog.tsx)
 
-#### Abstract shared components
+#### Abstract shared components into a component library
 
 For larger projects, it is good idea to build abstractions around the shared components. It makes the application more consistent and easier to maintain. Identify repetitions before creating the components in order to avoid wrong abstractions.
 
-[Example Code](../src/components/Elements/Button/Button.tsx)
+[Component Library Example Code](../src/components/Elements/Button/Button.tsx)
 
 It is a good idea to wrap 3rd party components as well in order to adapt them to the applications needs. It might be easier to make the underlying changes in the future without affecting the application's functionality.
 
-[Example Code](../src/components/Elements/Link/Link.tsx)
+[3rd Party Component Example Code](../src/components/Elements/Link/Link.tsx)
 
 ## Component libraries
 
@@ -92,4 +92,4 @@ There are multiple ways to style a react application. Some of the good options a
 
 [Storybook](https://storybook.js.org/) is a great tool for developing and testing components in isolation. Think of it as a catalogue of all the components your application is using. Very useful especially for larger projects because it helps inspecting components.
 
-[Example Code](../src/components/Elements/Button/Button.stories.tsx)
+[Storybook Story Example Code](../src/components/Elements/Button/Button.stories.tsx)

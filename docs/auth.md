@@ -11,11 +11,11 @@ Authentication is a process of identifying who the user is. The most popular way
 User info should be considered a global piece of state which should be available from anywhere in the application.
 If you are already using `react-query`, you can use [react-query-auth](https://github.com/alan2207/react-query-auth) library for handling user state which will handle all the things for you after you provide it some configuration. Otherwise you can use react context + hooks, or some 3rd party state management library. You can find a practical example at [`src/lib/auth.tsx`](../src/lib/auth.tsx).
 
-[Example Code](../src/lib/auth.tsx)
+[Auth Configuration Example Code](../src/lib/auth.tsx)
 
 The application will assume the user is authenticated if a user object is present.
 
-[Example Code](../src/routes/index.tsx)
+[Authenticated Route Protection Example Code](../src/routes/index.tsx)
 
 ### Authorization
 
@@ -25,7 +25,7 @@ Authorization is a process of determining if the user is allowed to access a res
 
 The most common method. Define allowed roles for a resource and then check if a user has the allowed role in order to access a resource. Good example is `USER` and `ADMIN` roles. You want to restrict some things for users and let admins access it.
 
-[Example Code](../src/features/discussions/components/CreateDiscussion.tsx)
+[RBAC Example Code](../src/features/discussions/components/CreateDiscussion.tsx)
 
 #### PBAC (Permission based access control)
 
@@ -35,4 +35,4 @@ For apractical example you can check [`src/lib/rbac.tsx`](../src/lib/rbac.tsx)
 
 For RBAC protection you can use the `RBAC` component by passing allowed roles to it. On the other hand if you need more strict protection, you can pass policies check to it.
 
-[Example Code](../src/features/comments/components/CommentsList.tsx)
+[PBAC Example Code](../src/features/comments/components/CommentsList.tsx)
