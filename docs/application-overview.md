@@ -2,9 +2,11 @@
 
 The application is very simple. Users can create teams where other users can join, and they can run discussions on different topics between each other.
 
+A team is created during the registration if the user didn't chose to join an existing team and the user becomes the admin of it.
+
 ## Data model
 
-The development of this project is driven by mocking API server and the data with msw. It contains the following models:
+The application contains the following models:
 
 - User - can have one of these roles:
 
@@ -26,7 +28,7 @@ The development of this project is driven by mocking API server and the data wit
 
 ## Get Started
 
-To run the app, first create a `.env` file with the right variables - you can check `.env.example` and copy that.
+To run the app, first create a `.env` file with the right variables - you can check `.env.example` and copy it's content.
 
 ##### `yarn start`
 

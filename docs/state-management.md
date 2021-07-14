@@ -8,9 +8,9 @@ This is the state that controls interactive parts of an application. Opening mod
 
 Good UI State Libraries:
 
-- Context + hooks
-- [constate](https://github.com/diegohaz/constate)
+- [Context](https://reactjs.org/docs/context.html) + [hooks](https://reactjs.org/docs/hooks-intro.html)
 - [zustand](https://github.com/pmndrs/zustand)
+- [constate](https://github.com/diegohaz/constate)
 - [redux](https://redux.js.org/)
 - [mobx](https://mobx.js.org)
 - [jotai](https://github.com/pmndrs/jotai)

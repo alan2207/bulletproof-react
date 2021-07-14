@@ -6,7 +6,7 @@ There are 2 parts of Auth:
 
 ### Authentication
 
-Authentication is a process of identifying who the user is. The most popular way of authenticating users is via [JWT](https://jwt.io/). During logging in you receive a token that you store in `localStorage` or a cookie, and than on each authenticated request you send the token in the header along with the request.
+Authentication is a process of identifying who the user is. The most popular way of authenticating users is via [JWT](https://jwt.io/). During logging in / registration you receive a token that you store in `localStorage` or a cookie, and then on each authenticated request you send the token in the header along with the request.
 
 User info should be considered a global piece of state which should be available from anywhere in the application.
 If you are already using `react-query`, you can use [react-query-auth](https://github.com/alan2207/react-query-auth) library for handling user state which will handle all the things for you after you provide it some configuration. Otherwise you can use react context + hooks, or some 3rd party state management library. You can find a practical example at [`src/lib/auth.tsx`](../src/lib/auth.tsx).
@@ -19,11 +19,11 @@ The application will assume the user is authenticated if a user object is presen
 
 ### Authorization
 
-Authorization is a process of determining if the user has the right permissions to access a resource. There are more than 1 methods of authorizations.
+Authorization is a process of determining if the user is allowed to access a resource.
 
 #### RBAC (Role based access control)
 
-The most common method. Define allowed roles for a resource and then check if a user has allowed role in order to access a resource. Good example is `USER` and `ADMIN` roles. You want to restrict some things for users and let admins access it.
+The most common method. Define allowed roles for a resource and then check if a user has the allowed role in order to access a resource. Good example is `USER` and `ADMIN` roles. You want to restrict some things for users and let admins access it.
 
 [Example Code](../src/features/discussions/components/CreateDiscussion.tsx)
 
