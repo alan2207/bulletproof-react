@@ -24,9 +24,10 @@ export const POLICIES = {
 
     return false;
   },
+  x: (x: boolean) => x,
 };
 
-export const useRBAC = () => {
+export const useAuthorization = () => {
   const { user } = useAuth();
 
   if (!user) {
@@ -47,7 +48,7 @@ export const useRBAC = () => {
   return { checkAccess, role: user.role };
 };
 
-type RBACProps = {
+type AuthorizationProps = {
   forbiddenFallback?: React.ReactNode;
   children: React.ReactNode;
 } & (
@@ -61,13 +62,13 @@ type RBACProps = {
     }
 );
 
-export const RBAC = ({
+export const Authorization = ({
   policyCheck,
   allowedRoles,
   forbiddenFallback = null,
   children,
-}: RBACProps) => {
-  const { checkAccess } = useRBAC();
+}: AuthorizationProps) => {
+  const { checkAccess } = useAuthorization();
 
   let canAccess = false;
 

@@ -1,6 +1,6 @@
 import { ContentLayout } from '@/components/Layout';
 import { useAuth } from '@/lib/auth';
-import { ROLES } from '@/lib/rbac';
+import { ROLES } from '@/lib/authorization';
 
 export const Dashboard = () => {
   const { user } = useAuth();

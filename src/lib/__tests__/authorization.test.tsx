@@ -1,6 +1,6 @@
 import { createUser, render, screen } from '@/test/test-utils';
 
-import { RBAC, ROLES } from '../rbac';
+import { Authorization, ROLES } from '../authorization';
 
 test('should view protected resource if user role is matching', async () => {
   const user = await createUser({
@@ -9,7 +9,9 @@ test('should view protected resource if user role is matching', async () => {
 
   const protectedResource = 'This is very confidential data';
 
-  await render(<RBAC allowedRoles={[ROLES.ADMIN]}>{protectedResource}</RBAC>, { user });
+  await render(<Authorization allowedRoles={[ROLES.ADMIN]}>{protectedResource}</Authorization>, {
+    user,
+  });
 
   expect(screen.getByText(protectedResource)).toBeInTheDocument();
 });
@@ -23,9 +25,9 @@ test('should not view protected resource if user role does not match and show fa
 
   const forbiddenMessage = 'You are unauthorized to view this resource';
   await render(
-    <RBAC forbiddenFallback={<div>{forbiddenMessage}</div>} allowedRoles={[ROLES.ADMIN]}>
+    <Authorization forbiddenFallback={<div>{forbiddenMessage}</div>} allowedRoles={[ROLES.ADMIN]}>
       {protectedResource}
-    </RBAC>,
+    </Authorization>,
     { user }
   );
 
@@ -41,7 +43,7 @@ test('should view protected resource if policy check passes', async () => {
 
   const protectedResource = 'This is very confidential data';
 
-  await render(<RBAC policyCheck={true}>{protectedResource}</RBAC>, { user });
+  await render(<Authorization policyCheck={true}>{protectedResource}</Authorization>, { user });
 
   expect(screen.getByText(protectedResource)).toBeInTheDocument();
 });
@@ -55,9 +57,9 @@ test('should not view protected resource if policy check fails and show fallback
 
   const forbiddenMessage = 'You are unauthorized to view this resource';
   await render(
-    <RBAC forbiddenFallback={<div>{forbiddenMessage}</div>} policyCheck={false}>
+    <Authorization forbiddenFallback={<div>{forbiddenMessage}</div>} policyCheck={false}>
       {protectedResource}
-    </RBAC>,
+    </Authorization>,
     { user }
   );
 

@@ -13,7 +13,7 @@ import { NavLink, Link } from 'react-router-dom';
 
 import logo from '@/assets/logo.svg';
 import { useAuth } from '@/lib/auth';
-import { useRBAC, ROLES } from '@/lib/rbac';
+import { useAuthorization, ROLES } from '@/lib/authorization';
 
 type SideNavigationItem = {
   name: string;
@@ -22,7 +22,7 @@ type SideNavigationItem = {
 };
 
 const SideNavigation = () => {
-  const { checkAccess } = useRBAC();
+  const { checkAccess } = useAuthorization();
   const navigation = [
     { name: 'Dashboard', to: '.', icon: HomeIcon },
     { name: 'Discussions', to: './discussions', icon: FolderIcon },

@@ -3,7 +3,7 @@ import * as z from 'zod';
 
 import { Button } from '@/components/Elements';
 import { Form, FormDrawer, InputField, TextAreaField } from '@/components/Form';
-import { RBAC, ROLES } from '@/lib/rbac';
+import { Authorization, ROLES } from '@/lib/authorization';
 
 import { useDiscussion } from '../hooks/useDiscussion';
 import { useUpdateDiscussion } from '../hooks/useUpdateDiscussion';
@@ -26,7 +26,7 @@ export const UpdateDiscussion = ({ discussionId }: UpdateDiscussionProps) => {
   const updateDiscussionMutation = useUpdateDiscussion();
 
   return (
-    <RBAC allowedRoles={[ROLES.ADMIN]}>
+    <Authorization allowedRoles={[ROLES.ADMIN]}>
       <FormDrawer
         isDone={updateDiscussionMutation.isSuccess}
         triggerButton={
@@ -75,6 +75,6 @@ export const UpdateDiscussion = ({ discussionId }: UpdateDiscussionProps) => {
           )}
         </Form>
       </FormDrawer>
-    </RBAC>
+    </Authorization>
   );
 };

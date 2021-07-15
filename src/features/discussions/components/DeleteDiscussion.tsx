@@ -1,5 +1,5 @@
 import { Button, ConfirmationDialog } from '@/components/Elements';
-import { RBAC, ROLES } from '@/lib/rbac';
+import { Authorization, ROLES } from '@/lib/authorization';
 
 import { useDeleteDiscussion } from '../hooks/useDeleteDiscussion';
 
@@ -11,7 +11,7 @@ export const DeleteDiscussion = ({ id }: DeleteDiscussionProps) => {
   const deleteDiscussionMutation = useDeleteDiscussion();
 
   return (
-    <RBAC allowedRoles={[ROLES.ADMIN]}>
+    <Authorization allowedRoles={[ROLES.ADMIN]}>
       <ConfirmationDialog
         icon="danger"
         title="Delete Discussion"
@@ -28,6 +28,6 @@ export const DeleteDiscussion = ({ id }: DeleteDiscussionProps) => {
           </Button>
         }
       />
-    </RBAC>
+    </Authorization>
   );
 };
