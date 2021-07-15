@@ -1,8 +1,8 @@
 # The Application Overview
 
-The application is very simple. Users can create teams where other users can join, and they can run discussions on different topics between each other.
+The application is pretty simple. Users can create teams where other users can join, and they start discussions on different topics between each other.
 
-A team is created during the registration if the user didn't chose to join an existing team and the user becomes the admin of it.
+A team is created during the registration if the user didn't choose to join an existing team and the user becomes the admin of it.
 
 ## Data model
 

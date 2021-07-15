@@ -26,7 +26,7 @@ src
 +-- utils             # shared utility functions
 ```
 
-In order to scale the application in the easiest and most maintainable way, keep most of the code in the `features` folder, that should contain different feature-based modules. Every `feature` folder should contain domain specific code for a specific feature. This will allow you to keep functionalities scoped to a feature and not mix it with the shared things. This is much easier to maintain than a flat folder structure with many files.
+In order to scale the application in the easiest and most maintainable way, keep most of the code inside the `features` folder, which should contain different feature-based things. Every `feature` folder should contain domain specific code for a specific feature. This will allow you to keep functionalities scoped to a feature and not mix it with the shared things. This is much easier to maintain than a flat folder structure with many files.
 
 A feature could have the following structure:
 
@@ -48,7 +48,7 @@ src/features/awesome-feature
 +-- index.ts    # entry point for the feature, it should serve as the public API of the given feature and exports everything that should be used outside the feature
 ```
 
-The features could also contain other features(if used only within the parent feature) or kept separated, it's the matter of preference.
+A feature folder could also contain other features(if used only within the parent feature) or be kept separated, it's a matter of preference.
 
 Everything from a feature should be exported from the `index.ts` file which behaves as the public API of the feature.
 
@@ -76,4 +76,4 @@ This can also been configured in the ESLint configuration to disallow the later 
 }
 ```
 
-This was inspired by how [NX](https://nx.dev/) handles libraries and applications. Think of a feature as a library or a module that is self-contained but can expose different part to other features via it's entry point.
+This was inspired by how [NX](https://nx.dev/) handles libraries that are isolated but available to be used by the other modules. Think of a feature as a library or a module that is self-contained but can expose different parts to other features via it's entry point.

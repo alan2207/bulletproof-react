@@ -1,6 +1,6 @@
 # State Management
 
-We can split state in several categories:
+We can split the state in several categories:
 
 #### UI State
 
@@ -33,4 +33,4 @@ Good Server Cache Libraries:
 
 #### URL State
 
-State that is being kept in the URL bar of the browser. Very useful for keeping pagination data of a list because even if the page gets refreshed, it will keep all the state in the URL bar so the user will see the same results.
+State that is being kept in the URL bar of the browser. Very useful for keeping pagination data of a list because even if the page gets refreshed, it will keep all the states in the URL bar so the user will see the same results.

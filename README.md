@@ -7,15 +7,13 @@ A simple, scalable, and powerful architecture for building production ready Reac
 ## Introduction
 
 React is a great tool for building frontends. It has a very diverse eco-system with hundreds of great libraries for literally anything you might need. However it can be overwhelming to be forced to make so many choices.
-It is also very flexible, you can write React applications in any way you like but that flexibility comes with a cost.
+It is also very flexible, you can write React applications in any way you like but that flexibility comes with a cost. Since there is no pre-defined architecture developers can to follow, it often leads to messy, uncosistent or over-complicated codebases.
 
-There is no pre-defined architecture developers can to follow which often leads to messy, uncosistent or over-complicated codebases.
+This is an attempt to present the way of creating React applications using the best tools in the eco-system with a good project structure that scales very well. It is based on the experience of working with many different codebases, and this architecture turns out to be the most effective one.
 
-This is an attempt to present the way of creating React applications using the best tools in the eco-system and a good project structure that scales very well.
+This is not another boilerplate or a library/framework. The goal of this repo is to serve as a collection of good practices when developing React applications. It is supposed to showcase most of the real-world problems of an application in a practical way.
 
-The goal of this repo is to serve as a collection of good practices when developing React applications. It is supposed to showcase most of real-world problems of an application in a practical way. It is based on the experience on working with many different codebases, and this turns out to be the most effective one.
-
-Feel free to explore the codebase to get most of it.
+Feel free to explore the codebase to get the most of it.
 
 ## Table Of Contents:
 
@@ -34,7 +32,7 @@ Feel free to explore the codebase to get most of it.
 
 ## Contributing
 
-Contributions are always welcome! You can contribute to this repo by:
+Contributions are always welcome! If you have any ideas, suggestions, fixes, feel free to contribute. You can do that by going through the following steps:
 
 1. Clone this repo
 2. Create a branch: `git checkout -b your-feature`
