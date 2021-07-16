@@ -17,10 +17,9 @@ The application contains the following models:
     - edit own profile
   - `USER` - can:
     - edit own profile
-    - create discussions
     - create/delete own comments
 
-- Team: represents a team that has 1 admin and many users that can create discussions between each other.
+- Team: represents a team that has 1 admin and many users that can participate in discussions between each other.
 
 - Discussion: represents discussions created by team members.
 

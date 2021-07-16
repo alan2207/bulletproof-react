@@ -7,17 +7,17 @@ src
 |
 +-- assets            # assets folder can contain all the static data such as images, fonts, etc.
 |
-+-- components        # shared components used throughout the entire application
++-- components        # shared components used across the entire application
 |
-+-- config            # all global configuration, env variables etc. get exported from here and used in the app
++-- config            # all the global configuration, env variables etc. get exported from here and used in the app
 |
-+-- context           # all of the context
++-- context           # all of the global contexts
 |
 +-- features          # feature based modules
 |
-+-- hooks             # shared hooks used throughout the entire application
++-- hooks             # shared hooks used across the entire application
 |
-+-- lib               # reexporting different libraries preconfigured for the application
++-- lib               # re-exporting different libraries preconfigured for the application
 |
 +-- routes            # routes configuration
 |
@@ -33,7 +33,7 @@ A feature could have the following structure:
 ```
 src/features/awesome-feature
 |
-+-- api         # exported functions that call different api endpoints related to the feature
++-- api         # exported API request declarations related to the feature
 |
 +-- components  # components scoped to the feature, not used anywhere else
 |
@@ -48,7 +48,7 @@ src/features/awesome-feature
 +-- index.ts    # entry point for the feature, it should serve as the public API of the given feature and exports everything that should be used outside the feature
 ```
 
-A feature folder could also contain other features(if used only within the parent feature) or be kept separated, it's a matter of preference.
+A feature folder could also contain other features (if used only within the parent feature) or be kept separated, it's a matter of preference.
 
 Everything from a feature should be exported from the `index.ts` file which behaves as the public API of the feature.
 

@@ -55,7 +55,7 @@ Every project requires some UI components such as modals, tabs, sidebars, menus,
 
 #### Fully featured component libraries:
 
-- [Chakra UI](https://chakra-ui.com/) - great library with probably the best developer experience, allows very fast prototyping with decent design defaults. Plenty of components that are very flexible with great a11y already configured out of the box.
+- [Chakra UI](https://chakra-ui.com/) - great library with probably the best developer experience, allows very fast prototyping with decent design defaults. Plenty of components that are very flexible with accessibility already configured out of the box.
 
 - [AntD](https://ant.design/) - another great component library that has a lot of different components. Best suitable for creating admin dashboards. However, it might be a bit difficult to change the styles in order to adapt it to a custom design.
 
@@ -84,12 +84,12 @@ There are multiple ways to style a react application. Some of the good options a
 
 ## Good combinations
 
-- [Chakra UI](https://chakra-ui.com/) + [emotion](https://emotion.sh/docs/introduction)
-- [Radix UI](https://www.radix-ui.com/) + [stiches](https://stitches.dev/)
+- [Chakra UI](https://chakra-ui.com/) + [emotion](https://emotion.sh/docs/introduction) - The best choice for most applications
 - [Headless UI](https://headlessui.dev/) + [tailwind](https://tailwindcss.com/)
+- [Radix UI](https://www.radix-ui.com/) + [stiches](https://stitches.dev/)
 
 ## Storybook
 
-[Storybook](https://storybook.js.org/) is a great tool for developing and testing components in isolation. Think of it as a catalogue of all the components your application is using. Very useful especially for larger projects because it helps inspecting components.
+[Storybook](https://storybook.js.org/) is a great tool for developing and testing components in isolation. Think of it as a catalogue of all the components your application is using. Very useful especially for larger projects because it helps exploring components.
 
 [Storybook Story Example Code](../src/components/Elements/Button/Button.stories.tsx)

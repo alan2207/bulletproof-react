@@ -2,7 +2,7 @@
 
 ### Code Splitting
 
-Code splitting is a technique of splitting production chunks into smaller pieces, thus allowing the application to be only partially downloaded. Any unused code will not be downloaded until it is required by the application.
+Code splitting is a technique of splitting production js into smaller pieces, thus allowing the application to be only partially downloaded. Any unused code will not be downloaded until it is required by the application.
 
 Most of the time code splitting should be done on the routes level.
 
