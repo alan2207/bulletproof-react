@@ -1,4 +1,5 @@
 import { Table, Spinner } from '@/components/Elements';
+import { formatDate } from '@/utils/format';
 
 import { useUsers } from '../hooks/useUsers';
 import { User } from '../types';
@@ -7,8 +8,6 @@ import { DeleteUser } from './DeleteUser';
 
 export const UsersList = () => {
   const usersQuery = useUsers();
-
-  console.log(usersQuery);
 
   if (usersQuery.isLoading) {
     return (
@@ -39,6 +38,13 @@ export const UsersList = () => {
         {
           title: 'Role',
           field: 'role',
+        },
+        {
+          title: 'Created At',
+          field: 'createdAt',
+          Cell({ entry: { createdAt } }) {
+            return <span>{formatDate(createdAt)}</span>;
+          },
         },
         {
           title: '',

@@ -36,6 +36,7 @@ export const commentsHandlers = [
       const result = db.comment.create({
         authorId: user.id,
         id: nanoid(),
+        createdAt: Date.now(),
         ...data,
       });
       persistDb('comment');

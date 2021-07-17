@@ -4,6 +4,8 @@ import {
   commentGenerator,
 } from '../../src/test/data-generators';
 
+import { formatDate } from '../../src/utils/format';
+
 describe('smoke', () => {
   it('should handle normal app flow', () => {
     const user = userGenerator();
@@ -90,7 +92,7 @@ describe('smoke', () => {
 
     // visit discussion page:
     cy.findByRole('row', {
-      name: `${discussion.title} View Delete`,
+      name: `${discussion.title} ${formatDate(discussion.createdAt)} View Delete`,
     }).within(() => {
       cy.findByRole('link', {
         name: /view/i,
@@ -176,6 +178,8 @@ describe('smoke', () => {
       }).click();
     });
 
+    cy.wait(200);
+
     cy.checkAndDismissNotification(/comment deleted/i);
 
     cy.findByRole('list', {
@@ -193,7 +197,7 @@ describe('smoke', () => {
 
     // delete discussion:
     cy.findByRole('row', {
-      name: `${updatedDiscussion.title} View Delete`,
+      name: `${updatedDiscussion.title} ${formatDate(discussion.createdAt)} View Delete`,
     }).within(() => {
       cy.findByRole('button', {
         name: 'Delete',
@@ -208,8 +212,9 @@ describe('smoke', () => {
 
     cy.checkAndDismissNotification(/discussion deleted/i);
 
+    cy.wait(200);
     cy.findByRole('row', {
-      name: `${updatedDiscussion.title} View Delete`,
+      name: `${updatedDiscussion.title} ${formatDate(discussion.createdAt)} View Delete`,
     }).should('not.exist');
   });
 });

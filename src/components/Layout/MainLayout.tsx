@@ -193,9 +193,7 @@ const MobileSidebar = ({ sidebarOpen, setSidebarOpen }: MobileSidebarProps) => {
             </div>
           </div>
         </Transition.Child>
-        <div className="flex-shrink-0 w-14" aria-hidden="true">
-          {/* Dummy element to force sidebar to shrink to fit close icon */}
-        </div>
+        <div className="flex-shrink-0 w-14" aria-hidden="true"></div>
       </Dialog>
     </Transition.Root>
   );
@@ -205,7 +203,6 @@ const Sidebar = () => {
   return (
     <div className="hidden md:flex md:flex-shrink-0">
       <div className="flex flex-col w-64">
-        {/* Sidebar component, swap this element with another sidebar if you like */}
         <div className="flex flex-col h-0 flex-1">
           <div className="flex items-center h-16 flex-shrink-0 px-4 bg-gray-900">
             <Logo />
@@ -240,8 +237,6 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
   return (
     <div className="h-screen flex overflow-hidden bg-gray-100">
       <MobileSidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-
-      {/* Static sidebar for desktop */}
       <Sidebar />
       <div className="flex flex-col w-0 flex-1 overflow-hidden">
         <div className="relative z-10 flex-shrink-0 flex h-16 bg-white shadow">
@@ -254,7 +249,6 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
           </button>
           <div className="flex-1 px-4 flex justify-end">
             <div className="ml-4 flex items-center md:ml-6">
-              {/* Profile dropdown */}
               <UserNavigation />
             </div>
           </div>

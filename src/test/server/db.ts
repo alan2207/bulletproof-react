@@ -10,24 +10,27 @@ const models = {
     teamId: String,
     role: String,
     bio: String,
+    createdAt: Number,
   },
   team: {
     id: primaryKey(String),
     name: String,
     description: String,
+    createdAt: Number,
   },
   discussion: {
     id: primaryKey(String),
     title: String,
     body: String,
     teamId: String,
+    createdAt: Number,
   },
   comment: {
     id: primaryKey(String),
     body: String,
     authorId: String,
     discussionId: String,
-    createdAt: String,
+    createdAt: Number,
   },
 };
 

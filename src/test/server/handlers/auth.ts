@@ -44,6 +44,7 @@ export const authHandlers = [
         const team = db.team.create({
           id: nanoid(),
           name: userObject.teamName ?? `${userObject.firstName} Team`,
+          createdAt: Date.now(),
         });
         persistDb('team');
         teamId = team.id;
@@ -67,6 +68,7 @@ export const authHandlers = [
       db.user.create({
         ...userObject,
         id: nanoid(),
+        createdAt: Date.now(),
         role,
         password: hash(userObject.password),
         teamId,

@@ -15,8 +15,7 @@ export const Dashboard = () => {
       <p className="font-medium">In this application you can:</p>
       {user?.role === ROLES.USER && (
         <ul className="my-4 list-inside list-disc">
-          <li>Create discussions</li>
-          <li>Comment on discussions</li>
+          <li>Create comments in discussions</li>
           <li>Delete own comments</li>
         </ul>
       )}

@@ -1,5 +1,6 @@
 import { discussionGenerator } from '@/test/data-generators';
 import { render, screen, userEvent, waitFor, within } from '@/test/test-utils';
+import { formatDate } from '@/utils/format';
 
 import { Discussions } from '../Discussions';
 
@@ -39,7 +40,7 @@ test('should create, render and delete discussions', async () => {
   await waitFor(() => expect(drawer).not.toBeInTheDocument());
 
   const row = screen.getByRole('row', {
-    name: `${newDiscussion.title} View Delete`,
+    name: `${newDiscussion.title} ${formatDate(newDiscussion.createdAt)} View Delete`,
   });
 
   expect(

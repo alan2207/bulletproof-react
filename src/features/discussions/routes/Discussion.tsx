@@ -4,6 +4,7 @@ import { Spinner, MDPreview } from '@/components/Elements';
 import { Head } from '@/components/Head';
 import { ContentLayout } from '@/components/Layout';
 import { Comments } from '@/features/comments';
+import { formatDate } from '@/utils/format';
 
 import { UpdateDiscussion } from '../components/UpdateDiscussion';
 import { useDiscussion } from '../hooks/useDiscussion';
@@ -26,6 +27,7 @@ export const Discussion = () => {
     <>
       <Head title={discussionQuery.data.title} />
       <ContentLayout title={discussionQuery.data.title}>
+        <span className="text-xs font-bold">{formatDate(discussionQuery.data.createdAt)}</span>
         <div className="mt-6 flex flex-col space-y-16">
           <div className="flex justify-end">
             <UpdateDiscussion discussionId={discussionId} />

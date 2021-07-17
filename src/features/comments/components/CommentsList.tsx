@@ -1,8 +1,11 @@
 import 'react-markdown-editor-lite/lib/index.css';
+import { ArchiveIcon } from '@heroicons/react/outline';
+
 import { Spinner, MDPreview } from '@/components/Elements';
 import { User } from '@/features/users';
 import { useAuth } from '@/lib/auth';
 import { POLICIES, Authorization } from '@/lib/authorization';
+import { formatDate } from '@/utils/format';
 
 import { useDiscussionComments } from '../hooks/useDiscussionComments';
 
@@ -24,7 +27,17 @@ export const CommentsList = ({ discussionId }: CommentsListProps) => {
     );
   }
 
-  if (!commentsQuery.data) return <div>No Comments</div>;
+  if (!commentsQuery?.data?.length)
+    return (
+      <div
+        role="list"
+        aria-label="comments"
+        className="bg-white text-gray-500 h-40 flex justify-center items-center flex-col"
+      >
+        <ArchiveIcon className="h-10 w-10" />
+        <h4>No Comments Found</h4>
+      </div>
+    );
 
   return (
     <ul aria-label="comments" className="flex flex-col space-y-3">
@@ -35,7 +48,8 @@ export const CommentsList = ({ discussionId }: CommentsListProps) => {
           className="w-full bg-white shadow-sm p-4"
         >
           <Authorization policyCheck={POLICIES['comment:delete'](user as User, comment)}>
-            <div className="flex justify-end">
+            <div className="flex justify-between">
+              <span className="text-xs font-semibold">{formatDate(comment.createdAt)}</span>
               <DeleteComment discussionId={discussionId} id={comment.id} />
             </div>
           </Authorization>

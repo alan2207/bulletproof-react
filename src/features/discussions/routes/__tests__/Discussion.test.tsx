@@ -127,4 +127,6 @@ test('should create and delete a comment on the discussion', async () => {
   userEvent.click(confirmationDeleteButton);
 
   await screen.findByText(/comment deleted/i);
+
+  expect(within(commentsList).queryByText(comment)).not.toBeInTheDocument();
 });

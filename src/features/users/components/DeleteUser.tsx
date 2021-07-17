@@ -1,4 +1,5 @@
 import { Button, ConfirmationDialog } from '@/components/Elements';
+import { useAuth } from '@/lib/auth';
 
 import { useDeleteUser } from '../hooks/useDeleteUser';
 
@@ -7,7 +8,10 @@ type DeleteUserProps = {
 };
 
 export const DeleteUser = ({ id }: DeleteUserProps) => {
+  const { user } = useAuth();
   const deleteUserMutation = useDeleteUser();
+
+  if (user?.id === id) return null;
 
   return (
     <ConfirmationDialog

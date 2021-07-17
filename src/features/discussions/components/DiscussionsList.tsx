@@ -1,4 +1,5 @@
 import { Table, Spinner, Link } from '@/components/Elements';
+import { formatDate } from '@/utils/format';
 
 import { useDiscussions } from '../hooks/useDiscussions';
 import { Discussion } from '../types';
@@ -26,7 +27,13 @@ export const DiscussionsList = () => {
           title: 'Title',
           field: 'title',
         },
-
+        {
+          title: 'Created At',
+          field: 'createdAt',
+          Cell({ entry: { createdAt } }) {
+            return <span>{formatDate(createdAt)}</span>;
+          },
+        },
         {
           title: '',
           field: 'id',

@@ -56,6 +56,7 @@ export const discussionsHandlers = [
       const result = db.discussion.create({
         teamId: user.teamId,
         id: nanoid(),
+        createdAt: Date.now(),
         ...data,
       });
       persistDb('discussion');
