@@ -4,9 +4,21 @@ NOTE: Handling Auth on the client doesn't mean you shouldn't handle it on the se
 
 There are 2 parts of Auth:
 
-### Authentication
+## Authentication
 
 Authentication is a process of identifying who the user is. The most popular way of authenticating users is via [JWT](https://jwt.io/). During logging in / registration you receive a token that you store in `localStorage` or a cookie, and then on each authenticated request you send the token in the header or via cookie along with the request.
+
+#### `localStorage` vs cookie for storing tokens
+
+Storing tokens in cookie might be safer if the cookie is set to be `HttpOnly` which would mean it wouldn't be accessible from the client side JavaScript.
+
+Storing it in `localStorage` could bring a security issue, if your application is vulnerable to [XSS](https://owasp.org/www-community/attacks/xss/) someone could steal your token.
+
+To keep the application safe, instead of focusing only on storing the token safely, it would be recommended to make the entire application resistent to XSS attacks in general so it becomes pretty irrelevant which method you use for storing the token. E.g - every input from the user should be sanitized before injected into the DOM.
+
+[HTML Sanitization Example Code](../src/components/Elements/MDPreview/MDPreview.tsx)
+
+#### Handling user data
 
 User info should be considered a global piece of state which should be available from anywhere in the application.
 If you are already using `react-query`, you can use [react-query-auth](https://github.com/alan2207/react-query-auth) library for handling user state which will handle all the things for you after you provide it some configuration. Otherwise, you can use react context + hooks, or some 3rd party state management library.
@@ -17,7 +29,7 @@ The application will assume the user is authenticated if a user object is presen
 
 [Authenticated Route Protection Example Code](../src/routes/index.tsx)
 
-### Authorization
+## Authorization
 
 Authorization is a process of determining if the user is allowed to access a resource.
 
