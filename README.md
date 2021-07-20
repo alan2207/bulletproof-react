@@ -15,6 +15,10 @@ The goal of this repo is to serve as a collection of good practices when develop
 
 Feel free to explore the codebase to get the most value out of the repo.
 
+#### Disclaimer:
+
+This is not supposed to be a template or a framework. It is an opinionated guide that shows how to do some things in a certain way. You are not forced to do everything exactly as it is shown here, decide what works best for you and your team and be consistent with your style.
+
 ## Table Of Contents:
 
 - [The Application Overview](docs/application-overview.md)

@@ -6,15 +6,19 @@ There are 2 parts of Auth:
 
 ## Authentication
 
-Authentication is a process of identifying who the user is. The most popular way of authenticating users is via [JWT](https://jwt.io/). During logging in / registration you receive a token that you store in `localStorage` or a cookie, and then on each authenticated request you send the token in the header or via cookie along with the request.
+Authentication is a process of identifying who the user is. The most common way of authenticating users in single page applications is via [JWT](https://jwt.io/). During logging in / registration you receive a token that you store in your application, and then on each authenticated request you send the token in the header or via cookie along with the request.
+
+The safest option is to store the token in the app state, but if the user refreshes the app, it's token will be lost.
+
+That is why tokens are stored in `localStorage/sessionStorage` or in a cookie.
 
 #### `localStorage` vs cookie for storing tokens
 
-Storing tokens in cookie might be safer if the cookie is set to be `HttpOnly` which would mean it wouldn't be accessible from the client side JavaScript.
-
 Storing it in `localStorage` could bring a security issue, if your application is vulnerable to [XSS](https://owasp.org/www-community/attacks/xss/) someone could steal your token.
 
-To keep the application safe, instead of focusing only on storing the token safely, it would be recommended to make the entire application resistent to XSS attacks in general so it becomes pretty irrelevant which method you use for storing the token. E.g - every input from the user should be sanitized before injected into the DOM.
+Storing tokens in cookie might be safer if the cookie is set to be `HttpOnly` which would mean it wouldn't be accessible from the client side JavaScript. The `localStorage` way is being used here for simplicity reasons, if you want to be more secure, you should consider using cookies but that is a decision that should be made together with the backend team.
+
+To keep the application safe, instead of focusing only on where to store the token safely, it would be recommended to make the entire application as resistent as possible to XSS attacks E.g - every input from the user should be sanitized before injected into the DOM.
 
 [HTML Sanitization Example Code](../src/components/Elements/MDPreview/MDPreview.tsx)
 
