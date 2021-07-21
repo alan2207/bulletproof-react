@@ -77,7 +77,7 @@ There are multiple ways to style a react application. Some of the good options a
 - [tailwind](https://tailwindcss.com/)
 - [styled-components](https://styled-components.com/)
 - [emotion](https://emotion.sh/docs/introduction)
-- [stiches](https://stitches.dev/)
+- [stitches](https://stitches.dev/)
 - [vanilla-extract](https://github.com/seek-oss/vanilla-extract)
 - [CSS modules](https://github.com/css-modules/css-modules)
 - [linaria](https://github.com/callstack/linaria)
@@ -86,7 +86,7 @@ There are multiple ways to style a react application. Some of the good options a
 
 - [Chakra UI](https://chakra-ui.com/) + [emotion](https://emotion.sh/docs/introduction) - The best choice for most applications
 - [Headless UI](https://headlessui.dev/) + [tailwind](https://tailwindcss.com/)
-- [Radix UI](https://www.radix-ui.com/) + [stiches](https://stitches.dev/)
+- [Radix UI](https://www.radix-ui.com/) + [stitches](https://stitches.dev/)
 
 ## Storybook
 
