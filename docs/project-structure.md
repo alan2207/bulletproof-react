@@ -62,7 +62,7 @@ and not
 
 `import {AwesomeComponent} from "@/features/awesome-feature/components/AwesomeComponent`
 
-This can also been configured in the ESLint configuration to disallow the later import by the following rule:
+This can also be configured in the ESLint configuration to disallow the later import by the following rule:
 
 ```
 {
@@ -78,4 +78,4 @@ This can also been configured in the ESLint configuration to disallow the later 
 }
 ```
 
-This was inspired by how [NX](https://nx.dev/) handles libraries that are isolated but available to be used by the other modules. Think of a feature as a library or a module that is self-contained but can expose different parts to other features via it's entry point.
+This was inspired by how [NX](https://nx.dev/) handles libraries that are isolated but available to be used by the other modules. Think of a feature as a library or a module that is self-contained but can expose different parts to other features via its entry point.

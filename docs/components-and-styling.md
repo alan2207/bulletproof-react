@@ -33,7 +33,7 @@ function Component() {
 
 Keep your code style consistent. e.g If you name your components by using pascal case, do it everywhere. If you create components as arrow functions, do it everywhere.
 
-#### Limit number of props a component is accepting as input
+#### Limit the number of props a component is accepting as input
 
 If your component accepts a lot of props you might consider splitting it into multiple components or use composition via children or slots.
 
@@ -41,7 +41,7 @@ If your component accepts a lot of props you might consider splitting it into mu
 
 #### Abstract shared components into a component library
 
-For larger projects, it is good idea to build abstractions around all the shared components. It makes the application more consistent and easier to maintain. Identify repetitions before creating the components to avoid wrong abstractions.
+For larger projects, it is a good idea to build abstractions around all the shared components. It makes the application more consistent and easier to maintain. Identify repetitions before creating the components to avoid wrong abstractions.
 
 [Component Library Example Code](../src/components/Elements/Button/Button.tsx)
 
@@ -63,7 +63,7 @@ Every project requires some UI components such as modals, tabs, sidebars, menus,
 
 #### Headless component libraries:
 
-If you have a specific design system from your designer, it might be easier and better solution to go with headless components that come unstyled than to adapt a fully featured library components such as Material UI to your needs. Some of the good options are:
+If you have a specific design system from your designer, it might be easier and better solution to go with headless components that come unstyled than to adapt a fully featured library components such as Material UI to your needs. Some good options are:
 
 - [Reakit](https://reakit.io/)
 - [Headless UI](https://headlessui.dev/)
@@ -72,7 +72,7 @@ If you have a specific design system from your designer, it might be easier and 
 
 ## Styling libraries
 
-There are multiple ways to style a react application. Some of the good options are:
+There are multiple ways to style a react application. Some good options are:
 
 - [tailwind](https://tailwindcss.com/)
 - [styled-components](https://styled-components.com/)

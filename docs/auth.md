@@ -18,7 +18,7 @@ Storing it in `localStorage` could bring a security issue, if your application i
 
 Storing tokens in cookie might be safer if the cookie is set to be `HttpOnly` which would mean it wouldn't be accessible from the client side JavaScript. The `localStorage` way is being used here for simplicity reasons, if you want to be more secure, you should consider using cookies but that is a decision that should be made together with the backend team.
 
-To keep the application safe, instead of focusing only on where to store the token safely, it would be recommended to make the entire application as resistent as possible to XSS attacks E.g - every input from the user should be sanitized before injected into the DOM.
+To keep the application safe, instead of focusing only on where to store the token safely, it would be recommended to make the entire application as resistant as possible to XSS attacks E.g - every input from the user should be sanitized before injected into the DOM.
 
 [HTML Sanitization Example Code](../src/components/Elements/MDPreview/MDPreview.tsx)
 

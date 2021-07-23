@@ -27,7 +27,7 @@ The application contains the following models:
 
 ## Get Started
 
-To run the app, first create a `.env` file with the right variables - you can check `.env.example` and copy it's content.
+To run the app, first create a `.env` file with the right variables - you can check `.env.example` and copy its content.
 
 ##### `yarn start`
 
