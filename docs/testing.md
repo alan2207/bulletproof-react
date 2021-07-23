@@ -33,7 +33,7 @@ Jest is a fully featured testing framework and is the de-facto standard when it 
 
 #### [Testing Library](https://testing-library.com/)
 
-Testing library is a set of libraries and tools that makes testing easier than ever before. It's philosophy is to test your app in a way it is being used by a real world user instead of testing implementation details. For example, don't test what is the current state value in a component, but test what that component renders on the screen for the user. If you refactor your app to use a different state management solution, the tests will still be relevant as the actual component output to the user didn't change.
+Testing library is a set of libraries and tools that makes testing easier than ever before. Its philosophy is to test your app in a way it is being used by a real world user instead of testing implementation details. For example, don't test what is the current state value in a component, but test what that component renders on the screen for the user. If you refactor your app to use a different state management solution, the tests will still be relevant as the actual component output to the user didn't change.
 
 #### [Cypress](https://www.cypress.io/)
 
