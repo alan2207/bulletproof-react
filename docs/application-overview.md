@@ -29,6 +29,13 @@ The application contains the following models:
 
 To run the app, first create a `.env` file with the right variables - you can check `.env.example` and copy its content.
 
+```
+npx degit alan2207/bulletproof-react bulletproof-react
+cd bulletproof-react
+cp .env.example .env
+yarn install
+```
+
 ##### `yarn start`
 
 Runs the app in the development mode.\
