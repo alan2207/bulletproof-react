@@ -27,7 +27,14 @@ The application contains the following models:
 
 ## Get Started
 
-To run the app, first create a `.env` file with the right variables - you can check `.env.example` and copy its content.
+To set up the app execute the following commands.
+
+```bash
+git clone https://github.com/alan2207/bulletproof-react.git
+cd bulletproof-react
+cp .env.example .env
+yarn install
+```
 
 ##### `yarn start`
 
