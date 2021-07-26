@@ -33,5 +33,3 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-// window.axios = axios;

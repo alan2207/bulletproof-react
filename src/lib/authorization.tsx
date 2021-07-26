@@ -24,7 +24,6 @@ export const POLICIES = {
 
     return false;
   },
-  x: (x: boolean) => x,
 };
 
 export const useAuthorization = () => {

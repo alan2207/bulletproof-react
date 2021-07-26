@@ -48,8 +48,6 @@ export const persistDb = (model: Model) => {
   window.localStorage.setItem('msw-db', JSON.stringify(data));
 };
 
-// window.db = db;
-
 export const initializeDb = () => {
   const database = loadDb();
   Object.entries(db).forEach(([key, model]) => {
@@ -63,7 +61,6 @@ export const initializeDb = () => {
 };
 
 export const resetDb = () => {
-  // db.
   window.localStorage.clear();
 };
 

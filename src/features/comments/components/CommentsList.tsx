@@ -1,4 +1,3 @@
-import 'react-markdown-editor-lite/lib/index.css';
 import { ArchiveIcon } from '@heroicons/react/outline';
 
 import { Spinner, MDPreview } from '@/components/Elements';
