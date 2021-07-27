@@ -55,9 +55,11 @@ export const commentsHandlers = [
           id: {
             equals: commentId,
           },
-          authorId: {
-            equals: user.id,
-          },
+          ...(user.role === 'USER' && {
+            authorId: {
+              equals: user.id,
+            },
+          }),
         },
       });
       persistDb('comment');
