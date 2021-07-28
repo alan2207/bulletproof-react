@@ -24,6 +24,7 @@ export const ProtectedRoutes = () => {
         <Route path="*" element={<Navigate to="/" />} />
       </Route>
       <Route path="/" element={<Landing />} />
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 };
