@@ -4,7 +4,7 @@ Forms are a very important component of almost every React application. They all
 
 Depending on the application needs, they might be pretty complex with many different fields which require validation.
 
-Forms in React can be [controlled](https://reactjs.org/docs/uncontrolled-components.html) and [uncontrolled](https://reactjs.org/docs/forms.html#controlled-components).
+Forms in React can be [controlled](https://reactjs.org/docs/forms.html#controlled-components) and [uncontrolled](https://reactjs.org/docs/uncontrolled-components.html).
 
 Although it is possible to build any form using only React, there are pretty good solutions out there that help with handling forms such as:
 
