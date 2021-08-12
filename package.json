@@ -11,7 +11,6 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-    "@types/faker": "^5.5.6",
     "@types/jest": "^26.0.15",
     "@types/node": "^16.0.0",
     "@types/react": "^17.0.0",
@@ -48,6 +47,7 @@
     "test": "is-ci \"test:coverage\" \"test:watch\"",
     "test:jest": "craco test",
     "test:coverage": "CI=1 yarn test:jest -- --coverage",
+    "postinstall": "husky install",
     "cy:install": "cypress install",
     "cy:run": "cypress run",
     "cy:open": "cypress open",
@@ -94,6 +94,7 @@
     "@testing-library/cypress": "^7.0.6",
     "@testing-library/react-hooks": "^7.0.0",
     "@types/dompurify": "^2.2.2",
+    "@types/faker": "^5.5.7",
     "@types/jsonwebtoken": "^8.5.1",
     "@types/lodash": "^4.14.170",
     "@types/marked": "^2.0.3",
@@ -156,7 +157,7 @@
     ]
   },
   "lint-staged": {
-    "*.+(js|ts|tsx)": [
+    "*.+(ts|tsx)": [
       "yarn lint"
     ]
   }

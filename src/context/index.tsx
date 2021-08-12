@@ -9,7 +9,7 @@ import { Notifications } from '@/components/Notifications/Notifications';
 import { AuthProvider } from '@/lib/auth';
 import { queryClient } from '@/lib/react-query';
 
-function ErrorFallback() {
+const ErrorFallback = () => {
   return (
     <div
       className="text-red-500 w-screen h-screen flex flex-col justify-center items-center"
@@ -21,7 +21,7 @@ function ErrorFallback() {
       </Button>
     </div>
   );
-}
+};
 
 type AppProviderProps = {
   children: React.ReactNode;
