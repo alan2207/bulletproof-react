@@ -24,8 +24,11 @@ export const teamsHandlers = [
       });
 
       return delayedResponse(ctx.json(result));
-    } catch (error) {
-      return delayedResponse(ctx.status(400), ctx.json({ message: error.message }));
+    } catch (error: any) {
+      return delayedResponse(
+        ctx.status(400),
+        ctx.json({ message: error?.message || 'Server Error' })
+      );
     }
   }),
 
@@ -33,8 +36,11 @@ export const teamsHandlers = [
     try {
       const result = db.team.getAll();
       return delayedResponse(ctx.json(result));
-    } catch (error) {
-      return delayedResponse(ctx.status(400), ctx.json({ message: error.message }));
+    } catch (error: any) {
+      return delayedResponse(
+        ctx.status(400),
+        ctx.json({ message: error?.message || 'Server Error' })
+      );
     }
   }),
 
@@ -52,8 +58,11 @@ export const teamsHandlers = [
       persistDb('team');
 
       return delayedResponse(ctx.json(result));
-    } catch (error) {
-      return delayedResponse(ctx.status(400), ctx.json({ message: error.message }));
+    } catch (error: any) {
+      return delayedResponse(
+        ctx.status(400),
+        ctx.json({ message: error?.message || 'Server Error' })
+      );
     }
   }),
 ];

@@ -1,10 +1,25 @@
 import { useMutation } from 'react-query';
 
-import { useNotificationStore } from '@/hooks/useNotificationStore';
+import { axios } from '@/lib/axios';
 import { MutationConfig, queryClient } from '@/lib/react-query';
+import { useNotificationStore } from '@/stores/notifications';
 
-import { updateDiscussion } from '../api';
 import { Discussion } from '../types';
+
+export type UpdateDiscussionDTO = {
+  data: {
+    title: string;
+    body: string;
+  };
+  discussionId: string;
+};
+
+export const updateDiscussion = ({
+  data,
+  discussionId,
+}: UpdateDiscussionDTO): Promise<Discussion> => {
+  return axios.patch(`/discussions/${discussionId}`, data);
+};
 
 type UseUpdateDiscussionOptions = {
   config?: MutationConfig<typeof updateDiscussion>;

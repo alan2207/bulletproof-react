@@ -1,8 +1,13 @@
 import { useQuery } from 'react-query';
 
+import { axios } from '@/lib/axios';
 import { QueryConfig } from '@/lib/react-query';
 
-import { getMyTeam } from '../api';
+import { Team } from '../types';
+
+export const getMyTeam = (): Promise<Team> => {
+  return axios.get('/team');
+};
 
 type UseMyTeamOptions = {
   config?: QueryConfig<typeof getMyTeam>;

@@ -8,13 +8,13 @@ export type Notification = {
   message?: string;
 };
 
-type NotificationsState = {
+type NotificationsStore = {
   notifications: Notification[];
   addNotification: (notification: Omit<Notification, 'id'>) => void;
   dismissNotification: (id: string) => void;
 };
 
-export const useNotificationStore = create<NotificationsState>((set) => ({
+export const useNotificationStore = create<NotificationsStore>((set) => ({
   notifications: [],
   addNotification: (notification) =>
     set((state) => ({

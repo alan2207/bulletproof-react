@@ -29,7 +29,7 @@ const renderDiscussion = async () => {
     user: fakeUser,
   });
 
-  await waitFor(() => expect(screen.getByText(fakeDiscussion.title)).toBeInTheDocument());
+  await screen.findByText(fakeDiscussion.title);
 
   return {
     ...utils,

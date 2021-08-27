@@ -1,9 +1,20 @@
 import { useMutation } from 'react-query';
 
-import { useNotificationStore } from '@/hooks/useNotificationStore';
+import { axios } from '@/lib/axios';
 import { MutationConfig } from '@/lib/react-query';
+import { useNotificationStore } from '@/stores/notifications';
 
-import { updateTeam } from '../api';
+export type UpdateTeamDTO = {
+  teamId: string;
+  data: {
+    name: string;
+    description: string;
+  };
+};
+
+export const updateTeam = ({ teamId, data }: UpdateTeamDTO) => {
+  return axios.patch(`/teams/${teamId}`, data);
+};
 
 type UseUpdateDiscussionOptions = {
   config?: MutationConfig<typeof updateTeam>;

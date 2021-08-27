@@ -1,27 +1,39 @@
 import { useMutation } from 'react-query';
 
-import { useNotificationStore } from '@/hooks/useNotificationStore';
+import { axios } from '@/lib/axios';
 import { MutationConfig, queryClient } from '@/lib/react-query';
+import { useNotificationStore } from '@/stores/notifications';
 
-import { deleteComment } from '../api';
 import { Comment } from '../types';
 
-type UseDeleteComment = {
-  discussionId: string;
-  config?: MutationConfig<typeof deleteComment>;
+export type CreateCommentDTO = {
+  data: {
+    body: string;
+    discussionId: string;
+  };
 };
 
-export const useDeleteComment = ({ config, discussionId }: UseDeleteComment) => {
+export const createComment = ({ data }: CreateCommentDTO): Promise<Comment> => {
+  return axios.post('/comments', data);
+};
+
+type UseCreateCommentOptions = {
+  discussionId: string;
+  config?: MutationConfig<typeof createComment>;
+};
+
+export const useCreateComment = ({ config, discussionId }: UseCreateCommentOptions) => {
   const { addNotification } = useNotificationStore();
+
   return useMutation({
-    onMutate: async (deletedComment) => {
+    onMutate: async (newComment) => {
       await queryClient.cancelQueries(['comments', discussionId]);
 
       const previousComments = queryClient.getQueryData<Comment[]>(['comments', discussionId]);
 
       queryClient.setQueryData(
         ['comments', discussionId],
-        previousComments?.filter((comment) => comment.id !== deletedComment.commentId)
+        [...(previousComments || []), newComment.data]
       );
 
       return { previousComments };
@@ -35,10 +47,10 @@ export const useDeleteComment = ({ config, discussionId }: UseDeleteComment) => 
       queryClient.invalidateQueries(['comments', discussionId]);
       addNotification({
         type: 'success',
-        title: 'Comment Deleted',
+        title: 'Comment Created',
       });
     },
     ...config,
-    mutationFn: deleteComment,
+    mutationFn: createComment,
   });
 };

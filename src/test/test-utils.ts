@@ -2,7 +2,7 @@ import { render as rtlRender, screen, waitForElementToBeRemoved } from '@testing
 import userEvent from '@testing-library/user-event';
 import { FunctionComponent } from 'react';
 
-import { AppProvider } from '@/context';
+import { AppProvider } from '@/providers/app';
 import storage from '@/utils/storage';
 
 import { discussionGenerator, userGenerator } from './data-generators';

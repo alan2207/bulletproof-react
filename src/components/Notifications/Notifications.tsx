@@ -1,4 +1,4 @@
-import { useNotificationStore } from '@/hooks/useNotificationStore';
+import { useNotificationStore } from '@/stores/notifications';
 
 import { Notification } from './Notification';
 

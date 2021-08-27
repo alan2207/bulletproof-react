@@ -24,8 +24,11 @@ export const commentsHandlers = [
         },
       });
       return delayedResponse(ctx.json(result));
-    } catch (error) {
-      return delayedResponse(ctx.status(400), ctx.json({ message: error.message }));
+    } catch (error: any) {
+      return delayedResponse(
+        ctx.status(400),
+        ctx.json({ message: error?.message || 'Server Error' })
+      );
     }
   }),
 
@@ -41,8 +44,11 @@ export const commentsHandlers = [
       });
       persistDb('comment');
       return delayedResponse(ctx.json(result));
-    } catch (error) {
-      return delayedResponse(ctx.status(400), ctx.json({ message: error.message }));
+    } catch (error: any) {
+      return delayedResponse(
+        ctx.status(400),
+        ctx.json({ message: error?.message || 'Server Error' })
+      );
     }
   }),
 
@@ -64,8 +70,11 @@ export const commentsHandlers = [
       });
       persistDb('comment');
       return delayedResponse(ctx.json(result));
-    } catch (error) {
-      return delayedResponse(ctx.status(400), ctx.json({ message: error.message }));
+    } catch (error: any) {
+      return delayedResponse(
+        ctx.status(400),
+        ctx.json({ message: error?.message || 'Server Error' })
+      );
     }
   }),
 ];

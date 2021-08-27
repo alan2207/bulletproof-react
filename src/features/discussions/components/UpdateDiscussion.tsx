@@ -5,12 +5,8 @@ import { Button } from '@/components/Elements';
 import { Form, FormDrawer, InputField, TextAreaField } from '@/components/Form';
 import { Authorization, ROLES } from '@/lib/authorization';
 
-import { useDiscussion } from '../hooks/useDiscussion';
-import { useUpdateDiscussion } from '../hooks/useUpdateDiscussion';
-type DiscussionValues = {
-  title: string;
-  body: string;
-};
+import { useDiscussion } from '../api/getDiscussion';
+import { UpdateDiscussionDTO, useUpdateDiscussion } from '../api/updateDiscussion';
 
 type UpdateDiscussionProps = {
   discussionId: string;
@@ -46,7 +42,7 @@ export const UpdateDiscussion = ({ discussionId }: UpdateDiscussionProps) => {
           </Button>
         }
       >
-        <Form<DiscussionValues, typeof schema>
+        <Form<UpdateDiscussionDTO['data'], typeof schema>
           id="update-discussion"
           onSubmit={async (values) => {
             await updateDiscussionMutation.mutateAsync({ data: values, discussionId });

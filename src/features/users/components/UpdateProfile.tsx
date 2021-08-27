@@ -6,20 +6,13 @@ import { Form, FormDrawer, InputField } from '@/components/Form';
 import { TextAreaField } from '@/components/Form/TextareaField';
 import { useAuth } from '@/lib/auth';
 
-import { useUpdateProfile } from '../hooks/useUpdateProfile';
+import { UpdateProfileDTO, useUpdateProfile } from '../api/updateProfile';
 
 const schema = z.object({
   email: z.string().min(1, 'Required'),
   firstName: z.string().min(1, 'Required'),
   lastName: z.string().min(1, 'Required'),
 });
-
-type ProfileValues = {
-  email: string;
-  firstName: string;
-  lastName: string;
-  bio: string;
-};
 
 export const UpdateProfile = () => {
   const { user } = useAuth();
@@ -45,7 +38,7 @@ export const UpdateProfile = () => {
         </Button>
       }
     >
-      <Form<ProfileValues, typeof schema>
+      <Form<UpdateProfileDTO['data'], typeof schema>
         id="update-profile"
         onSubmit={async (values) => {
           await updateProfileMutation.mutateAsync({ data: values });

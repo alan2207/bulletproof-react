@@ -1,4 +1,5 @@
 export * from './types';
-export * from './api';
 
-export * from './hooks/useTeams';
+export * from './api/getMyTeam';
+export * from './api/getTeams';
+export * from './api/updateTeam';

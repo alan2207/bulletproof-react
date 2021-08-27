@@ -6,8 +6,8 @@ import { ContentLayout } from '@/components/Layout';
 import { Comments } from '@/features/comments';
 import { formatDate } from '@/utils/format';
 
+import { useDiscussion } from '../api/getDiscussion';
 import { UpdateDiscussion } from '../components/UpdateDiscussion';
-import { useDiscussion } from '../hooks/useDiscussion';
 
 export const Discussion = () => {
   const { discussionId } = useParams();

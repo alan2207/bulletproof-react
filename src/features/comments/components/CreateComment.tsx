@@ -4,7 +4,7 @@ import * as z from 'zod';
 import { Button } from '@/components/Elements';
 import { Form, FormDrawer, TextAreaField } from '@/components/Form';
 
-import { useCreateComment } from '../hooks/useCreateComment';
+import { CreateCommentDTO, useCreateComment } from '../api/createComment';
 
 const schema = z.object({
   body: z.string().min(1, 'Required'),
@@ -38,7 +38,7 @@ export const CreateComment = ({ discussionId }: CreateCommentProps) => {
           </Button>
         }
       >
-        <Form<{ body: string }, typeof schema>
+        <Form<CreateCommentDTO['data'], typeof schema>
           id="create-comment"
           onSubmit={async (values) => {
             await createCommentMutation.mutateAsync({

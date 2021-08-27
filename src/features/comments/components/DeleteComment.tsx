@@ -2,7 +2,7 @@ import { TrashIcon } from '@heroicons/react/outline';
 
 import { Button, ConfirmationDialog } from '@/components/Elements';
 
-import { useDeleteComment } from '../hooks/useDeleteComment';
+import { useDeleteComment } from '../api/deleteComment';
 
 type DeleteCommentProps = {
   id: string;

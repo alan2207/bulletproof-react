@@ -16,7 +16,7 @@ Good UI State Libraries:
 - [jotai](https://github.com/pmndrs/jotai)
 - [recoil](https://recoiljs.org/)
 
-[UI State Example Code](../src/hooks/useNotificationStore.ts)
+[UI State Example Code](../src/stores/notifications.ts)
 
 #### Server Cache State
 
@@ -29,7 +29,7 @@ Good Server Cache Libraries:
 - [apollo client]() - GraphQL
 - [urql]() - GraphQl
 
-[Server State Example Code](../src/features/discussions/hooks/useDiscussions.ts)
+[Server State Example Code](../src/features/discussions/api/getDiscussions.ts)
 
 #### URL State
 

@@ -65,9 +65,7 @@ test('should fail submission if validation fails', async () => {
 
   userEvent.click(screen.getByRole('button', { name: /submit/i }));
 
-  await waitFor(() =>
-    expect(screen.getByRole(/alert/i, { name: /required/i })).toBeInTheDocument()
-  );
+  await screen.findByRole(/alert/i, { name: /required/i });
 
   expect(handleSubmit).toHaveBeenCalledTimes(0);
 });

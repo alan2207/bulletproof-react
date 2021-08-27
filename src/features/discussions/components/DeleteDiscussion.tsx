@@ -3,7 +3,7 @@ import { TrashIcon } from '@heroicons/react/outline';
 import { Button, ConfirmationDialog } from '@/components/Elements';
 import { Authorization, ROLES } from '@/lib/authorization';
 
-import { useDeleteDiscussion } from '../hooks/useDeleteDiscussion';
+import { useDeleteDiscussion } from '../api/deleteDiscussion';
 
 type DeleteDiscussionProps = {
   id: string;

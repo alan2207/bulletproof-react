@@ -1,10 +1,21 @@
 import { useMutation } from 'react-query';
 
-import { useNotificationStore } from '@/hooks/useNotificationStore';
+import { axios } from '@/lib/axios';
 import { MutationConfig, queryClient } from '@/lib/react-query';
+import { useNotificationStore } from '@/stores/notifications';
 
-import { createDiscussion } from '../api';
 import { Discussion } from '../types';
+
+export type CreateDiscussionDTO = {
+  data: {
+    title: string;
+    body: string;
+  };
+};
+
+export const createDiscussion = ({ data }: CreateDiscussionDTO): Promise<Discussion> => {
+  return axios.post(`/discussions`, data);
+};
 
 type UseCreateDiscussionOptions = {
   config?: MutationConfig<typeof createDiscussion>;

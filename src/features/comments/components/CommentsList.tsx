@@ -6,7 +6,7 @@ import { useAuth } from '@/lib/auth';
 import { POLICIES, Authorization } from '@/lib/authorization';
 import { formatDate } from '@/utils/format';
 
-import { useDiscussionComments } from '../hooks/useDiscussionComments';
+import { useComments } from '../api/getComments';
 
 import { DeleteComment } from './DeleteComment';
 
@@ -16,7 +16,7 @@ type CommentsListProps = {
 
 export const CommentsList = ({ discussionId }: CommentsListProps) => {
   const { user } = useAuth();
-  const commentsQuery = useDiscussionComments({ discussionId });
+  const commentsQuery = useComments({ discussionId });
 
   if (commentsQuery.isLoading) {
     return (

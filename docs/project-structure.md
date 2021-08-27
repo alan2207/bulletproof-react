@@ -11,15 +11,17 @@ src
 |
 +-- config            # all the global configuration, env variables etc. get exported from here and used in the app
 |
-+-- context           # all of the global contexts
-|
 +-- features          # feature based modules
 |
 +-- hooks             # shared hooks used across the entire application
 |
 +-- lib               # re-exporting different libraries preconfigured for the application
 |
++-- providers         # all of the application providers
+|
 +-- routes            # routes configuration
+|
++-- stores            # global state stores
 |
 +-- test              # test utilities and mock server
 |
@@ -35,7 +37,7 @@ A feature could have the following structure:
 ```
 src/features/awesome-feature
 |
-+-- api         # exported API request declarations related to the feature
++-- api         # exported API request declarations and api hooks related to the feature
 |
 +-- components  # components scoped to the feature, not used anywhere else
 |

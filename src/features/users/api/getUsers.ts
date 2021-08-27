@@ -1,8 +1,13 @@
 import { useQuery } from 'react-query';
 
+import { axios } from '@/lib/axios';
 import { QueryConfig } from '@/lib/react-query';
 
-import { getUsers } from '../api';
+import { User } from '../types';
+
+export const getUsers = (): Promise<User[]> => {
+  return axios.get(`/users`);
+};
 
 type UseUsersOptions = {
   config?: QueryConfig<typeof getUsers>;

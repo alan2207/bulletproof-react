@@ -79,8 +79,11 @@ export const authHandlers = [
       const result = authenticate({ email: userObject.email, password: userObject.password });
 
       return delayedResponse(ctx.json(result));
-    } catch (error) {
-      return delayedResponse(ctx.status(400), ctx.json({ message: error.message }));
+    } catch (error: any) {
+      return delayedResponse(
+        ctx.status(400),
+        ctx.json({ message: error?.message || 'Server Error' })
+      );
     }
   }),
 
@@ -89,8 +92,11 @@ export const authHandlers = [
       const credentials = req.body;
       const result = authenticate(credentials);
       return delayedResponse(ctx.json(result));
-    } catch (error) {
-      return delayedResponse(ctx.status(400), ctx.json({ message: error.message }));
+    } catch (error: any) {
+      return delayedResponse(
+        ctx.status(400),
+        ctx.json({ message: error?.message || 'Server Error' })
+      );
     }
   }),
 
@@ -99,8 +105,11 @@ export const authHandlers = [
       const user = requireAuth(req);
 
       return delayedResponse(ctx.json(user));
-    } catch (error) {
-      return delayedResponse(ctx.status(400), ctx.json({ message: error.message }));
+    } catch (error: any) {
+      return delayedResponse(
+        ctx.status(400),
+        ctx.json({ message: error?.message || 'Server Error' })
+      );
     }
   }),
 ];

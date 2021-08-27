@@ -1,10 +1,14 @@
 import { useMutation } from 'react-query';
 
-import { useNotificationStore } from '@/hooks/useNotificationStore';
+import { axios } from '@/lib/axios';
 import { MutationConfig, queryClient } from '@/lib/react-query';
+import { useNotificationStore } from '@/stores/notifications';
 
-import { deleteDiscussion } from '../api';
 import { Discussion } from '../types';
+
+export const deleteDiscussion = ({ discussionId }: { discussionId: string }) => {
+  return axios.delete(`/discussions/${discussionId}`);
+};
 
 type UseDeleteDiscussionOptions = {
   config?: MutationConfig<typeof deleteDiscussion>;

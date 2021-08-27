@@ -1,7 +1,7 @@
 import { Table, Spinner } from '@/components/Elements';
 import { formatDate } from '@/utils/format';
 
-import { useUsers } from '../hooks/useUsers';
+import { useUsers } from '../api/getUsers';
 import { User } from '../types';
 
 import { DeleteUser } from './DeleteUser';

@@ -5,17 +5,12 @@ import { Button } from '@/components/Elements';
 import { Form, FormDrawer, InputField, TextAreaField } from '@/components/Form';
 import { Authorization, ROLES } from '@/lib/authorization';
 
-import { useCreateDiscussion } from '../hooks/useCreateDiscussion';
+import { CreateDiscussionDTO, useCreateDiscussion } from '../api/createDiscussion';
 
 const schema = z.object({
   title: z.string().min(1, 'Required'),
   body: z.string().min(1, 'Required'),
 });
-
-type DiscussionValues = {
-  title: string;
-  body: string;
-};
 
 export const CreateDiscussion = () => {
   const createDiscussionMutation = useCreateDiscussion();
@@ -41,7 +36,7 @@ export const CreateDiscussion = () => {
           </Button>
         }
       >
-        <Form<DiscussionValues, typeof schema>
+        <Form<CreateDiscussionDTO['data'], typeof schema>
           id="create-discussion"
           onSubmit={async (values) => {
             await createDiscussionMutation.mutateAsync({ data: values });

@@ -3,11 +3,11 @@ import { initReactQueryAuth } from 'react-query-auth';
 import { Spinner } from '@/components/Elements';
 import {
   loginWithEmailAndPassword,
-  getUserProfile,
+  getUser,
   registerWithEmailAndPassword,
   UserResponse,
-  LoginCredentials,
-  RegisterCredentials,
+  LoginCredentialsDTO,
+  RegisterCredentialsDTO,
   AuthUser,
 } from '@/features/auth';
 import storage from '@/utils/storage';
@@ -20,19 +20,19 @@ async function handleUserResponse(data: UserResponse) {
 
 async function loadUser() {
   if (storage.getToken()) {
-    const data = await getUserProfile();
+    const data = await getUser();
     return data;
   }
   return null;
 }
 
-async function loginFn(data: LoginCredentials) {
+async function loginFn(data: LoginCredentialsDTO) {
   const response = await loginWithEmailAndPassword(data);
   const user = await handleUserResponse(response);
   return user;
 }
 
-async function registerFn(data: RegisterCredentials) {
+async function registerFn(data: RegisterCredentialsDTO) {
   const response = await registerWithEmailAndPassword(data);
   const user = await handleUserResponse(response);
   return user;
@@ -60,6 +60,6 @@ const authConfig = {
 export const { AuthProvider, useAuth } = initReactQueryAuth<
   AuthUser | null,
   unknown,
-  LoginCredentials,
-  RegisterCredentials
+  LoginCredentialsDTO,
+  RegisterCredentialsDTO
 >(authConfig);
