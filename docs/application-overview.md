@@ -4,6 +4,8 @@ The application is pretty simple. Users can create teams where other users can j
 
 A team is created during the registration if the user didn't choose to join an existing team and the user becomes the admin of it.
 
+[Demo](https://bulletproof-react-app.netlify.app)
+
 ## Data model
 
 The application contains the following models:
