@@ -3,7 +3,7 @@ import { Meta, Story } from '@storybook/react';
 import { Notification, NotificationProps } from './Notification';
 
 const meta: Meta = {
-  title: 'Components/Notifiations',
+  title: 'Components/Notifications',
   component: Notification,
   parameters: {
     controls: { expanded: true },
