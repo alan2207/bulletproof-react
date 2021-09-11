@@ -10,7 +10,7 @@ Set up an interceptor for handling errors. You might want to fire a notification
 
 Use error boundaries to handle errors that happen in the React tree. It is very popular to set only 1 single error boundary for the entire application, which would break the entire application when an error occurs. That's why you should have more error boundaries on more specific parts of the application. That way if an error occurs the app will still work without the need to restart it.
 
-[Error Boundary Example Code](../src/context/index.tsx)
+[Error Boundary Example Code](../src/providers/app.tsx)
 
 ### Error Tracking
 
