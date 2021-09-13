@@ -40,7 +40,7 @@ test('should create, render and delete discussions', async () => {
   await waitFor(() => expect(drawer).not.toBeInTheDocument());
 
   const row = screen.getByRole('row', {
-    name: `${newDiscussion.title} ${formatDate(newDiscussion.createdAt)} View Delete`,
+    name: `${newDiscussion.title} ${formatDate(newDiscussion.createdAt)} View Delete Discussion`,
   });
 
   expect(
@@ -51,7 +51,7 @@ test('should create, render and delete discussions', async () => {
 
   userEvent.click(
     within(row).getByRole('button', {
-      name: /delete/i,
+      name: /delete discussion/i,
     })
   );
 
@@ -60,7 +60,7 @@ test('should create, render and delete discussions', async () => {
   });
 
   const confirmationDeleteButton = within(confirmationDialog).getByRole('button', {
-    name: /delete/i,
+    name: /delete discussion/i,
   });
 
   userEvent.click(confirmationDeleteButton);
