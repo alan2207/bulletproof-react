@@ -26,7 +26,7 @@ export const DeleteUser = ({ id }: DeleteUserProps) => {
           className="bg-red-600"
           onClick={() => deleteUserMutation.mutate({ userId: id })}
         >
-          Delete
+          Delete User
         </Button>
       }
     />

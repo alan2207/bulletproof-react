@@ -20,7 +20,7 @@ export const DeleteDiscussion = ({ id }: DeleteDiscussionProps) => {
         body="Are you sure you want to delete this discussion?"
         triggerButton={
           <Button variant="danger" startIcon={<TrashIcon className="h-4 w-4" />}>
-            Delete
+            Delete Discussion
           </Button>
         }
         confirmButton={
@@ -30,7 +30,7 @@ export const DeleteDiscussion = ({ id }: DeleteDiscussionProps) => {
             className="bg-red-600"
             onClick={async () => await deleteDiscussionMutation.mutateAsync({ discussionId: id })}
           >
-            Delete
+            Delete Discussion
           </Button>
         }
       />

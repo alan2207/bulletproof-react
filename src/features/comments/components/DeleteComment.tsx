@@ -30,7 +30,7 @@ export const DeleteComment = ({ id, discussionId }: DeleteCommentProps) => {
           className="bg-red-600"
           onClick={async () => await deleteCommentMutation.mutateAsync({ commentId: id })}
         >
-          Delete
+          Delete Comment
         </Button>
       }
     />

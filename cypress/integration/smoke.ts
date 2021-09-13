@@ -91,13 +91,9 @@ describe('smoke', () => {
     cy.wait(200);
 
     // visit discussion page:
-    cy.findByRole('row', {
-      name: `${discussion.title} ${formatDate(discussion.createdAt)} View Delete`,
-    }).within(() => {
-      cy.findByRole('link', {
-        name: /view/i,
-      }).click();
-    });
+    cy.findByRole('link', {
+      name: /view/i,
+    }).click();
 
     cy.findByRole('heading', {
       name: discussion.title,
@@ -174,7 +170,7 @@ describe('smoke', () => {
 
     cy.findByRole('dialog').within(() => {
       cy.findByRole('button', {
-        name: /delete/i,
+        name: /delete comment/i,
       }).click();
     });
 
@@ -196,25 +192,22 @@ describe('smoke', () => {
     cy.wait(200);
 
     // delete discussion:
-    cy.findByRole('row', {
-      name: `${updatedDiscussion.title} ${formatDate(discussion.createdAt)} View Delete`,
-    }).within(() => {
-      cy.findByRole('button', {
-        name: 'Delete',
-      }).click();
-    });
+    cy.findByRole('button', {
+      name: /delete discussion/i,
+    }).click();
 
     cy.findByRole('dialog').within(() => {
       cy.findByRole('button', {
-        name: /delete/i,
+        name: /delete discussion/i,
       }).click();
     });
 
     cy.checkAndDismissNotification(/discussion deleted/i);
 
     cy.wait(200);
-    cy.findByRole('row', {
-      name: `${updatedDiscussion.title} ${formatDate(discussion.createdAt)} View Delete`,
+
+    cy.findByRole('cell', {
+      name: updatedDiscussion.title,
     }).should('not.exist');
   });
 });
