@@ -1,4 +1,4 @@
-# API Layer
+# 📡 API Layer
 
 ### Use a single instance of the API client
 

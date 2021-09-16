@@ -1,10 +1,12 @@
-# Auth
+# 🔐 Security
 
-NOTE: Handling Auth on the client doesn't mean you shouldn't handle it on the server. In fact, it is more important to protect the resources on the server, but it should be handled on the client as well.
+## Auth
+
+NOTE: Handling Auth on the client doesn't mean it shouldn't be handled on the server. As the matter of fact, it is more important to protect the resources on the server, but it should be handled on the client as well for better user experience.
 
 There are 2 parts of Auth:
 
-## Authentication
+### Authentication
 
 Authentication is a process of identifying who the user is. The most common way of authenticating users in single page applications is via [JWT](https://jwt.io/). During logging in / registration you receive a token that you store in your application, and then on each authenticated request you send the token in the header or via cookie along with the request.
 
@@ -33,7 +35,7 @@ The application will assume the user is authenticated if a user object is presen
 
 [Authenticated Route Protection Example Code](../src/routes/index.tsx)
 
-## Authorization
+### Authorization
 
 Authorization is a process of determining if the user is allowed to access a resource.
 

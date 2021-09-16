@@ -1,4 +1,4 @@
-# The Application Overview
+# 💻 Application Overview
 
 The application is pretty simple. Users can create teams where other users can join, and they start discussions on different topics between each other.
 

@@ -1,12 +1,14 @@
-# Components And Styling
+# 🧱 Components And Styling
 
 ## Components Best Practices
 
-#### Collocate things as close as possible to where it's being used
+#### Colocate things as close as possible to where it's being used
 
-Keep components, functions, styles, state, etc. as close as possible to the component where it's being used.
+Keep components, functions, styles, state, etc. as close as possible to the component where it's being used. This will not only make your codebase more readable and easier to understand but it will also improve your application performance since it will reduce redundant re-renders on state updates.
 
-#### Avoid nested rendering functions
+#### Avoid large components with nested rendering functions
+
+Do not add multiple rendering functions inside your application, this gets out of control pretty quickly. What you should do instead is if there is a piece of UI that can be considered as a unit, is to extract it in a separate component.
 
 ```javascript
 // this is very difficult to maintain as soon as the component starts growing
@@ -18,7 +20,9 @@ function Component() {
 }
 
 // extract it in a separate component
-import { Items } from 'components/Items';
+function Items() {
+  return <ul>...</ul>;
+}
 
 function Component() {
   return (
@@ -31,11 +35,11 @@ function Component() {
 
 #### Stay consistent
 
-Keep your code style consistent. e.g If you name your components by using pascal case, do it everywhere. If you create components as arrow functions, do it everywhere.
+Keep your code style consistent. e.g If you name your components by using pascal case, do it everywhere. More on this can be found [here](./style-guide.md)
 
 #### Limit the number of props a component is accepting as input
 
-If your component accepts a lot of props you might consider splitting it into multiple components or use composition via children or slots.
+If your component is accepting too many props you might consider splitting it into multiple components or use the composition technique via children or slots.
 
 [Composition Example Code](../src/components/Elements/ConfirmationDialog/ConfirmationDialog.tsx)
 
@@ -55,7 +59,9 @@ Every project requires some UI components such as modals, tabs, sidebars, menus,
 
 #### Fully featured component libraries:
 
-- [Chakra UI](https://chakra-ui.com/) - great library with probably the best developer experience, allows very fast prototyping with decent design defaults. Plenty of components that are very flexible with accessibility already configured out of the box.
+These component libraries come with their components fully styled.
+
+- [Chakra UI](https://chakra-ui.com/) - great library with probably the best developer experience, allows very fast prototyping with decent design defaults. Plenty of components that are very customizable and flexible with accessibility already configured out of the box.
 
 - [AntD](https://ant.design/) - another great component library that has a lot of different components. Best suitable for creating admin dashboards. However, it might be a bit difficult to change the styles in order to adapt it to a custom design.
 
@@ -63,14 +69,14 @@ Every project requires some UI components such as modals, tabs, sidebars, menus,
 
 #### Headless component libraries:
 
-If you have a specific design system from your designer, it might be easier and better solution to go with headless components that come unstyled than to adapt a fully featured library components such as Material UI to your needs. Some good options are:
+These component libraries come with their components unstyled. If you have a specific design system to implement, it might be easier and better solution to go with headless components that come unstyled than to adapt a styled components library such as Material UI to your needs. Some good options are:
 
 - [Reakit](https://reakit.io/)
 - [Headless UI](https://headlessui.dev/)
 - [Radix UI](https://www.radix-ui.com/)
 - [react-aria](https://react-spectrum.adobe.com/react-aria/)
 
-## Styling libraries
+## Styling Solutions
 
 There are multiple ways to style a react application. Some good options are:
 
@@ -84,12 +90,14 @@ There are multiple ways to style a react application. Some good options are:
 
 ## Good combinations
 
+Some good combinations of component library + styling
+
 - [Chakra UI](https://chakra-ui.com/) + [emotion](https://emotion.sh/docs/introduction) - The best choice for most applications
 - [Headless UI](https://headlessui.dev/) + [tailwind](https://tailwindcss.com/)
 - [Radix UI](https://www.radix-ui.com/) + [stitches](https://stitches.dev/)
 
 ## Storybook
 
-[Storybook](https://storybook.js.org/) is a great tool for developing and testing components in isolation. Think of it as a catalogue of all the components your application is using. Very useful especially for larger projects because it helps exploring components.
+[Storybook](https://storybook.js.org/) is a great tool for developing and testing components in isolation. Think of it as a catalogue of all the components your application is using. Very useful for developing and discoverability of components.
 
 [Storybook Story Example Code](../src/components/Elements/Button/Button.stories.tsx)

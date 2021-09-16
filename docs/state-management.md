@@ -1,8 +1,8 @@
-# State Management
+# 🗃️ State Management
 
-We can split the state in several categories:
+There is no need to keep all of your state in a single centralized state. There are different needs for different types of state that can be split into several types:
 
-#### UI State
+## UI State
 
 This is the state that controls interactive parts of an application. Opening modals, notifications, changing color mode, etc. For best performance and maintainability, keep the state as close as possible to the components that are using it. Don't make everything global out of the box.
 
@@ -18,7 +18,7 @@ Good UI State Libraries:
 
 [UI State Example Code](../src/stores/notifications.ts)
 
-#### Server Cache State
+## Server Cache State
 
 This is the state that comes from the server which is being cached on the client for further usage. It is possible to store remote data inside a state management store such as redux, but there are better solutions for that.
 
@@ -31,6 +31,35 @@ Good Server Cache Libraries:
 
 [Server State Example Code](../src/features/discussions/api/getDiscussions.ts)
 
-#### URL State
+## Form State
 
-State that is being kept in the URL bar of the browser. Very useful for keeping pagination data of a list because even if the page gets refreshed, it will keep all the states in the URL bar so the user will see the same results.
+This is a state that tracks users inputs in a form.
+
+Forms in React can be [controlled](https://reactjs.org/docs/forms.html#controlled-components) and [uncontrolled](https://reactjs.org/docs/uncontrolled-components.html).
+
+Depending on the application needs, they might be pretty complex with many different fields which require validation.
+
+Although it is possible to build any form using only React, there are pretty good solutions out there that help with handling forms such as:
+
+- [React Hook Form](https://react-hook-form.com/)
+- [Formik](https://formik.org/)
+- [React Final Form](https://github.com/final-form/react-final-form)
+
+Create abstracted `Form` component and all the input field components that wrap the library functionality and are adapted to the application needs. You can reuse it then throughout the application.
+
+[Form Example Code](../src/components/Form/Form.tsx)
+
+[Input Field Example Code](../src/components/Form/InputField.tsx)
+
+You can also integrate validation libraries with the mentioned solutions to validate inputs on the client. Some good options are:
+
+- [zod](https://github.com/colinhacks/zod)
+- [yup](https://github.com/jquense/yup)
+
+[Validation Example Code](../src/features/auth/components/RegisterForm.tsx)
+
+## URL State
+
+State that is being kept in the address bar of the browser. It is usually tracked via url params (`/app/${dynamicParam}`) or query params (`/app?dynamicParam=1`). It can be accessed and controlled via your routing solution such as `react-router-dom`.
+
+[URL State Example Code](../src/features/discussions/routes/Discussion.tsx)

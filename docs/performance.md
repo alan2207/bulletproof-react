@@ -1,10 +1,10 @@
-# Performance
+# 🚄 Performance
 
 ### Code Splitting
 
-Code splitting is a technique of splitting production js into smaller pieces, thus allowing the application to be only partially downloaded. Any unused code will not be downloaded until it is required by the application.
+Code splitting is a technique of splitting production JavaScript into smaller files, thus allowing the application to be only partially downloaded. Any unused code will not be downloaded until it is required by the application.
 
-Most of the time code splitting should be done on the routes level.
+Most of the time code splitting should be done on the routes level, but can also be used for other lazy loaded parts of application.
 
 Do not code split everything as it might even worsen your application's performance.
 
@@ -12,7 +12,7 @@ Do not code split everything as it might even worsen your application's performa
 
 ### Component and state optimizations
 
-- Do not put everything in a single context. That might trigger unnecessary re-renders. Instead split the global state into multiple contexts.
+- Do not put everything in a single state. That might trigger unnecessary re-renders. Instead split the global state into multiple stores according to where it is being used.
 
 - Keep the state as close as possible to where it is being used. This will prevent re-rendering components that do not depend on the updated state.
 
@@ -36,15 +36,8 @@ Consider lazy loading images that are not in the viewport.
 
 Use modern image formats such as WEBP for faster image loading.
 
+Use `srcset` to load the most optimal image for the clients screen size.
+
 ### Web vitals
 
 Since Google started taking web vitals in account when indexing websites, you should keep an eye on web vitals scores from [Lighthouse](https://web.dev/measure/) and [Pagespeed Insights](https://developers.google.com/speed/pagespeed/insights/).
-
-### Deployment
-
-Deploy and serve your application and assets over a CDN. Good options for that are:
-
-- [Vercel](https://vercel.com/)
-- [Netlify](https://www.netlify.com/)
-- [AWS](https://aws.amazon.com/cloudfront/)
-- [CloudFlare](https://www.cloudflare.com/en-gb/cdn/)
