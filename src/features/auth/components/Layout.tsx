@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import logo from '@/assets/logo.svg';
+import { Link } from '@/components/Elements';
 import { Head } from '@/components/Head';
 
 type LayoutProps = {
@@ -13,12 +15,13 @@ export const Layout = ({ children, title }: LayoutProps) => {
       <Head title={title} />
       <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <img
-            className="mx-auto h-12 w-auto"
-            src="https://tailwindui.com/img/logos/workflow-mark-blue-600.svg"
-            alt="Workflow"
-          />
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">{title}</h2>
+          <div className="flex justify-center">
+            <Link className="flex items-center text-white" to="/">
+              <img className="h-24 w-auto" src={logo} alt="Workflow" />
+            </Link>
+          </div>
+
+          <h2 className="mt-3 text-center text-3xl font-extrabold text-gray-900">{title}</h2>
         </div>
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
