@@ -14,7 +14,7 @@ The application contains the following models:
 
   - `ADMIN` can:
     - create/edit/delete discussions
-    - create/delete own comments
+    - create/delete all comments
     - delete users
     - edit own profile
   - `USER` - can:

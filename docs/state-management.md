@@ -1,18 +1,27 @@
 # 🗃️ State Management
 
-There is no need to keep all of your state in a single centralized state. There are different needs for different types of state that can be split into several types:
+There is no need to keep all of your state in a single centralized store. There are different needs for different types of state that can be split into several types:
 
-## UI State
+## Component State
+
+This is the state that only a component needs, and it is not meant to be shared anywhere else. But you can pass it as prop to children components if needed. Most of the time, you want to start from here and lift the state up if needed elsewhere. For this type of state, you will usually need:
+
+- [useState](https://reactjs.org/docs/hooks-reference.html#usestate) - for simpler states that are independent
+- [useReducer](https://reactjs.org/docs/hooks-reference.html#usereducer) - for more complex states where on a single action you want to update seceral pieces of state
+
+[Component State Example Code](../src/components/Layout/MainLayout.tsx)
+
+## Application State
 
 This is the state that controls interactive parts of an application. Opening modals, notifications, changing color mode, etc. For best performance and maintainability, keep the state as close as possible to the components that are using it. Don't make everything global out of the box.
 
-Good UI State Libraries:
+Good Application State Solutions:
 
-- [Context](https://reactjs.org/docs/context.html) + [hooks](https://reactjs.org/docs/hooks-intro.html)
+- [context](https://reactjs.org/docs/context.html) + [hooks](https://reactjs.org/docs/hooks-intro.html)
+- [redux](https://redux.js.org/) + [redux toolkit](https://redux-toolkit.js.org/)
+- [mobx](https://mobx.js.org)
 - [zustand](https://github.com/pmndrs/zustand)
 - [constate](https://github.com/diegohaz/constate)
-- [redux](https://redux.js.org/)
-- [mobx](https://mobx.js.org)
 - [jotai](https://github.com/pmndrs/jotai)
 - [recoil](https://recoiljs.org/)
 

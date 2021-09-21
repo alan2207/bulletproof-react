@@ -12,6 +12,7 @@ const schema = z.object({
   email: z.string().min(1, 'Required'),
   firstName: z.string().min(1, 'Required'),
   lastName: z.string().min(1, 'Required'),
+  bio: z.string(),
 });
 
 export const UpdateProfile = () => {

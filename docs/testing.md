@@ -29,7 +29,7 @@ Usually these tests consist of running the entire application with the frontend 
 
 #### [Jest](https://jestjs.io/)
 
-Jest is a fully featured testing framework and is the de-facto standard when it comes to testing JavaScript applications. It is very flexible and configurable to test both frontends and backends.
+Jest is a fully featured testing framework and is de-facto standard when it comes to testing JavaScript applications. It is very flexible and configurable to test both frontends and backends.
 
 #### [Testing Library](https://testing-library.com/)
 

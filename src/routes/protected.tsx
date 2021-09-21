@@ -1,5 +1,7 @@
+import { Suspense } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 
+import { Spinner } from '@/components/Elements';
 import { MainLayout } from '@/components/Layout';
 import { lazyImport } from '@/utils/lazyImport';
 
@@ -14,7 +16,15 @@ const { Users } = lazyImport(() => import('@/features/users'), 'Users');
 const App = () => {
   return (
     <MainLayout>
-      <Outlet />
+      <Suspense
+        fallback={
+          <div className="h-full w-full flex items-center justify-center">
+            <Spinner size="xl" />
+          </div>
+        }
+      >
+        <Outlet />
+      </Suspense>
     </MainLayout>
   );
 };
