@@ -16,7 +16,7 @@ You should write unit tests for shared components and functions that are used th
 Integration testing is a method of testing multiple parts of an application at once.
 Most of your tests should be integration tests, as these will give you the most benefits and confidence for your invested effort. Unit tests on their own don't guarantee that your app will work even if those tests pass, because the relationship between the units might be wrong. You should test different features with integration tests.
 
-[Integration Test Example Code](../src/features/auth/components/__tests__/RegisterForm.test.tsx)
+[Integration Test Example Code](../src/features/discussions/routes/__tests__/Discussion.test.tsx)
 
 ### E2E
 
