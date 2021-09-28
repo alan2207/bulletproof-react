@@ -16,11 +16,11 @@ export const updateTeam = ({ teamId, data }: UpdateTeamDTO) => {
   return axios.patch(`/teams/${teamId}`, data);
 };
 
-type UseUpdateDiscussionOptions = {
+type UseUpdateTeamOptions = {
   config?: MutationConfig<typeof updateTeam>;
 };
 
-export const useUpdateDiscussion = ({ config }: UseUpdateDiscussionOptions = {}) => {
+export const useUpdateTeam = ({ config }: UseUpdateTeamOptions = {}) => {
   const { addNotification } = useNotificationStore();
 
   return useMutation({
