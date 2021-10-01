@@ -34,9 +34,9 @@ This is the state that comes from the server which is being cached on the client
 Good Server Cache Libraries:
 
 - [react-query](https://react-query.tanstack.com/) - REST + GraphQL
-- [swr]() - REST + GraphQL
-- [apollo client]() - GraphQL
-- [urql]() - GraphQl
+- [swr](https://swr.vercel.app/) - REST + GraphQL
+- [apollo client](https://www.apollographql.com/) - GraphQL
+- [urql](https://formidable.com/open-source/urql/) - GraphQl
 
 [Server State Example Code](../src/features/discussions/api/getDiscussions.ts)
 
