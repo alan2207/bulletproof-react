@@ -1,6 +1,6 @@
 # 👁️ Style Guide
 
-When you work with large projects, it's important that you remain consistent throughout the codebase and follow the best practices. To garantee that your code have a good quality, you need to analyse differents levels of the applications code.
+When you work with large projects, it's important that you remain consistent throughout the codebase and follow the best practices. To guarantee the quality of your codebase, you need to analyze different levels of the applications code.
 
 ## Clean Code
 
