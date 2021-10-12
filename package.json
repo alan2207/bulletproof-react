@@ -15,7 +15,7 @@
     "@types/node": "^16.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
-    "axios": "^0.21.1",
+    "axios": "^0.21.4",
     "clsx": "^1.1.1",
     "dayjs": "^1.10.6",
     "dompurify": "^2.2.9",
