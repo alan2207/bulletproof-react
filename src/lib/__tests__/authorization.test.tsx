@@ -43,7 +43,7 @@ test('should view protected resource if policy check passes', async () => {
 
   const protectedResource = 'This is very confidential data';
 
-  await render(<Authorization policyCheck={true}>{protectedResource}</Authorization>, { user });
+  await render(<Authorization policyCheck>{protectedResource}</Authorization>, { user });
 
   expect(screen.getByText(protectedResource)).toBeInTheDocument();
 });
