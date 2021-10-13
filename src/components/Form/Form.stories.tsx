@@ -78,7 +78,7 @@ export const AsFormDrawer = () => {
   return (
     <FormDrawer
       triggerButton={<Button>Open Form</Button>}
-      isDone={true}
+      isDone
       title="My Form"
       size="lg"
       submitButton={
