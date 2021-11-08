@@ -2,7 +2,7 @@
 
 ## React
 
-- [Official Documentation](https://pt-br.reactjs.org/docs/getting-started.html)
+- [Official Documentation](https://reactjs.org/docs/getting-started.html)
 - [React Bits](https://github.com/vasanthk/react-bits)
 - [React Patterns](https://reactpatterns.com/)
 - [Tao Of React](https://alexkondov.com/tao-of-react/)
