@@ -49,7 +49,7 @@ src/features/awesome-feature
 |
 +-- stores      # state stores for a specific feature
 |
-+-- types       # typescript types for ta specific feature domain
++-- types       # typescript types for TS specific feature domain
 |
 +-- utils       # utility functions for a specific feature
 |
@@ -76,7 +76,7 @@ This can also be configured in the ESLint configuration to disallow the later im
         'no-restricted-imports': [
             'error',
             {
-            patterns: ['@/features/*/*'],
+                patterns: ['@/features/*/*'],
             },
         ],
 
