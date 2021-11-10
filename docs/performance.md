@@ -8,7 +8,7 @@ Most of the time code splitting should be done on the routes level, but can also
 
 Do not code split everything as it might even worsen your application's performance.
 
-[Code Splitting Example Code](../src/routes/index.tsx)
+[Code Splitting Example Code](../src/routes/protected.tsx)
 
 ### Component and state optimizations
 
