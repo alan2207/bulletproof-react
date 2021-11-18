@@ -63,7 +63,7 @@ These component libraries come with their components fully styled.
 
 - [Chakra UI](https://chakra-ui.com/) - great library with probably the best developer experience, allows very fast prototyping with decent design defaults. Plenty of components that are very customizable and flexible with accessibility already configured out of the box.
 
-- [AntD](https://ant.design/) - another great component library that has a lot of different components. Best suitable for creating admin dashboards. However, it might be a bit difficult to change the styles in order to adapt it to a custom design.
+- [AntD](https://ant.design/) - another great component library that has a lot of different components. Best suitable for creating admin dashboards. However, it might be a bit difficult to change the styles in order to adapt them to a custom design.
 
 - [MUI](https://mui.com/) - the most popular component library for React. Has a lot of different components. It might be more suitable for building admin dashboards as it would not be easy to change the components to look like something else than Material Design.
 
