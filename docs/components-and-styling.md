@@ -65,7 +65,7 @@ These component libraries come with their components fully styled.
 
 - [AntD](https://ant.design/) - another great component library that has a lot of different components. Best suitable for creating admin dashboards. However, it might be a bit difficult to change the styles in order to adapt them to a custom design.
 
-- [MUI](https://mui.com/) - the most popular component library for React. Has a lot of different components. It might be more suitable for building admin dashboards as it would not be easy to change the components to look like something else than Material Design.
+- [MUI](https://mui.com/) - the most popular component library for React. Has a lot of different components. Can be used as a styled solution by implementing Material Design or as unstyled headless component library.
 
 #### Headless component libraries:
 
