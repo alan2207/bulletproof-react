@@ -28,10 +28,9 @@ Husky is a tool for executing git hooks. Use Husky to run your code validations 
 
 Absolute imports should always be configured and used because it makes it easier to move files around and avoid messy import paths such as `../../../Component`. Wherever you move the file, all the imports will remain intact. Here is how to configure it:
 
-For JavaScript projects:
+For JavaScript (`jsconfig.json`) projects:
 
-```
-// jsconfig.json
+```json
 "compilerOptions": {
     "baseUrl": ".",
     "paths": {
@@ -40,10 +39,9 @@ For JavaScript projects:
   }
 ```
 
-For TypeScript projects:
+For TypeScript (`tsconfig.json`) projects:
 
-```
-// tsconfig.json
+```json
 "compilerOptions": {
     "baseUrl": ".",
     "paths": {
