@@ -24,6 +24,7 @@ Good Application State Solutions:
 - [constate](https://github.com/diegohaz/constate)
 - [jotai](https://github.com/pmndrs/jotai)
 - [recoil](https://recoiljs.org/)
+- [xstate](https://xstate.js.org/)
 
 [UI State Example Code](../src/stores/notifications.ts)
 
