@@ -2,7 +2,7 @@
 
 Most of the code lives in the `src` folder and looks like this:
 
-```
+```sh
 src
 |
 +-- assets            # assets folder can contain all the static files such as images, fonts, etc.
@@ -34,7 +34,7 @@ In order to scale the application in the easiest and most maintainable way, keep
 
 A feature could have the following structure:
 
-```
+```sh
 src/features/awesome-feature
 |
 +-- api         # exported API request declarations and api hooks related to a specific feature
@@ -62,7 +62,7 @@ Everything from a feature should be exported from the `index.ts` file which beha
 
 You should import stuff from other features only by using:
 
-`import {AwesomeComponent} from "@/features/awesome-feature" `js
+`import {AwesomeComponent} from "@/features/awesome-feature"`
 
 and not
 
@@ -70,7 +70,7 @@ and not
 
 This can also be configured in the ESLint configuration to disallow the later import by the following rule:
 
-```
+```js
 {
     rules: {
         'no-restricted-imports': [
@@ -80,7 +80,7 @@ This can also be configured in the ESLint configuration to disallow the later im
             },
         ],
 
-    ...rest of the configuration
+    // ...rest of the configuration
 }
 ```
 
