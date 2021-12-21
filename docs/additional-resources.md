@@ -3,6 +3,9 @@
 ## React
 
 - [Official Documentation](https://reactjs.org/docs/getting-started.html)
+- [Beta Official Documentation](https://beta.reactjs.org/)
+- [The Beginner's Guide to React](https://egghead.io/courses/the-beginner-s-guide-to-react)
+- [patterns.dev](https://www.patterns.dev/)
 - [React Bits](https://github.com/vasanthk/react-bits)
 - [React Patterns](https://reactpatterns.com/)
 - [Tao Of React](https://alexkondov.com/tao-of-react/)
