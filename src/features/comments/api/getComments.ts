@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 
 import { axios } from '@/lib/axios';
-import { QueryConfig } from '@/lib/react-query';
+import { ExtractFnReturnType, QueryConfig } from '@/lib/react-query';
 
 import { Comment } from '../types';
 
@@ -13,15 +13,17 @@ export const getComments = ({ discussionId }: { discussionId: string }): Promise
   });
 };
 
+type QueryFnType = typeof getComments;
+
 type UseCommentsOptions = {
   discussionId: string;
-  config?: QueryConfig<typeof getComments>;
+  config?: QueryConfig<QueryFnType>;
 };
 
 export const useComments = ({ discussionId, config }: UseCommentsOptions) => {
-  return useQuery({
-    ...config,
+  return useQuery<ExtractFnReturnType<QueryFnType>>({
     queryKey: ['comments', discussionId],
     queryFn: () => getComments({ discussionId }),
+    ...config,
   });
 };
