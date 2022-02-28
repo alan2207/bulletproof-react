@@ -40,4 +40,4 @@ Use `srcset` to load the most optimal image for the clients screen size.
 
 ### Web vitals
 
-Since Google started taking web vitals in account when indexing websites, you should keep an eye on web vitals scores from [Lighthouse](https://web.dev/measure/) and [Pagespeed Insights](https://developers.google.com/speed/pagespeed/insights/).
+Since Google started taking web vitals in account when indexing websites, you should keep an eye on web vitals scores from [Lighthouse](https://web.dev/measure/) and [Pagespeed Insights](https://pagespeed.web.dev/).
