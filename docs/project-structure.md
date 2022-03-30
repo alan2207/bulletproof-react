@@ -25,7 +25,7 @@ src
 |
 +-- test              # test utilities and mock server
 |
-+-- types             # base types used accross the application
++-- types             # base types used across the application
 |
 +-- utils             # shared utility functions
 ```
