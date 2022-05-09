@@ -21,6 +21,7 @@ module.exports = {
         browser: true,
         node: true,
         es6: true,
+        jest: true,
       },
       extends: [
         'eslint:recommended',
@@ -43,8 +44,9 @@ module.exports = {
           },
         ],
         'linebreak-style': ['error', 'unix'],
-        'react/prop-types': 'off',
-
+        'import/default': 'off',
+        'import/no-named-as-default-member': 'off',
+        'import/no-named-as-default': 'off',
         'import/order': [
           'error',
           {
@@ -53,20 +55,23 @@ module.exports = {
             alphabetize: { order: 'asc', caseInsensitive: true },
           },
         ],
-        'import/default': 'off',
-        'import/no-named-as-default-member': 'off',
-        'import/no-named-as-default': 'off',
-
+        'react/prop-types': 'off',
+        'react/jsx-key': ['error'],
+        'react/display-name': 'off',
+        'react/jsx-uses-react': 'off',
         'react/react-in-jsx-scope': 'off',
-
-        'jsx-a11y/anchor-is-valid': 'off',
-
-        '@typescript-eslint/no-unused-vars': ['error'],
-
-        '@typescript-eslint/explicit-function-return-type': ['off'],
+        'no-console': ['error', { allow: ['warn', 'error'] }],
+        'no-unused-vars': 'off',
         '@typescript-eslint/explicit-module-boundary-types': ['off'],
-        '@typescript-eslint/no-empty-function': ['off'],
+        '@typescript-eslint/no-var-requires': ['error'],
+        '@typescript-eslint/no-empty-function': ['error'],
+        '@typescript-eslint/no-unused-vars': ['error', { ignoreRestSiblings: true }],
+        '@typescript-eslint/explicit-function-return-type': ['off'],
         '@typescript-eslint/no-explicit-any': ['off'],
+        '@typescript-eslint/naming-convention': [
+          'error',
+          { selector: 'typeLike', format: ['PascalCase'] },
+        ],
 
         'prettier/prettier': ['error', {}, { usePrettierrc: true }],
       },
