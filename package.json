@@ -58,7 +58,7 @@
     "serve": "serve --no-clipboard --single --listen 3000 build",
     "eject": "react-scripts eject",
     "lint": "eslint --fix --ext .js,.ts,.tsx ./src --ignore-path .gitignore",
-    "prettier": "prettier --ignore-path .gitignore --write \"**/*.+(js|json|ts|tsx)\"",
+    "prettier": "prettier --ignore-path .gitignore --write \"**/*.+(js|jsx|json|ts|tsx)\"",
     "format": "npm run prettier -- --write",
     "check-types": "tsc --project tsconfig.json --pretty --noEmit",
     "check-format": "npm run prettier -- --list-different",
