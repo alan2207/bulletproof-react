@@ -55,49 +55,47 @@ It is a good idea to wrap 3rd party components as well in order to adapt them to
 
 ## Component libraries
 
-Every project requires some UI components such as modals, tabs, sidebars, menus, etc. Instead of building those from scratch, you might want to use some of the existing, battle-tested component libraries.
+Every project requires some UI components such as modals, tabs, sidebars, menus, etc.
 
-#### Fully featured component libraries:
+#### Kiwi: our own UI component library:
 
-These component libraries come with their components fully styled.
+Kiwi is our **UI components package**, it is built on **Stitches** api.
+It is a fully **typed** package with Typescript.
+Accessibility standard in these components is brought by **Radix UI** primitives components.
 
-- [Chakra UI](https://chakra-ui.com/) - great library with probably the best developer experience, allows very fast prototyping with decent design defaults. Plenty of components that are very customizable and flexible with accessibility already configured out of the box.
+1. A component must expose an API in accordance with the responsibilities its name suggests, making its purpose obvious.
+   i.e: A `<Text />` component might expose props to modify its font weight or its alignment, not for defining his margin.
+2. If a component exposes props related to CSS, it must allow only theme tokens if any.
+   i.e: A `fontWeight` props on a `<Text />` component should expose theme tokens like `$bold` or `$light` . Raw values like `700` must be forbidden.
+3. A low-level component must expose stitches’s `css` prop to be able to override underlaying css, or to pass contextual style.
+4. A component should not cover every edge cases, modifying `letterSpacing` is not common and therefore should not be exposed on a `<Text />` component.
 
-- [AntD](https://ant.design/) - another great component library that has a lot of different components. Best suitable for creating admin dashboards. However, it might be a bit difficult to change the styles in order to adapt them to a custom design.
+```javascript
+<Text
+  variant="title"
+  fontWeight="$bold"
+  css={{
+    marginTop: 20, // contextual positioning
+  }}
+/>
+```
 
-- [MUI](https://mui.com/) - the most popular component library for React. Has a lot of different components. Can be used as a styled solution by implementing Material Design or as unstyled headless component library.
+As a general rule, a component should be clear on its usage and its intent, the same goes for an incorrect usage ; it should be obvious for the developer or the reviewer.
 
-#### Headless component libraries:
+#### Radix UI: Headless component library:
 
-These component libraries come with their components unstyled. If you have a specific design system to implement, it might be easier and better solution to go with headless components that come unstyled than to adapt a styled components library such as Material UI to your needs. Some good options are:
+This component library come with their components unstyled. If you have a specific design system to implement, it might be easier and better solution to go with headless components that come unstyled than to adapt a styled components library such as Material UI to your needs.
 
-- [Reakit](https://reakit.io/)
-- [Headless UI](https://headlessui.dev/)
-- [Radix UI](https://www.radix-ui.com/)
-- [react-aria](https://react-spectrum.adobe.com/react-aria/)
+[Radix UI](https://www.radix-ui.com/)
 
 ## Styling Solutions
 
-There are multiple ways to style a react application. Some good options are:
+We are using [Stitches](https://stitches.dev/) as main styling api (for Kiwi and applications). Api and theme configuration is exported by `@yousign/theme` internal library.
 
-- [tailwind](https://tailwindcss.com/)
-- [styled-components](https://styled-components.com/)
-- [emotion](https://emotion.sh/docs/introduction)
-- [stitches](https://stitches.dev/)
-- [vanilla-extract](https://github.com/seek-oss/vanilla-extract)
-- [CSS modules](https://github.com/css-modules/css-modules)
-- [linaria](https://github.com/callstack/linaria)
+You might still encounter the [styled-components](https://styled-components.com/) api because we used this api before; please consider it deprecated.
 
-## Good combinations
+## Ladle
 
-Some good combinations of component library + styling
+[Ladle](https://ladle.dev/) is a great tool for developing and testing components in isolation. Think of it as a catalogue of all the components your application is using. Very useful for developing and discoverability of components.
 
-- [Chakra UI](https://chakra-ui.com/) + [emotion](https://emotion.sh/docs/introduction) - The best choice for most applications
-- [Headless UI](https://headlessui.dev/) + [tailwind](https://tailwindcss.com/)
-- [Radix UI](https://www.radix-ui.com/) + [stitches](https://stitches.dev/)
-
-## Storybook
-
-[Storybook](https://storybook.js.org/) is a great tool for developing and testing components in isolation. Think of it as a catalogue of all the components your application is using. Very useful for developing and discoverability of components.
-
-[Storybook Story Example Code](../src/components/Elements/Button/Button.stories.tsx)
+[Story Example Code](../src/components/Elements/Button/Button.stories.tsx)
