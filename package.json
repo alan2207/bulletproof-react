@@ -85,6 +85,7 @@
   },
   "devDependencies": {
     "@mswjs/data": "^0.3.0",
+    "@sentry/react": "^6.19.7",
     "@storybook/addon-actions": "^6.3.2",
     "@storybook/addon-essentials": "^6.3.2",
     "@storybook/addon-links": "^6.3.2",
