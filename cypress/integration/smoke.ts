@@ -4,8 +4,6 @@ import {
   commentGenerator,
 } from '../../src/test/data-generators';
 
-import { formatDate } from '../../src/utils/format';
-
 describe('smoke', () => {
   it('should handle normal app flow', () => {
     const user = userGenerator();
