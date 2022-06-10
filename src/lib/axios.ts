@@ -1,7 +1,7 @@
 import Axios, { AxiosRequestConfig } from 'axios';
 
 import { API_URL } from '@/config';
-import { useNotificationStore } from '@/stores/notifications';
+import { useNotificationStore } from '@/states/notifications';
 import storage from '@/utils/storage';
 
 function authRequestInterceptor(config: AxiosRequestConfig) {
