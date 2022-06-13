@@ -21,7 +21,7 @@ src
 |
 +-- routes            # routes configuration
 |
-+-- stores            # global state stores
++-- states            # global states/contexts
 |
 +-- test              # test utilities and mock server
 |
@@ -47,7 +47,7 @@ src/features/awesome-feature
 |
 +-- routes      # route components for a specific feature pages
 |
-+-- stores      # state stores for a specific feature
++-- states      # states/contexts for a specific feature
 |
 +-- types       # typescript types for TS specific feature domain
 |
