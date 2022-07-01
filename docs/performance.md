@@ -26,9 +26,12 @@ const [state, setState] = React.useState(myExpensiveFn());
 const [state, setState] = React.useState(() => myExpensiveFn());
 ```
 
-- If you develop an application that requires the state to track many elements at once, you might consider state management libraries with atomic updates such as [recoil](https://recoiljs.org/) or [jotai](https://jotai.pmnd.rs/).
+[How to write performant react code](https://www.developerway.com/posts/how-to-write-performant-react-code)
 
-- If your application is expected to have frequent updates that might affect performance, consider switching from runtime styling solutions ([Chakra UI](https://chakra-ui.com/), [emotion](https://emotion.sh/docs/introduction), [styled-components](https://styled-components.com/) that generate styles during runtime) to zero runtime styling solutions ([tailwind](https://tailwindcss.com/), [linaria](https://github.com/callstack/linaria), [vanilla-extract](https://github.com/seek-oss/vanilla-extract), [CSS modules](https://github.com/css-modules/css-modules) which generate styles during build time).
+- Don't overuse `useMemo` and `useCallback`. Premature optimization can harm the overall performance of the app.
+
+[How to useMemo useCallback](https://www.developerway.com/posts/how-to-use-memo-use-callback)
+[Before you use memo](https://overreacted.io/before-you-memo)
 
 ### Image optimizations
 
@@ -41,3 +44,7 @@ Use `srcset` to load the most optimal image for the clients screen size.
 ### Web vitals
 
 Since Google started taking web vitals in account when indexing websites, you should keep an eye on web vitals scores from [Lighthouse](https://web.dev/measure/) and [Pagespeed Insights](https://pagespeed.web.dev/).
+
+### Patterns
+
+There is a lot of different patterns to optimize a production code. You have some references here [Patterns.dev](https://www.patterns.dev/posts/#performance-patterns)
