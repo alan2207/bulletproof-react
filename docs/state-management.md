@@ -1,43 +1,36 @@
 # 🗃️ State Management
 
-There is no need to keep all of your state in a single centralized store. There are different needs for different types of state that can be split into several types:
+There is no need to keep all of your state in a single centralized store. At Yousign, we use what React gives us `useState` and `Context`, nothing more.
 
 ## Component State
 
-This is the state that only a component needs, and it is not meant to be shared anywhere else. But you can pass it as prop to children components if needed. Most of the time, you want to start from here and lift the state up if needed elsewhere. For this type of state, you will usually need:
+This is the state that only a component needs, and it is not meant to be shared deep down the compontent tree. **Keep your state as close as possible to where its used**, and lift the state up if needed. For this type of state, you will need:
 
-- [useState](https://reactjs.org/docs/hooks-reference.html#usestate) - for simpler states that are independent
+- [useState](https://reactjs.org/docs/hooks-reference.html#usestate) - for simpler states (i.e. primitive values)
 - [useReducer](https://reactjs.org/docs/hooks-reference.html#usereducer) - for more complex states where on a single action you want to update several pieces of state
 
 [Component State Example Code](../src/components/Layout/MainLayout.tsx)
 
-## Application State
+## UI Shared State
 
-This is the state that controls interactive parts of an application. Opening modals, notifications, changing color mode, etc. For best performance and maintainability, keep the state as close as possible to the components that are using it. Don't make everything global out of the box.
+### Prop drilling
 
-Good Application State Solutions:
+Many times you'll need to share the state to children. Keep it simple and pass is as a prop, as long as it does not break the separation of concerns. If the state pass through too many components create a Context.
 
-- [context](https://reactjs.org/docs/context.html) + [hooks](https://reactjs.org/docs/hooks-intro.html)
-- [redux](https://redux.js.org/) + [redux toolkit](https://redux-toolkit.js.org/)
-- [mobx](https://mobx.js.org)
-- [zustand](https://github.com/pmndrs/zustand)
-- [constate](https://github.com/diegohaz/constate)
-- [jotai](https://github.com/pmndrs/jotai)
-- [recoil](https://recoiljs.org/)
-- [xstate](https://xstate.js.org/)
+### Context
+
+If you need to shared state among severals components or pages (Application State), use React `Context`.  
+A great use case for `Context`, it's when you want to make your component composable, and yet share the same state.
+
+[context](https://reactjs.org/docs/context.html) + [hooks](https://reactjs.org/docs/hooks-intro.html)
 
 [UI State Example Code](../src/stores/notifications.ts)
 
 ## Server Cache State
 
-This is the state that comes from the server which is being cached on the client for further usage. It is possible to store remote data inside a state management store such as redux, but there are better solutions for that.
+This is the state that comes from the server which is being cached on the client for further usage. This part is fully delegated to the beloved [react-query](https://react-query.tanstack.com/) library.
 
-Good Server Cache Libraries:
-
-- [react-query](https://react-query.tanstack.com/) - REST + GraphQL
-- [swr](https://swr.vercel.app/) - REST + GraphQL
-- [apollo client](https://www.apollographql.com/) - GraphQL
-- [urql](https://formidable.com/open-source/urql/) - GraphQl
+All you have to do is to define queries and invalidating them to refresh the data when needed.
 
 [Server State Example Code](../src/features/discussions/api/getDiscussions.ts)
 
@@ -45,31 +38,15 @@ Good Server Cache Libraries:
 
 This is a state that tracks users inputs in a form.
 
-Forms in React can be [controlled](https://reactjs.org/docs/forms.html#controlled-components) and [uncontrolled](https://reactjs.org/docs/uncontrolled-components.html).
-
-Depending on the application needs, they might be pretty complex with many different fields which require validation.
-
-Although it is possible to build any form using only React, there are pretty good solutions out there that help with handling forms such as:
-
-- [React Hook Form](https://react-hook-form.com/)
-- [Formik](https://formik.org/)
-- [React Final Form](https://github.com/final-form/react-final-form)
-
-Create abstracted `Form` component and all the input field components that wrap the library functionality and are adapted to the application needs. You can reuse it then throughout the application.
+Use [React Hook Form](https://react-hook-form.com/) to handle the form state.  
+To validate the form, create a schema using [yup](https://github.com/jquense/yup).
 
 [Form Example Code](../src/components/Form/Form.tsx)
 
-[Input Field Example Code](../src/components/Form/InputField.tsx)
-
-You can also integrate validation libraries with the mentioned solutions to validate inputs on the client. Some good options are:
-
-- [zod](https://github.com/colinhacks/zod)
-- [yup](https://github.com/jquense/yup)
-
-[Validation Example Code](../src/features/auth/components/RegisterForm.tsx)
-
 ## URL State
 
-State that is being kept in the address bar of the browser. It is usually tracked via url params (`/app/${dynamicParam}`) or query params (`/app?dynamicParam=1`). It can be accessed and controlled via your routing solution such as `react-router-dom`.
+State that is being kept in the address bar of the browser. It is usually tracked via url params (`/app/${dynamicParam}`) or query params (`/app?dynamicParam=1`). It can be accessed and controlled via `react-router-dom`.
+
+Use `useLocation` and `useParams` to read the URL state, and `useHistory` to (re)write the URL state.
 
 [URL State Example Code](../src/features/discussions/routes/Discussion.tsx)
