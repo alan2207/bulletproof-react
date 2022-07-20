@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import omit from 'lodash/omit';
+import { omit } from 'lodash-es';
 import { RestRequest, createResponseComposition, context } from 'msw';
 
 import { JWT_SECRET } from '@/config';
