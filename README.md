@@ -12,7 +12,7 @@ It is also very flexible, you can write React applications in any way you like b
 
 This is an attempt to present a way of creating React applications using the best tools in the ecosystem with a good project structure that scales very well. It is based on the experience of working with many different codebases, and this architecture turns out to be the most effective one.
 
-The goal of this repo is to serve as a collection of resources and good practices when developing React applications. It is supposed to showcase solving most of the real-world problems of an application in a practical way and help developers writing better applications.
+The goal of this repo is to serve as a collection of resources and good practices when developing React applications. It is supposed to showcase solving most of the real-world problems of an application in a practical way and help developers write better applications.
 
 Feel free to explore the codebase to get the most value out of the repo.
 
