@@ -56,8 +56,6 @@ src/features/awesome-feature
 +-- index.ts    # entry point for the feature, it should serve as the public API of the given feature and exports everything that should be used outside the feature
 ```
 
-A feature folder could also contain other features (if used only within the parent feature) or be kept separated, it's a matter of preference.
-
 Everything from a feature should be exported from the `index.ts` file which behaves as the public API of the feature.
 
 You should import stuff from other features only by using:
