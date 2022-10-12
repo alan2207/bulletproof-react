@@ -38,6 +38,7 @@ export const commentsHandlers = [
       const data = req.body;
       const result = db.comment.create({
         authorId: user.id,
+        author: user.firstName,
         id: nanoid(),
         createdAt: Date.now(),
         ...data,

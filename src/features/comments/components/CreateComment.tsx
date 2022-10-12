@@ -44,6 +44,7 @@ export const CreateComment = ({ discussionId }: CreateCommentProps) => {
             await createCommentMutation.mutateAsync({
               data: {
                 body: values.body,
+                author: values.author,
                 discussionId,
               },
             });

@@ -9,6 +9,7 @@ import { Comment } from '../types';
 export type CreateCommentDTO = {
   data: {
     body: string;
+    author: string;
     discussionId: string;
   };
 };

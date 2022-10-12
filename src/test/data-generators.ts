@@ -34,6 +34,7 @@ export const discussionGenerator = (overrides?: Overrides) => ({
 
 export const commentGenerator = (overrides?: Overrides) => ({
   id: faker.datatype.uuid(),
+  author: faker.internet.userName(),
   body: faker.lorem.sentence(),
   createdAt: Date.now(),
   ...overrides,

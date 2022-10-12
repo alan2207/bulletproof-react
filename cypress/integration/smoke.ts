@@ -149,6 +149,7 @@ describe('smoke', () => {
       name: 'comments',
     }).within(() => {
       cy.findByText(comment.body).should('exist');
+      cy.findByText(comment.author).should('exist');
     });
 
     cy.wait(200);

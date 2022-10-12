@@ -46,12 +46,14 @@ export const CommentsList = ({ discussionId }: CommentsListProps) => {
           key={comment.id || index}
           className="w-full bg-white shadow-sm p-4"
         >
-          <Authorization policyCheck={POLICIES['comment:delete'](user as User, comment)}>
-            <div className="flex justify-between">
-              <span className="text-xs font-semibold">{formatDate(comment.createdAt)}</span>
+          <div className="flex justify-between">
+            <span className="text-xs font-semibold">
+              {`${formatDate(comment.createdAt)} ${comment.author} said:`}
+            </span>
+            <Authorization policyCheck={POLICIES['comment:delete'](user as User, comment)}>
               <DeleteComment discussionId={discussionId} id={comment.id} />
-            </div>
-          </Authorization>
+            </Authorization>
+          </div>
 
           <MDPreview value={comment.body} />
         </li>
