@@ -6,7 +6,7 @@ import { JWT_SECRET } from '@/config';
 
 import { db } from './db';
 
-const isTesting = process.env.NODE_ENV === 'test' || ((window as any).Cypress as any);
+const isTesting = process.env.NODE_ENV === 'test';
 
 export const delayedResponse = createResponseComposition(undefined, [
   context.delay(isTesting ? 0 : 1000),

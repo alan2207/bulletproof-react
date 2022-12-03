@@ -95,9 +95,3 @@ Some good combinations of component library + styling
 - [Chakra UI](https://chakra-ui.com/) + [emotion](https://emotion.sh/docs/introduction) - The best choice for most applications
 - [Headless UI](https://headlessui.dev/) + [tailwind](https://tailwindcss.com/)
 - [Radix UI](https://www.radix-ui.com/) + [stitches](https://stitches.dev/)
-
-## Storybook
-
-[Storybook](https://storybook.js.org/) is a great tool for developing and testing components in isolation. Think of it as a catalogue of all the components your application is using. Very useful for developing and discoverability of components.
-
-[Storybook Story Example Code](../src/components/Elements/Button/Button.stories.tsx)
