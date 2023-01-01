@@ -44,7 +44,7 @@
     "start": "craco start",
     "start:cli": "cross-env BROWSER=none craco start",
     "build": "craco build",
-    "test": "is-ci \"test:coverage\" \"test:watch\"",
+    "test": "is-ci \"test:coverage\" \"test:jest\"",
     "test:jest": "craco test",
     "test:coverage": "CI=1 yarn test:jest -- --coverage",
     "postinstall": "husky install",
