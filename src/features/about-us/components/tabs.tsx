@@ -1,5 +1,4 @@
-import { MuiThemeProvider, createTheme } from '@material-ui/core';
-import { orange, pink, green } from '@material-ui/core/colors';
+import { Hidden } from '@material-ui/core';
 import { RadioButtonCheckedOutlined, RadioButtonUncheckedOutlined } from '@mui/icons-material';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
@@ -12,14 +11,6 @@ interface TabPanelProps {
   index: number;
   value: number;
 }
-
-// const useStyles = makeStyles(() =>
-//   createStyles({
-//     indicator: {
-//       color: '#EE3126',
-//     },
-//   })
-// );
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -48,73 +39,54 @@ function a11yProps(index: number) {
   };
 }
 
-const theme = createTheme({
-  overrides: {
-    MuiTabs: {
-      indicator: {
-        backgroundColor: orange[700],
-      },
-    },
-    MuiTab: {
-      root: {
-        '&:hover': {
-          backgroundColor: pink[100],
-          color: pink[700],
-        },
-      },
-      selected: {
-        backgroundColor: orange[100],
-        color: orange[700],
-        '&:hover': {
-          backgroundColor: green[100],
-          color: green[700],
-        },
-      },
-    },
-  },
-});
-
 export const VerticalTabs = () => {
   const [value, setValue] = React.useState(0);
-
-  // const classes = useStyles();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
   return (
-    <MuiThemeProvider theme={theme}>
+    <Box
+      sx={{
+        width: '100%',
+        display: 'flex',
+        flexGrow: 1,
+        flexDirection: 'row-reverse',
+      }}
+    >
       <Box
         sx={{
-          width: '100%',
           display: 'flex',
-          flexGrow: 1,
-          flexDirection: 'row-reverse',
+          alignItems: 'center',
+          position: { xs: 'absolute', md: 'initial' },
+          marginTop: { xs: '10%' },
         }}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            aria-label="basic tabs example"
-            orientation="vertical"
-            TabIndicatorProps={{
-              style: { backgroundColor: 'transparent' },
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="basic tabs example"
+          orientation="vertical"
+          TabIndicatorProps={{
+            style: { backgroundColor: 'transparent' },
+          }}
+          sx={{
+            backgroundColor: { xs: 'transparent', md: '#F7F3F0' },
+          }}
+        >
+          <Tab
+            icon={value === 0 ? <RadioButtonCheckedOutlined /> : <RadioButtonUncheckedOutlined />}
+            iconPosition="end"
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              '&.Mui-selected': {
+                color: '#EE3126',
+              },
             }}
-            sx={{ backgroundColor: '#F7F3F0' }}
-          >
-            <Tab
-              icon={value === 0 ? <RadioButtonCheckedOutlined /> : <RadioButtonUncheckedOutlined />}
-              iconPosition="end"
-              sx={{
-                display: 'flex',
-                justifyContent: 'flex-end',
-                '&.Mui-selected': {
-                  color: '#EE3126',
-                },
-              }}
-              label={
+            label={
+              <Hidden mdDown>
                 <Typography
                   variant="h6"
                   fontFamily={`${value === 0 ? 'Poppins-Bold' : 'Poppins-Regular'}`}
@@ -122,20 +94,22 @@ export const VerticalTabs = () => {
                 >
                   Visualise
                 </Typography>
-              }
-              {...a11yProps(0)}
-            />
-            <Tab
-              icon={value === 1 ? <RadioButtonCheckedOutlined /> : <RadioButtonUncheckedOutlined />}
-              iconPosition="end"
-              sx={{
-                display: 'flex',
-                justifyContent: 'flex-end',
-                '&.Mui-selected': {
-                  color: '#EE3126',
-                },
-              }}
-              label={
+              </Hidden>
+            }
+            {...a11yProps(0)}
+          />
+          <Tab
+            icon={value === 1 ? <RadioButtonCheckedOutlined /> : <RadioButtonUncheckedOutlined />}
+            iconPosition="end"
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              '&.Mui-selected': {
+                color: '#EE3126',
+              },
+            }}
+            label={
+              <Hidden mdDown>
                 <Typography
                   variant="h6"
                   fontFamily={`${value === 1 ? 'Poppins-Bold' : 'Poppins-Regular'}`}
@@ -143,20 +117,22 @@ export const VerticalTabs = () => {
                 >
                   DIY or Guided
                 </Typography>
-              }
-              {...a11yProps(1)}
-            />
-            <Tab
-              icon={value === 2 ? <RadioButtonCheckedOutlined /> : <RadioButtonUncheckedOutlined />}
-              iconPosition="end"
-              sx={{
-                display: 'flex',
-                justifyContent: 'flex-end',
-                '&.Mui-selected': {
-                  color: '#EE3126',
-                },
-              }}
-              label={
+              </Hidden>
+            }
+            {...a11yProps(1)}
+          />
+          <Tab
+            icon={value === 2 ? <RadioButtonCheckedOutlined /> : <RadioButtonUncheckedOutlined />}
+            iconPosition="end"
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              '&.Mui-selected': {
+                color: '#EE3126',
+              },
+            }}
+            label={
+              <Hidden mdDown>
                 <Typography
                   variant="h6"
                   fontFamily={`${value === 2 ? 'Poppins-Bold' : 'Poppins-Regular'}`}
@@ -164,21 +140,21 @@ export const VerticalTabs = () => {
                 >
                   Connect
                 </Typography>
-              }
-              {...a11yProps(2)}
-            />
-          </Tabs>
-        </Box>
-        <TabPanel value={value} index={0}>
-          <img alt="alt" src="/images/with-2.png" />
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <img alt="alt" src="/images/with-2.png" />
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-          <img alt="alt" src="/images/with-2.png" />
-        </TabPanel>
+              </Hidden>
+            }
+            {...a11yProps(2)}
+          />
+        </Tabs>
       </Box>
-    </MuiThemeProvider>
+      <TabPanel value={value} index={0}>
+        <img alt="alt" src="/images/with-2.png" />
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        <img alt="alt" src="/images/with-2.png" />
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        <img alt="alt" src="/images/with-2.png" />
+      </TabPanel>
+    </Box>
   );
 };
