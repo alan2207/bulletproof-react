@@ -1,0 +1,184 @@
+import { MuiThemeProvider, createTheme } from '@material-ui/core';
+import { orange, pink, green } from '@material-ui/core/colors';
+import { RadioButtonCheckedOutlined, RadioButtonUncheckedOutlined } from '@mui/icons-material';
+import Box from '@mui/material/Box';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import Typography from '@mui/material/Typography';
+import * as React from 'react';
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+// const useStyles = makeStyles(() =>
+//   createStyles({
+//     indicator: {
+//       color: '#EE3126',
+//     },
+//   })
+// );
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+function a11yProps(index: number) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+
+const theme = createTheme({
+  overrides: {
+    MuiTabs: {
+      indicator: {
+        backgroundColor: orange[700],
+      },
+    },
+    MuiTab: {
+      root: {
+        '&:hover': {
+          backgroundColor: pink[100],
+          color: pink[700],
+        },
+      },
+      selected: {
+        backgroundColor: orange[100],
+        color: orange[700],
+        '&:hover': {
+          backgroundColor: green[100],
+          color: green[700],
+        },
+      },
+    },
+  },
+});
+
+export const VerticalTabs = () => {
+  const [value, setValue] = React.useState(0);
+
+  // const classes = useStyles();
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
+
+  return (
+    <MuiThemeProvider theme={theme}>
+      <Box
+        sx={{
+          width: '100%',
+          display: 'flex',
+          flexGrow: 1,
+          flexDirection: 'row-reverse',
+        }}
+      >
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="basic tabs example"
+            orientation="vertical"
+            TabIndicatorProps={{
+              style: { backgroundColor: 'transparent' },
+            }}
+            sx={{ backgroundColor: '#F7F3F0' }}
+          >
+            <Tab
+              icon={value === 0 ? <RadioButtonCheckedOutlined /> : <RadioButtonUncheckedOutlined />}
+              iconPosition="end"
+              sx={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                '&.Mui-selected': {
+                  color: '#EE3126',
+                },
+              }}
+              label={
+                <Typography
+                  variant="h6"
+                  fontFamily={`${value === 0 ? 'Poppins-Bold' : 'Poppins-Regular'}`}
+                  color={value === 0 ? '#EE3126' : '#3F3F3F'}
+                >
+                  Visualise
+                </Typography>
+              }
+              {...a11yProps(0)}
+            />
+            <Tab
+              icon={value === 1 ? <RadioButtonCheckedOutlined /> : <RadioButtonUncheckedOutlined />}
+              iconPosition="end"
+              sx={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                '&.Mui-selected': {
+                  color: '#EE3126',
+                },
+              }}
+              label={
+                <Typography
+                  variant="h6"
+                  fontFamily={`${value === 1 ? 'Poppins-Bold' : 'Poppins-Regular'}`}
+                  color={value === 1 ? '#EE3126' : '#3F3F3F'}
+                >
+                  DIY or Guided
+                </Typography>
+              }
+              {...a11yProps(1)}
+            />
+            <Tab
+              icon={value === 2 ? <RadioButtonCheckedOutlined /> : <RadioButtonUncheckedOutlined />}
+              iconPosition="end"
+              sx={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                '&.Mui-selected': {
+                  color: '#EE3126',
+                },
+              }}
+              label={
+                <Typography
+                  variant="h6"
+                  fontFamily={`${value === 2 ? 'Poppins-Bold' : 'Poppins-Regular'}`}
+                  color={value === 2 ? '#EE3126' : '#3F3F3F'}
+                >
+                  Connect
+                </Typography>
+              }
+              {...a11yProps(2)}
+            />
+          </Tabs>
+        </Box>
+        <TabPanel value={value} index={0}>
+          <img alt="alt" src="/images/with-2.png" />
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <img alt="alt" src="/images/with-2.png" />
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          <img alt="alt" src="/images/with-2.png" />
+        </TabPanel>
+      </Box>
+    </MuiThemeProvider>
+  );
+};
