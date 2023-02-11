@@ -1,7 +1,5 @@
-/* eslint-disable jsx-a11y/media-has-caption */
-/* eslint-disable react/jsx-no-comment-textnodes */
 import { Box, Typography, createStyles, makeStyles, Hidden } from '@material-ui/core';
-import { Player } from 'video-react';
+import ReactPlayer from 'react-player';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -29,6 +27,16 @@ const useStyles = makeStyles(() =>
       position: 'absolute',
       top: 0,
     },
+
+    playerWrapper: {
+      position: 'relative',
+      paddingTop: '56.25%',
+    },
+    reactPlayer: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+    },
   })
 );
 
@@ -47,11 +55,19 @@ export const VideoSection = () => {
           Understand more about us
         </Typography>
       </Hidden>
-      <Player>
-        <video controls>
-          <source src="/videos/pexels-marc-espejo-6548176.mp4" type="video/mp4" />
-        </video>
-      </Player>
+
+      <Box className={classes.playerWrapper}>
+        <ReactPlayer
+          className={classes.reactPlayer}
+          url="https://www.youtube.com/watch?v=DqJt-kcCaZw&ab_channel=Homeez"
+          width="100%"
+          height="100%"
+          type="video/mp4"
+          controls
+          // you can use the following property to set a thumbnail if needed
+          // light={<img src="https://example.com/thumbnail.png" alt="Thumbnail" />}
+        />
+      </Box>
     </Box>
   );
 };
