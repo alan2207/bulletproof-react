@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ThemeProvider } from '@material-ui/core';
+import { ThemeProvider, Theme, StyledEngineProvider } from '@mui/material';
 
 import { AppProvider } from '@/providers/app';
 import { AppRoutes } from '@/routes';
@@ -9,9 +9,11 @@ import theme from './styles/theme';
 function App() {
   return (
     <AppProvider>
-      <ThemeProvider theme={theme}>
-        <AppRoutes />
-      </ThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <AppRoutes />
+        </ThemeProvider>
+      </StyledEngineProvider>
     </AppProvider>
   );
 }

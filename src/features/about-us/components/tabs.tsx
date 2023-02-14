@@ -1,5 +1,5 @@
-import { Hidden } from '@material-ui/core';
 import { RadioButtonCheckedOutlined, RadioButtonUncheckedOutlined } from '@mui/icons-material';
+import { Hidden } from '@mui/material';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
@@ -86,7 +86,7 @@ export const VerticalTabs = () => {
               },
             }}
             label={
-              <Hidden mdDown>
+              <Hidden lgDown>
                 <Typography
                   variant="h6"
                   fontFamily={`${value === 0 ? 'Poppins-Bold' : 'Poppins-Regular'}`}
@@ -109,7 +109,7 @@ export const VerticalTabs = () => {
               },
             }}
             label={
-              <Hidden mdDown>
+              <Hidden lgDown>
                 <Typography
                   variant="h6"
                   fontFamily={`${value === 1 ? 'Poppins-Bold' : 'Poppins-Regular'}`}
@@ -132,7 +132,7 @@ export const VerticalTabs = () => {
               },
             }}
             label={
-              <Hidden mdDown>
+              <Hidden lgDown>
                 <Typography
                   variant="h6"
                   fontFamily={`${value === 2 ? 'Poppins-Bold' : 'Poppins-Regular'}`}

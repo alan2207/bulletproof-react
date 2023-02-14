@@ -1,110 +1,172 @@
-// eslint-disable-next-line import/no-unresolved
-import { createTheme } from '@mui/material';
+import { createTheme } from '@mui/material/styles';
 
-// eslint-disable-next-line import/no-unresolved
-import './fonts.scss';
+declare module '@mui/material/styles' {
+  interface Palette {
+    hColors: {
+      orange: string;
+      ratingActive: string;
+    };
+  }
+  interface PaletteOptions {
+    hColors: {
+      orange: string;
+      ratingActive: string;
+    };
+  }
+}
 
-let theme = createTheme({});
+const theme = createTheme({
+  components: {
+    MuiLink: {
+      styleOverrides: {
+        root: {
+          fontFamily: 'Poppins',
+          color: '#3f3f3f',
+          fontSize: '18px',
+          fontWeight: '500',
+          lineHeight: '160%',
+          letterSpacing: '0.15px',
+          textDecoration: 'none',
+        },
+      },
+    },
+    MuiButton: {
+      variants: [
+        {
+          props: { variant: 'contained' },
+          style: {
+            backgroundColor: '#EE3126',
+            color: 'white',
+            ':hover': {
+              backgroundColor: '#EE3150',
+            },
+          },
+        },
+        {
+          props: { variant: 'text' },
+          style: {
+            color: '#EE3126',
+          },
+        },
+      ],
+      styleOverrides: {
+        root: {
+          fontWeight: '600',
+          fontFamily: 'Poppins',
+          ':focus': {
+            outline: 'none',
+          },
+          boxShadow: 'none',
+        },
+      },
+    },
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          ':focus': {
+            outline: 'none',
+          },
+        },
+      },
+    },
+    MuiTypography: {
+      variants: [
+        {
+          props: { variant: 'h3' },
+          style: {
+            fontWeight: '700',
+            fontSize: '36px',
+            lineHeight: '42px',
+          },
+        },
+        {
+          props: { variant: 'caption' },
+          style: {
+            fontFamily: 'Nunito',
+            fontWeight: '400',
+            fontSize: '12px',
+            lineHeight: '19.92px',
+            letterSpacing: '0.4 px',
+          },
+        },
+        {
+          props: { variant: 'h5' },
+          style: {
+            fontFamily: 'Poppins',
+            fontWeight: '400',
+            fontSize: '1.25rem',
+            lineHeight: '27px',
+          },
+        },
+        {
+          props: { variant: 'h4' },
+          style: {
+            fontSize: '1.975rem',
+            fontWeight: '400',
+            lineHeight: '37px',
+          },
+        },
+        {
+          props: { variant: 'h6' },
+          style: {
+            fontSize: '1.125rem',
+            fontWeight: '500',
+            lineHeight: '29px',
+            fontFamily: 'Poppins',
+            letterSpacing: '0.15px',
+          },
+        },
 
-theme = createTheme(theme, {
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 361,
-      md: 580,
-      lg: 600,
-      xl: 1200,
+        {
+          props: { variant: 'body1' },
+          style: {
+            fontSize: '1rem',
+            fontWeight: '400',
+            lineHeight: '24px',
+            fontFamily: 'Nunito',
+            letterSpacing: '0.15px',
+          },
+        },
+        {
+          props: { variant: 'subtitle1' },
+          style: {
+            fontSize: '1rem',
+            fontWeight: '400',
+            lineHeight: '28px',
+            fontFamily: 'Nunito',
+          },
+        },
+        {
+          props: { variant: 'subtitle2' },
+          style: {
+            fontSize: '	0.75rem',
+            fontWeight: '500',
+            lineHeight: '22px',
+            fontFamily: 'Nunito',
+            letterSpacing: '0.1 px',
+          },
+        },
+      ],
+      styleOverrides: {
+        root: {
+          fontFamily: 'Poppins',
+          color: '#3f3f3f',
+        },
+      },
     },
   },
   palette: {
+    hColors: {
+      orange: '#EE3126',
+      ratingActive: '#FFB400',
+    },
+    secondary: {
+      main: '#EE3126',
+    },
     primary: {
       main: '#EE3126',
     },
   },
-  typography: {
-    fontFamily: ['Poppins-Regular', 'Nunito-Regular', 'sans-serif'].join(','),
-    h1: {
-      fontSize: '30px',
-      lineHeight: '58px',
-      textTransform: 'none',
-      fontFamily: 'Poppins-Bold',
-    },
-    h2: {
-      fontSize: '48px',
-      lineHeight: '58px',
-      textTransform: 'none',
-      fontFamily: 'Poppins-Light',
-
-      [theme.breakpoints.down('md')]: {
-        fontSize: '32px',
-        lineHeight: '40px',
-        fontFamily: 'Poppins-Bold',
-      },
-    },
-    h3: {
-      fontSize: '36px',
-      lineHeight: '42px',
-      textTransform: 'none',
-      fontFamily: 'Poppins-Regular',
-
-      [theme.breakpoints.down('md')]: {
-        fontSize: '30px',
-        lineHeight: '37px',
-      },
-    },
-    h4: {
-      fontSize: '18px',
-      fontWeight: 600,
-      lineHeight: '36px',
-      textTransform: 'none',
-      fontFamily: 'Poppins-Regular',
-
-      [theme.breakpoints.down('md')]: {
-        fontWeight: 400,
-        fontSize: '40px',
-        lineHeight: '37px',
-      },
-    },
-    h5: {
-      fontSize: '20px',
-      fontWeight: 400,
-      lineHeight: '32px',
-      textTransform: 'none',
-      fontFamily: 'Poppins-Regular',
-    },
-    h6: {
-      fontSize: '18px',
-      lineHeight: '29px',
-      fontFamily: 'Poppins-Regular',
-      textTransform: 'none',
-
-      [theme.breakpoints.down('md')]: {
-        fontSize: '16px',
-        lineHeight: '24px',
-        fontFamily: 'Nunito-Bold',
-      },
-    },
-    subtitle1: {
-      fontSize: '16px',
-      lineHeight: '24px',
-      textTransform: 'none',
-      fontFamily: 'Nunito-Regular',
-    },
-    subtitle2: {
-      fontSize: '16px',
-      lineHeight: '24px',
-      textTransform: 'none',
-      fontFamily: 'Nunito-Bold',
-    },
-    button: {
-      fontSize: '20px',
-      fontWeight: 600,
-      lineHeight: '30px',
-      fontFamily: 'Radial-SemiBold',
-      textTransform: 'none',
-    },
-  },
-
-  components: {},
 });
+
 export default theme;

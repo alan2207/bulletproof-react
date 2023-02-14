@@ -1,47 +1,44 @@
-import { Box, Typography, Grid, createStyles, makeStyles, Theme } from '@material-ui/core';
+import { Box, Typography, Grid } from '@mui/material';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    gridContainer: {
-      textAlign: 'center',
-      backgroundColor: '#F7F3F0',
-      padding: '80px 70px',
-      maxWidth: '1280px',
-      margin: '0 auto',
+const classes = {
+  gridContainer: {
+    textAlign: 'center',
+    backgroundColor: '#F7F3F0',
+    padding: '80px 70px',
+    maxWidth: '1280px',
+    margin: '0 auto',
 
-      [theme.breakpoints.down('md')]: {
-        background: 'linear-gradient(180deg, #FFFFFF 0%, #F7F3F0 23.85%)',
-        padding: '0 15px',
-      },
+    md: {
+      background: 'linear-gradient(180deg, #FFFFFF 0%, #F7F3F0 23.85%)',
+      padding: '0 15px',
     },
+  },
 
-    gridItem: {
-      padding: '0 17px',
-    },
+  gridItem: {
+    padding: '0 17px',
+  },
 
-    gridHeading: {
-      paddingTop: '100px',
-      paddingBottom: '96px',
-    },
+  gridHeading: {
+    paddingTop: '100px',
+    paddingBottom: '96px',
+  },
 
-    gridIcon: {
-      display: 'block',
-      margin: '0 auto',
-    },
-  })
-);
+  gridIcon: {
+    display: 'block',
+    margin: '0 auto',
+  },
+};
 
 export const HomeRenosSection = () => {
-  const classes = useStyles();
   return (
-    <Box className={classes.gridContainer}>
-      <Typography variant="h3" align="center" className={classes.gridHeading}>
+    <Box sx={classes.gridContainer}>
+      <Typography variant="h3" align="center" sx={classes.gridHeading}>
         Simplyifying Home Renos
       </Typography>
       <Grid container>
-        <Grid item xs={12} md={4} className={classes.gridItem}>
+        <Grid item xs={12} md={4} sx={classes.gridItem}>
           <Box justifyContent="center">
-            <img alt="first-icon" src="/icons/image-19.png" className={classes.gridIcon} />
+            <img alt="first-icon" src="/icons/image-19.png" style={classes.gridIcon} />
             <Typography variant="h6" align="center" style={{ padding: '16px 0px' }}>
               Empowering Homeowners
             </Typography>
@@ -51,9 +48,9 @@ export const HomeRenosSection = () => {
             </Typography>
           </Box>
         </Grid>
-        <Grid item xs={12} md={4} className={classes.gridItem}>
+        <Grid item xs={12} md={4} sx={classes.gridItem}>
           <Box justifyContent="center">
-            <img alt="first-icon" src="/icons/image-17.png" className={classes.gridIcon} />
+            <img alt="first-icon" src="/icons/image-17.png" style={classes.gridIcon} />
             <Typography variant="h6" align="center" style={{ padding: '16px 0px' }}>
               Assurance
             </Typography>
@@ -63,9 +60,9 @@ export const HomeRenosSection = () => {
             </Typography>
           </Box>
         </Grid>
-        <Grid item xs={12} md={4} className={classes.gridItem}>
+        <Grid item xs={12} md={4} sx={classes.gridItem}>
           <Box justifyContent="center">
-            <img alt="first-icon" src="/icons/image-18.png" className={classes.gridIcon} />
+            <img alt="first-icon" src="/icons/image-18.png" style={classes.gridIcon} />
             <Typography variant="h6" align="center" style={{ padding: '16px 0px' }}>
               Transparency
             </Typography>
