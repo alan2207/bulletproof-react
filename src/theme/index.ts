@@ -14,12 +14,12 @@ declare module '@mui/material/styles' {
     };
   }
 }
-
 const theme = createTheme({
   components: {
     MuiLink: {
       styleOverrides: {
         root: {
+          cursor: 'pointer',
           fontFamily: 'Poppins',
           color: '#3f3f3f',
           fontSize: '18px',
@@ -72,6 +72,16 @@ const theme = createTheme({
     MuiTypography: {
       variants: [
         {
+          props: { variant: 'h2' },
+          style: {
+            fontSize: '2rem',
+            fontWeight: '700',
+            lineHeight: '39.52px',
+            fontFamily: 'Poppins',
+            letterSpacing: '0.25px',
+          },
+        },
+        {
           props: { variant: 'h3' },
           style: {
             fontWeight: '700',
@@ -116,7 +126,6 @@ const theme = createTheme({
             letterSpacing: '0.15px',
           },
         },
-
         {
           props: { variant: 'body1' },
           style: {
@@ -166,7 +175,9 @@ const theme = createTheme({
     primary: {
       main: '#EE3126',
     },
+    info: {
+      main: '#3F3F3F',
+    },
   },
 });
-
 export default theme;

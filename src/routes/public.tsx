@@ -1,7 +1,7 @@
+import { Dogeez } from '@/features/dogeez';
 import { lazyImport } from '@/utils/lazyImport';
 
 const { AuthRoutes } = lazyImport(() => import('@/features/auth'), 'AuthRoutes');
-const { AboutUs } = lazyImport(() => import('@/features/about-us'), 'AboutUs');
 
 export const publicRoutes = [
   {
@@ -10,6 +10,6 @@ export const publicRoutes = [
   },
   {
     path: '/',
-    element: <AboutUs />,
+    element: <Dogeez />,
   },
 ];

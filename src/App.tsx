@@ -4,7 +4,9 @@ import { ThemeProvider, Theme, StyledEngineProvider } from '@mui/material';
 import { AppProvider } from '@/providers/app';
 import { AppRoutes } from '@/routes';
 
-import theme from './styles/theme';
+import theme from './theme/index';
+import 'swiper/swiper.min.css';
+import 'swiper/swiper-bundle.css';
 
 function App() {
   return (
