@@ -12,6 +12,20 @@ import {
 } from '@/features/auth';
 import storage from '@/utils/storage';
 
+const myUser = {
+	id: 'ds4ds7f7d5fd5f',
+	email: 'diyor@gmail.com',
+  firstName: 'Diyor',
+  lastName: 'Qarshibayev',
+  bio: 'something about me',
+  role: 'USER',
+}
+
+const myResponse = {
+	jwt: 'dsdsd5df8s4f4s87f8gf5gh78gh78g4f55a5s5f4s8dfg4441',
+	user: myUser
+}
+
 async function handleUserResponse(data: UserResponse) {
   const { jwt, user } = data;
   storage.setToken(jwt);
@@ -20,20 +34,23 @@ async function handleUserResponse(data: UserResponse) {
 
 async function loadUser() {
   if (storage.getToken()) {
-    const data = await getUser();
+//     const data = await getUser();
+		const data = await new Promise((resolve) => setTimeout(() => resolve(myUser), 2000 ))
     return data;
   }
   return null;
 }
 
 async function loginFn(data: LoginCredentialsDTO) {
-  const response = await loginWithEmailAndPassword(data);
+//   const response = await loginWithEmailAndPassword(data);
+	const response = await new Promise((resolve) => setTimeout(() => resolve(myResponse), 2000 ))
   const user = await handleUserResponse(response);
   return user;
 }
 
 async function registerFn(data: RegisterCredentialsDTO) {
-  const response = await registerWithEmailAndPassword(data);
+//   const response = await registerWithEmailAndPassword(data);
+	const response = await new Promise((resolve) => setTimeout(() => resolve(myResponse), 2000 ))
   const user = await handleUserResponse(response);
   return user;
 }
