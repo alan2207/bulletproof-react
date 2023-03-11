@@ -18,7 +18,7 @@ const myUser = {
   firstName: 'Diyor',
   lastName: 'Qarshibayev',
   bio: 'something about me',
-  role: 'ADMIN';
+  role: 'USER',
 }
 
 const myResponse = {
