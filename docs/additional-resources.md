@@ -2,8 +2,8 @@
 
 ## React
 
-- [Official Documentation](https://reactjs.org/docs/getting-started.html)
-- [Beta Official Documentation](https://beta.reactjs.org/)
+- [Official Documentation](https://react.dev/)
+- [Legacy Official Documentation](https://legacy.reactjs.org/)
 - [The Beginner's Guide to React](https://egghead.io/courses/the-beginner-s-guide-to-react)
 - [patterns.dev](https://www.patterns.dev/)
 - [React Bits](https://github.com/vasanthk/react-bits)
