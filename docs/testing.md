@@ -59,4 +59,4 @@ It can be used for designing API endpoints. The business logic of the mocked API
 
 [Data Models Example Code](../src/test/server/db.ts)
 
-Having fully functional mocked API server also handy when it comes to testing, you don't have to mock fetch, but make requests to the mocked server instead with the data your application would expect.
+Having a fully functional mocked API server is also handy when it comes to testing, you don't have to mock fetch, but make requests to the mocked server instead with the data your application would expect.
