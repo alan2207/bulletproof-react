@@ -43,7 +43,7 @@ You define all the commands a real world user would execute when using the app a
 - Browser mode - it will open a dedicated browser and run your application from start to finish. You get a nice set of tools to visualize and inspect your application on each step. Since this is a more expensive option, you want to run it only locally when developing the application.
 - Headless mode - it will start a headless browser and run your application. Very useful for integrating with CI/CD to run it on every deploy.
 
-It is very configurable with plugins and commands. You can even pair it with [Testing Library](https://testing-library.com/docs/cypress-testing-library/intro/) which is makes your tests even easier to write.
+It is very configurable with plugins and commands. You can even pair it with [Testing Library](https://testing-library.com/docs/cypress-testing-library/intro/) which makes your tests even easier to write.
 
 You can also write custom commands to abstract some common tasks.
 
