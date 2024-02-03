@@ -2,7 +2,7 @@
 
 ## Auth
 
-NOTE: Handling Auth on the client doesn't mean it shouldn't be handled on the server. As the matter of fact, it is more important to protect the resources on the server, but it should be handled on the client as well for better user experience.
+NOTE: Handling Auth on the client doesn't mean it shouldn't be handled on the server. As a matter of fact, it is more important to protect the resources on the server, but it should be handled on the client as well for better user experience.
 
 There are 2 parts of Auth:
 
