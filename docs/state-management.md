@@ -17,8 +17,8 @@ This is the state that controls interactive parts of an application. Opening mod
 
 Good Application State Solutions:
 
-- [context](https://reactjs.org/docs/context.html) + [hooks](https://reactjs.org/docs/hooks-intro.html)
-- [redux](https://redux.js.org/) + [redux toolkit](https://redux-toolkit.js.org/)
+- [context](https://react.dev/learn/passing-data-deeply-with-context) + [hooks](https://react.dev/reference/react-dom/hooks)
+- [redux](https://redux.js.org/) + [redux tolkit](https://redux-toolkit.js.org/)
 - [mobx](https://mobx.js.org)
 - [zustand](https://github.com/pmndrs/zustand)
 - [constate](https://github.com/diegohaz/constate)
