@@ -48,6 +48,27 @@ yarn install
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
+If you encounter an error when starting the app:
+
+```bash
+Error: error:0308010C:digital envelope routines::unsupported ...
+```
+
+Run:
+
+```bash
+export NODE_OPTIONS=--openssl-legacy-provider
+&& yarn start
+```
+
+You can optionally modify the build script in package.json
+
+```js
+"start": "craco start --openssl-legacy-provider"
+```
+
+This [article](https://sebhastian.com/error-0308010c-digital-envelope-routines-unsupported/) explains the issue.
+
 ##### `yarn build`
 
 Builds the app for production to the `build` folder.\
