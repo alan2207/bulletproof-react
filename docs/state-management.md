@@ -45,7 +45,7 @@ Good Server Cache Libraries:
 
 This is a state that tracks users inputs in a form.
 
-Forms in React can be [controlled](https://reactjs.org/docs/forms.html#controlled-components) and [uncontrolled](https://reactjs.org/docs/uncontrolled-components.html).
+Forms in React can be [controlled and uncontrolled](https://react.dev/learn/sharing-state-between-components#controlled-and-uncontrolled-components).
 
 Depending on the application needs, they might be pretty complex with many different fields which require validation.
 
