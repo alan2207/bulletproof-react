@@ -21,11 +21,9 @@ const TestDrawer = () => {
         title={titleText}
         size="md"
         renderFooter={() => (
-          <>
-            <Button variant="inverse" size="sm" onClick={close}>
-              {cancelButtonText}
-            </Button>
-          </>
+          <Button variant="inverse" size="sm" onClick={close}>
+            {cancelButtonText}
+          </Button>
         )}
       >
         {drawerContentText}

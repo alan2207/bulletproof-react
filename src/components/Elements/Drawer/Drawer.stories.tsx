@@ -28,11 +28,9 @@ export const Demo: Story = () => {
         title="Sample Drawer"
         size="md"
         renderFooter={() => (
-          <>
-            <Button variant="inverse" size="sm" onClick={close}>
-              Cancel
-            </Button>
-          </>
+          <Button variant="inverse" size="sm" onClick={close}>
+            Cancel
+          </Button>
         )}
       >
         Hello
