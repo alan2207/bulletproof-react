@@ -23,15 +23,19 @@ type SideNavigationItem = {
 
 const SideNavigation = () => {
   const { checkAccess } = useAuthorization();
-  const navigation = [
+  const navigation: SideNavigationItem[] = [
     { name: 'Dashboard', to: '.', icon: HomeIcon },
     { name: 'Discussions', to: './discussions', icon: FolderIcon },
-    checkAccess({ allowedRoles: [ROLES.ADMIN] }) && {
-      name: 'Users',
-      to: './users',
-      icon: UsersIcon,
-    },
-  ].filter(Boolean) as SideNavigationItem[];
+    ...(checkAccess({ allowedRoles: [ROLES.ADMIN] })
+      ? [
+          {
+            name: 'Users',
+            to: './users',
+            icon: UsersIcon,
+          },
+        ]
+      : []),
+  ];
 
   return (
     <>
@@ -69,7 +73,7 @@ type UserNavigationItem = {
 const UserNavigation = () => {
   const { logout } = useAuth();
 
-  const userNavigation = [
+  const userNavigation: UserNavigationItem[] = [
     { name: 'Your Profile', to: './profile' },
     {
       name: 'Sign out',
@@ -78,7 +82,7 @@ const UserNavigation = () => {
         logout();
       },
     },
-  ].filter(Boolean) as UserNavigationItem[];
+  ];
 
   return (
     <Menu as="div" className="ml-3 relative">
