@@ -40,7 +40,7 @@ async function registerFn(data: RegisterCredentialsDTO) {
 
 async function logoutFn() {
   storage.clearToken();
-  window.location.assign(window.location.origin as unknown as string);
+  window.location.assign(window.location.origin);
 }
 
 const authConfig = {
