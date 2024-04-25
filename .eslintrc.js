@@ -9,6 +9,12 @@ module.exports = {
   extends: ['eslint:recommended'],
   overrides: [
     {
+      files: ['**/*.stories.*'],
+      rules: {
+        'import/no-anonymous-default-export': 'off',
+      },
+    },
+    {
       files: ['**/*.ts', '**/*.tsx'],
       parser: '@typescript-eslint/parser',
       settings: {
