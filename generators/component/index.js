@@ -5,7 +5,7 @@ const featuresDir = path.join(process.cwd(), 'src/features');
 const features = fs.readdirSync(featuresDir);
 
 /**
- * 
+ *
  * @type {import('plop').PlopGenerator}
  */
 module.exports = {

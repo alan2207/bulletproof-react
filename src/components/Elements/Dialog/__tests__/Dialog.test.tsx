@@ -35,11 +35,11 @@ test('should handle basic dialog flow', async () => {
 
   expect(screen.queryByText(titleText)).not.toBeInTheDocument();
 
-  userEvent.click(screen.getByRole('button', { name: openButtonText }));
+  await userEvent.click(screen.getByRole('button', { name: openButtonText }));
 
   expect(screen.getByText(titleText)).toBeInTheDocument();
 
-  userEvent.click(screen.getByRole('button', { name: cancelButtonText }));
+  await userEvent.click(screen.getByRole('button', { name: cancelButtonText }));
 
   await waitFor(() => expect(screen.queryByText(titleText)).not.toBeInTheDocument());
 });

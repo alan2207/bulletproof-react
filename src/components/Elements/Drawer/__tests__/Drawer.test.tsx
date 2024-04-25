@@ -39,7 +39,7 @@ test('should handle basic drawer flow', async () => {
 
   expect(screen.queryByText(titleText)).not.toBeInTheDocument();
 
-  userEvent.click(
+  await userEvent.click(
     screen.getByRole('button', {
       name: openButtonText,
     })
@@ -47,7 +47,7 @@ test('should handle basic drawer flow', async () => {
 
   expect(screen.getByText(titleText)).toBeInTheDocument();
 
-  userEvent.click(
+  await userEvent.click(
     screen.getByRole('button', {
       name: cancelButtonText,
     })

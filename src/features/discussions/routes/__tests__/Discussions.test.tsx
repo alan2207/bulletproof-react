@@ -19,7 +19,7 @@ test('should create, render and delete discussions', async () => {
 
   expect(await screen.findByText(/no entries/i)).toBeInTheDocument();
 
-  userEvent.click(screen.getByRole('button', { name: /create discussion/i }));
+  await userEvent.click(screen.getByRole('button', { name: /create discussion/i }));
 
   const drawer = screen.getByRole('dialog', {
     name: /create discussion/i,
@@ -28,14 +28,14 @@ test('should create, render and delete discussions', async () => {
   const titleField = within(drawer).getByText(/title/i);
   const bodyField = within(drawer).getByText(/body/i);
 
-  userEvent.type(titleField, newDiscussion.title);
-  userEvent.type(bodyField, newDiscussion.body);
+  await userEvent.type(titleField, newDiscussion.title);
+  await userEvent.type(bodyField, newDiscussion.body);
 
   const submitButton = within(drawer).getByRole('button', {
     name: /submit/i,
   });
 
-  userEvent.click(submitButton);
+  await userEvent.click(submitButton);
 
   await waitFor(() => expect(drawer).not.toBeInTheDocument());
 
@@ -49,7 +49,7 @@ test('should create, render and delete discussions', async () => {
     })
   ).toBeInTheDocument();
 
-  userEvent.click(
+  await userEvent.click(
     within(row).getByRole('button', {
       name: /delete discussion/i,
     })
@@ -63,7 +63,7 @@ test('should create, render and delete discussions', async () => {
     name: /delete discussion/i,
   });
 
-  userEvent.click(confirmationDeleteButton);
+  await userEvent.click(confirmationDeleteButton);
 
   await screen.findByText(/discussion deleted/i);
 
