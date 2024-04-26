@@ -84,6 +84,7 @@
     "babel-loader": "8.1.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@mswjs/data": "^0.3.0",
     "@storybook/addon-actions": "^6.3.2",
     "@storybook/addon-essentials": "^6.3.2",
@@ -94,7 +95,6 @@
     "@testing-library/cypress": "^7.0.6",
     "@testing-library/react-hooks": "^7.0.0",
     "@types/dompurify": "^2.2.2",
-    "@types/faker": "^5.5.7",
     "@types/jsonwebtoken": "^8.5.1",
     "@types/lodash": "^4.14.170",
     "@types/marked": "^2.0.3",
@@ -114,7 +114,6 @@
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.1",
     "eslint-plugin-testing-library": "^6.2.2",
-    "faker": "^5.5.3",
     "husky": "^6.0.0",
     "is-ci": "^3.0.0",
     "is-ci-cli": "^2.2.0",
