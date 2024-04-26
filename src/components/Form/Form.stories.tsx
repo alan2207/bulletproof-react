@@ -1,4 +1,4 @@
-import { Meta, Story } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import * as React from 'react';
 
 import { Button } from '../Elements';
@@ -69,7 +69,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story = () => <MyForm />;
+const Template: StoryFn = () => <MyForm />;
 
 export const Default = Template.bind({});
 Default.args = {};

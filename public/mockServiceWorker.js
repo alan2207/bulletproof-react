@@ -8,116 +8,116 @@
  * - Please do NOT serve this file on production.
  */
 
-const INTEGRITY_CHECKSUM = '82ef9b96d8393b6da34527d1d6e19187'
-const bypassHeaderName = 'x-msw-bypass'
-const activeClientIds = new Set()
+const INTEGRITY_CHECKSUM = '82ef9b96d8393b6da34527d1d6e19187';
+const bypassHeaderName = 'x-msw-bypass';
+const activeClientIds = new Set();
 
 self.addEventListener('install', function () {
-  return self.skipWaiting()
-})
+  return self.skipWaiting();
+});
 
 self.addEventListener('activate', async function (event) {
-  return self.clients.claim()
-})
+  return self.clients.claim();
+});
 
 self.addEventListener('message', async function (event) {
-  const clientId = event.source.id
+  const clientId = event.source.id;
 
   if (!clientId || !self.clients) {
-    return
+    return;
   }
 
-  const client = await self.clients.get(clientId)
+  const client = await self.clients.get(clientId);
 
   if (!client) {
-    return
+    return;
   }
 
-  const allClients = await self.clients.matchAll()
+  const allClients = await self.clients.matchAll();
 
   switch (event.data) {
     case 'KEEPALIVE_REQUEST': {
       sendToClient(client, {
         type: 'KEEPALIVE_RESPONSE',
-      })
-      break
+      });
+      break;
     }
 
     case 'INTEGRITY_CHECK_REQUEST': {
       sendToClient(client, {
         type: 'INTEGRITY_CHECK_RESPONSE',
         payload: INTEGRITY_CHECKSUM,
-      })
-      break
+      });
+      break;
     }
 
     case 'MOCK_ACTIVATE': {
-      activeClientIds.add(clientId)
+      activeClientIds.add(clientId);
 
       sendToClient(client, {
         type: 'MOCKING_ENABLED',
         payload: true,
-      })
-      break
+      });
+      break;
     }
 
     case 'MOCK_DEACTIVATE': {
-      activeClientIds.delete(clientId)
-      break
+      activeClientIds.delete(clientId);
+      break;
     }
 
     case 'CLIENT_CLOSED': {
-      activeClientIds.delete(clientId)
+      activeClientIds.delete(clientId);
 
       const remainingClients = allClients.filter((client) => {
-        return client.id !== clientId
-      })
+        return client.id !== clientId;
+      });
 
       // Unregister itself when there are no more clients
       if (remainingClients.length === 0) {
-        self.registration.unregister()
+        self.registration.unregister();
       }
 
-      break
+      break;
     }
   }
-})
+});
 
 // Resolve the "master" client for the given event.
 // Client that issues a request doesn't necessarily equal the client
 // that registered the worker. It's with the latter the worker should
 // communicate with during the response resolving phase.
 async function resolveMasterClient(event) {
-  const client = await self.clients.get(event.clientId)
+  const client = await self.clients.get(event.clientId);
 
   if (client.frameType === 'top-level') {
-    return client
+    return client;
   }
 
-  const allClients = await self.clients.matchAll()
+  const allClients = await self.clients.matchAll();
 
   return allClients
     .filter((client) => {
       // Get only those clients that are currently visible.
-      return client.visibilityState === 'visible'
+      return client.visibilityState === 'visible';
     })
     .find((client) => {
       // Find the client ID that's recorded in the
       // set of clients that have registered the worker.
-      return activeClientIds.has(client.id)
-    })
+      return activeClientIds.has(client.id);
+    });
 }
 
 async function handleRequest(event, requestId) {
-  const client = await resolveMasterClient(event)
-  const response = await getResponse(event, client, requestId)
+  const client = await resolveMasterClient(event);
+  const response = await getResponse(event, client, requestId);
 
   // Send back the response clone for the "response:*" life-cycle events.
   // Ensure MSW is active and ready to handle the message, otherwise
   // this message will pend indefinitely.
   if (client && activeClientIds.has(client.id)) {
-    ;(async function () {
-      const clonedResponse = response.clone()
+    (async function () {
+      const clonedResponse = response.clone();
       sendToClient(client, {
         type: 'RESPONSE',
         payload: {
@@ -126,26 +126,25 @@ async function handleRequest(event, requestId) {
           ok: clonedResponse.ok,
           status: clonedResponse.status,
           statusText: clonedResponse.statusText,
-          body:
-            clonedResponse.body === null ? null : await clonedResponse.text(),
+          body: clonedResponse.body === null ? null : await clonedResponse.text(),
           headers: serializeHeaders(clonedResponse.headers),
           redirected: clonedResponse.redirected,
         },
-      })
-    })()
+      });
+    })();
   }
 
-  return response
+  return response;
 }
 
 async function getResponse(event, client, requestId) {
-  const { request } = event
-  const requestClone = request.clone()
-  const getOriginalResponse = () => fetch(requestClone)
+  const { request } = event;
+  const requestClone = request.clone();
+  const getOriginalResponse = () => fetch(requestClone);
 
   // Bypass mocking when the request client is not active.
   if (!client) {
-    return getOriginalResponse()
+    return getOriginalResponse();
   }
 
   // Bypass initial page load requests (i.e. static assets).
@@ -153,26 +152,26 @@ async function getResponse(event, client, requestId) {
   // means that MSW hasn't dispatched the "MOCK_ACTIVATE" event yet
   // and is not ready to handle requests.
   if (!activeClientIds.has(client.id)) {
-    return await getOriginalResponse()
+    return await getOriginalResponse();
   }
 
   // Bypass requests with the explicit bypass header
   if (requestClone.headers.get(bypassHeaderName) === 'true') {
-    const cleanRequestHeaders = serializeHeaders(requestClone.headers)
+    const cleanRequestHeaders = serializeHeaders(requestClone.headers);
 
     // Remove the bypass header to comply with the CORS preflight check.
-    delete cleanRequestHeaders[bypassHeaderName]
+    delete cleanRequestHeaders[bypassHeaderName];
 
     const originalRequest = new Request(requestClone, {
       headers: new Headers(cleanRequestHeaders),
-    })
+    });
 
-    return fetch(originalRequest)
+    return fetch(originalRequest);
   }
 
   // Send the request to the client-side MSW.
-  const reqHeaders = serializeHeaders(request.headers)
-  const body = await request.text()
+  const reqHeaders = serializeHeaders(request.headers);
+  const body = await request.text();
 
   const clientMessage = await sendToClient(client, {
     type: 'REQUEST',
@@ -193,31 +192,28 @@ async function getResponse(event, client, requestId) {
       bodyUsed: request.bodyUsed,
       keepalive: request.keepalive,
     },
-  })
+  });
 
   switch (clientMessage.type) {
     case 'MOCK_SUCCESS': {
-      return delayPromise(
-        () => respondWithMock(clientMessage),
-        clientMessage.payload.delay,
-      )
+      return delayPromise(() => respondWithMock(clientMessage), clientMessage.payload.delay);
     }
 
     case 'MOCK_NOT_FOUND': {
-      return getOriginalResponse()
+      return getOriginalResponse();
     }
 
     case 'NETWORK_ERROR': {
-      const { name, message } = clientMessage.payload
-      const networkError = new Error(message)
-      networkError.name = name
+      const { name, message } = clientMessage.payload;
+      const networkError = new Error(message);
+      networkError.name = name;
 
       // Rejecting a request Promise emulates a network error.
-      throw networkError
+      throw networkError;
     }
 
     case 'INTERNAL_ERROR': {
-      const parsedBody = JSON.parse(clientMessage.payload.body)
+      const parsedBody = JSON.parse(clientMessage.payload.body);
 
       console.error(
         `\
@@ -230,38 +226,38 @@ This exception has been gracefully handled as a 500 response, however, it's stro
 If you wish to mock an error response, please refer to this guide: https://mswjs.io/docs/recipes/mocking-error-responses\
 `,
         request.method,
-        request.url,
-      )
+        request.url
+      );
 
-      return respondWithMock(clientMessage)
+      return respondWithMock(clientMessage);
     }
   }
 
-  return getOriginalResponse()
+  return getOriginalResponse();
 }
 
 self.addEventListener('fetch', function (event) {
-  const { request } = event
+  const { request } = event;
 
   // Bypass navigation requests.
   if (request.mode === 'navigate') {
-    return
+    return;
   }
 
   // Opening the DevTools triggers the "only-if-cached" request
   // that cannot be handled by the worker. Bypass such requests.
   if (request.cache === 'only-if-cached' && request.mode !== 'same-origin') {
-    return
+    return;
   }
 
   // Bypass all requests when there are no active clients.
   // Prevents the self-unregistered worked from handling requests
   // after it's been deleted (still remains active until the next reload).
   if (activeClientIds.size === 0) {
-    return
+    return;
   }
 
-  const requestId = uuidv4()
+  const requestId = uuidv4();
 
   return event.respondWith(
     handleRequest(event, requestId).catch((error) => {
@@ -269,55 +265,53 @@ self.addEventListener('fetch', function (event) {
         '[MSW] Failed to mock a "%s" request to "%s": %s',
         request.method,
         request.url,
-        error,
-      )
-    }),
-  )
-})
+        error
+      );
+    })
+  );
+});
 
 function serializeHeaders(headers) {
-  const reqHeaders = {}
+  const reqHeaders = {};
   headers.forEach((value, name) => {
-    reqHeaders[name] = reqHeaders[name]
-      ? [].concat(reqHeaders[name]).concat(value)
-      : value
-  })
-  return reqHeaders
+    reqHeaders[name] = reqHeaders[name] ? [].concat(reqHeaders[name]).concat(value) : value;
+  });
+  return reqHeaders;
 }
 
 function sendToClient(client, message) {
   return new Promise((resolve, reject) => {
-    const channel = new MessageChannel()
+    const channel = new MessageChannel();
 
     channel.port1.onmessage = (event) => {
       if (event.data && event.data.error) {
-        return reject(event.data.error)
+        return reject(event.data.error);
       }
 
-      resolve(event.data)
-    }
+      resolve(event.data);
+    };
 
-    client.postMessage(JSON.stringify(message), [channel.port2])
-  })
+    client.postMessage(JSON.stringify(message), [channel.port2]);
+  });
 }
 
 function delayPromise(cb, duration) {
   return new Promise((resolve) => {
-    setTimeout(() => resolve(cb()), duration)
-  })
+    setTimeout(() => resolve(cb()), duration);
+  });
 }
 
 function respondWithMock(clientMessage) {
   return new Response(clientMessage.payload.body, {
     ...clientMessage.payload,
     headers: clientMessage.payload.headers,
-  })
+  });
 }
 
 function uuidv4() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    const r = (Math.random() * 16) | 0
-    const v = c == 'x' ? r : (r & 0x3) | 0x8
-    return v.toString(16)
-  })
+    const r = (Math.random() * 16) | 0;
+    const v = c == 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
 }

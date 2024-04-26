@@ -1,4 +1,4 @@
-const componentGenerator = require('./generators/component/index');
+const componentGenerator = require('./generators/component/index.cjs');
 
 /**
  *

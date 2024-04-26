@@ -1,4 +1,4 @@
-import { Meta, Story } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 
 import { useDisclosure } from '@/hooks/useDisclosure';
 
@@ -16,7 +16,7 @@ const meta: Meta = {
 
 export default meta;
 
-export const Demo: Story = () => {
+export const Demo: StoryFn = () => {
   const { close, open, isOpen } = useDisclosure();
 
   return (
