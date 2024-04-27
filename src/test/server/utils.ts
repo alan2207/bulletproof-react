@@ -1,8 +1,5 @@
-import jwt from 'jsonwebtoken';
 import omit from 'lodash/omit';
 import { DefaultBodyType, HttpResponse, StrictRequest, StrictResponse, delay } from 'msw';
-
-import { JWT_SECRET } from '@/config';
 
 import { db } from './db';
 
@@ -39,7 +36,11 @@ export function authenticate({ email, password }: { email: string; password: str
 
   if (user?.password === hash(password)) {
     const sanitizedUser = sanitizeUser(user);
-    const encodedToken = jwt.sign(sanitizedUser, JWT_SECRET);
+
+    // TODO: jsonwebtoken doesn't support browsers, find an alternative
+    // const encodedToken = jwt.sign(sanitizedUser, JWT_SECRET);
+    const encodedToken = JSON.stringify({ id: user.id });
+
     return { user: sanitizedUser, jwt: encodedToken };
   }
 
@@ -53,7 +54,10 @@ export function requireAuth(request: StrictRequest<DefaultBodyType>) {
     if (!encodedToken) {
       throw new Error('No authorization token provided!');
     }
-    const decodedToken = jwt.verify(encodedToken, JWT_SECRET) as { id: string };
+
+    // TODO: jsonwebtoken doesn't support browsers, find an alternative
+    // const decodedToken = JSON.parse(encodedToken) as { id: string };
+    const decodedToken = JSON.parse(encodedToken) as { id: string };
 
     const user = db.user.findFirst({
       where: {
