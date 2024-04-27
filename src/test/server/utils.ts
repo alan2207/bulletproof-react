@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import omit from 'lodash/omit';
-import { RestRequest, createResponseComposition, context } from 'msw';
+import { DefaultBodyType, HttpResponse, StrictRequest, StrictResponse, delay } from 'msw';
 
 import { JWT_SECRET } from '@/config';
 
@@ -8,9 +8,13 @@ import { db } from './db';
 
 const isTesting = process.env.NODE_ENV === 'test' || ((window as any).Cypress as any);
 
-export const delayedResponse = createResponseComposition(undefined, [
-  context.delay(isTesting ? 0 : 1000),
-]);
+export const errorResponse = ({ message }: Error) =>
+  HttpResponse.json({ message: message || 'Server Error' }, { status: 400 });
+
+export const delayedResponse = async <T extends StrictResponse<DefaultBodyType>>(response: T) => {
+  await delay(isTesting ? 0 : 1000);
+  return response;
+};
 
 export const hash = (str: string) => {
   let hash = 5381,
@@ -43,7 +47,7 @@ export function authenticate({ email, password }: { email: string; password: str
   throw error;
 }
 
-export function requireAuth(request: RestRequest) {
+export function requireAuth(request: StrictRequest<DefaultBodyType>) {
   try {
     const encodedToken = request.headers.get('authorization');
     if (!encodedToken) {

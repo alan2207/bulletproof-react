@@ -36,7 +36,7 @@ const models = {
 
 export const db = factory(models);
 
-export type Model = keyof typeof db;
+export type Model = keyof typeof models;
 
 export const loadDb = () =>
   Object.assign(JSON.parse(window.localStorage.getItem('msw-db') || '{}'));

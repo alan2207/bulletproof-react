@@ -1,10 +1,10 @@
-import { rest } from 'msw';
+import { HttpResponse, http } from 'msw';
 import { nanoid } from 'nanoid';
 
 import { API_URL } from '@/config';
 
 import { db, persistDb } from '../db';
-import { authenticate, delayedResponse, hash, requireAuth } from '../utils';
+import { authenticate, delayedResponse, errorResponse, hash, requireAuth } from '../utils';
 
 type RegisterBody = {
   firstName: string;
@@ -21,9 +21,9 @@ type LoginBody = {
 };
 
 export const authHandlers = [
-  rest.post<RegisterBody>(`${API_URL}/auth/register`, (req, res, ctx) => {
+  http.post<never, RegisterBody>(`${API_URL}/auth/register`, async ({ request }) => {
     try {
-      const userObject = req.body;
+      const userObject = await request.json();
 
       const existingUser = db.user.findFirst({
         where: {
@@ -78,38 +78,29 @@ export const authHandlers = [
 
       const result = authenticate({ email: userObject.email, password: userObject.password });
 
-      return delayedResponse(ctx.json(result));
+      return await delayedResponse(HttpResponse.json(result));
     } catch (error: any) {
-      return delayedResponse(
-        ctx.status(400),
-        ctx.json({ message: error?.message || 'Server Error' })
-      );
+      return delayedResponse(errorResponse(error));
     }
   }),
 
-  rest.post<LoginBody>(`${API_URL}/auth/login`, (req, res, ctx) => {
+  http.post<never, LoginBody>(`${API_URL}/auth/login`, async ({ request }) => {
     try {
-      const credentials = req.body;
+      const credentials = await request.json();
       const result = authenticate(credentials);
-      return delayedResponse(ctx.json(result));
+      return await delayedResponse(HttpResponse.json(result));
     } catch (error: any) {
-      return delayedResponse(
-        ctx.status(400),
-        ctx.json({ message: error?.message || 'Server Error' })
-      );
+      return delayedResponse(errorResponse(error));
     }
   }),
 
-  rest.get(`${API_URL}/auth/me`, (req, res, ctx) => {
+  http.get(`${API_URL}/auth/me`, async ({ request }) => {
     try {
-      const user = requireAuth(req);
+      const user = requireAuth(request);
 
-      return delayedResponse(ctx.json(user));
+      return await delayedResponse(HttpResponse.json(user));
     } catch (error: any) {
-      return delayedResponse(
-        ctx.status(400),
-        ctx.json({ message: error?.message || 'Server Error' })
-      );
+      return delayedResponse(errorResponse(error));
     }
   }),
 ];

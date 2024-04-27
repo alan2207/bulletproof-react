@@ -1,9 +1,9 @@
-import { rest } from 'msw';
+import { HttpResponse, http } from 'msw';
 
 import { API_URL } from '@/config';
 
 import { db, persistDb } from '../db';
-import { requireAuth, requireAdmin, delayedResponse } from '../utils';
+import { requireAuth, requireAdmin, delayedResponse, errorResponse } from '../utils';
 
 type ProfileBody = {
   email: string;
@@ -11,11 +11,12 @@ type ProfileBody = {
   lastName: string;
   bio: string;
 };
+type UserId = { userId: string };
 
 export const usersHandlers = [
-  rest.get(`${API_URL}/users`, (req, res, ctx) => {
+  http.get(`${API_URL}/users`, ({ request }) => {
     try {
-      const user = requireAuth(req);
+      const user = requireAuth(request);
       const result = db.user.findMany({
         where: {
           teamId: {
@@ -24,19 +25,16 @@ export const usersHandlers = [
         },
       });
 
-      return delayedResponse(ctx.json(result));
+      return delayedResponse(HttpResponse.json(result));
     } catch (error: any) {
-      return delayedResponse(
-        ctx.status(400),
-        ctx.json({ message: error?.message || 'Server Error' })
-      );
+      return delayedResponse(errorResponse(error));
     }
   }),
 
-  rest.patch<ProfileBody>(`${API_URL}/users/profile`, (req, res, ctx) => {
+  http.patch<never, ProfileBody>(`${API_URL}/users/profile`, async ({ request }) => {
     try {
-      const user = requireAuth(req);
-      const data = req.body;
+      const user = requireAuth(request);
+      const data = await request.json();
       const result = db.user.update({
         where: {
           id: {
@@ -46,19 +44,16 @@ export const usersHandlers = [
         data,
       });
       persistDb('user');
-      return delayedResponse(ctx.json(result));
+      return delayedResponse(HttpResponse.json(result));
     } catch (error: any) {
-      return delayedResponse(
-        ctx.status(400),
-        ctx.json({ message: error?.message || 'Server Error' })
-      );
+      return delayedResponse(errorResponse(error));
     }
   }),
 
-  rest.delete(`${API_URL}/users/:userId`, (req, res, ctx) => {
+  http.delete<UserId>(`${API_URL}/users/:userId`, ({ params, request }) => {
     try {
-      const user = requireAuth(req);
-      const { userId } = req.params;
+      const user = requireAuth(request);
+      const { userId } = params;
       requireAdmin(user);
       const result = db.user.delete({
         where: {
@@ -71,12 +66,9 @@ export const usersHandlers = [
         },
       });
       persistDb('user');
-      return delayedResponse(ctx.json(result));
+      return delayedResponse(HttpResponse.json(result));
     } catch (error: any) {
-      return delayedResponse(
-        ctx.status(400),
-        ctx.json({ message: error?.message || 'Server Error' })
-      );
+      return delayedResponse(errorResponse(error));
     }
   }),
 ];

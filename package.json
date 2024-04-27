@@ -48,7 +48,8 @@
     "test": "is-ci \"test:coverage\" \"test:jest\"",
     "test:jest": "craco test",
     "test:coverage": "CI=1 yarn test:jest -- --coverage",
-    "postinstall": "husky install",
+    "msw:init": "msw init public --save",
+    "postinstall": "husky install && yarn msw:init",
     "cy:install": "cypress install",
     "cy:run": "cypress run",
     "cy:open": "cypress open",
@@ -82,7 +83,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
-    "@mswjs/data": "^0.3.0",
+    "@mswjs/data": "^0.16.1",
     "@storybook/addon-actions": "^8.0.9",
     "@storybook/addon-essentials": "^8.0.9",
     "@storybook/addon-links": "^8.0.9",
@@ -115,7 +116,7 @@
     "is-ci": "^3.0.0",
     "is-ci-cli": "^2.2.0",
     "lint-staged": "^11.0.0",
-    "msw": "^0.29.0",
+    "msw": "2.2.14",
     "npm-run-all": "^4.1.5",
     "plop": "^2.7.4",
     "postcss": "^8.4.38",
@@ -127,7 +128,9 @@
     "vite-plugin-svgr": "^4.2.0"
   },
   "msw": {
-    "workerDirectory": "public"
+    "workerDirectory": [
+      "public"
+    ]
   },
   "jest": {
     "moduleNameMapper": {

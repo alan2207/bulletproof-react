@@ -1,20 +1,17 @@
-import { rest } from 'msw';
+import { HttpResponse, http } from 'msw';
 
 import { API_URL } from '@/config';
 
 import { db } from '../db';
-import { delayedResponse } from '../utils';
+import { delayedResponse, errorResponse } from '../utils';
 
 export const teamsHandlers = [
-  rest.get(`${API_URL}/teams`, (req, res, ctx) => {
+  http.get(`${API_URL}/teams`, () => {
     try {
       const result = db.team.getAll();
-      return delayedResponse(ctx.json(result));
+      return delayedResponse(HttpResponse.json(result));
     } catch (error: any) {
-      return delayedResponse(
-        ctx.status(400),
-        ctx.json({ message: error?.message || 'Server Error' })
-      );
+      return delayedResponse(errorResponse(error));
     }
   }),
 ];
