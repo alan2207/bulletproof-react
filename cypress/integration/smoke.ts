@@ -8,7 +8,9 @@ describe('smoke', () => {
   it('should handle normal app flow', () => {
     const user = userGenerator();
 
-    const discussion = discussionGenerator();
+    const discussion = discussionGenerator({
+      authorId: user.id,
+    });
 
     // registration:
     cy.visit('http://localhost:3000/auth/register');
@@ -127,7 +129,9 @@ describe('smoke', () => {
     }).should('exist');
 
     // create comment:
-    const comment = commentGenerator();
+    const comment = commentGenerator({
+      authorId: user.id,
+    });
 
     cy.findByRole('button', {
       name: /create comment/i,

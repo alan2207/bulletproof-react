@@ -3,7 +3,7 @@ import { rest } from 'msw';
 import { API_URL } from '@/config';
 
 import { db, persistDb } from '../db';
-import { requireAuth, requireAdmin, delayedResponse } from '../utils';
+import { requireAuth, requireAdmin, delayedResponse, sanitizeUser } from '../utils';
 
 type ProfileBody = {
   email: string;
@@ -16,13 +16,15 @@ export const usersHandlers = [
   rest.get(`${API_URL}/users`, (req, res, ctx) => {
     try {
       const user = requireAuth(req);
-      const result = db.user.findMany({
-        where: {
-          teamId: {
-            equals: user.teamId,
+      const result = db.user
+        .findMany({
+          where: {
+            teamId: {
+              equals: user.teamId,
+            },
           },
-        },
-      });
+        })
+        .map(sanitizeUser);
 
       return delayedResponse(ctx.json(result));
     } catch (error: any) {

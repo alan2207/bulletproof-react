@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid';
 import { API_URL } from '@/config';
 
 import { db, persistDb } from '../db';
-import { requireAuth, requireAdmin, delayedResponse } from '../utils';
+import { requireAuth, requireAdmin, delayedResponse, sanitizeUser } from '../utils';
 
 type DiscussionBody = {
   title: string;
@@ -15,13 +15,27 @@ export const discussionsHandlers = [
   rest.get(`${API_URL}/discussions`, (req, res, ctx) => {
     try {
       const user = requireAuth(req);
-      const result = db.discussion.findMany({
-        where: {
-          teamId: {
-            equals: user.teamId,
+      const result = db.discussion
+        .findMany({
+          where: {
+            teamId: {
+              equals: user.teamId,
+            },
           },
-        },
-      });
+        })
+        .map(({ authorId, ...discussion }) => {
+          const author = db.user.findFirst({
+            where: {
+              id: {
+                equals: authorId,
+              },
+            },
+          });
+          return {
+            ...discussion,
+            author: sanitizeUser(author),
+          };
+        });
       return delayedResponse(ctx.json(result));
     } catch (error: any) {
       return delayedResponse(
@@ -35,7 +49,7 @@ export const discussionsHandlers = [
     try {
       const user = requireAuth(req);
       const { discussionId } = req.params;
-      const result = db.discussion.findFirst({
+      const discussion = db.discussion.findFirst({
         where: {
           id: {
             equals: discussionId,
@@ -45,6 +59,25 @@ export const discussionsHandlers = [
           },
         },
       });
+
+      if (!discussion) {
+        return delayedResponse(ctx.status(404), ctx.json({ message: 'Discussion not found' }));
+      }
+
+      const author = db.user.findFirst({
+        where: {
+          id: {
+            equals: discussion.authorId,
+          },
+        },
+      });
+
+      // delete discussion.authorId;
+
+      const result = {
+        ...discussion,
+        author: sanitizeUser(author),
+      };
       return delayedResponse(ctx.json(result));
     } catch (error: any) {
       return delayedResponse(
@@ -63,6 +96,7 @@ export const discussionsHandlers = [
         teamId: user.teamId,
         id: nanoid(),
         createdAt: Date.now(),
+        authorId: user.id,
         ...data,
       });
       persistDb('discussion');

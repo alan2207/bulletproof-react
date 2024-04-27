@@ -22,6 +22,7 @@ const models = {
     id: primaryKey(String),
     title: String,
     body: String,
+    authorId: String,
     teamId: String,
     createdAt: Number,
   },

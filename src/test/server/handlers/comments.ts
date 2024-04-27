@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid';
 import { API_URL } from '@/config';
 
 import { db, persistDb } from '../db';
-import { requireAuth, delayedResponse } from '../utils';
+import { requireAuth, delayedResponse, sanitizeUser } from '../utils';
 
 type CreateCommentBody = {
   body: string;
@@ -16,14 +16,28 @@ export const commentsHandlers = [
     try {
       requireAuth(req);
       const discussionId = req.url.searchParams.get('discussionId') || '';
-      const result = db.comment.findMany({
-        where: {
-          discussionId: {
-            equals: discussionId,
+      const comments = db.comment
+        .findMany({
+          where: {
+            discussionId: {
+              equals: discussionId,
+            },
           },
-        },
-      });
-      return delayedResponse(ctx.json(result));
+        })
+        .map(({ authorId, ...comment }) => {
+          const author = db.user.findFirst({
+            where: {
+              id: {
+                equals: authorId,
+              },
+            },
+          });
+          return {
+            ...comment,
+            author: sanitizeUser(author),
+          };
+        });
+      return delayedResponse(ctx.json(comments));
     } catch (error: any) {
       return delayedResponse(
         ctx.status(400),
