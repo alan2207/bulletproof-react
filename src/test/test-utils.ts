@@ -34,9 +34,10 @@ export const waitForLoadingToFinish = () =>
 
 const initializeUser = async (user: any) => {
   if (typeof user === 'undefined') {
-    return await loginAsUser(await createUser());
+    const newUser = await createUser();
+    return loginAsUser(newUser);
   } else if (user) {
-    return await loginAsUser(user);
+    return loginAsUser(user);
   } else {
     return null;
   }
@@ -48,7 +49,7 @@ export const renderApp = async (
   { route = '/', user, ...renderOptions }: Record<string, any> = {}
 ) => {
   // if you want to render the app unauthenticated then pass "null" as the user
-  user = await initializeUser(user);
+  const initializedUser = await initializeUser(user);
 
   window.history.pushState({}, 'Test page', route);
 
@@ -57,7 +58,7 @@ export const renderApp = async (
       wrapper: AppProvider,
       ...renderOptions,
     }),
-    user,
+    user: initializedUser,
   };
 
   await waitForLoadingToFinish();

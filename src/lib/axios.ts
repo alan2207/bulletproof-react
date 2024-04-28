@@ -1,15 +1,19 @@
-import Axios, { AxiosRequestConfig } from 'axios';
+import Axios, { InternalAxiosRequestConfig } from 'axios';
 
 import { API_URL } from '@/config';
 import { useNotificationStore } from '@/stores/notifications';
 import storage from '@/utils/storage';
 
-function authRequestInterceptor(config: AxiosRequestConfig) {
+function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   const token = storage.getToken();
   if (token) {
-    config.headers.authorization = `${token}`;
+    if (config.headers) {
+      config.headers.authorization = `${token}`;
+    }
   }
-  config.headers.Accept = 'application/json';
+  if (config.headers) {
+    config.headers.Accept = 'application/json';
+  }
   return config;
 }
 

@@ -8,17 +8,24 @@ jobs:
   all-cli-check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2-beta
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: lts/*
-      - run: mv .env.example .env
-      - run: yarn install
-      - run: yarn build
-      - run: yarn test
-      - run: yarn lint
-      - run: yarn check-format
-      - run: yarn check-types
+      - name: Set environment variables
+        run: mv .env.example .env
+      - name: Install dependencies
+        run: yarn install
+      - name: Build application
+        run: yarn build
+      - name: Run tests
+        run: yarn test
+      - name: Run linter
+        run: yarn lint
+      - name: Check formatting
+        run: yarn check-format
+      - name: Check types
+        run: yarn check-types
   e2e:
     timeout-minutes: 60
     runs-on: ubuntu-latest
@@ -27,6 +34,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
+      - name: Set environment variables
+        run: mv .env.example .env
       - name: Install dependencies
         run: npm install -g yarn && yarn
       - name: Install Playwright Browsers

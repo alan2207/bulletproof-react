@@ -41,7 +41,7 @@ test('should create, render and delete discussions', async () => {
 
   await waitFor(() => expect(drawer).not.toBeInTheDocument());
 
-  const row = screen.getByRole('row', {
+  const row = await screen.findByRole('row', {
     name: `${newDiscussion.title} ${formatDate(newDiscussion.createdAt)} View Delete Discussion`,
   });
 

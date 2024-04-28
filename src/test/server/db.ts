@@ -42,7 +42,7 @@ export type Model = keyof typeof db;
 export const loadDb = () =>
   Object.assign(JSON.parse(window.localStorage.getItem('msw-db') || '{}'));
 
-export const persistDb = (model: Model) => {
+export const persistDb = (model: 'user' | 'team' | 'discussion' | 'comment') => {
   if (process.env.NODE_ENV === 'test') return;
   const data = loadDb();
   data[model] = db[model].getAll();

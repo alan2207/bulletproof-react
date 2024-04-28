@@ -5,10 +5,9 @@ import './index.css';
 import App from './App';
 import { initMocks } from './test/server';
 
-const root = createRoot(document.getElementById('root') as HTMLElement);
-
 initMocks().then(() => {
-  root.render(
+  console.log('Mocks initialized');
+  createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
       <App />
     </React.StrictMode>

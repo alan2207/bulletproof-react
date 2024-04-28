@@ -1,22 +1,24 @@
+/* eslint-disable */
+/* tslint:disable */
+
 /**
  * Mock Service Worker.
  * @see https://github.com/mswjs/msw
  * - Please do NOT modify this file.
  * - Please do NOT serve this file on production.
  */
-/* eslint-disable */
-/* tslint:disable */
 
-const INTEGRITY_CHECKSUM = '82ef9b96d8393b6da34527d1d6e19187'
-const bypassHeaderName = 'x-msw-bypass'
+const PACKAGE_VERSION = '2.2.14'
+const INTEGRITY_CHECKSUM = '26357c79639bfa20d64c0efca2a87423'
+const IS_MOCKED_RESPONSE = Symbol('isMockedResponse')
 const activeClientIds = new Set()
 
 self.addEventListener('install', function () {
-  return self.skipWaiting()
+  self.skipWaiting()
 })
 
-self.addEventListener('activate', async function (event) {
-  return self.clients.claim()
+self.addEventListener('activate', function (event) {
+  event.waitUntil(self.clients.claim())
 })
 
 self.addEventListener('message', async function (event) {
@@ -32,7 +34,9 @@ self.addEventListener('message', async function (event) {
     return
   }
 
-  const allClients = await self.clients.matchAll()
+  const allClients = await self.clients.matchAll({
+    type: 'window',
+  })
 
   switch (event.data) {
     case 'KEEPALIVE_REQUEST': {
@@ -45,7 +49,10 @@ self.addEventListener('message', async function (event) {
     case 'INTEGRITY_CHECK_REQUEST': {
       sendToClient(client, {
         type: 'INTEGRITY_CHECK_RESPONSE',
-        payload: INTEGRITY_CHECKSUM,
+        payload: {
+          packageVersion: PACKAGE_VERSION,
+          checksum: INTEGRITY_CHECKSUM,
+        },
       })
       break
     }
@@ -82,163 +89,6 @@ self.addEventListener('message', async function (event) {
   }
 })
 
-// Resolve the "master" client for the given event.
-// Client that issues a request doesn't necessarily equal the client
-// that registered the worker. It's with the latter the worker should
-// communicate with during the response resolving phase.
-async function resolveMasterClient(event) {
-  const client = await self.clients.get(event.clientId)
-
-  if (client.frameType === 'top-level') {
-    return client
-  }
-
-  const allClients = await self.clients.matchAll()
-
-  return allClients
-    .filter((client) => {
-      // Get only those clients that are currently visible.
-      return client.visibilityState === 'visible'
-    })
-    .find((client) => {
-      // Find the client ID that's recorded in the
-      // set of clients that have registered the worker.
-      return activeClientIds.has(client.id)
-    })
-}
-
-async function handleRequest(event, requestId) {
-  const client = await resolveMasterClient(event)
-  const response = await getResponse(event, client, requestId)
-
-  // Send back the response clone for the "response:*" life-cycle events.
-  // Ensure MSW is active and ready to handle the message, otherwise
-  // this message will pend indefinitely.
-  if (client && activeClientIds.has(client.id)) {
-    ;(async function () {
-      const clonedResponse = response.clone()
-      sendToClient(client, {
-        type: 'RESPONSE',
-        payload: {
-          requestId,
-          type: clonedResponse.type,
-          ok: clonedResponse.ok,
-          status: clonedResponse.status,
-          statusText: clonedResponse.statusText,
-          body:
-            clonedResponse.body === null ? null : await clonedResponse.text(),
-          headers: serializeHeaders(clonedResponse.headers),
-          redirected: clonedResponse.redirected,
-        },
-      })
-    })()
-  }
-
-  return response
-}
-
-async function getResponse(event, client, requestId) {
-  const { request } = event
-  const requestClone = request.clone()
-  const getOriginalResponse = () => fetch(requestClone)
-
-  // Bypass mocking when the request client is not active.
-  if (!client) {
-    return getOriginalResponse()
-  }
-
-  // Bypass initial page load requests (i.e. static assets).
-  // The absence of the immediate/parent client in the map of the active clients
-  // means that MSW hasn't dispatched the "MOCK_ACTIVATE" event yet
-  // and is not ready to handle requests.
-  if (!activeClientIds.has(client.id)) {
-    return await getOriginalResponse()
-  }
-
-  // Bypass requests with the explicit bypass header
-  if (requestClone.headers.get(bypassHeaderName) === 'true') {
-    const cleanRequestHeaders = serializeHeaders(requestClone.headers)
-
-    // Remove the bypass header to comply with the CORS preflight check.
-    delete cleanRequestHeaders[bypassHeaderName]
-
-    const originalRequest = new Request(requestClone, {
-      headers: new Headers(cleanRequestHeaders),
-    })
-
-    return fetch(originalRequest)
-  }
-
-  // Send the request to the client-side MSW.
-  const reqHeaders = serializeHeaders(request.headers)
-  const body = await request.text()
-
-  const clientMessage = await sendToClient(client, {
-    type: 'REQUEST',
-    payload: {
-      id: requestId,
-      url: request.url,
-      method: request.method,
-      headers: reqHeaders,
-      cache: request.cache,
-      mode: request.mode,
-      credentials: request.credentials,
-      destination: request.destination,
-      integrity: request.integrity,
-      redirect: request.redirect,
-      referrer: request.referrer,
-      referrerPolicy: request.referrerPolicy,
-      body,
-      bodyUsed: request.bodyUsed,
-      keepalive: request.keepalive,
-    },
-  })
-
-  switch (clientMessage.type) {
-    case 'MOCK_SUCCESS': {
-      return delayPromise(
-        () => respondWithMock(clientMessage),
-        clientMessage.payload.delay,
-      )
-    }
-
-    case 'MOCK_NOT_FOUND': {
-      return getOriginalResponse()
-    }
-
-    case 'NETWORK_ERROR': {
-      const { name, message } = clientMessage.payload
-      const networkError = new Error(message)
-      networkError.name = name
-
-      // Rejecting a request Promise emulates a network error.
-      throw networkError
-    }
-
-    case 'INTERNAL_ERROR': {
-      const parsedBody = JSON.parse(clientMessage.payload.body)
-
-      console.error(
-        `\
-[MSW] Request handler function for "%s %s" has thrown the following exception:
-
-${parsedBody.errorType}: ${parsedBody.message}
-(see more detailed error stack trace in the mocked response body)
-
-This exception has been gracefully handled as a 500 response, however, it's strongly recommended to resolve this error.
-If you wish to mock an error response, please refer to this guide: https://mswjs.io/docs/recipes/mocking-error-responses\
-`,
-        request.method,
-        request.url,
-      )
-
-      return respondWithMock(clientMessage)
-    }
-  }
-
-  return getOriginalResponse()
-}
-
 self.addEventListener('fetch', function (event) {
   const { request } = event
 
@@ -260,31 +110,142 @@ self.addEventListener('fetch', function (event) {
     return
   }
 
-  const requestId = uuidv4()
-
-  return event.respondWith(
-    handleRequest(event, requestId).catch((error) => {
-      console.error(
-        '[MSW] Failed to mock a "%s" request to "%s": %s',
-        request.method,
-        request.url,
-        error,
-      )
-    }),
-  )
+  // Generate unique request ID.
+  const requestId = crypto.randomUUID()
+  event.respondWith(handleRequest(event, requestId))
 })
 
-function serializeHeaders(headers) {
-  const reqHeaders = {}
-  headers.forEach((value, name) => {
-    reqHeaders[name] = reqHeaders[name]
-      ? [].concat(reqHeaders[name]).concat(value)
-      : value
-  })
-  return reqHeaders
+async function handleRequest(event, requestId) {
+  const client = await resolveMainClient(event)
+  const response = await getResponse(event, client, requestId)
+
+  // Send back the response clone for the "response:*" life-cycle events.
+  // Ensure MSW is active and ready to handle the message, otherwise
+  // this message will pend indefinitely.
+  if (client && activeClientIds.has(client.id)) {
+    ;(async function () {
+      const responseClone = response.clone()
+
+      sendToClient(
+        client,
+        {
+          type: 'RESPONSE',
+          payload: {
+            requestId,
+            isMockedResponse: IS_MOCKED_RESPONSE in response,
+            type: responseClone.type,
+            status: responseClone.status,
+            statusText: responseClone.statusText,
+            body: responseClone.body,
+            headers: Object.fromEntries(responseClone.headers.entries()),
+          },
+        },
+        [responseClone.body],
+      )
+    })()
+  }
+
+  return response
 }
 
-function sendToClient(client, message) {
+// Resolve the main client for the given event.
+// Client that issues a request doesn't necessarily equal the client
+// that registered the worker. It's with the latter the worker should
+// communicate with during the response resolving phase.
+async function resolveMainClient(event) {
+  const client = await self.clients.get(event.clientId)
+
+  if (client?.frameType === 'top-level') {
+    return client
+  }
+
+  const allClients = await self.clients.matchAll({
+    type: 'window',
+  })
+
+  return allClients
+    .filter((client) => {
+      // Get only those clients that are currently visible.
+      return client.visibilityState === 'visible'
+    })
+    .find((client) => {
+      // Find the client ID that's recorded in the
+      // set of clients that have registered the worker.
+      return activeClientIds.has(client.id)
+    })
+}
+
+async function getResponse(event, client, requestId) {
+  const { request } = event
+
+  // Clone the request because it might've been already used
+  // (i.e. its body has been read and sent to the client).
+  const requestClone = request.clone()
+
+  function passthrough() {
+    const headers = Object.fromEntries(requestClone.headers.entries())
+
+    // Remove internal MSW request header so the passthrough request
+    // complies with any potential CORS preflight checks on the server.
+    // Some servers forbid unknown request headers.
+    delete headers['x-msw-intention']
+
+    return fetch(requestClone, { headers })
+  }
+
+  // Bypass mocking when the client is not active.
+  if (!client) {
+    return passthrough()
+  }
+
+  // Bypass initial page load requests (i.e. static assets).
+  // The absence of the immediate/parent client in the map of the active clients
+  // means that MSW hasn't dispatched the "MOCK_ACTIVATE" event yet
+  // and is not ready to handle requests.
+  if (!activeClientIds.has(client.id)) {
+    return passthrough()
+  }
+
+  // Notify the client that a request has been intercepted.
+  const requestBuffer = await request.arrayBuffer()
+  const clientMessage = await sendToClient(
+    client,
+    {
+      type: 'REQUEST',
+      payload: {
+        id: requestId,
+        url: request.url,
+        mode: request.mode,
+        method: request.method,
+        headers: Object.fromEntries(request.headers.entries()),
+        cache: request.cache,
+        credentials: request.credentials,
+        destination: request.destination,
+        integrity: request.integrity,
+        redirect: request.redirect,
+        referrer: request.referrer,
+        referrerPolicy: request.referrerPolicy,
+        body: requestBuffer,
+        keepalive: request.keepalive,
+      },
+    },
+    [requestBuffer],
+  )
+
+  switch (clientMessage.type) {
+    case 'MOCK_RESPONSE': {
+      return respondWithMock(clientMessage.data)
+    }
+
+    case 'PASSTHROUGH': {
+      return passthrough()
+    }
+  }
+
+  return passthrough()
+}
+
+function sendToClient(client, message, transferrables = []) {
   return new Promise((resolve, reject) => {
     const channel = new MessageChannel()
 
@@ -296,27 +257,28 @@ function sendToClient(client, message) {
       resolve(event.data)
     }
 
-    client.postMessage(JSON.stringify(message), [channel.port2])
+    client.postMessage(
+      message,
+      [channel.port2].concat(transferrables.filter(Boolean)),
+    )
   })
 }
 
-function delayPromise(cb, duration) {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(cb()), duration)
-  })
-}
+async function respondWithMock(response) {
+  // Setting response status code to 0 is a no-op.
+  // However, when responding with a "Response.error()", the produced Response
+  // instance will have status code set to 0. Since it's not possible to create
+  // a Response instance with status code 0, handle that use-case separately.
+  if (response.status === 0) {
+    return Response.error()
+  }
 
-function respondWithMock(clientMessage) {
-  return new Response(clientMessage.payload.body, {
-    ...clientMessage.payload,
-    headers: clientMessage.payload.headers,
-  })
-}
+  const mockedResponse = new Response(response.body, response)
 
-function uuidv4() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    const r = (Math.random() * 16) | 0
-    const v = c == 'x' ? r : (r & 0x3) | 0x8
-    return v.toString(16)
+  Reflect.defineProperty(mockedResponse, IS_MOCKED_RESPONSE, {
+    value: true,
+    enumerable: true,
   })
+
+  return mockedResponse
 }

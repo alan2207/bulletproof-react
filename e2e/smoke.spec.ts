@@ -11,6 +11,8 @@ test('smoke', async ({ page }) => {
   });
 
   await page.goto('/');
+  await page.waitForTimeout(1000);
+  await expect(page.getByRole('heading', { name: 'Bulletproof React' })).toBeVisible();
   await page.getByRole('button', { name: 'Get started' }).click();
 
   await page.waitForURL('/auth/login');
@@ -20,20 +22,22 @@ test('smoke', async ({ page }) => {
 
   await page.waitForURL('/auth/register');
   await page.getByLabel('First Name').click();
-  await page.getByLabel('First Name').fill('test-name');
+  await page.getByLabel('First Name').fill(user.firstName);
   await page.getByLabel('Last Name').click();
-  await page.getByLabel('Last Name').fill('test-lastname');
+  await page.getByLabel('Last Name').fill(user.lastName);
   await page.getByLabel('Email Address').click();
-  await page.getByLabel('Email Address').fill('test@mail.com');
+  await page.getByLabel('Email Address').fill(user.email);
   await page.getByLabel('Password').click();
-  await page.getByLabel('Password').fill('Test123!@#');
+  await page.getByLabel('Password').fill(user.password);
   await page.getByLabel('Team Name').click();
-  await page.getByLabel('Team Name').fill('Team');
+  await page.getByLabel('Team Name').fill(user.teamName);
   await page.getByRole('button', { name: 'Register' }).click();
 
   await page.waitForURL('/app');
   await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Welcome test-name test-' })).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: `Welcome ${user.firstName} ${user.lastName}` })
+  ).toBeVisible();
 
   // log out:
   await page.getByRole('button', { name: 'Open user menu' }).click();
@@ -44,11 +48,13 @@ test('smoke', async ({ page }) => {
 
   // log in:
   await page.getByLabel('Email Address').click();
-  await page.getByLabel('Email Address').fill('test@mail.com');
+  await page.getByLabel('Email Address').fill(user.email);
   await page.getByLabel('Password').click();
-  await page.getByLabel('Password').fill('Test123!@#');
+  await page.getByLabel('Password').fill(user.password);
   await page.getByRole('button', { name: 'Log in' }).click();
-  await expect(page.getByRole('heading', { name: 'Welcome test-name test-' })).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: `Welcome ${user.firstName} ${user.lastName}` })
+  ).toBeVisible();
 
   // create discussion:
 
@@ -57,9 +63,9 @@ test('smoke', async ({ page }) => {
 
   await page.getByRole('button', { name: 'Create Discussion' }).click();
   await page.getByLabel('Title').click();
-  await page.getByLabel('Title').fill('discussion title');
+  await page.getByLabel('Title').fill(discussion.title);
   await page.getByLabel('Body').click();
-  await page.getByLabel('Body').fill('discussion body');
+  await page.getByLabel('Body').fill(discussion.body);
   await page.getByRole('button', { name: 'Submit' }).click();
   await page.getByLabel('Discussion Created').getByRole('button', { name: 'Close' }).click();
 
@@ -68,28 +74,28 @@ test('smoke', async ({ page }) => {
 
   // todo: assert the page:
   await page.waitForTimeout(1000);
-  await expect(page.getByRole('heading', { name: 'discussion title' })).toBeVisible();
-  await expect(page.getByText('discussion body')).toBeVisible();
+  await expect(page.getByRole('heading', { name: discussion.title })).toBeVisible();
+  await expect(page.getByText(discussion.body)).toBeVisible();
 
   // update discussion:
 
   await page.getByRole('button', { name: 'Update Discussion' }).click();
   await page.getByLabel('Title').click();
-  await page.getByLabel('Title').fill('discussion title - updated');
+  await page.getByLabel('Title').fill(`${discussion.title} - updated`);
   await page.getByLabel('Body').click();
-  await page.getByLabel('Body').fill('discussion body - updated');
+  await page.getByLabel('Body').fill(`${discussion.body} - updated`);
   await page.getByRole('button', { name: 'Submit' }).click();
   await page.getByLabel('Discussion Updated').getByRole('button', { name: 'Close' }).click();
 
-  await expect(page.getByRole('heading', { name: 'discussion title - updated' })).toBeVisible();
-  await expect(page.getByText('discussion body - updated')).toBeVisible();
+  await expect(page.getByRole('heading', { name: `${discussion.title} - updated` })).toBeVisible();
+  await expect(page.getByText(`${discussion.body} - updated`)).toBeVisible();
 
   // create comment:
   await page.getByRole('button', { name: 'Create Comment' }).click();
   await page.getByLabel('Body').click();
-  await page.getByLabel('Body').fill('test comment');
+  await page.getByLabel('Body').fill(comment.body);
   await page.getByRole('button', { name: 'Submit' }).click();
-  await expect(page.getByText('test comment')).toBeVisible();
+  await expect(page.getByText(comment.body)).toBeVisible();
   await page.getByLabel('Comment Created').getByRole('button', { name: 'Close' }).click();
 
   // delete comment:
@@ -98,7 +104,7 @@ test('smoke', async ({ page }) => {
   await page.getByRole('button', { name: 'Delete Comment' }).click();
   await page.getByLabel('Comment Deleted').getByRole('button', { name: 'Close' }).click();
   await expect(page.getByRole('heading', { name: 'No Comments Found' })).toBeVisible();
-  await expect(page.getByText('test comment')).toBeHidden();
+  await expect(page.getByText(comment.body)).toBeHidden();
 
   // go back to discussions:
   await page.getByRole('link', { name: 'Discussions' }).click();
@@ -115,8 +121,8 @@ test('smoke', async ({ page }) => {
   await page.getByRole('menuitem', { name: 'Your Profile' }).click();
   await page.getByRole('button', { name: 'Update Profile' }).click();
   await page.getByLabel('Bio').click();
-  await page.getByLabel('Bio').fill('bio added');
+  await page.getByLabel('Bio').fill('My bio');
   await page.getByRole('button', { name: 'Submit' }).click();
   await page.getByLabel('User Updated').getByRole('button', { name: 'Close' }).click();
-  await expect(page.getByText('bio added')).toBeVisible();
+  await expect(page.getByText('My bio')).toBeVisible();
 });

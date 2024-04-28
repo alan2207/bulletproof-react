@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 
-const port = 3000;
+const PORT = 3000;
 
 /**
  * Read environment variables from file.
@@ -42,9 +42,9 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: `npx vite --port ${port}`,
+    command: `yarn start --port ${PORT}`,
     timeout: 10 * 1000,
-    port,
+    port: PORT,
     reuseExistingServer: !process.env.CI,
   },
 });

@@ -11,8 +11,8 @@ type Overrides = Record<string, any>;
 
 export const userGenerator = (overrides?: Overrides) => ({
   id: randUuid() + Math.random(),
-  firstName: randUserName(),
-  lastName: randUserName(),
+  firstName: randUserName({ withAccents: false }),
+  lastName: randUserName({ withAccents: false }),
   email: randEmail(),
   password: randPassword(),
   teamId: randUuid(),
