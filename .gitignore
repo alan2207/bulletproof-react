@@ -10,6 +10,7 @@
 
 # testing
 /coverage
+/src/coverage
 /cypress/videos
 /cypress/screenshots
 

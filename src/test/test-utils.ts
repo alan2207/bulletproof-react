@@ -2,12 +2,15 @@ import { render as rtlRender, screen, waitForElementToBeRemoved } from '@testing
 import userEvent from '@testing-library/user-event';
 import { FunctionComponent } from 'react';
 
+import { mockResizeObserver } from '@/__mocks__/ResizeObserver';
 import { AppProvider } from '@/providers/app';
 import storage from '@/utils/storage';
 
 import { discussionGenerator, userGenerator } from './data-generators';
 import { db } from './server/db';
 import { authenticate, hash } from './server/utils';
+
+mockResizeObserver();
 
 export const createUser = async (userProperties?: any) => {
   const user = userGenerator(userProperties);
@@ -44,7 +47,7 @@ const initializeUser = async (user: any) => {
 };
 
 // eslint-disable-next-line import/export
-export const render = async (
+const render = async (
   ui: any,
   { route = '/', user, ...renderOptions }: Record<string, any> = {}
 ) => {
@@ -66,6 +69,6 @@ export const render = async (
   return returnValue;
 };
 
-// eslint-disable-next-line import/export
+/* eslint-disable import/export */
 export * from '@testing-library/react';
-export { userEvent, rtlRender };
+export { userEvent, rtlRender, render };

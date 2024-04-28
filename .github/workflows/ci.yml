@@ -17,7 +17,7 @@ jobs:
       - run: mv .env.example .env
       - run: yarn install
       - run: yarn build
-      - run: yarn test:jest
+      - run: yarn test
       - run: yarn lint
       - run: yarn check-format
       - run: yarn check-types

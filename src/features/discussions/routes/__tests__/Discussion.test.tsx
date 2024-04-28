@@ -1,4 +1,5 @@
 import { useParams as useMockParams } from 'react-router-dom';
+import type { Mock } from 'vitest';
 
 import {
   render,
@@ -12,16 +13,16 @@ import {
 
 import { Discussion } from '../Discussion';
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'), // keep the rest of the exports intact
-  useParams: jest.fn(),
+vi.mock('react-router-dom', async () => ({
+  ...(await vi.importActual('react-router-dom')), // keep the rest of the exports intact
+  useParams: vi.fn(),
 }));
 
 const renderDiscussion = async () => {
   const fakeUser = await createUser();
   const fakeDiscussion = await createDiscussion({ teamId: fakeUser.teamId });
 
-  (useMockParams as jest.Mock).mockImplementation(() => ({
+  (useMockParams as Mock).mockImplementation(() => ({
     discussionId: fakeDiscussion.id,
   }));
 
@@ -111,7 +112,6 @@ test('should create and delete a comment on the discussion', async () => {
 
   const deleteCommentButton = within(commentElement).getByRole('button', {
     name: /delete comment/i,
-    exact: false,
   });
 
   await userEvent.click(deleteCommentButton);

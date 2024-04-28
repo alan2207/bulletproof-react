@@ -5,7 +5,7 @@ import { LoginForm } from '../LoginForm';
 test('should login new user and call onSuccess cb which should navigate the user to the app', async () => {
   const newUser = await createUser({ teamId: undefined });
 
-  const onSuccess = jest.fn();
+  const onSuccess = vi.fn();
 
   await render(<LoginForm onSuccess={onSuccess} />, { user: null });
 

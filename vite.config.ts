@@ -22,5 +22,13 @@ export default defineConfig(({ mode }) => {
         ...dotenv,
       },
     },
+    test: {
+      globals: true,
+      environment: 'jsdom',
+      setupFiles: './src/test/setup.ts',
+      coverage: {
+        include: ['src/**'],
+      },
+    },
   };
 });

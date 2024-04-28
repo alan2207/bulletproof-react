@@ -1,3 +1,5 @@
+import type { Mock } from 'vitest';
+
 import { discussionGenerator } from '@/test/data-generators';
 import { render, screen, userEvent, waitFor, within } from '@/test/test-utils';
 import { formatDate } from '@/utils/format';
@@ -5,11 +7,11 @@ import { formatDate } from '@/utils/format';
 import { Discussions } from '../Discussions';
 
 beforeAll(() => {
-  jest.spyOn(console, 'error').mockImplementation(() => {});
+  vi.spyOn(console, 'error').mockImplementation(() => {});
 });
 
 afterAll(() => {
-  (console.error as jest.Mock).mockRestore();
+  (console.error as Mock).mockRestore();
 });
 
 test('should create, render and delete discussions', async () => {

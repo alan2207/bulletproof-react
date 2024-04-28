@@ -6,7 +6,7 @@ import { RegisterForm } from '../RegisterForm';
 test('should register new user and call onSuccess cb which should navigate the user to the app', async () => {
   const newUser = userGenerator({});
 
-  const onSuccess = jest.fn();
+  const onSuccess = vi.fn();
 
   await render(<RegisterForm onSuccess={onSuccess} />, { user: null });
 
