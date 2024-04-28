@@ -1,5 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const port = 3000;
+
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -40,8 +42,9 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'npm run preview',
-    url: 'http://127.0.0.1:3000',
+    command: `npx vite --port ${port}`,
+    timeout: 10 * 1000,
+    port,
     reuseExistingServer: !process.env.CI,
   },
 });

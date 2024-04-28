@@ -13,6 +13,9 @@ beforeEach(() => {
   }));
 
   vi.stubGlobal('ResizeObserver', ResizeObserverMock);
+
+  window.btoa = (str: string) => Buffer.from(str, 'binary').toString('base64');
+  window.atob = (str: string) => Buffer.from(str, 'base64').toString('binary');
 });
 afterEach(() => {
   server.resetHandlers();

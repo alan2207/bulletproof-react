@@ -14,8 +14,6 @@
     "format": "npm run prettier -- --write",
     "check-types": "tsc --project tsconfig.json --pretty --noEmit",
     "check-format": "npm run prettier -- --list-different",
-    "validate-and-build": "npm-run-all --parallel check-types check-format lint build",
-    "validate": "npm-run-all --parallel check-types && lint-staged",
     "generate": "plop",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
@@ -68,7 +66,6 @@
     "@typescript-eslint/parser": "6",
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.19",
-    "cross-env": "^7.0.3",
     "eslint": "8",
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-typescript": "^3.6.1",
@@ -83,14 +80,11 @@
     "husky": "^6.0.0",
     "jest-environment-jsdom": "^29.7.0",
     "jsdom": "^24.0.0",
-    "jsonwebtoken": "^9.0.2",
     "lint-staged": "^11.0.0",
-    "msw": "^2.2.14",
-    "npm-run-all": "^4.1.5",
+    "msw": "2.2.11",
     "plop": "^2.7.4",
     "postcss": "^8.4.38",
     "prettier": "^3.2.5",
-    "serve": "^12.0.0",
     "storybook": "^8.0.9",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.4.5",
@@ -103,7 +97,8 @@
   },
   "lint-staged": {
     "*.+(ts|tsx)": [
-      "yarn lint"
+      "yarn lint",
+      "bash -c 'yarn check-types'"
     ]
   }
 }
