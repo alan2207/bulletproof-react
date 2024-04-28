@@ -76,6 +76,9 @@
       "last 1 safari version"
     ]
   },
+  "engines": {
+    "node": ">=20"
+  },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
     "@mswjs/data": "^0.16.1",

@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2-beta
         with:
-          node-version: '14.16'
+          node-version: '20.12.2'
       - run: mv .env.example .env
       - run: yarn install
       - run: yarn build
@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2-beta
         with:
-          node-version: '14.16'
+          node-version: '20.12.2'
       - run: mv .env.example .env
       - uses: cypress-io/github-action@v2
         with:
