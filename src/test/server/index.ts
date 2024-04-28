@@ -1,13 +1,7 @@
-export const initMocks = () => {
-  if (process.env.REACT_APP_API_MOCKING === 'true') {
-    if (typeof window === 'undefined') {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const { server } = require('./server');
-      server.listen();
-    } else {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const { worker } = require('./browser');
-      worker.start();
-    }
+export const initMocks = async () => {
+  if (import.meta.env.VITE_APP_API_MOCKING === 'true') {
+    const { worker } = await import('./browser');
+
+    return worker.start();
   }
 };

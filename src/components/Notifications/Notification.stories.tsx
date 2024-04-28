@@ -1,4 +1,4 @@
-import { Meta, Story } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 
 import { Notification, NotificationProps } from './Notification';
 
@@ -12,7 +12,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<NotificationProps> = (props) => <Notification {...props} />;
+const Template: StoryFn<NotificationProps> = (props) => <Notification {...props} />;
 
 export const Info = Template.bind({});
 Info.args = {

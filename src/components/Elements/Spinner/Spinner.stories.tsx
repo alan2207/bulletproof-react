@@ -1,4 +1,4 @@
-import { Meta, Story } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 
 import { Spinner, SpinnerProps } from './Spinner';
 
@@ -12,7 +12,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<SpinnerProps> = (props) => <Spinner {...props} />;
+const Template: StoryFn<SpinnerProps> = (props) => <Spinner {...props} />;
 
 export const Default = Template.bind({});
 Default.args = {};

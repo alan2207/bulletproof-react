@@ -1,7 +1,7 @@
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { axios } from '@/lib/axios';
-import { MutationConfig, queryClient } from '@/lib/react-query';
+import { MutationConfig } from '@/lib/react-query';
 import { useNotificationStore } from '@/stores/notifications';
 
 import { Comment } from '../types';
@@ -24,6 +24,7 @@ type UseCreateCommentOptions = {
 
 export const useCreateComment = ({ config, discussionId }: UseCreateCommentOptions) => {
   const { addNotification } = useNotificationStore();
+  const queryClient = useQueryClient();
 
   return useMutation({
     onMutate: async (newComment) => {

@@ -31,15 +31,15 @@ const TestDialog = () => {
 };
 
 test('should handle basic dialog flow', async () => {
-  await rtlRender(<TestDialog />);
+  rtlRender(<TestDialog />);
 
   expect(screen.queryByText(titleText)).not.toBeInTheDocument();
 
-  userEvent.click(screen.getByRole('button', { name: openButtonText }));
+  await userEvent.click(screen.getByRole('button', { name: openButtonText }));
 
-  expect(screen.getByText(titleText)).toBeInTheDocument();
+  expect(await screen.findByText(titleText)).toBeInTheDocument();
 
-  userEvent.click(screen.getByRole('button', { name: cancelButtonText }));
+  await userEvent.click(screen.getByRole('button', { name: cancelButtonText }));
 
   await waitFor(() => expect(screen.queryByText(titleText)).not.toBeInTheDocument());
 });

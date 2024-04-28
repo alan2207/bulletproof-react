@@ -21,13 +21,13 @@ test('should handle confirmation flow', async () => {
 
   expect(screen.queryByText(titleText)).not.toBeInTheDocument();
 
-  userEvent.click(screen.getByRole('button', { name: openButtonText }));
+  await userEvent.click(screen.getByRole('button', { name: openButtonText }));
 
-  expect(screen.getByText(titleText)).toBeInTheDocument();
+  expect(await screen.findByText(titleText)).toBeInTheDocument();
 
   expect(screen.getByText(bodyText)).toBeInTheDocument();
 
-  userEvent.click(screen.getByRole('button', { name: 'Cancel' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Cancel' }));
 
   await waitFor(() => expect(screen.queryByText(titleText)).not.toBeInTheDocument());
 

@@ -1,4 +1,4 @@
-import { createUser, render, screen } from '@/test/test-utils';
+import { createUser, renderApp, screen } from '@/test/test-utils';
 
 import { Authorization, ROLES } from '../authorization';
 
@@ -9,7 +9,7 @@ test('should view protected resource if user role is matching', async () => {
 
   const protectedResource = 'This is very confidential data';
 
-  await render(<Authorization allowedRoles={[ROLES.ADMIN]}>{protectedResource}</Authorization>, {
+  await renderApp(<Authorization allowedRoles={[ROLES.ADMIN]}>{protectedResource}</Authorization>, {
     user,
   });
 
@@ -24,7 +24,7 @@ test('should not view protected resource if user role does not match and show fa
   const protectedResource = 'This is very confidential data';
 
   const forbiddenMessage = 'You are unauthorized to view this resource';
-  await render(
+  await renderApp(
     <Authorization forbiddenFallback={<div>{forbiddenMessage}</div>} allowedRoles={[ROLES.ADMIN]}>
       {protectedResource}
     </Authorization>,
@@ -43,7 +43,7 @@ test('should view protected resource if policy check passes', async () => {
 
   const protectedResource = 'This is very confidential data';
 
-  await render(<Authorization policyCheck={true}>{protectedResource}</Authorization>, { user });
+  await renderApp(<Authorization policyCheck={true}>{protectedResource}</Authorization>, { user });
 
   expect(screen.getByText(protectedResource)).toBeInTheDocument();
 });
@@ -56,7 +56,7 @@ test('should not view protected resource if policy check fails and show fallback
   const protectedResource = 'This is very confidential data';
 
   const forbiddenMessage = 'You are unauthorized to view this resource';
-  await render(
+  await renderApp(
     <Authorization forbiddenFallback={<div>{forbiddenMessage}</div>} policyCheck={false}>
       {protectedResource}
     </Authorization>,

@@ -1,16 +1,10 @@
-import jwt from 'jsonwebtoken';
-import omit from 'lodash/omit';
-import { RestRequest, createResponseComposition, context } from 'msw';
-
-import { JWT_SECRET } from '@/config';
+import { StrictRequest, DefaultBodyType } from 'msw';
 
 import { db } from './db';
 
-const isTesting = process.env.NODE_ENV === 'test' || ((window as any).Cypress as any);
+export const encode = (obj: any) => window.btoa(JSON.stringify(obj));
 
-export const delayedResponse = createResponseComposition(undefined, [
-  context.delay(isTesting ? 0 : 1000),
-]);
+export const decode = (str: string) => JSON.parse(window.atob(str));
 
 export const hash = (str: string) => {
   let hash = 5381,
@@ -22,7 +16,18 @@ export const hash = (str: string) => {
   return String(hash >>> 0);
 };
 
-export const sanitizeUser = (user: any) => omit(user, ['password', 'iat']);
+const omit = <T extends object>(obj: T, keys: string[]): T => {
+  const result = {} as T;
+  for (const key in obj) {
+    if (!keys.includes(key)) {
+      result[key] = obj[key];
+    }
+  }
+
+  return result;
+};
+
+export const sanitizeUser = <O extends object>(user: O) => omit<O>(user, ['password', 'iat']);
 
 export function authenticate({ email, password }: { email: string; password: string }) {
   const user = db.user.findFirst({
@@ -35,7 +40,7 @@ export function authenticate({ email, password }: { email: string; password: str
 
   if (user?.password === hash(password)) {
     const sanitizedUser = sanitizeUser(user);
-    const encodedToken = jwt.sign(sanitizedUser, JWT_SECRET);
+    const encodedToken = encode(sanitizedUser);
     return { user: sanitizedUser, jwt: encodedToken };
   }
 
@@ -43,13 +48,13 @@ export function authenticate({ email, password }: { email: string; password: str
   throw error;
 }
 
-export function requireAuth(request: RestRequest) {
+export function requireAuth(request: StrictRequest<DefaultBodyType>) {
   try {
     const encodedToken = request.headers.get('authorization');
     if (!encodedToken) {
       throw new Error('No authorization token provided!');
     }
-    const decodedToken = jwt.verify(encodedToken, JWT_SECRET) as { id: string };
+    const decodedToken = decode(encodedToken) as { id: string };
 
     const user = db.user.findFirst({
       where: {

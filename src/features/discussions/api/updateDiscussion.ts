@@ -1,7 +1,7 @@
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { axios } from '@/lib/axios';
-import { MutationConfig, queryClient } from '@/lib/react-query';
+import { MutationConfig } from '@/lib/react-query';
 import { useNotificationStore } from '@/stores/notifications';
 
 import { Discussion } from '../types';
@@ -27,6 +27,7 @@ type UseUpdateDiscussionOptions = {
 
 export const useUpdateDiscussion = ({ config }: UseUpdateDiscussionOptions = {}) => {
   const { addNotification } = useNotificationStore();
+  const queryClient = useQueryClient();
 
   return useMutation({
     onMutate: async (updatingDiscussion: any) => {

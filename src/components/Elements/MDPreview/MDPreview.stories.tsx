@@ -1,4 +1,4 @@
-import { Meta, Story } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 
 import { MDPreview, MDPreviewProps } from './MDPreview';
 
@@ -12,7 +12,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<MDPreviewProps> = (props) => <MDPreview {...props} />;
+const Template: StoryFn<MDPreviewProps> = (props) => <MDPreview {...props} />;
 
 export const Default = Template.bind({});
 Default.args = {

@@ -1,7 +1,7 @@
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { axios } from '@/lib/axios';
-import { MutationConfig, queryClient } from '@/lib/react-query';
+import { MutationConfig } from '@/lib/react-query';
 import { useNotificationStore } from '@/stores/notifications';
 
 import { User } from '../types';
@@ -20,15 +20,16 @@ type UseDeleteUserOptions = {
 
 export const useDeleteUser = ({ config }: UseDeleteUserOptions = {}) => {
   const { addNotification } = useNotificationStore();
+  const queryClient = useQueryClient();
 
   return useMutation({
     onMutate: async (deletedUser) => {
-      await queryClient.cancelQueries('users');
+      await queryClient.cancelQueries(['users']);
 
-      const previousUsers = queryClient.getQueryData<User[]>('users');
+      const previousUsers = queryClient.getQueryData<User[]>(['users']);
 
       queryClient.setQueryData(
-        'users',
+        ['users'],
         previousUsers?.filter((user) => user.id !== deletedUser.userId)
       );
 
@@ -36,11 +37,11 @@ export const useDeleteUser = ({ config }: UseDeleteUserOptions = {}) => {
     },
     onError: (_, __, context: any) => {
       if (context?.previousUsers) {
-        queryClient.setQueryData('users', context.previousUsers);
+        queryClient.setQueryData(['users'], context.previousUsers);
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries('users');
+      queryClient.invalidateQueries(['users']);
       addNotification({
         type: 'success',
         title: 'User Deleted',

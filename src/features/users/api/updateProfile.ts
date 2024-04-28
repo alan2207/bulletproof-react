@@ -1,6 +1,6 @@
-import { useMutation } from 'react-query';
+import { useMutation } from '@tanstack/react-query';
 
-import { useAuth } from '@/lib/auth';
+import { useUser } from '@/lib/auth';
 import { axios } from '@/lib/axios';
 import { MutationConfig } from '@/lib/react-query';
 import { useNotificationStore } from '@/stores/notifications';
@@ -24,7 +24,7 @@ type UseUpdateProfileOptions = {
 
 export const useUpdateProfile = ({ config }: UseUpdateProfileOptions = {}) => {
   const { addNotification } = useNotificationStore();
-  const { refetchUser } = useAuth();
+  const { refetch: refetchUser } = useUser();
   return useMutation({
     onSuccess: () => {
       addNotification({

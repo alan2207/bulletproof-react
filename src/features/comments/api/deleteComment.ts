@@ -1,7 +1,7 @@
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { axios } from '@/lib/axios';
-import { MutationConfig, queryClient } from '@/lib/react-query';
+import { MutationConfig } from '@/lib/react-query';
 import { useNotificationStore } from '@/stores/notifications';
 
 import { Comment } from '../types';
@@ -17,6 +17,8 @@ type UseDeleteCommentOptions = {
 
 export const useDeleteComment = ({ config, discussionId }: UseDeleteCommentOptions) => {
   const { addNotification } = useNotificationStore();
+  const queryClient = useQueryClient();
+
   return useMutation({
     onMutate: async (deletedComment) => {
       await queryClient.cancelQueries(['comments', discussionId]);

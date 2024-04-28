@@ -1,7 +1,7 @@
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { axios } from '@/lib/axios';
-import { MutationConfig, queryClient } from '@/lib/react-query';
+import { MutationConfig } from '@/lib/react-query';
 import { useNotificationStore } from '@/stores/notifications';
 
 import { Discussion } from '../types';
@@ -16,15 +16,16 @@ type UseDeleteDiscussionOptions = {
 
 export const useDeleteDiscussion = ({ config }: UseDeleteDiscussionOptions = {}) => {
   const { addNotification } = useNotificationStore();
+  const queryClient = useQueryClient();
 
   return useMutation({
     onMutate: async (deletedDiscussion) => {
-      await queryClient.cancelQueries('discussions');
+      await queryClient.cancelQueries([['discussions']]);
 
-      const previousDiscussions = queryClient.getQueryData<Discussion[]>('discussions');
+      const previousDiscussions = queryClient.getQueryData<Discussion[]>(['discussions']);
 
       queryClient.setQueryData(
-        'discussions',
+        ['discussions'],
         previousDiscussions?.filter(
           (discussion) => discussion.id !== deletedDiscussion.discussionId
         )
@@ -34,11 +35,11 @@ export const useDeleteDiscussion = ({ config }: UseDeleteDiscussionOptions = {})
     },
     onError: (_, __, context: any) => {
       if (context?.previousDiscussions) {
-        queryClient.setQueryData('discussions', context.previousDiscussions);
+        queryClient.setQueryData(['discussions'], context.previousDiscussions);
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries('discussions');
+      queryClient.invalidateQueries(['discussions']);
       addNotification({
         type: 'success',
         title: 'Discussion Deleted',

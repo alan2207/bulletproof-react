@@ -1,7 +1,7 @@
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import { axios } from '@/lib/axios';
-import { ExtractFnReturnType, QueryConfig } from '@/lib/react-query';
+import { ApiFnReturnType, QueryConfig } from '@/lib/react-query';
 
 import { Comment } from '../types';
 
@@ -21,7 +21,7 @@ type UseCommentsOptions = {
 };
 
 export const useComments = ({ discussionId, config }: UseCommentsOptions) => {
-  return useQuery<ExtractFnReturnType<QueryFnType>>({
+  return useQuery<ApiFnReturnType<QueryFnType>>({
     queryKey: ['comments', discussionId],
     queryFn: () => getComments({ discussionId }),
     ...config,

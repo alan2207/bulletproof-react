@@ -1,6 +1,5 @@
-import { initReactQueryAuth } from 'react-query-auth';
+import { configureAuth } from 'react-query-auth';
 
-import { Spinner } from '@/components/Elements';
 import {
   loginWithEmailAndPassword,
   getUser,
@@ -8,7 +7,6 @@ import {
   UserResponse,
   LoginCredentialsDTO,
   RegisterCredentialsDTO,
-  AuthUser,
 } from '@/features/auth';
 import storage from '@/utils/storage';
 
@@ -18,7 +16,7 @@ async function handleUserResponse(data: UserResponse) {
   return user;
 }
 
-async function loadUser() {
+async function userFn() {
   if (storage.getToken()) {
     const data = await getUser();
     return data;
@@ -44,22 +42,10 @@ async function logoutFn() {
 }
 
 const authConfig = {
-  loadUser,
+  userFn,
   loginFn,
   registerFn,
   logoutFn,
-  LoaderComponent() {
-    return (
-      <div className="w-screen h-screen flex justify-center items-center">
-        <Spinner size="xl" />
-      </div>
-    );
-  },
 };
 
-export const { AuthProvider, useAuth } = initReactQueryAuth<
-  AuthUser | null,
-  unknown,
-  LoginCredentialsDTO,
-  RegisterCredentialsDTO
->(authConfig);
+export const { useUser, useLogin, useLogout, useRegister, AuthLoader } = configureAuth(authConfig);

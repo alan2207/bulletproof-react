@@ -1,7 +1,8 @@
 import { useParams as useMockParams } from 'react-router-dom';
+import type { Mock } from 'vitest';
 
 import {
-  render,
+  renderApp,
   screen,
   userEvent,
   waitFor,
@@ -12,20 +13,21 @@ import {
 
 import { Discussion } from '../Discussion';
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'), // keep the rest of the exports intact
-  useParams: jest.fn(),
+vi.mock('react-router-dom', () => ({
+  ...vi.importActual('react-router-dom'), // keep the rest of the exports intact
+  useParams: vi.fn(),
+  BrowserRouter: vi.fn().mockImplementation((props) => props.children),
 }));
 
 const renderDiscussion = async () => {
   const fakeUser = await createUser();
   const fakeDiscussion = await createDiscussion({ teamId: fakeUser.teamId });
 
-  (useMockParams as jest.Mock).mockImplementation(() => ({
+  (useMockParams as Mock).mockImplementation(() => ({
     discussionId: fakeDiscussion.id,
   }));
 
-  const utils = await render(<Discussion />, {
+  const utils = await renderApp(<Discussion />, {
     user: fakeUser,
   });
 
@@ -49,23 +51,23 @@ test('should update discussion', async () => {
   const titleUpdate = '-Updated';
   const bodyUpdate = '-Updated';
 
-  userEvent.click(screen.getByRole('button', { name: /update discussion/i }));
+  await userEvent.click(screen.getByRole('button', { name: /update discussion/i }));
 
-  const drawer = screen.getByRole('dialog', {
+  const drawer = await screen.findByRole('dialog', {
     name: /update discussion/i,
   });
 
   const titleField = within(drawer).getByText(/title/i);
   const bodyField = within(drawer).getByText(/body/i);
 
-  userEvent.type(titleField, titleUpdate);
-  userEvent.type(bodyField, bodyUpdate);
+  await userEvent.type(titleField, titleUpdate);
+  await userEvent.type(bodyField, bodyUpdate);
 
   const submitButton = within(drawer).getByRole('button', {
     name: /submit/i,
   });
 
-  userEvent.click(submitButton);
+  await userEvent.click(submitButton);
 
   await waitFor(() => expect(drawer).not.toBeInTheDocument());
 
@@ -81,21 +83,21 @@ test('should create and delete a comment on the discussion', async () => {
 
   const comment = 'Hello World';
 
-  userEvent.click(screen.getByRole('button', { name: /create comment/i }));
+  await userEvent.click(screen.getByRole('button', { name: /create comment/i }));
 
-  const drawer = screen.getByRole('dialog', {
+  const drawer = await screen.findByRole('dialog', {
     name: /create comment/i,
   });
 
-  const bodyField = within(drawer).getByText(/body/i);
+  const bodyField = await within(drawer).findByText(/body/i);
 
-  userEvent.type(bodyField, comment);
+  await userEvent.type(bodyField, comment);
 
-  const submitButton = within(drawer).getByRole('button', {
+  const submitButton = await within(drawer).findByRole('button', {
     name: /submit/i,
   });
 
-  userEvent.click(submitButton);
+  await userEvent.click(submitButton);
 
   await waitFor(() => expect(drawer).not.toBeInTheDocument());
 
@@ -111,20 +113,20 @@ test('should create and delete a comment on the discussion', async () => {
 
   const deleteCommentButton = within(commentElement).getByRole('button', {
     name: /delete comment/i,
-    exact: false,
+    // exact: false,
   });
 
-  userEvent.click(deleteCommentButton);
+  await userEvent.click(deleteCommentButton);
 
-  const confirmationDialog = screen.getByRole('dialog', {
+  const confirmationDialog = await screen.findByRole('dialog', {
     name: /delete comment/i,
   });
 
-  const confirmationDeleteButton = within(confirmationDialog).getByRole('button', {
+  const confirmationDeleteButton = await within(confirmationDialog).findByRole('button', {
     name: /delete/i,
   });
 
-  userEvent.click(confirmationDeleteButton);
+  await userEvent.click(confirmationDeleteButton);
 
   await screen.findByText(/comment deleted/i);
 

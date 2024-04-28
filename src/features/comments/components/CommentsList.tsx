@@ -2,7 +2,7 @@ import { ArchiveIcon } from '@heroicons/react/outline';
 
 import { Spinner, MDPreview } from '@/components/Elements';
 import { User } from '@/features/users';
-import { useAuth } from '@/lib/auth';
+import { useUser } from '@/lib/auth';
 import { POLICIES, Authorization } from '@/lib/authorization';
 import { formatDate } from '@/utils/format';
 
@@ -15,7 +15,7 @@ type CommentsListProps = {
 };
 
 export const CommentsList = ({ discussionId }: CommentsListProps) => {
-  const { user } = useAuth();
+  const user = useUser();
   const commentsQuery = useComments({ discussionId });
 
   if (commentsQuery.isLoading) {
@@ -46,7 +46,7 @@ export const CommentsList = ({ discussionId }: CommentsListProps) => {
           key={comment.id || index}
           className="w-full p-4 bg-white shadow-sm"
         >
-          <Authorization policyCheck={POLICIES['comment:delete'](user as User, comment)}>
+          <Authorization policyCheck={POLICIES['comment:delete'](user.data as User, comment)}>
             <div className="flex justify-between">
               <div>
                 <span className="text-xs font-semibold">{formatDate(comment.createdAt)}</span>

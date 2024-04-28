@@ -1,7 +1,7 @@
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import { axios } from '@/lib/axios';
-import { ExtractFnReturnType, QueryConfig } from '@/lib/react-query';
+import { ApiFnReturnType, QueryConfig } from '@/lib/react-query';
 
 import { Team } from '../types';
 
@@ -16,7 +16,7 @@ type UseTeamsOptions = {
 };
 
 export const useTeams = ({ config = {} }: UseTeamsOptions = {}) => {
-  return useQuery<ExtractFnReturnType<QueryFnType>>({
+  return useQuery<ApiFnReturnType<QueryFnType>>({
     ...config,
     queryKey: ['teams'],
     queryFn: () => getTeams(),

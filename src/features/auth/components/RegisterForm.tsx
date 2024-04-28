@@ -6,7 +6,7 @@ import * as z from 'zod';
 import { Button } from '@/components/Elements';
 import { Form, InputField, SelectField } from '@/components/Form';
 import { useTeams } from '@/features/teams';
-import { useAuth } from '@/lib/auth';
+import { useRegister } from '@/lib/auth';
 
 const schema = z
   .object({
@@ -37,7 +37,7 @@ type RegisterFormProps = {
 };
 
 export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
-  const { register, isRegistering } = useAuth();
+  const registering = useRegister();
   const [chooseTeam, setChooseTeam] = React.useState(false);
 
   const teamsQuery = useTeams({
@@ -50,7 +50,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
     <div>
       <Form<RegisterValues, typeof schema>
         onSubmit={async (values) => {
-          await register(values);
+          await registering.mutateAsync(values);
           onSuccess();
         }}
         schema={schema}
@@ -123,14 +123,14 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
               />
             )}
             <div>
-              <Button isLoading={isRegistering} type="submit" className="w-full">
+              <Button isLoading={registering.isLoading} type="submit" className="w-full">
                 Register
               </Button>
             </div>
           </>
         )}
       </Form>
-      <div className="mt-2 flex items-center justify-end">
+      <div className="flex items-center justify-end mt-2">
         <div className="text-sm">
           <Link to="../login" className="font-medium text-blue-600 hover:text-blue-500">
             Log In

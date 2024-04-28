@@ -1,10 +1,10 @@
-import { rest } from 'msw';
+import { HttpResponse, http } from 'msw';
 import { nanoid } from 'nanoid';
 
 import { API_URL } from '@/config';
 
 import { db, persistDb } from '../db';
-import { requireAuth, requireAdmin, delayedResponse, sanitizeUser } from '../utils';
+import { requireAuth, requireAdmin, sanitizeUser } from '../utils';
 
 type DiscussionBody = {
   title: string;
@@ -12,9 +12,9 @@ type DiscussionBody = {
 };
 
 export const discussionsHandlers = [
-  rest.get(`${API_URL}/discussions`, (req, res, ctx) => {
+  http.get(`${API_URL}/discussions`, async ({ request }) => {
     try {
-      const user = requireAuth(req);
+      const user = requireAuth(request);
       const result = db.discussion
         .findMany({
           where: {
@@ -33,22 +33,19 @@ export const discussionsHandlers = [
           });
           return {
             ...discussion,
-            author: sanitizeUser(author),
+            author: author ? sanitizeUser(author) : {},
           };
         });
-      return delayedResponse(ctx.json(result));
+      return HttpResponse.json(result);
     } catch (error: any) {
-      return delayedResponse(
-        ctx.status(400),
-        ctx.json({ message: error?.message || 'Server Error' })
-      );
+      return HttpResponse.json({ message: error?.message || 'Server Error' }, { status: 500 });
     }
   }),
 
-  rest.get(`${API_URL}/discussions/:discussionId`, (req, res, ctx) => {
+  http.get(`${API_URL}/discussions/:discussionId`, async ({ request, params }) => {
     try {
-      const user = requireAuth(req);
-      const { discussionId } = req.params;
+      const user = requireAuth(request);
+      const discussionId = params.discussionId as string;
       const discussion = db.discussion.findFirst({
         where: {
           id: {
@@ -61,7 +58,7 @@ export const discussionsHandlers = [
       });
 
       if (!discussion) {
-        return delayedResponse(ctx.status(404), ctx.json({ message: 'Discussion not found' }));
+        return HttpResponse.json({ message: 'Discussion not found' }, { status: 404 });
       }
 
       const author = db.user.findFirst({
@@ -76,21 +73,19 @@ export const discussionsHandlers = [
 
       const result = {
         ...discussion,
-        author: sanitizeUser(author),
+        author: author ? sanitizeUser(author) : {},
       };
-      return delayedResponse(ctx.json(result));
+
+      return HttpResponse.json(result);
     } catch (error: any) {
-      return delayedResponse(
-        ctx.status(400),
-        ctx.json({ message: error?.message || 'Server Error' })
-      );
+      return HttpResponse.json({ message: error?.message || 'Server Error' }, { status: 500 });
     }
   }),
 
-  rest.post<DiscussionBody>(`${API_URL}/discussions`, (req, res, ctx) => {
+  http.post(`${API_URL}/discussions`, async ({ request }) => {
     try {
-      const user = requireAuth(req);
-      const data = req.body;
+      const user = requireAuth(request);
+      const data = (await request.json()) as DiscussionBody;
       requireAdmin(user);
       const result = db.discussion.create({
         teamId: user.teamId,
@@ -100,20 +95,17 @@ export const discussionsHandlers = [
         ...data,
       });
       persistDb('discussion');
-      return delayedResponse(ctx.json(result));
+      return HttpResponse.json(result);
     } catch (error: any) {
-      return delayedResponse(
-        ctx.status(400),
-        ctx.json({ message: error?.message || 'Server Error' })
-      );
+      return HttpResponse.json({ message: error?.message || 'Server Error' }, { status: 500 });
     }
   }),
 
-  rest.patch<DiscussionBody>(`${API_URL}/discussions/:discussionId`, (req, res, ctx) => {
+  http.patch(`${API_URL}/discussions/:discussionId`, async ({ request, params }) => {
     try {
-      const user = requireAuth(req);
-      const data = req.body;
-      const { discussionId } = req.params;
+      const user = requireAuth(request);
+      const data = (await request.json()) as DiscussionBody;
+      const discussionId = params.discussionId as string;
       requireAdmin(user);
       const result = db.discussion.update({
         where: {
@@ -127,19 +119,16 @@ export const discussionsHandlers = [
         data,
       });
       persistDb('discussion');
-      return delayedResponse(ctx.json(result));
+      return HttpResponse.json(result);
     } catch (error: any) {
-      return delayedResponse(
-        ctx.status(400),
-        ctx.json({ message: error?.message || 'Server Error' })
-      );
+      return HttpResponse.json({ message: error?.message || 'Server Error' }, { status: 500 });
     }
   }),
 
-  rest.delete(`${API_URL}/discussions/:discussionId`, (req, res, ctx) => {
+  http.delete(`${API_URL}/discussions/:discussionId`, async ({ request, params }) => {
     try {
-      const user = requireAuth(req);
-      const { discussionId } = req.params;
+      const user = requireAuth(request);
+      const discussionId = params.discussionId as string;
       requireAdmin(user);
       const result = db.discussion.delete({
         where: {
@@ -149,12 +138,9 @@ export const discussionsHandlers = [
         },
       });
       persistDb('discussion');
-      return delayedResponse(ctx.json(result));
+      return HttpResponse.json(result);
     } catch (error: any) {
-      return delayedResponse(
-        ctx.status(400),
-        ctx.json({ message: error?.message || 'Server Error' })
-      );
+      return HttpResponse.json({ message: error?.message || 'Server Error' }, { status: 500 });
     }
   }),
 ];

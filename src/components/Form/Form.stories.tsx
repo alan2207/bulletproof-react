@@ -1,5 +1,6 @@
-import { Meta, Story } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import * as React from 'react';
+import { z } from 'zod';
 
 import { Button } from '../Elements';
 
@@ -22,6 +23,9 @@ const MyForm = ({ hideSubmit = false }: { hideSubmit?: boolean }) => {
       onSubmit={async (values) => {
         alert(JSON.stringify(values, null, 2));
       }}
+      schema={z.object({
+        title: z.string().min(1, 'Required'),
+      })}
       id="my-form"
     >
       {({ register, formState }) => (
@@ -69,7 +73,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story = () => <MyForm />;
+const Template: StoryFn = () => <MyForm />;
 
 export const Default = Template.bind({});
 Default.args = {};

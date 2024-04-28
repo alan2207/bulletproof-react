@@ -1,10 +1,10 @@
-import { rest } from 'msw';
+import { HttpResponse, http } from 'msw';
 import { nanoid } from 'nanoid';
 
 import { API_URL } from '@/config';
 
 import { db, persistDb } from '../db';
-import { authenticate, delayedResponse, hash, requireAuth } from '../utils';
+import { authenticate, hash, requireAuth } from '../utils';
 
 type RegisterBody = {
   firstName: string;
@@ -21,9 +21,9 @@ type LoginBody = {
 };
 
 export const authHandlers = [
-  rest.post<RegisterBody>(`${API_URL}/auth/register`, (req, res, ctx) => {
+  http.post(`${API_URL}/auth/register`, async ({ request }) => {
     try {
-      const userObject = req.body;
+      const userObject = (await request.json()) as RegisterBody;
 
       const existingUser = db.user.findFirst({
         where: {
@@ -34,7 +34,7 @@ export const authHandlers = [
       });
 
       if (existingUser) {
-        throw new Error('The user already exists');
+        return HttpResponse.json({ message: 'The user already exists' }, { status: 400 });
       }
 
       let teamId;
@@ -78,38 +78,28 @@ export const authHandlers = [
 
       const result = authenticate({ email: userObject.email, password: userObject.password });
 
-      return delayedResponse(ctx.json(result));
+      return HttpResponse.json(result);
     } catch (error: any) {
-      return delayedResponse(
-        ctx.status(400),
-        ctx.json({ message: error?.message || 'Server Error' })
-      );
+      return HttpResponse.json({ message: error?.message || 'Server Error' }, { status: 500 });
     }
   }),
 
-  rest.post<LoginBody>(`${API_URL}/auth/login`, (req, res, ctx) => {
+  http.post(`${API_URL}/auth/login`, async ({ request }) => {
     try {
-      const credentials = req.body;
+      const credentials = (await request.json()) as LoginBody;
       const result = authenticate(credentials);
-      return delayedResponse(ctx.json(result));
+      return HttpResponse.json(result);
     } catch (error: any) {
-      return delayedResponse(
-        ctx.status(400),
-        ctx.json({ message: error?.message || 'Server Error' })
-      );
+      return HttpResponse.json({ message: error?.message || 'Server Error' }, { status: 500 });
     }
   }),
 
-  rest.get(`${API_URL}/auth/me`, (req, res, ctx) => {
+  http.get(`${API_URL}/auth/me`, ({ request }) => {
     try {
-      const user = requireAuth(req);
-
-      return delayedResponse(ctx.json(user));
+      const user = requireAuth(request);
+      return HttpResponse.json(user);
     } catch (error: any) {
-      return delayedResponse(
-        ctx.status(400),
-        ctx.json({ message: error?.message || 'Server Error' })
-      );
+      return HttpResponse.json({ message: error?.message || 'Server Error' }, { status: 500 });
     }
   }),
 ];

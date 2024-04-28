@@ -7,8 +7,16 @@
 
 # testing
 /coverage
-/cypress/videos
-/cypress/screenshots
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# storybook
+migration-storybook.log
+storybook.log
+storybook-static
+
 
 # production
 /build
@@ -24,3 +32,4 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+

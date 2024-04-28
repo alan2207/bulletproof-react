@@ -1,4 +1,4 @@
-import { Meta, Story } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 
 import { Button } from '../Button';
 
@@ -14,7 +14,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<ConfirmationDialogProps> = (props) => <ConfirmationDialog {...props} />;
+const Template: StoryFn<ConfirmationDialogProps> = (props) => <ConfirmationDialog {...props} />;
 
 export const Danger = Template.bind({});
 Danger.args = {

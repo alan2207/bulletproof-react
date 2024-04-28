@@ -48,7 +48,7 @@ export const Table = <Entry extends { id: string }>({ data, columns }: TableProp
                         key={title + columnIndex}
                         className="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap"
                       >
-                        {Cell ? <Cell entry={entry} /> : entry[field]}
+                        {Cell ? <Cell entry={entry} /> : `${entry[field]}`}
                       </td>
                     ))}
                   </tr>

@@ -1,7 +1,7 @@
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { axios } from '@/lib/axios';
-import { MutationConfig, queryClient } from '@/lib/react-query';
+import { MutationConfig } from '@/lib/react-query';
 import { useNotificationStore } from '@/stores/notifications';
 
 import { Discussion } from '../types';
@@ -23,23 +23,28 @@ type UseCreateDiscussionOptions = {
 
 export const useCreateDiscussion = ({ config }: UseCreateDiscussionOptions = {}) => {
   const { addNotification } = useNotificationStore();
+  const queryClient = useQueryClient();
+
   return useMutation({
     onMutate: async (newDiscussion) => {
-      await queryClient.cancelQueries('discussions');
+      await queryClient.cancelQueries(['discussions']);
 
-      const previousDiscussions = queryClient.getQueryData<Discussion[]>('discussions');
+      const previousDiscussions = queryClient.getQueryData<Discussion[]>(['discussions']);
 
-      queryClient.setQueryData('discussions', [...(previousDiscussions || []), newDiscussion.data]);
+      queryClient.setQueryData(
+        ['discussions'],
+        [...(previousDiscussions || []), newDiscussion.data]
+      );
 
       return { previousDiscussions };
     },
     onError: (_, __, context: any) => {
       if (context?.previousDiscussions) {
-        queryClient.setQueryData('discussions', context.previousDiscussions);
+        queryClient.setQueryData(['discussions'], context.previousDiscussions);
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries('discussions');
+      queryClient.invalidateQueries(['discussions']);
       addNotification({
         type: 'success',
         title: 'Discussion Created',
