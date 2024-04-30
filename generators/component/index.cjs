@@ -5,7 +5,7 @@ const featuresDir = path.join(process.cwd(), 'src/features');
 const features = fs.readdirSync(featuresDir);
 
 /**
- * 
+ *
  * @type {import('plop').PlopGenerator}
  */
 module.exports = {
@@ -20,19 +20,19 @@ module.exports = {
       type: 'list',
       name: 'feature',
       message: 'Which feature does this component belong to?',
-      choices: ['ROOT', ...features],
+      choices: ['components', ...features],
       when: () => features.length > 0,
     },
     {
       type: 'input',
       name: 'folder',
       message: 'folder in components',
-      when: ({ feature }) => !feature || feature === 'ROOT',
+      when: ({ feature }) => !feature || feature === 'components',
     },
   ],
   actions: (answers) => {
     const componentGeneratePath =
-      !answers.feature || answers.feature === 'ROOT'
+      !answers.feature || answers.feature === 'components'
         ? 'src/components/{{folder}}'
         : 'src/features/{{feature}}/components';
     return [

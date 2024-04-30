@@ -1,4 +1,4 @@
-import { ArchiveIcon } from '@heroicons/react/outline';
+import { ArchiveBoxIcon } from '@heroicons/react/16/solid';
 import * as React from 'react';
 
 type TableColumn<Entry> = {
@@ -15,8 +15,8 @@ export type TableProps<Entry> = {
 export const Table = <Entry extends { id: string }>({ data, columns }: TableProps<Entry>) => {
   if (!data?.length) {
     return (
-      <div className="flex flex-col items-center justify-center text-gray-500 bg-white h-80">
-        <ArchiveIcon className="w-16 h-16" />
+      <div className="flex h-80 flex-col items-center justify-center bg-white text-gray-500">
+        <ArchiveBoxIcon className="size-16" />
         <h4>No Entries Found</h4>
       </div>
     );
@@ -33,7 +33,7 @@ export const Table = <Entry extends { id: string }>({ data, columns }: TableProp
                     <th
                       key={column.title + index}
                       scope="col"
-                      className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                      className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
                     >
                       {column.title}
                     </th>
@@ -46,7 +46,7 @@ export const Table = <Entry extends { id: string }>({ data, columns }: TableProp
                     {columns.map(({ Cell, field, title }, columnIndex) => (
                       <td
                         key={title + columnIndex}
-                        className="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap"
+                        className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900"
                       >
                         {Cell ? <Cell entry={entry} /> : `${entry[field]}`}
                       </td>

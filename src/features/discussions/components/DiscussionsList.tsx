@@ -11,7 +11,7 @@ export const DiscussionsList = () => {
 
   if (discussionsQuery.isLoading) {
     return (
-      <div className="w-full h-48 flex justify-center items-center">
+      <div className="flex h-48 w-full items-center justify-center">
         <Spinner size="lg" />
       </div>
     );

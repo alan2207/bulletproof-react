@@ -1,4 +1,4 @@
-import { PlusIcon } from '@heroicons/react/outline';
+import { PlusIcon } from '@heroicons/react/16/solid';
 import * as z from 'zod';
 
 import { Button } from '@/components/Elements';
@@ -20,7 +20,7 @@ export const CreateDiscussion = () => {
       <FormDrawer
         isDone={createDiscussionMutation.isSuccess}
         triggerButton={
-          <Button size="sm" startIcon={<PlusIcon className="h-4 w-4" />}>
+          <Button size="sm" startIcon={<PlusIcon className="size-4" />}>
             Create Discussion
           </Button>
         }
@@ -30,7 +30,7 @@ export const CreateDiscussion = () => {
             form="create-discussion"
             type="submit"
             size="sm"
-            isLoading={createDiscussionMutation.isLoading}
+            isLoading={createDiscussionMutation.isPending}
           >
             Submit
           </Button>

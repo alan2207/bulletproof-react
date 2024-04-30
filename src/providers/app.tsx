@@ -8,13 +8,14 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 import { Button, Spinner } from '@/components/Elements';
 import { Notifications } from '@/components/Notifications/Notifications';
+// import { AuthLoader } from '@/lib/auth';
 import { AuthLoader } from '@/lib/auth';
 import { queryConfig } from '@/lib/react-query';
 
 const ErrorFallback = () => {
   return (
     <div
-      className="flex flex-col items-center justify-center w-screen h-screen text-red-500"
+      className="flex h-screen w-screen flex-col items-center justify-center text-red-500"
       role="alert"
     >
       <h2 className="text-lg font-semibold">Ooops, something went wrong :( </h2>
@@ -38,7 +39,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   return (
     <React.Suspense
       fallback={
-        <div className="flex items-center justify-center w-screen h-screen">
+        <div className="flex h-screen w-screen items-center justify-center">
           <Spinner size="xl" />
         </div>
       }
@@ -50,7 +51,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
             <Notifications />
             <AuthLoader
               renderLoading={() => (
-                <div className="flex items-center justify-center w-screen h-screen">
+                <div className="flex h-screen w-screen items-center justify-center">
                   <Spinner size="xl" />
                 </div>
               )}

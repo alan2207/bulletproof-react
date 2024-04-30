@@ -1,4 +1,4 @@
-import { TrashIcon } from '@heroicons/react/outline';
+import { TrashIcon } from '@heroicons/react/16/solid';
 
 import { Button, ConfirmationDialog } from '@/components/Elements';
 import { Authorization, ROLES } from '@/lib/authorization';
@@ -19,13 +19,13 @@ export const DeleteDiscussion = ({ id }: DeleteDiscussionProps) => {
         title="Delete Discussion"
         body="Are you sure you want to delete this discussion?"
         triggerButton={
-          <Button variant="danger" startIcon={<TrashIcon className="h-4 w-4" />}>
+          <Button variant="danger" startIcon={<TrashIcon className="size-4" />}>
             Delete Discussion
           </Button>
         }
         confirmButton={
           <Button
-            isLoading={deleteDiscussionMutation.isLoading}
+            isLoading={deleteDiscussionMutation.isPending}
             type="button"
             className="bg-red-600"
             onClick={async () => await deleteDiscussionMutation.mutateAsync({ discussionId: id })}

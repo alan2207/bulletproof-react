@@ -28,7 +28,9 @@ export const useCreateComment = ({ config, discussionId }: UseCreateCommentOptio
 
   return useMutation({
     onMutate: async (newComment) => {
-      await queryClient.cancelQueries(['comments', discussionId]);
+      await queryClient.cancelQueries({
+        queryKey: ['comments', discussionId],
+      });
 
       const previousComments = queryClient.getQueryData<Comment[]>(['comments', discussionId]);
 
@@ -45,7 +47,9 @@ export const useCreateComment = ({ config, discussionId }: UseCreateCommentOptio
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['comments', discussionId]);
+      queryClient.invalidateQueries({
+        queryKey: ['comments', discussionId],
+      });
       addNotification({
         type: 'success',
         title: 'Comment Created',

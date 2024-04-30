@@ -1,4 +1,4 @@
-import { PencilIcon } from '@heroicons/react/solid';
+import { PencilIcon } from '@heroicons/react/16/solid';
 import * as z from 'zod';
 
 import { Button } from '@/components/Elements';
@@ -26,7 +26,7 @@ export const UpdateDiscussion = ({ discussionId }: UpdateDiscussionProps) => {
       <FormDrawer
         isDone={updateDiscussionMutation.isSuccess}
         triggerButton={
-          <Button startIcon={<PencilIcon className="h-4 w-4" />} size="sm">
+          <Button startIcon={<PencilIcon className="size-4" />} size="sm">
             Update Discussion
           </Button>
         }
@@ -36,7 +36,7 @@ export const UpdateDiscussion = ({ discussionId }: UpdateDiscussionProps) => {
             form="update-discussion"
             type="submit"
             size="sm"
-            isLoading={updateDiscussionMutation.isLoading}
+            isLoading={updateDiscussionMutation.isPending}
           >
             Submit
           </Button>

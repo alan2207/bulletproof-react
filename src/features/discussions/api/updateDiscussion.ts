@@ -31,7 +31,9 @@ export const useUpdateDiscussion = ({ config }: UseUpdateDiscussionOptions = {})
 
   return useMutation({
     onMutate: async (updatingDiscussion: any) => {
-      await queryClient.cancelQueries(['discussion', updatingDiscussion?.discussionId]);
+      await queryClient.cancelQueries({
+        queryKey: ['discussion', updatingDiscussion?.discussionId],
+      });
 
       const previousDiscussion = queryClient.getQueryData<Discussion>([
         'discussion',
@@ -55,7 +57,9 @@ export const useUpdateDiscussion = ({ config }: UseUpdateDiscussionOptions = {})
       }
     },
     onSuccess: (data) => {
-      queryClient.refetchQueries(['discussion', data.id]);
+      queryClient.refetchQueries({
+        queryKey: ['discussion', data.id],
+      });
       addNotification({
         type: 'success',
         title: 'Discussion Updated',

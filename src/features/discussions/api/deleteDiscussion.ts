@@ -20,7 +20,9 @@ export const useDeleteDiscussion = ({ config }: UseDeleteDiscussionOptions = {})
 
   return useMutation({
     onMutate: async (deletedDiscussion) => {
-      await queryClient.cancelQueries([['discussions']]);
+      await queryClient.cancelQueries({
+        queryKey: ['discussions'],
+      });
 
       const previousDiscussions = queryClient.getQueryData<Discussion[]>(['discussions']);
 
@@ -39,7 +41,9 @@ export const useDeleteDiscussion = ({ config }: UseDeleteDiscussionOptions = {})
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['discussions']);
+      queryClient.invalidateQueries({
+        queryKey: ['discussions'],
+      });
       addNotification({
         type: 'success',
         title: 'Discussion Deleted',

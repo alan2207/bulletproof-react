@@ -1,5 +1,3 @@
-import { configureAuth } from 'react-query-auth';
-
 import {
   loginWithEmailAndPassword,
   getUser,
@@ -9,6 +7,8 @@ import {
   RegisterCredentialsDTO,
 } from '@/features/auth';
 import storage from '@/utils/storage';
+
+import { configureAuth } from './react-query-auth';
 
 async function handleUserResponse(data: UserResponse) {
   const { jwt, user } = data;

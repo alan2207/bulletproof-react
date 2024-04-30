@@ -16,7 +16,7 @@ export const Discussion = () => {
 
   if (discussionQuery.isLoading) {
     return (
-      <div className="flex items-center justify-center w-full h-48">
+      <div className="flex h-48 w-full items-center justify-center">
         <Spinner size="lg" />
       </div>
     );
@@ -34,14 +34,14 @@ export const Discussion = () => {
             by {discussionQuery.data.author.firstName} {discussionQuery.data.author.lastName}
           </span>
         )}
-        <div className="flex flex-col mt-6 space-y-16">
+        <div className="mt-6 flex flex-col space-y-16">
           <div className="flex justify-end">
             <UpdateDiscussion discussionId={discussionId} />
           </div>
           <div>
             <div className="overflow-hidden bg-white shadow sm:rounded-lg">
               <div className="px-4 py-5 sm:px-6">
-                <div className="max-w-2xl mt-1 text-sm text-gray-500">
+                <div className="mt-1 max-w-2xl text-sm text-gray-500">
                   <MDPreview value={discussionQuery.data.body} />
                 </div>
               </div>

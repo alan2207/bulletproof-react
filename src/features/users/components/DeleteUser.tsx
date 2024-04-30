@@ -21,7 +21,7 @@ export const DeleteUser = ({ id }: DeleteUserProps) => {
       triggerButton={<Button variant="danger">Delete</Button>}
       confirmButton={
         <Button
-          isLoading={deleteUserMutation.isLoading}
+          isLoading={deleteUserMutation.isPending}
           type="button"
           className="bg-red-600"
           onClick={() => deleteUserMutation.mutate({ userId: id })}

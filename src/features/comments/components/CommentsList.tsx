@@ -1,4 +1,4 @@
-import { ArchiveIcon } from '@heroicons/react/outline';
+import { ArchiveBoxIcon } from '@heroicons/react/16/solid';
 
 import { Spinner, MDPreview } from '@/components/Elements';
 import { User } from '@/features/users';
@@ -20,7 +20,7 @@ export const CommentsList = ({ discussionId }: CommentsListProps) => {
 
   if (commentsQuery.isLoading) {
     return (
-      <div className="flex items-center justify-center w-full h-48">
+      <div className="flex h-48 w-full items-center justify-center">
         <Spinner size="lg" />
       </div>
     );
@@ -31,9 +31,9 @@ export const CommentsList = ({ discussionId }: CommentsListProps) => {
       <div
         role="list"
         aria-label="comments"
-        className="flex flex-col items-center justify-center h-40 text-gray-500 bg-white"
+        className="flex h-40 flex-col items-center justify-center bg-white text-gray-500"
       >
-        <ArchiveIcon className="w-10 h-10" />
+        <ArchiveBoxIcon className="size-10" />
         <h4>No Comments Found</h4>
       </div>
     );
@@ -44,7 +44,7 @@ export const CommentsList = ({ discussionId }: CommentsListProps) => {
         <li
           aria-label={`comment-${comment.body}-${index}`}
           key={comment.id || index}
-          className="w-full p-4 bg-white shadow-sm"
+          className="w-full bg-white p-4 shadow-sm"
         >
           <Authorization policyCheck={POLICIES['comment:delete'](user.data as User, comment)}>
             <div className="flex justify-between">

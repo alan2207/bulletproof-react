@@ -14,13 +14,13 @@ export const Dashboard = () => {
       </h4>
       <p className="font-medium">In this application you can:</p>
       {user.data?.role === ROLES.USER && (
-        <ul className="my-4 list-disc list-inside">
+        <ul className="my-4 list-inside list-disc">
           <li>Create comments in discussions</li>
           <li>Delete own comments</li>
         </ul>
       )}
       {user.data?.role === ROLES.ADMIN && (
-        <ul className="my-4 list-disc list-inside">
+        <ul className="my-4 list-inside list-disc">
           <li>Create discussions</li>
           <li>Edit discussions</li>
           <li>Delete discussions</li>

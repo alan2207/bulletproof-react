@@ -2,7 +2,7 @@ import { UseQueryOptions, UseMutationOptions, DefaultOptions } from '@tanstack/r
 
 export const queryConfig = {
   queries: {
-    // useErrorBoundary: true,
+    // throwOnError: true,
     refetchOnWindowFocus: false,
     retry: false,
   },

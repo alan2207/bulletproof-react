@@ -1,4 +1,4 @@
-import { PencilIcon } from '@heroicons/react/solid';
+import { PencilIcon } from '@heroicons/react/16/solid';
 import * as z from 'zod';
 
 import { Button } from '@/components/Elements';
@@ -22,7 +22,7 @@ export const UpdateProfile = () => {
     <FormDrawer
       isDone={updateProfileMutation.isSuccess}
       triggerButton={
-        <Button startIcon={<PencilIcon className="w-4 h-4" />} size="sm">
+        <Button startIcon={<PencilIcon className="size-4" />} size="sm">
           Update Profile
         </Button>
       }
@@ -32,7 +32,7 @@ export const UpdateProfile = () => {
           form="update-profile"
           type="submit"
           size="sm"
-          isLoading={updateProfileMutation.isLoading}
+          isLoading={updateProfileMutation.isPending}
         >
           Submit
         </Button>

@@ -21,7 +21,9 @@ export const useDeleteComment = ({ config, discussionId }: UseDeleteCommentOptio
 
   return useMutation({
     onMutate: async (deletedComment) => {
-      await queryClient.cancelQueries(['comments', discussionId]);
+      await queryClient.cancelQueries({
+        queryKey: ['comments', discussionId],
+      });
 
       const previousComments = queryClient.getQueryData<Comment[]>(['comments', discussionId]);
 
@@ -38,7 +40,9 @@ export const useDeleteComment = ({ config, discussionId }: UseDeleteCommentOptio
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['comments', discussionId]);
+      queryClient.invalidateQueries({
+        queryKey: ['comments', discussionId],
+      });
       addNotification({
         type: 'success',
         title: 'Comment Deleted',

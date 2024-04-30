@@ -27,7 +27,9 @@ export const useCreateDiscussion = ({ config }: UseCreateDiscussionOptions = {})
 
   return useMutation({
     onMutate: async (newDiscussion) => {
-      await queryClient.cancelQueries(['discussions']);
+      await queryClient.cancelQueries({
+        queryKey: ['discussions'],
+      });
 
       const previousDiscussions = queryClient.getQueryData<Discussion[]>(['discussions']);
 
@@ -44,7 +46,9 @@ export const useCreateDiscussion = ({ config }: UseCreateDiscussionOptions = {})
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['discussions']);
+      queryClient.invalidateQueries({
+        queryKey: ['discussions'],
+      });
       addNotification({
         type: 'success',
         title: 'Discussion Created',
