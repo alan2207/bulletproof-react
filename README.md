@@ -23,7 +23,6 @@ This is not supposed to be a template, boilerplate or a framework. It is an opin
 
 - [💻 Application Overview](docs/application-overview.md)
 - [⚙️ Project Configuration](docs/project-configuration.md)
-- [👁️ Style Guide](docs/style-guide.md)
 - [🗄️ Project Structure](docs/project-structure.md)
 - [🧱 Components And Styling](docs/components-and-styling.md)
 - [📡 API Layer](docs/api-layer.md)

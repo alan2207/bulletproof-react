@@ -1,6 +1,6 @@
 # ⚙️ Project Configuration
 
-The application has been bootstrapped using `Create React App` for simplicity reasons. It allows us to create applications quickly without dealing with a complex tooling setup such as bundling, transpiling etc.
+The application has been bootstrapped using `Vite ` and its `react-ts` template for simplicity reasons. It allows us to create applications quickly without dealing with a complex tooling setup such as bundling, transpiling etc.
 
 You should always configure and use the following tools:
 
@@ -49,9 +49,5 @@ For TypeScript (`tsconfig.json`) projects:
     }
   }
 ```
-
-[Paths Configuration Example Code](../tsconfig.paths.json)
-
-In this project we have to create another tsconfig file `tsconfig.paths.json` where we configure the paths and merge it with the base configuration, because CRA will override it otherwise.
 
 It is also possible to define multiple paths for various folders(such as `@components`, `@hooks`, etc.), but using `@/*` works very well because it is short enough so there is no need to configure multiple paths and it differs from other dependency modules so there is no confusion in what comes from `node_modules` and what is our source folder. That means that anything in the `src` folder can be accessed via `@`, e.g some file that lives in `src/components/MyComponent` can be accessed using `@/components/MyComponents`.
