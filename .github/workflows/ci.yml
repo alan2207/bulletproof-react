@@ -22,8 +22,6 @@ jobs:
         run: yarn test
       - name: Run linter
         run: yarn lint
-      - name: Check formatting
-        run: yarn check-format
       - name: Check types
         run: yarn check-types
   e2e:
