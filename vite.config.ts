@@ -16,6 +16,9 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './src/setupTests.ts',
     exclude: ['**/node_modules/**', '**/e2e/**'],
+    coverage: {
+      include: ['src/**'],
+    },
   },
   optimizeDeps: { exclude: ['fsevents'] },
 });

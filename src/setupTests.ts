@@ -19,9 +19,5 @@ beforeEach(() => {
 });
 afterEach(() => {
   server.resetHandlers();
-});
-
-// general cleanup
-afterEach(async () => {
   resetDb();
 });

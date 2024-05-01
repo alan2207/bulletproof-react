@@ -5,7 +5,7 @@ module.exports = {
     es6: true,
   },
   parserOptions: { ecmaVersion: 8, sourceType: 'module' },
-  ignorePatterns: ['node_modules/*'],
+  ignorePatterns: ['node_modules/*', 'public/mockServiceWorker.js'],
   extends: ['eslint:recommended'],
   overrides: [
     {
@@ -35,6 +35,7 @@ module.exports = {
         'plugin:testing-library/react',
         'plugin:jest-dom/recommended',
         'plugin:tailwindcss/recommended',
+        'plugin:vitest/legacy-recommended',
       ],
       rules: {
         'no-restricted-imports': [

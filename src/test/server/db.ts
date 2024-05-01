@@ -37,12 +37,12 @@ const models = {
 
 export const db = factory(models);
 
-export type Model = keyof typeof db;
+export type Model = keyof typeof models;
 
 export const loadDb = () =>
   Object.assign(JSON.parse(window.localStorage.getItem('msw-db') || '{}'));
 
-export const persistDb = (model: 'user' | 'team' | 'discussion' | 'comment') => {
+export const persistDb = (model: Model) => {
   if (process.env.NODE_ENV === 'test') return;
   const data = loadDb();
   data[model] = db[model].getAll();
