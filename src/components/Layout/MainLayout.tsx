@@ -74,7 +74,7 @@ const UserNavigation = () => {
       name: 'Sign out',
       to: '',
       onClick: () => {
-        logout('');
+        logout({});
       },
     },
   ].filter(Boolean) as UserNavigationItem[];

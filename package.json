@@ -33,7 +33,7 @@
     "react-error-boundary": "^4.0.13",
     "react-helmet-async": "^2.0.4",
     "react-hook-form": "^7.51.3",
-    "react-query-auth": "2.2.0",
+    "react-query-auth": "^2.3.0",
     "react-router-dom": "^6.23.0",
     "zod": "^3.23.4",
     "zustand": "^4.5.2"
