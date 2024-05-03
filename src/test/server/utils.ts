@@ -53,7 +53,6 @@ export function requireAuth(cookies: Record<string, string>, shouldThrow = true)
   try {
     // todo: fix once tests in Github Actions are fixed
     // const encodedToken = cookies[AUTH_COOKIE];
-    console.log('cookies', cookies);
     const encodedToken = Cookies.get(AUTH_COOKIE);
     if (!encodedToken) {
       if (shouldThrow) {

@@ -1,14 +1,10 @@
 import { configureAuth } from 'react-query-auth';
 
-import {
-  loginWithEmailAndPassword,
-  getUser,
-  registerWithEmailAndPassword,
-  UserResponse,
-  LoginCredentialsDTO,
-  RegisterCredentialsDTO,
-  logout,
-} from '@/features/auth';
+import { getUser } from '../api/getUser';
+import { LoginCredentialsDTO, loginWithEmailAndPassword } from '../api/login';
+import { logout } from '../api/logout';
+import { RegisterCredentialsDTO, registerWithEmailAndPassword } from '../api/register';
+import { UserResponse } from '../types';
 
 async function handleUserResponse(data: UserResponse) {
   const { user } = data;

@@ -44,6 +44,7 @@ module.exports = {
             patterns: ['@/features/*/*'],
           },
         ],
+        'import/no-cycle': 'error',
         'linebreak-style': ['error', 'unix'],
         'react/prop-types': 'off',
         'import/order': [

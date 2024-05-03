@@ -12,8 +12,7 @@ import * as React from 'react';
 import { NavLink, Link } from 'react-router-dom';
 
 import logo from '@/assets/logo.svg';
-import { useLogout } from '@/lib/auth';
-import { useAuthorization, ROLES } from '@/lib/authorization';
+import { useLogout, useAuthorization, ROLES } from '@/features/auth';
 
 type SideNavigationItem = {
   name: string;

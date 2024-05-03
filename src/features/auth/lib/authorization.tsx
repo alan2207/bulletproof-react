@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { Comment } from '@/features/comments';
-import { User } from '@/features/users';
+import { type Comment } from '@/features/comments';
+import { type User } from '@/features/users';
 
 import { useUser } from './auth';
 

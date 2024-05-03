@@ -3,7 +3,7 @@ import * as z from 'zod';
 
 import { Button } from '@/components/Elements';
 import { Form, FormDrawer, InputField, TextAreaField } from '@/components/Form';
-import { Authorization, ROLES } from '@/lib/authorization';
+import { Authorization, ROLES } from '@/features/auth';
 
 import { CreateDiscussionDTO, useCreateDiscussion } from '../api/createDiscussion';
 

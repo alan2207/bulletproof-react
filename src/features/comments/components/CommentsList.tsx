@@ -1,9 +1,8 @@
 import { ArchiveBoxIcon } from '@heroicons/react/16/solid';
 
 import { Spinner, MDPreview } from '@/components/Elements';
+import { useUser, POLICIES, Authorization } from '@/features/auth';
 import { User } from '@/features/users';
-import { useUser } from '@/lib/auth';
-import { POLICIES, Authorization } from '@/lib/authorization';
 import { formatDate } from '@/utils/format';
 
 import { useComments } from '../api/getComments';

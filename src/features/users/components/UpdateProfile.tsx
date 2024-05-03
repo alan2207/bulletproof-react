@@ -3,7 +3,7 @@ import * as z from 'zod';
 
 import { Button } from '@/components/Elements';
 import { Form, FormDrawer, InputField, TextAreaField } from '@/components/Form';
-import { useUser } from '@/lib/auth';
+import { useUser } from '@/features/auth';
 
 import { UpdateProfileDTO, useUpdateProfile } from '../api/updateProfile';
 

@@ -1,7 +1,7 @@
 import { useRoutes } from 'react-router-dom';
 
+import { useUser } from '@/features/auth';
 import { Landing } from '@/features/misc';
-import { useUser } from '@/lib/auth';
 
 import { protectedRoutes } from './protected';
 import { publicRoutes } from './public';

@@ -6,7 +6,8 @@ import * as z from 'zod';
 import { Button } from '@/components/Elements';
 import { Form, InputField, SelectField } from '@/components/Form';
 import { useTeams } from '@/features/teams';
-import { useRegister } from '@/lib/auth';
+
+import { useRegister } from '../lib/auth';
 
 const schema = z
   .object({

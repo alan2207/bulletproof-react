@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { useUser } from '@/lib/auth';
+import { useUser } from '@/features/auth';
 import { axios } from '@/lib/axios';
 import { MutationConfig } from '@/lib/react-query';
 import { useNotificationStore } from '@/stores/notifications';

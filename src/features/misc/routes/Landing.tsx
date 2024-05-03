@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import logo from '@/assets/logo.svg';
 import { Button } from '@/components/Elements';
 import { Head } from '@/components/Head';
-import { useUser } from '@/lib/auth';
+import { useUser } from '@/features/auth';
 
 export const Landing = () => {
   const navigate = useNavigate();

@@ -3,7 +3,8 @@ import * as z from 'zod';
 
 import { Button } from '@/components/Elements';
 import { Form, InputField } from '@/components/Form';
-import { useLogin } from '@/lib/auth';
+
+import { useLogin } from '../lib/auth';
 
 const schema = z.object({
   email: z.string().min(1, 'Required'),

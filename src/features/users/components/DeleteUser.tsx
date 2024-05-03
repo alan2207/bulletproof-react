@@ -1,5 +1,5 @@
 import { Button, ConfirmationDialog } from '@/components/Elements';
-import { useUser } from '@/lib/auth';
+import { useUser } from '@/features/auth';
 
 import { useDeleteUser } from '../api/deleteUser';
 

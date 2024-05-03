@@ -1,7 +1,7 @@
 import { TrashIcon } from '@heroicons/react/16/solid';
 
 import { Button, ConfirmationDialog } from '@/components/Elements';
-import { Authorization, ROLES } from '@/lib/authorization';
+import { Authorization, ROLES } from '@/features/auth';
 
 import { useDeleteDiscussion } from '../api/deleteDiscussion';
 

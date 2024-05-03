@@ -8,8 +8,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 import { Button, Spinner } from '@/components/Elements';
 import { Notifications } from '@/components/Notifications/Notifications';
-// import { AuthLoader } from '@/lib/auth';
-import { AuthLoader } from '@/lib/auth';
+import { AuthLoader } from '@/features/auth';
 import { queryConfig } from '@/lib/react-query';
 
 const ErrorFallback = () => {
