@@ -1,7 +1,7 @@
 import { HttpResponse, http } from 'msw';
 import { nanoid } from 'nanoid';
 
-import { API_URL } from '@/config';
+import { env } from '@/config/env';
 
 import { db, persistDb } from '../db';
 import { authenticate, hash, requireAuth } from '../utils';
@@ -21,7 +21,7 @@ type LoginBody = {
 };
 
 export const authHandlers = [
-  http.post(`${API_URL}/auth/register`, async ({ request }) => {
+  http.post(`${env.API_URL}/auth/register`, async ({ request }) => {
     try {
       const userObject = (await request.json()) as RegisterBody;
 
@@ -84,7 +84,7 @@ export const authHandlers = [
     }
   }),
 
-  http.post(`${API_URL}/auth/login`, async ({ request }) => {
+  http.post(`${env.API_URL}/auth/login`, async ({ request }) => {
     try {
       const credentials = (await request.json()) as LoginBody;
       const result = authenticate(credentials);
@@ -94,7 +94,7 @@ export const authHandlers = [
     }
   }),
 
-  http.get(`${API_URL}/auth/me`, ({ request }) => {
+  http.get(`${env.API_URL}/auth/me`, ({ request }) => {
     try {
       const user = requireAuth(request);
       return HttpResponse.json(user);

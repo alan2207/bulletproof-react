@@ -1,6 +1,6 @@
 import { HttpResponse, http } from 'msw';
 
-import { API_URL } from '@/config';
+import { env } from '@/config/env';
 
 import { db, persistDb } from '../db';
 import { requireAuth, requireAdmin, sanitizeUser } from '../utils';
@@ -13,7 +13,7 @@ type ProfileBody = {
 };
 
 export const usersHandlers = [
-  http.get(`${API_URL}/users`, async ({ request }) => {
+  http.get(`${env.API_URL}/users`, async ({ request }) => {
     try {
       const user = requireAuth(request);
       const result = db.user
@@ -32,7 +32,7 @@ export const usersHandlers = [
     }
   }),
 
-  http.patch(`${API_URL}/users/profile`, async ({ request }) => {
+  http.patch(`${env.API_URL}/users/profile`, async ({ request }) => {
     try {
       const user = requireAuth(request);
       const data = (await request.json()) as ProfileBody;
@@ -51,7 +51,7 @@ export const usersHandlers = [
     }
   }),
 
-  http.delete(`${API_URL}/users/:userId`, async ({ request, params }) => {
+  http.delete(`${env.API_URL}/users/:userId`, async ({ request, params }) => {
     try {
       const user = requireAuth(request);
       const userId = params.userId as string;

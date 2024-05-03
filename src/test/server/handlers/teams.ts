@@ -1,11 +1,11 @@
 import { HttpResponse, http } from 'msw';
 
-import { API_URL } from '@/config';
+import { env } from '@/config/env';
 
 import { db } from '../db';
 
 export const teamsHandlers = [
-  http.get(`${API_URL}/teams`, () => {
+  http.get(`${env.API_URL}/teams`, () => {
     try {
       const result = db.team.getAll();
       return HttpResponse.json(result);

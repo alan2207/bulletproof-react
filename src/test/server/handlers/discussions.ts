@@ -1,7 +1,7 @@
 import { HttpResponse, http } from 'msw';
 import { nanoid } from 'nanoid';
 
-import { API_URL } from '@/config';
+import { env } from '@/config/env';
 
 import { db, persistDb } from '../db';
 import { requireAuth, requireAdmin, sanitizeUser } from '../utils';
@@ -12,7 +12,7 @@ type DiscussionBody = {
 };
 
 export const discussionsHandlers = [
-  http.get(`${API_URL}/discussions`, async ({ request }) => {
+  http.get(`${env.API_URL}/discussions`, async ({ request }) => {
     try {
       const user = requireAuth(request);
       const result = db.discussion
@@ -42,7 +42,7 @@ export const discussionsHandlers = [
     }
   }),
 
-  http.get(`${API_URL}/discussions/:discussionId`, async ({ request, params }) => {
+  http.get(`${env.API_URL}/discussions/:discussionId`, async ({ request, params }) => {
     try {
       const user = requireAuth(request);
       const discussionId = params.discussionId as string;
@@ -82,7 +82,7 @@ export const discussionsHandlers = [
     }
   }),
 
-  http.post(`${API_URL}/discussions`, async ({ request }) => {
+  http.post(`${env.API_URL}/discussions`, async ({ request }) => {
     try {
       const user = requireAuth(request);
       const data = (await request.json()) as DiscussionBody;
@@ -101,7 +101,7 @@ export const discussionsHandlers = [
     }
   }),
 
-  http.patch(`${API_URL}/discussions/:discussionId`, async ({ request, params }) => {
+  http.patch(`${env.API_URL}/discussions/:discussionId`, async ({ request, params }) => {
     try {
       const user = requireAuth(request);
       const data = (await request.json()) as DiscussionBody;
@@ -125,7 +125,7 @@ export const discussionsHandlers = [
     }
   }),
 
-  http.delete(`${API_URL}/discussions/:discussionId`, async ({ request, params }) => {
+  http.delete(`${env.API_URL}/discussions/:discussionId`, async ({ request, params }) => {
     try {
       const user = requireAuth(request);
       const discussionId = params.discussionId as string;

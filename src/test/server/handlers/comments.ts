@@ -1,7 +1,7 @@
 import { HttpResponse, http } from 'msw';
 import { nanoid } from 'nanoid';
 
-import { API_URL } from '@/config';
+import { env } from '@/config/env';
 
 import { db, persistDb } from '../db';
 import { requireAuth, sanitizeUser } from '../utils';
@@ -12,7 +12,7 @@ type CreateCommentBody = {
 };
 
 export const commentsHandlers = [
-  http.get(`${API_URL}/comments`, ({ request }) => {
+  http.get(`${env.API_URL}/comments`, ({ request }) => {
     try {
       requireAuth(request);
       const url = new URL(request.url);
@@ -44,7 +44,7 @@ export const commentsHandlers = [
     }
   }),
 
-  http.post(`${API_URL}/comments`, async ({ request }) => {
+  http.post(`${env.API_URL}/comments`, async ({ request }) => {
     try {
       const user = requireAuth(request);
       const data = (await request.json()) as CreateCommentBody;
@@ -61,7 +61,7 @@ export const commentsHandlers = [
     }
   }),
 
-  http.delete(`${API_URL}/comments/:commentId`, ({ request, params }) => {
+  http.delete(`${env.API_URL}/comments/:commentId`, ({ request, params }) => {
     try {
       const user = requireAuth(request);
       const commentId = params.commentId as string;

@@ -1,6 +1,6 @@
 import Axios, { InternalAxiosRequestConfig } from 'axios';
 
-import { API_URL } from '@/config';
+import { env } from '@/config/env';
 import { useNotificationStore } from '@/stores/notifications';
 import storage from '@/utils/storage';
 
@@ -18,7 +18,7 @@ function authRequestInterceptor(config: InternalAxiosRequestConfig) {
 }
 
 export const axios = Axios.create({
-  baseURL: API_URL,
+  baseURL: env.API_URL,
 });
 
 axios.interceptors.request.use(authRequestInterceptor);

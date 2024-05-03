@@ -1,5 +1,7 @@
+import { env } from '@/config/env';
+
 export const enableMocking = async () => {
-  if (import.meta.env.VITE_APP_API_MOCKING === 'true') {
+  if (env.ENABLE_API_MOCKING) {
     const { worker } = await import('./browser');
     return worker.start();
   }
