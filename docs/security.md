@@ -12,15 +12,15 @@ Authentication is a process of identifying who the user is. The most common way 
 
 The safest option is to store the token in the app state, but if the user refreshes the app, its token will be lost.
 
-That is why tokens are stored in `localStorage/sessionStorage` or in a cookie.
+That is why tokens are stored in a cookie or `localStorage/sessionStorage`..
 
 #### `localStorage` vs cookie for storing tokens
 
 Storing it in `localStorage` could bring a security issue, if your application is vulnerable to [XSS](https://owasp.org/www-community/attacks/xss/) someone could steal your token.
 
-Storing tokens in a cookie might be safer if the cookie is set to be `HttpOnly` which would mean it wouldn't be accessible from the client side JavaScript. The `localStorage` way is being used here for simplicity reasons, if you want to be more secure, you should consider using cookies but that is a decision that should be made together with the backend team.
+Storing tokens in a cookie might be safer if the cookie is set to be `HttpOnly` which would mean it wouldn't be accessible from the client side JavaScript. For simplicity reasons, we are using `js-cookie` to handle cookies in the mocked API, but let's assume that the real API would set the cookie to be `HttpOnly` and we would not have access to it from the client side.
 
-To keep the application safe, instead of focusing only on where to store the token safely, it would be recommended to make the entire application as resistant as possible to XSS attacks E.g - every input from the user should be sanitized before it's injected into the DOM.
+To keep the application safe, instead of focusing only on where to store the token safely, it is recommended to make the entire application as resistant as possible to XSS attacks E.g - every input from the user should be sanitized before it's injected into the DOM.
 
 [HTML Sanitization Example Code](../src/components/Elements/MDPreview/MDPreview.tsx)
 

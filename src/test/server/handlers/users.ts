@@ -13,14 +13,14 @@ type ProfileBody = {
 };
 
 export const usersHandlers = [
-  http.get(`${env.API_URL}/users`, async ({ request }) => {
+  http.get(`${env.API_URL}/users`, async ({ cookies }) => {
     try {
-      const user = requireAuth(request);
+      const user = requireAuth(cookies);
       const result = db.user
         .findMany({
           where: {
             teamId: {
-              equals: user.teamId,
+              equals: user?.teamId,
             },
           },
         })
@@ -32,14 +32,14 @@ export const usersHandlers = [
     }
   }),
 
-  http.patch(`${env.API_URL}/users/profile`, async ({ request }) => {
+  http.patch(`${env.API_URL}/users/profile`, async ({ request, cookies }) => {
     try {
-      const user = requireAuth(request);
+      const user = requireAuth(cookies);
       const data = (await request.json()) as ProfileBody;
       const result = db.user.update({
         where: {
           id: {
-            equals: user.id,
+            equals: user?.id,
           },
         },
         data,
@@ -51,9 +51,9 @@ export const usersHandlers = [
     }
   }),
 
-  http.delete(`${env.API_URL}/users/:userId`, async ({ request, params }) => {
+  http.delete(`${env.API_URL}/users/:userId`, async ({ cookies, params }) => {
     try {
-      const user = requireAuth(request);
+      const user = requireAuth(cookies);
       const userId = params.userId as string;
       requireAdmin(user);
       const result = db.user.delete({
@@ -62,7 +62,7 @@ export const usersHandlers = [
             equals: userId,
           },
           teamId: {
-            equals: user.teamId,
+            equals: user?.teamId,
           },
         },
       });

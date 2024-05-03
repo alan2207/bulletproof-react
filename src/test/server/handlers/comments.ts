@@ -12,9 +12,9 @@ type CreateCommentBody = {
 };
 
 export const commentsHandlers = [
-  http.get(`${env.API_URL}/comments`, ({ request }) => {
+  http.get(`${env.API_URL}/comments`, ({ request, cookies }) => {
     try {
-      requireAuth(request);
+      requireAuth(cookies);
       const url = new URL(request.url);
       const discussionId = url.searchParams.get('discussionId') || '';
       const comments = db.comment
@@ -44,12 +44,12 @@ export const commentsHandlers = [
     }
   }),
 
-  http.post(`${env.API_URL}/comments`, async ({ request }) => {
+  http.post(`${env.API_URL}/comments`, async ({ request, cookies }) => {
     try {
-      const user = requireAuth(request);
+      const user = requireAuth(cookies);
       const data = (await request.json()) as CreateCommentBody;
       const result = db.comment.create({
-        authorId: user.id,
+        authorId: user?.id,
         id: nanoid(),
         createdAt: Date.now(),
         ...data,
@@ -61,16 +61,16 @@ export const commentsHandlers = [
     }
   }),
 
-  http.delete(`${env.API_URL}/comments/:commentId`, ({ request, params }) => {
+  http.delete(`${env.API_URL}/comments/:commentId`, ({ params, cookies }) => {
     try {
-      const user = requireAuth(request);
+      const user = requireAuth(cookies);
       const commentId = params.commentId as string;
       const result = db.comment.delete({
         where: {
           id: {
             equals: commentId,
           },
-          ...(user.role === 'USER' && {
+          ...(user?.role === 'USER' && {
             authorId: {
               equals: user.id,
             },

@@ -1,10 +1,11 @@
+import Cookies from 'js-cookie';
 import { HttpResponse, http } from 'msw';
 import { nanoid } from 'nanoid';
 
 import { env } from '@/config/env';
 
 import { db, persistDb } from '../db';
-import { authenticate, hash, requireAuth } from '../utils';
+import { authenticate, hash, requireAuth, AUTH_COOKIE } from '../utils';
 
 type RegisterBody = {
   firstName: string;
@@ -59,7 +60,12 @@ export const authHandlers = [
         });
 
         if (!existingTeam) {
-          throw new Error('The team you are trying to join does not exist!');
+          return HttpResponse.json(
+            {
+              message: 'The team you are trying to join does not exist!',
+            },
+            { status: 400 }
+          );
         }
         teamId = userObject.teamId;
         role = 'USER';
@@ -78,7 +84,15 @@ export const authHandlers = [
 
       const result = authenticate({ email: userObject.email, password: userObject.password });
 
-      return HttpResponse.json(result);
+      // todo: remove once tests in Github Actions are fixed
+      Cookies.set(AUTH_COOKIE, result.jwt, { path: '/' });
+
+      return HttpResponse.json(result, {
+        headers: {
+          // with a real API servier, the token cookie should also be Secure and HttpOnly
+          'Set-Cookie': `${AUTH_COOKIE}=${result.jwt}; Path=/;`,
+        },
+      });
     } catch (error: any) {
       return HttpResponse.json({ message: error?.message || 'Server Error' }, { status: 500 });
     }
@@ -88,15 +102,38 @@ export const authHandlers = [
     try {
       const credentials = (await request.json()) as LoginBody;
       const result = authenticate(credentials);
-      return HttpResponse.json(result);
+
+      // todo: remove once tests in Github Actions are fixed
+      Cookies.set(AUTH_COOKIE, result.jwt, { path: '/' });
+
+      return HttpResponse.json(result, {
+        headers: {
+          // with a real API servier, the token cookie should also be Secure and HttpOnly
+          'Set-Cookie': `${AUTH_COOKIE}=${result.jwt}; Path=/;`,
+        },
+      });
     } catch (error: any) {
       return HttpResponse.json({ message: error?.message || 'Server Error' }, { status: 500 });
     }
   }),
 
-  http.get(`${env.API_URL}/auth/me`, ({ request }) => {
+  http.post(`${env.API_URL}/auth/logout`, () => {
+    // todo: remove once tests in Github Actions are fixed
+    Cookies.remove(AUTH_COOKIE);
+
+    return HttpResponse.json(
+      { message: 'Logged out' },
+      {
+        headers: {
+          'Set-Cookie': `${AUTH_COOKIE}=; Path=/;`,
+        },
+      }
+    );
+  }),
+
+  http.get(`${env.API_URL}/auth/me`, ({ cookies }) => {
     try {
-      const user = requireAuth(request);
+      const user = requireAuth(cookies, false);
       return HttpResponse.json(user);
     } catch (error: any) {
       return HttpResponse.json({ message: error?.message || 'Server Error' }, { status: 500 });

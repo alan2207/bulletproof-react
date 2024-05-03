@@ -12,14 +12,14 @@ type DiscussionBody = {
 };
 
 export const discussionsHandlers = [
-  http.get(`${env.API_URL}/discussions`, async ({ request }) => {
+  http.get(`${env.API_URL}/discussions`, async ({ cookies }) => {
     try {
-      const user = requireAuth(request);
+      const user = requireAuth(cookies);
       const result = db.discussion
         .findMany({
           where: {
             teamId: {
-              equals: user.teamId,
+              equals: user?.teamId,
             },
           },
         })
@@ -42,9 +42,9 @@ export const discussionsHandlers = [
     }
   }),
 
-  http.get(`${env.API_URL}/discussions/:discussionId`, async ({ request, params }) => {
+  http.get(`${env.API_URL}/discussions/:discussionId`, async ({ params, cookies }) => {
     try {
-      const user = requireAuth(request);
+      const user = requireAuth(cookies);
       const discussionId = params.discussionId as string;
       const discussion = db.discussion.findFirst({
         where: {
@@ -52,7 +52,7 @@ export const discussionsHandlers = [
             equals: discussionId,
           },
           teamId: {
-            equals: user.teamId,
+            equals: user?.teamId,
           },
         },
       });
@@ -82,16 +82,16 @@ export const discussionsHandlers = [
     }
   }),
 
-  http.post(`${env.API_URL}/discussions`, async ({ request }) => {
+  http.post(`${env.API_URL}/discussions`, async ({ request, cookies }) => {
     try {
-      const user = requireAuth(request);
+      const user = requireAuth(cookies);
       const data = (await request.json()) as DiscussionBody;
       requireAdmin(user);
       const result = db.discussion.create({
-        teamId: user.teamId,
+        teamId: user?.teamId,
         id: nanoid(),
         createdAt: Date.now(),
-        authorId: user.id,
+        authorId: user?.id,
         ...data,
       });
       persistDb('discussion');
@@ -101,16 +101,16 @@ export const discussionsHandlers = [
     }
   }),
 
-  http.patch(`${env.API_URL}/discussions/:discussionId`, async ({ request, params }) => {
+  http.patch(`${env.API_URL}/discussions/:discussionId`, async ({ request, params, cookies }) => {
     try {
-      const user = requireAuth(request);
+      const user = requireAuth(cookies);
       const data = (await request.json()) as DiscussionBody;
       const discussionId = params.discussionId as string;
       requireAdmin(user);
       const result = db.discussion.update({
         where: {
           teamId: {
-            equals: user.teamId,
+            equals: user?.teamId,
           },
           id: {
             equals: discussionId,
@@ -125,9 +125,9 @@ export const discussionsHandlers = [
     }
   }),
 
-  http.delete(`${env.API_URL}/discussions/:discussionId`, async ({ request, params }) => {
+  http.delete(`${env.API_URL}/discussions/:discussionId`, async ({ cookies, params }) => {
     try {
-      const user = requireAuth(request);
+      const user = requireAuth(cookies);
       const discussionId = params.discussionId as string;
       requireAdmin(user);
       const result = db.discussion.delete({

@@ -7,21 +7,16 @@ import {
   UserResponse,
   LoginCredentialsDTO,
   RegisterCredentialsDTO,
+  logout,
 } from '@/features/auth';
-import storage from '@/utils/storage';
 
 async function handleUserResponse(data: UserResponse) {
-  const { jwt, user } = data;
-  storage.setToken(jwt);
+  const { user } = data;
   return user;
 }
 
 async function userFn() {
-  if (storage.getToken()) {
-    const data = await getUser();
-    return data;
-  }
-  return null;
+  return getUser();
 }
 
 async function loginFn(data: LoginCredentialsDTO) {
@@ -37,7 +32,7 @@ async function registerFn(data: RegisterCredentialsDTO) {
 }
 
 async function logoutFn() {
-  storage.clearToken();
+  await logout();
   window.location.assign(window.location.origin as unknown as string);
 }
 

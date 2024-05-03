@@ -1,7 +1,6 @@
-import { StrictRequest, DefaultBodyType } from 'msw';
+import Cookies from 'js-cookie';
 
 import { db } from './db';
-
 export const encode = (obj: any) => window.btoa(JSON.stringify(obj));
 
 export const decode = (str: string) => JSON.parse(window.atob(str));
@@ -48,11 +47,20 @@ export function authenticate({ email, password }: { email: string; password: str
   throw error;
 }
 
-export function requireAuth(request: StrictRequest<DefaultBodyType>) {
+export const AUTH_COOKIE = `bulletproof_react_app_token`;
+
+export function requireAuth(cookies: Record<string, string>, shouldThrow = true) {
   try {
-    const encodedToken = request.headers.get('authorization');
+    // todo: fix once tests in Github Actions are fixed
+    // const encodedToken = cookies[AUTH_COOKIE];
+    console.log('cookies', cookies);
+    const encodedToken = Cookies.get(AUTH_COOKIE);
     if (!encodedToken) {
-      throw new Error('No authorization token provided!');
+      if (shouldThrow) {
+        throw new Error('No authorization token provided!');
+      }
+
+      return null;
     }
     const decodedToken = decode(encodedToken) as { id: string };
 
@@ -65,7 +73,10 @@ export function requireAuth(request: StrictRequest<DefaultBodyType>) {
     });
 
     if (!user) {
-      throw Error('Unauthorized');
+      if (shouldThrow) {
+        throw Error('Unauthorized');
+      }
+      return null;
     }
 
     return sanitizeUser(user);

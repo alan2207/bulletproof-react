@@ -1,12 +1,12 @@
 import { render as rtlRender, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import Cookies from 'js-cookie';
 
 import { AppProvider } from '@/providers/app';
-import storage from '@/utils/storage';
 
 import { discussionGenerator, userGenerator } from './data-generators';
 import { db } from './server/db';
-import { authenticate, hash } from './server/utils';
+import { AUTH_COOKIE, authenticate, hash } from './server/utils';
 
 export const createUser = async (userProperties?: any) => {
   const user = userGenerator(userProperties) as any;
@@ -22,7 +22,7 @@ export const createDiscussion = async (discussionProperties?: any) => {
 
 export const loginAsUser = async (user: any) => {
   const authUser = await authenticate(user);
-  storage.setToken(authUser.jwt);
+  Cookies.set(AUTH_COOKIE, authUser.jwt);
   return authUser;
 };
 
