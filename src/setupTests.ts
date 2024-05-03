@@ -3,6 +3,8 @@ import '@testing-library/jest-dom/vitest';
 import { resetDb } from '@/test/server/db';
 import { server } from '@/test/server/server';
 
+vi.mock('zustand');
+
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 afterAll(() => server.close());
 beforeEach(() => {
