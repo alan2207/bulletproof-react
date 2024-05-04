@@ -11,7 +11,6 @@ test('smoke', async ({ page }) => {
   });
 
   await page.goto('/');
-  await page.waitForTimeout(1000);
   await expect(page.getByRole('heading', { name: 'Bulletproof React' })).toBeVisible();
   await page.getByRole('button', { name: 'Get started' }).click();
 
@@ -41,10 +40,8 @@ test('smoke', async ({ page }) => {
 
   // log out:
   await page.getByRole('button', { name: 'Open user menu' }).click();
-  await page.getByRole('menuitem', { name: 'Sign out' }).click();
-  await page.waitForURL('/');
-  await page.getByRole('button', { name: 'Get started' }).click();
-  await page.waitForURL('/auth/login');
+  await page.getByRole('menuitem', { name: 'Sign Out' }).click();
+  await page.waitForURL('/auth/login?redirectTo=%2Fapp');
 
   // log in:
   await page.getByLabel('Email Address').click();
@@ -57,7 +54,6 @@ test('smoke', async ({ page }) => {
   ).toBeVisible();
 
   // create discussion:
-
   await page.getByRole('link', { name: 'Discussions' }).click();
   await page.waitForURL('/app/discussions');
 
@@ -72,13 +68,10 @@ test('smoke', async ({ page }) => {
   // visit discussion page:
   await page.getByRole('link', { name: 'View' }).click();
 
-  // todo: assert the page:
-  await page.waitForTimeout(1000);
   await expect(page.getByRole('heading', { name: discussion.title })).toBeVisible();
   await expect(page.getByText(discussion.body)).toBeVisible();
 
   // update discussion:
-
   await page.getByRole('button', { name: 'Update Discussion' }).click();
   await page.getByLabel('Title').click();
   await page.getByLabel('Title').fill(`${discussion.title} - updated`);

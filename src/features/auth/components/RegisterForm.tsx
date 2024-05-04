@@ -1,6 +1,6 @@
 import { Switch } from '@headlessui/react';
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import * as z from 'zod';
 
 import { Button } from '@/components/Elements';
@@ -40,6 +40,8 @@ type RegisterFormProps = {
 export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
   const registering = useRegister();
   const [chooseTeam, setChooseTeam] = React.useState(false);
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get('redirectTo');
 
   const teamsQuery = useTeams({
     config: {
@@ -133,7 +135,10 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
       </Form>
       <div className="mt-2 flex items-center justify-end">
         <div className="text-sm">
-          <Link to="../login" className="font-medium text-blue-600 hover:text-blue-500">
+          <Link
+            to={`/auth/login${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ''}`}
+            className="font-medium text-blue-600 hover:text-blue-500"
+          >
             Log In
           </Link>
         </div>

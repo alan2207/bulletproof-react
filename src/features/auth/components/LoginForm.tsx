@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import * as z from 'zod';
 
 import { Button } from '@/components/Elements';
@@ -22,6 +22,8 @@ type LoginFormProps = {
 
 export const LoginForm = ({ onSuccess }: LoginFormProps) => {
   const login = useLogin();
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get('redirectTo');
 
   return (
     <div>
@@ -56,7 +58,10 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
       </Form>
       <div className="mt-2 flex items-center justify-end">
         <div className="text-sm">
-          <Link to="../register" className="font-medium text-blue-600 hover:text-blue-500">
+          <Link
+            to={`/auth/register${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ''}`}
+            className="font-medium text-blue-600 hover:text-blue-500"
+          >
             Register
           </Link>
         </div>

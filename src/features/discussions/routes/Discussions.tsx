@@ -3,7 +3,7 @@ import { ContentLayout } from '@/components/Layout';
 import { CreateDiscussion } from '../components/CreateDiscussion';
 import { DiscussionsList } from '../components/DiscussionsList';
 
-export const Discussions = () => {
+export const DiscussionsRoute = () => {
   return (
     <ContentLayout title="Discussions">
       <div className="flex justify-end">

@@ -14,7 +14,7 @@ const Entry = ({ label, value }: EntryProps) => (
   </div>
 );
 
-export const Profile = () => {
+export const ProfileRoute = () => {
   const user = useUser();
 
   if (!user.data) return null;

@@ -1,7 +1,7 @@
 import { ContentLayout } from '@/components/Layout';
 import { useUser, ROLES } from '@/features/auth';
 
-export const Dashboard = () => {
+export const DashboardRoute = () => {
   const user = useUser();
   return (
     <ContentLayout title="Dashboard">

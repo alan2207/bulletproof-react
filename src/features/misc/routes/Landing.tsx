@@ -5,7 +5,7 @@ import { Button } from '@/components/Elements';
 import { Head } from '@/components/Head';
 import { useUser } from '@/features/auth';
 
-export const Landing = () => {
+export const LandingRoute = () => {
   const navigate = useNavigate();
   const user = useUser();
 

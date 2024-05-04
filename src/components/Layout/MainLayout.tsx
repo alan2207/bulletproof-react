@@ -58,25 +58,8 @@ const SideNavigation = () => {
   );
 };
 
-type UserNavigationItem = {
-  name: string;
-  to: string;
-  onClick?: () => void;
-};
-
 const UserNavigation = () => {
   const { mutate: logout } = useLogout();
-
-  const userNavigation = [
-    { name: 'Your Profile', to: './profile' },
-    {
-      name: 'Sign out',
-      to: '',
-      onClick: () => {
-        logout({});
-      },
-    },
-  ].filter(Boolean) as UserNavigationItem[];
 
   return (
     <Menu as="div" className="relative ml-3">
@@ -102,22 +85,29 @@ const UserNavigation = () => {
               static
               className="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none"
             >
-              {userNavigation.map((item) => (
-                <Menu.Item key={item.name}>
-                  {({ active }) => (
-                    <Link
-                      onClick={item.onClick}
-                      to={item.to}
-                      className={clsx(
-                        active ? 'bg-gray-100' : '',
-                        'block px-4 py-2 text-sm text-gray-700'
-                      )}
-                    >
-                      {item.name}
-                    </Link>
-                  )}
-                </Menu.Item>
-              ))}
+              <Menu.Item>
+                {({ active }) => (
+                  <Link
+                    to="./profile"
+                    className={clsx(
+                      active ? 'bg-gray-100' : '',
+                      'block px-4 py-2 text-sm text-gray-700'
+                    )}
+                  >
+                    Your Profile
+                  </Link>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {() => (
+                  <button
+                    onClick={() => logout({})}
+                    className={clsx('block px-4 py-2 text-sm text-gray-700')}
+                  >
+                    Sign Out
+                  </button>
+                )}
+              </Menu.Item>
             </Menu.Items>
           </Transition>
         </>

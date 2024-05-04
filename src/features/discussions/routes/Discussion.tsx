@@ -9,7 +9,7 @@ import { formatDate } from '@/utils/format';
 import { useDiscussion } from '../api/getDiscussion';
 import { UpdateDiscussion } from '../components/UpdateDiscussion';
 
-export const Discussion = () => {
+export const DiscussionRoute = () => {
   const params = useParams();
   const discussionId = params.discussionId as string;
   const discussionQuery = useDiscussion({ discussionId });

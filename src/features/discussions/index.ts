@@ -1,2 +1,3 @@
 export * from './types';
-export * from './routes';
+export * from './routes/Discussion';
+export * from './routes/Discussions';

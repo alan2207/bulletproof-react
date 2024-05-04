@@ -3,7 +3,7 @@ import { Authorization, ROLES } from '@/features/auth';
 
 import { UsersList } from '../components/UsersList';
 
-export const Users = () => {
+export const UsersRoute = () => {
   return (
     <ContentLayout title="Users">
       <div className="mt-4">

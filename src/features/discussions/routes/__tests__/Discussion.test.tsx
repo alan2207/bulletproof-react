@@ -11,7 +11,7 @@ import {
   within,
 } from '@/test/test-utils';
 
-import { Discussion } from '../Discussion';
+import { DiscussionRoute } from '../Discussion';
 
 vi.mock('react-router-dom', () => ({
   ...vi.importActual('react-router-dom'), // keep the rest of the exports intact
@@ -27,7 +27,7 @@ const renderDiscussion = async () => {
     discussionId: fakeDiscussion.id,
   }));
 
-  const utils = await renderApp(<Discussion />, {
+  const utils = await renderApp(<DiscussionRoute />, {
     user: fakeUser,
   });
 

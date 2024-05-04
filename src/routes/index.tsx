@@ -1,19 +1,58 @@
-import { useRoutes } from 'react-router-dom';
+import { Suspense } from 'react';
+import { Routes, Route, Outlet } from 'react-router-dom';
 
-import { useUser } from '@/features/auth';
-import { Landing } from '@/features/misc';
+import { Spinner } from '@/components/Elements';
+import { MainLayout } from '@/components/Layout';
+import { ProtectedRoute } from '@/features/auth';
+import { lazyImport } from '@/utils/lazyImport';
 
-import { protectedRoutes } from './protected';
-import { publicRoutes } from './public';
+const { DashboardRoute } = lazyImport(() => import('@/features/misc'), 'DashboardRoute');
+const { ProfileRoute } = lazyImport(() => import('@/features/users'), 'ProfileRoute');
+const { UsersRoute } = lazyImport(() => import('@/features/users'), 'UsersRoute');
+const { RegisterRoute } = lazyImport(() => import('@/features/auth'), 'RegisterRoute');
+const { LoginRoute } = lazyImport(() => import('@/features/auth'), 'LoginRoute');
+const { DiscussionRoute } = lazyImport(() => import('@/features/discussions'), 'DiscussionRoute');
+const { DiscussionsRoute } = lazyImport(() => import('@/features/discussions'), 'DiscussionsRoute');
+const { LandingRoute } = lazyImport(() => import('@/features/misc'), 'LandingRoute');
+const { NotFoundRoute } = lazyImport(() => import('@/features/misc'), 'NotFoundRoute');
+
+const MainApp = () => {
+  return (
+    <MainLayout>
+      <Suspense
+        fallback={
+          <div className="flex size-full items-center justify-center">
+            <Spinner size="xl" />
+          </div>
+        }
+      >
+        <Outlet />
+      </Suspense>
+    </MainLayout>
+  );
+};
 
 export const AppRoutes = () => {
-  const user = useUser();
-
-  const commonRoutes = [{ path: '/', element: <Landing /> }];
-
-  const routes = user.data ? protectedRoutes : publicRoutes;
-
-  const element = useRoutes([...routes, ...commonRoutes]);
-
-  return <>{element}</>;
+  return (
+    <Routes>
+      <Route path="/" element={<LandingRoute />} />
+      <Route path="/auth/register" element={<RegisterRoute />} />
+      <Route path="/auth/login" element={<LoginRoute />} />
+      <Route
+        path="/app"
+        element={
+          <ProtectedRoute>
+            <MainApp />
+          </ProtectedRoute>
+        }
+      >
+        <Route path="/app/discussions" element={<DiscussionsRoute />} />
+        <Route path="/app/discussions/:discussionId" element={<DiscussionRoute />} />
+        <Route path="/app/users" element={<UsersRoute />} />
+        <Route path="/app/profile" element={<ProfileRoute />} />
+        <Route path="/app/" element={<DashboardRoute />} />
+      </Route>
+      <Route path="*" element={<NotFoundRoute />} />
+    </Routes>
+  );
 };
