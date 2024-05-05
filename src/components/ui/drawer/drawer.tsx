@@ -47,9 +47,8 @@ const drawerVariants = cva(
   }
 );
 
-interface DrawerContentProps
-  extends React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>,
-    VariantProps<typeof drawerVariants> {}
+type DrawerContentProps = React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content> &
+  VariantProps<typeof drawerVariants>;
 
 const DrawerContent = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Content>,

@@ -5,12 +5,11 @@ import { cn } from '@/utils/cn';
 
 import { FieldWrapper, FieldWrapperPassThroughProps } from './field-wrapper';
 
-export interface TextareaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement>,
-    FieldWrapperPassThroughProps {
-  className?: string;
-  registration: Partial<UseFormRegisterReturn>;
-}
+export type TextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> &
+  FieldWrapperPassThroughProps & {
+    className?: string;
+    registration: Partial<UseFormRegisterReturn>;
+  };
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ className, label, error, registration, ...props }, ref) => {
