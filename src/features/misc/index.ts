@@ -1,3 +1,3 @@
-export * from './routes/Landing';
-export * from './routes/NotFound';
-export * from './routes/Dashboard';
+export * from './routes/landing';
+export * from './routes/not-found';
+export * from './routes/dashboard';

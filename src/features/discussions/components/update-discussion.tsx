@@ -5,8 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Form, FormDrawer, Input, Textarea } from '@/components/ui/form';
 import { Authorization, ROLES } from '@/features/auth';
 
-import { useDiscussion } from '../api/getDiscussion';
-import { UpdateDiscussionDTO, useUpdateDiscussion } from '../api/updateDiscussion';
+import { useDiscussion } from '../api/get-discussion';
+import { UpdateDiscussionDTO, useUpdateDiscussion } from '../api/update-discussion';
 
 type UpdateDiscussionProps = {
   discussionId: string;

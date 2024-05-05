@@ -1,3 +1,3 @@
 export * from './types';
 
-export * from './api/getTeams';
+export * from './api/get-teams';

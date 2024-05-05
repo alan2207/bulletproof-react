@@ -1,6 +1,6 @@
 import { renderHook, act } from '@testing-library/react';
 
-import { useDisclosure } from '../useDisclosure';
+import { useDisclosure } from '../use-disclosure';
 
 test('should open the state', () => {
   const { result } = renderHook(() => useDisclosure());

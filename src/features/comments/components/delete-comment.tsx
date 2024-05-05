@@ -3,7 +3,7 @@ import { Trash } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ConfirmationDialog } from '@/components/ui/dialog';
 
-import { useDeleteComment } from '../api/deleteComment';
+import { useDeleteComment } from '../api/delete-comment';
 
 type DeleteCommentProps = {
   id: string;

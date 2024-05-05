@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { ConfirmationDialog } from '@/components/ui/dialog';
 import { Authorization, ROLES } from '@/features/auth';
 
-import { useDeleteDiscussion } from '../api/deleteDiscussion';
+import { useDeleteDiscussion } from '../api/delete-discussion';
 
 type DeleteDiscussionProps = {
   id: string;

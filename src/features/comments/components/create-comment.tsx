@@ -4,7 +4,7 @@ import * as z from 'zod';
 import { Button } from '@/components/ui/button';
 import { Form, FormDrawer, Textarea } from '@/components/ui/form';
 
-import { CreateCommentDTO, useCreateComment } from '../api/createComment';
+import { CreateCommentDTO, useCreateComment } from '../api/create-comment';
 
 const schema = z.object({
   body: z.string().min(1, 'Required'),

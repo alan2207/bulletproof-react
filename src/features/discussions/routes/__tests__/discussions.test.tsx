@@ -4,7 +4,7 @@ import { discussionGenerator } from '@/test/data-generators';
 import { renderApp, screen, userEvent, waitFor, within } from '@/test/test-utils';
 import { formatDate } from '@/utils/format';
 
-import { DiscussionsRoute } from '../Discussions';
+import { DiscussionsRoute } from '../discussions';
 
 beforeAll(() => {
   vi.spyOn(console, 'error').mockImplementation(() => {});

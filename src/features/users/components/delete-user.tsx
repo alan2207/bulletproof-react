@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { ConfirmationDialog } from '@/components/ui/dialog';
 import { useUser } from '@/features/auth';
 
-import { useDeleteUser } from '../api/deleteUser';
+import { useDeleteUser } from '../api/delete-user';
 
 type DeleteUserProps = {
   id: string;

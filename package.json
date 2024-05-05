@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "test": "vitest",
     "prepare": "husky",
-    "lint": "eslint src --fix --ignore-path .gitignore",
+    "lint": "eslint src --ignore-path .gitignore",
     "check-types": "tsc --project tsconfig.json --pretty --noEmit",
     "generate": "plop",
     "storybook": "storybook dev -p 6006",

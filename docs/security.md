@@ -45,7 +45,7 @@ Authorization is a process of determining if the user is allowed to access a res
 
 The most common method. Define allowed roles for a resource and then check if a user has the allowed role in order to access a resource. Good example is `USER` and `ADMIN` roles. You want to restrict some things for users and let admins access it.
 
-[RBAC Example Code](../src/features/discussions/components/CreateDiscussion.tsx)
+[RBAC Example Code](../src/features/discussions/components/create-discussion.tsx)
 
 #### PBAC (Permission based access control)
 
@@ -53,4 +53,4 @@ Sometimes RBAC is not enough. Some of the operations should be allowed only by t
 
 For RBAC protection you can use the `RBAC` component by passing allowed roles to it. On the other hand if you need more strict protection, you can pass policies check to it.
 
-[PBAC Example Code](../src/features/comments/components/CommentsList.tsx)
+[PBAC Example Code](../src/features/comments/components/comments-list.tsx)

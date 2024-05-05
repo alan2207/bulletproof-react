@@ -1,5 +1,5 @@
-import { CommentsList } from './CommentsList';
-import { CreateComment } from './CreateComment';
+import { CommentsList } from './comments-list';
+import { CreateComment } from './create-comment';
 
 type CommentsProps = {
   discussionId: string;

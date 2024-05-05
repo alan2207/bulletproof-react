@@ -1,7 +1,7 @@
 import { ContentLayout } from '@/components/layouts';
 import { Authorization, ROLES } from '@/features/auth';
 
-import { UsersList } from '../components/UsersList';
+import { UsersList } from '../components/users-list';
 
 export const UsersRoute = () => {
   return (

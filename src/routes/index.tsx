@@ -4,7 +4,7 @@ import { Routes, Route, Outlet } from 'react-router-dom';
 import { DashboardLayout } from '@/components/layouts';
 import { Spinner } from '@/components/ui/spinner';
 import { ProtectedRoute } from '@/features/auth';
-import { lazyImport } from '@/utils/lazyImport';
+import { lazyImport } from '@/utils/lazy-import';
 
 const { DashboardRoute } = lazyImport(() => import('@/features/misc'), 'DashboardRoute');
 const { ProfileRoute } = lazyImport(() => import('@/features/users'), 'ProfileRoute');

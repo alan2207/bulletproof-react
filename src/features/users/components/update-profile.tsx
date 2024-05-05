@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Form, FormDrawer, Input, Textarea } from '@/components/ui/form';
 import { useUser } from '@/features/auth';
 
-import { UpdateProfileDTO, useUpdateProfile } from '../api/updateProfile';
+import { UpdateProfileDTO, useUpdateProfile } from '../api/update-profile';
 
 const schema = z.object({
   email: z.string().min(1, 'Required'),

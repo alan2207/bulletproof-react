@@ -1,6 +1,6 @@
 import { configureAuth } from 'react-query-auth';
 
-import { getUser } from '../api/getUser';
+import { getUser } from '../api/get-user';
 import { LoginCredentialsDTO, loginWithEmailAndPassword } from '../api/login';
 import { logout } from '../api/logout';
 import { RegisterCredentialsDTO, registerWithEmailAndPassword } from '../api/register';

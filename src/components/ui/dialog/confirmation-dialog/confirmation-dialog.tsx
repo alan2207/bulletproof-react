@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useEffect } from 'react';
 
 import { Button } from '@/components/ui/button';
-import { useDisclosure } from '@/hooks/useDisclosure';
+import { useDisclosure } from '@/hooks/use-disclosure';
 
 import {
   Dialog,

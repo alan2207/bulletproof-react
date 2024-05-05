@@ -11,7 +11,7 @@ import {
   within,
 } from '@/test/test-utils';
 
-import { DiscussionRoute } from '../Discussion';
+import { DiscussionRoute } from '../discussion';
 
 vi.mock('react-router-dom', () => ({
   ...vi.importActual('react-router-dom'), // keep the rest of the exports intact

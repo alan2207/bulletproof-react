@@ -3,10 +3,10 @@ import { Spinner } from '@/components/ui/spinner';
 import { Table } from '@/components/ui/table';
 import { formatDate } from '@/utils/format';
 
-import { useDiscussions } from '../api/getDiscussions';
+import { useDiscussions } from '../api/get-discussions';
 import { Discussion } from '../types';
 
-import { DeleteDiscussion } from './DeleteDiscussion';
+import { DeleteDiscussion } from './delete-discussion';
 
 export const DiscussionsList = () => {
   const discussionsQuery = useDiscussions();

@@ -7,8 +7,8 @@ import { Spinner } from '@/components/ui/spinner';
 import { Comments } from '@/features/comments';
 import { formatDate } from '@/utils/format';
 
-import { useDiscussion } from '../api/getDiscussion';
-import { UpdateDiscussion } from '../components/UpdateDiscussion';
+import { useDiscussion } from '../api/get-discussion';
+import { UpdateDiscussion } from '../components/update-discussion';
 
 export const DiscussionRoute = () => {
   const params = useParams();

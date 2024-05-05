@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Form, FormDrawer, Input, Textarea } from '@/components/ui/form';
 import { Authorization, ROLES } from '@/features/auth';
 
-import { CreateDiscussionDTO, useCreateDiscussion } from '../api/createDiscussion';
+import { CreateDiscussionDTO, useCreateDiscussion } from '../api/create-discussion';
 
 const schema = z.object({
   title: z.string().min(1, 'Required'),

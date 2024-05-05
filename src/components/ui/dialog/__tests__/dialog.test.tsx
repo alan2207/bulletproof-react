@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
-import { useDisclosure } from '@/hooks/useDisclosure';
+import { useDisclosure } from '@/hooks/use-disclosure';
 import { rtlRender, screen, userEvent, waitFor } from '@/test/test-utils';
 
 import {

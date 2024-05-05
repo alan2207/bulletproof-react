@@ -9,7 +9,7 @@ This is the state that only a component needs, and it is not meant to be shared 
 - [useState](https://react.dev/reference/react/useState) - for simpler states that are independent
 - [useReducer](https://react.dev/reference/react/useReducer) - for more complex states where on a single action you want to update several pieces of state
 
-[Component State Example Code](../src/features/auth/components/RegisterForm.tsx)
+[Component State Example Code](../src/features/auth/components/register-form.tsx)
 
 ## Application State
 
@@ -39,7 +39,7 @@ Good Server Cache Libraries:
 - [apollo client](https://www.apollographql.com/) - GraphQL
 - [urql](https://formidable.com/open-source/urql/) - GraphQl
 
-[Server State Example Code](../src/features/discussions/api/getDiscussions.ts)
+[Server State Example Code](../src/features/discussions/api/get-discussions.ts)
 
 ## Form State
 
@@ -66,10 +66,10 @@ You can also integrate validation libraries with the mentioned solutions to vali
 - [zod](https://github.com/colinhacks/zod)
 - [yup](https://github.com/jquense/yup)
 
-[Validation Example Code](../src/features/auth/components/RegisterForm.tsx)
+[Validation Example Code](../src/features/auth/components/register-form.tsx)
 
 ## URL State
 
 State that is being kept in the address bar of the browser. It is usually tracked via url params (`/app/${dynamicParam}`) or query params (`/app?dynamicParam=1`). It can be accessed and controlled via your routing solution such as `react-router-dom`.
 
-[URL State Example Code](../src/features/discussions/routes/Discussion.tsx)
+[URL State Example Code](../src/features/discussions/routes/discussion.tsx)

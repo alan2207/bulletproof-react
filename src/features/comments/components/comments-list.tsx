@@ -6,9 +6,9 @@ import { useUser, POLICIES, Authorization } from '@/features/auth';
 import { User } from '@/features/users';
 import { formatDate } from '@/utils/format';
 
-import { useComments } from '../api/getComments';
+import { useComments } from '../api/get-comments';
 
-import { DeleteComment } from './DeleteComment';
+import { DeleteComment } from './delete-comment';
 
 type CommentsListProps = {
   discussionId: string;

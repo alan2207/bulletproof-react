@@ -38,17 +38,17 @@ module.exports = {
     return [
       {
         type: 'add',
-        path: componentGeneratePath + '/{{properCase name}}/index.ts',
+        path: componentGeneratePath + '/{{kebabCase name}}/index.ts',
         templateFile: 'generators/component/index.ts.hbs',
       },
       {
         type: 'add',
-        path: componentGeneratePath + '/{{properCase name}}/{{properCase name}}.tsx',
+        path: componentGeneratePath + '/{{kebabCase name}}/{{kebabCase name}}.tsx',
         templateFile: 'generators/component/Component.tsx.hbs',
       },
       {
         type: 'add',
-        path: componentGeneratePath + '/{{properCase name}}/{{properCase name}}.stories.tsx',
+        path: componentGeneratePath + '/{{kebabCase name}}/{{kebabCase name}}.stories.tsx',
         templateFile: 'generators/component/Component.stories.tsx.hbs',
       },
     ];
