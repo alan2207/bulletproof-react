@@ -9,7 +9,7 @@ This [tweet](https://twitter.com/rauchg/status/807626710350839808) explains in a
 Unit testing is a type of testing where parts of application are being tested in isolation.
 You should write unit tests for shared components and functions that are used throughout the entire application as they might be used in different scenarios which might be more difficult to reproduce in integration tests.
 
-[Unit Test Example Code](../src/components/Elements/ConfirmationDialog/__tests__/ConfirmationDialog.test.tsx)
+[Unit Test Example Code](../src/components/ui/dialog/confirmation-dialog/__tests__/confirmation-dialog.test.tsx)
 
 ### Integration Tests
 

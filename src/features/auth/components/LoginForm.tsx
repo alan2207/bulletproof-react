@@ -1,8 +1,8 @@
 import { Link, useSearchParams } from 'react-router-dom';
 import * as z from 'zod';
 
-import { Button } from '@/components/Elements';
-import { Form, InputField } from '@/components/Form';
+import { Button } from '@/components/ui/button';
+import { Form, Input } from '@/components/ui/form';
 
 import { useLogin } from '../lib/auth';
 
@@ -36,13 +36,13 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
       >
         {({ register, formState }) => (
           <>
-            <InputField
+            <Input
               type="email"
               label="Email Address"
               error={formState.errors['email']}
               registration={register('email')}
             />
-            <InputField
+            <Input
               type="password"
               label="Password"
               error={formState.errors['password']}

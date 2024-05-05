@@ -1,8 +1,8 @@
-import { PlusIcon } from '@heroicons/react/16/solid';
+import { Plus } from 'lucide-react';
 import * as z from 'zod';
 
-import { Button } from '@/components/Elements';
-import { Form, FormDrawer, TextAreaField } from '@/components/Form';
+import { Button } from '@/components/ui/button';
+import { Form, FormDrawer, Textarea } from '@/components/ui/form';
 
 import { CreateCommentDTO, useCreateComment } from '../api/createComment';
 
@@ -21,7 +21,7 @@ export const CreateComment = ({ discussionId }: CreateCommentProps) => {
       <FormDrawer
         isDone={createCommentMutation.isSuccess}
         triggerButton={
-          <Button size="sm" startIcon={<PlusIcon className="size-4" />}>
+          <Button size="sm" icon={<Plus className="size-4" />}>
             Create Comment
           </Button>
         }
@@ -51,7 +51,7 @@ export const CreateComment = ({ discussionId }: CreateCommentProps) => {
           schema={schema}
         >
           {({ register, formState }) => (
-            <TextAreaField
+            <Textarea
               label="Body"
               error={formState.errors['body']}
               registration={register('body')}

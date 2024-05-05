@@ -1,11 +1,11 @@
-import { ContentLayout } from '@/components/Layout';
+import { ContentLayout } from '@/components/layouts';
 import { useUser, ROLES } from '@/features/auth';
 
 export const DashboardRoute = () => {
   const user = useUser();
   return (
     <ContentLayout title="Dashboard">
-      <h1 className="mt-2 text-xl">
+      <h1 className="text-xl">
         Welcome <b>{`${user.data?.firstName} ${user.data?.lastName}`}</b>
       </h1>
       <h4 className="my-3">

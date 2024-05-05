@@ -1,4 +1,4 @@
-import { ContentLayout } from '@/components/Layout';
+import { ContentLayout } from '@/components/layouts';
 import { useUser } from '@/features/auth';
 
 import { UpdateProfile } from '../components/UpdateProfile';

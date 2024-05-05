@@ -1,8 +1,8 @@
-import { PencilIcon } from '@heroicons/react/16/solid';
+import { Pen } from 'lucide-react';
 import * as z from 'zod';
 
-import { Button } from '@/components/Elements';
-import { Form, FormDrawer, InputField, TextAreaField } from '@/components/Form';
+import { Button } from '@/components/ui/button';
+import { Form, FormDrawer, Input, Textarea } from '@/components/ui/form';
 import { Authorization, ROLES } from '@/features/auth';
 
 import { useDiscussion } from '../api/getDiscussion';
@@ -26,7 +26,7 @@ export const UpdateDiscussion = ({ discussionId }: UpdateDiscussionProps) => {
       <FormDrawer
         isDone={updateDiscussionMutation.isSuccess}
         triggerButton={
-          <Button startIcon={<PencilIcon className="size-4" />} size="sm">
+          <Button icon={<Pen className="size-4" />} size="sm">
             Update Discussion
           </Button>
         }
@@ -57,12 +57,12 @@ export const UpdateDiscussion = ({ discussionId }: UpdateDiscussionProps) => {
         >
           {({ register, formState }) => (
             <>
-              <InputField
+              <Input
                 label="Title"
                 error={formState.errors['title']}
                 registration={register('title')}
               />
-              <TextAreaField
+              <Textarea
                 label="Body"
                 error={formState.errors['body']}
                 registration={register('body')}

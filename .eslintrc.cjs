@@ -5,7 +5,7 @@ module.exports = {
     es6: true,
   },
   parserOptions: { ecmaVersion: 8, sourceType: 'module' },
-  ignorePatterns: ['node_modules/*', 'public/mockServiceWorker.js'],
+  ignorePatterns: ['node_modules/*', 'public/mockServiceWorker.js', 'generators/*'],
   extends: ['eslint:recommended'],
   overrides: [
     {

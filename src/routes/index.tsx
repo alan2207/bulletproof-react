@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
 import { Routes, Route, Outlet } from 'react-router-dom';
 
-import { Spinner } from '@/components/Elements';
-import { MainLayout } from '@/components/Layout';
+import { DashboardLayout } from '@/components/layouts';
+import { Spinner } from '@/components/ui/spinner';
 import { ProtectedRoute } from '@/features/auth';
 import { lazyImport } from '@/utils/lazyImport';
 
@@ -18,7 +18,7 @@ const { NotFoundRoute } = lazyImport(() => import('@/features/misc'), 'NotFoundR
 
 const MainApp = () => {
   return (
-    <MainLayout>
+    <DashboardLayout>
       <Suspense
         fallback={
           <div className="flex size-full items-center justify-center">
@@ -28,7 +28,7 @@ const MainApp = () => {
       >
         <Outlet />
       </Suspense>
-    </MainLayout>
+    </DashboardLayout>
   );
 };
 

@@ -1,4 +1,4 @@
-import { ContentLayout } from '@/components/Layout';
+import { ContentLayout } from '@/components/layouts';
 
 import { CreateDiscussion } from '../components/CreateDiscussion';
 import { DiscussionsList } from '../components/DiscussionsList';

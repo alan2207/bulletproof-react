@@ -22,18 +22,18 @@ Storing tokens in a cookie might be safer if the cookie is set to be `HttpOnly` 
 
 To keep the application safe, instead of focusing only on where to store the token safely, it is recommended to make the entire application as resistant as possible to XSS attacks E.g - every input from the user should be sanitized before it's injected into the DOM.
 
-[HTML Sanitization Example Code](../src/components/Elements/MDPreview/MDPreview.tsx)
+[HTML Sanitization Example Code](../src/components/ui/md-preview/md-preview.tsx)
 
 #### Handling user data
 
 User info should be considered a global piece of state which should be available from anywhere in the application.
 If you are already using `react-query`, you can use [react-query-auth](https://github.com/alan2207/react-query-auth) library for handling user state which will handle all the things for you after you provide it some configuration. Otherwise, you can use react context + hooks, or some 3rd party state management library.
 
-[Auth Configuration Example Code](../src/lib/auth.tsx)
+[Auth Configuration Example Code](../src/features/auth/lib/auth.tsx)
 
 The application will assume the user is authenticated if a user object is present.
 
-[Authenticated Route Protection Example Code](../src/routes/index.tsx)
+[Authenticated Route Protection Example Code](../src/features/auth/lib/protected-route.tsx)
 
 ### Authorization
 
@@ -41,7 +41,7 @@ Authorization is a process of determining if the user is allowed to access a res
 
 #### RBAC (Role based access control)
 
-[Authorization Configuration Example Code](../src/lib/authorization.tsx)
+[Authorization Configuration Example Code](../src/features/auth/lib/authorization.tsx)
 
 The most common method. Define allowed roles for a resource and then check if a user has the allowed role in order to access a resource. Good example is `USER` and `ADMIN` roles. You want to restrict some things for users and let admins access it.
 

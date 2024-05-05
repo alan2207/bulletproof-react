@@ -1,8 +1,8 @@
-import { PlusIcon } from '@heroicons/react/16/solid';
+import { Plus } from 'lucide-react';
 import * as z from 'zod';
 
-import { Button } from '@/components/Elements';
-import { Form, FormDrawer, InputField, TextAreaField } from '@/components/Form';
+import { Button } from '@/components/ui/button';
+import { Form, FormDrawer, Input, Textarea } from '@/components/ui/form';
 import { Authorization, ROLES } from '@/features/auth';
 
 import { CreateDiscussionDTO, useCreateDiscussion } from '../api/createDiscussion';
@@ -20,7 +20,7 @@ export const CreateDiscussion = () => {
       <FormDrawer
         isDone={createDiscussionMutation.isSuccess}
         triggerButton={
-          <Button size="sm" startIcon={<PlusIcon className="size-4" />}>
+          <Button size="sm" icon={<Plus className="size-4" />}>
             Create Discussion
           </Button>
         }
@@ -45,13 +45,13 @@ export const CreateDiscussion = () => {
         >
           {({ register, formState }) => (
             <>
-              <InputField
+              <Input
                 label="Title"
                 error={formState.errors['title']}
                 registration={register('title')}
               />
 
-              <TextAreaField
+              <Textarea
                 label="Body"
                 error={formState.errors['body']}
                 registration={register('body')}

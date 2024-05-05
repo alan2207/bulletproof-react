@@ -1,6 +1,7 @@
-import { ArchiveBoxIcon } from '@heroicons/react/16/solid';
+import { ArchiveX } from 'lucide-react';
 
-import { Spinner, MDPreview } from '@/components/Elements';
+import { MDPreview } from '@/components/ui/md-preview';
+import { Spinner } from '@/components/ui/spinner';
 import { useUser, POLICIES, Authorization } from '@/features/auth';
 import { User } from '@/features/users';
 import { formatDate } from '@/utils/format';
@@ -32,7 +33,7 @@ export const CommentsList = ({ discussionId }: CommentsListProps) => {
         aria-label="comments"
         className="flex h-40 flex-col items-center justify-center bg-white text-gray-500"
       >
-        <ArchiveBoxIcon className="size-10" />
+        <ArchiveX className="size-10" />
         <h4>No Comments Found</h4>
       </div>
     );

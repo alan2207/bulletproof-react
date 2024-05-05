@@ -1,6 +1,7 @@
-import { TrashIcon } from '@heroicons/react/16/solid';
+import { Trash } from 'lucide-react';
 
-import { Button, ConfirmationDialog } from '@/components/Elements';
+import { Button } from '@/components/ui/button';
+import { ConfirmationDialog } from '@/components/ui/dialog';
 
 import { useDeleteComment } from '../api/deleteComment';
 
@@ -19,7 +20,7 @@ export const DeleteComment = ({ id, discussionId }: DeleteCommentProps) => {
       title="Delete Comment"
       body="Are you sure you want to delete this comment?"
       triggerButton={
-        <Button variant="danger" size="sm" startIcon={<TrashIcon className="size-4" />}>
+        <Button variant="destructive" size="sm" icon={<Trash className="size-4" />}>
           Delete Comment
         </Button>
       }
@@ -27,7 +28,7 @@ export const DeleteComment = ({ id, discussionId }: DeleteCommentProps) => {
         <Button
           isLoading={deleteCommentMutation.isPending}
           type="button"
-          className="bg-red-600"
+          variant="destructive"
           onClick={async () => await deleteCommentMutation.mutateAsync({ commentId: id })}
         >
           Delete Comment

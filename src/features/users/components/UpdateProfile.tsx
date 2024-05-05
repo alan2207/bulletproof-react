@@ -1,8 +1,8 @@
-import { PencilIcon } from '@heroicons/react/16/solid';
+import { Pen } from 'lucide-react';
 import * as z from 'zod';
 
-import { Button } from '@/components/Elements';
-import { Form, FormDrawer, InputField, TextAreaField } from '@/components/Form';
+import { Button } from '@/components/ui/button';
+import { Form, FormDrawer, Input, Textarea } from '@/components/ui/form';
 import { useUser } from '@/features/auth';
 
 import { UpdateProfileDTO, useUpdateProfile } from '../api/updateProfile';
@@ -22,7 +22,7 @@ export const UpdateProfile = () => {
     <FormDrawer
       isDone={updateProfileMutation.isSuccess}
       triggerButton={
-        <Button startIcon={<PencilIcon className="size-4" />} size="sm">
+        <Button icon={<Pen className="size-4" />} size="sm">
           Update Profile
         </Button>
       }
@@ -55,28 +55,24 @@ export const UpdateProfile = () => {
       >
         {({ register, formState }) => (
           <>
-            <InputField
+            <Input
               label="First Name"
               error={formState.errors['firstName']}
               registration={register('firstName')}
             />
-            <InputField
+            <Input
               label="Last Name"
               error={formState.errors['lastName']}
               registration={register('lastName')}
             />
-            <InputField
+            <Input
               label="Email Address"
               type="email"
               error={formState.errors['email']}
               registration={register('email')}
             />
 
-            <TextAreaField
-              label="Bio"
-              error={formState.errors['bio']}
-              registration={register('bio')}
-            />
+            <Textarea label="Bio" error={formState.errors['bio']} registration={register('bio')} />
           </>
         )}
       </Form>

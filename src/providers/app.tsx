@@ -6,8 +6,9 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import { Button, Spinner } from '@/components/Elements';
-import { Notifications } from '@/components/Notifications/Notifications';
+import { Button } from '@/components/ui/button';
+import { Notifications } from '@/components/ui/notifications';
+import { Spinner } from '@/components/ui/spinner';
 import { AuthLoader } from '@/features/auth';
 import { queryConfig } from '@/lib/react-query';
 
@@ -46,7 +47,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <HelmetProvider>
           <QueryClientProvider client={queryClient}>
-            {import.meta.env.NODE_ENV !== 'test' && <ReactQueryDevtools />}
+            {import.meta.env.DEV && <ReactQueryDevtools />}
             <Notifications />
             <AuthLoader
               renderLoading={() => (

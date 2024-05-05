@@ -7,6 +7,7 @@ module.exports = {
     '@storybook/node-logger',
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
+    '@storybook/addon-docs',
   ],
   framework: {
     name: '@storybook/react-vite',
@@ -14,5 +15,8 @@ module.exports = {
   },
   docs: {
     autodocs: 'tag',
+  },
+  typescript: {
+    reactDocgen: 'react-docgen-typescript',
   },
 };

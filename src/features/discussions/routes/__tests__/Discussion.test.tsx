@@ -51,6 +51,8 @@ test('should update discussion', async () => {
   const titleUpdate = '-Updated';
   const bodyUpdate = '-Updated';
 
+  console.log('fakeDiscussion', fakeDiscussion.title);
+
   await userEvent.click(screen.getByRole('button', { name: /update discussion/i }));
 
   const drawer = await screen.findByRole('dialog', {
@@ -60,7 +62,13 @@ test('should update discussion', async () => {
   const titleField = within(drawer).getByText(/title/i);
   const bodyField = within(drawer).getByText(/body/i);
 
-  await userEvent.type(titleField, titleUpdate);
+  const newTitle = `${fakeDiscussion.title}${titleUpdate}`;
+  const newBody = `${fakeDiscussion.body}${bodyUpdate}`;
+
+  // replacing the title with the new title
+  await userEvent.type(titleField, newTitle);
+
+  // appending updated to the body
   await userEvent.type(bodyField, bodyUpdate);
 
   const submitButton = within(drawer).getByRole('button', {
@@ -71,11 +79,8 @@ test('should update discussion', async () => {
 
   await waitFor(() => expect(drawer).not.toBeInTheDocument());
 
-  const newTitle = `${fakeDiscussion.title}${titleUpdate}`;
-  const newBody = `${fakeDiscussion.body}${bodyUpdate}`;
-
-  expect(screen.getByText(newTitle)).toBeInTheDocument();
-  expect(screen.getByText(newBody)).toBeInTheDocument();
+  expect(await screen.findByRole('heading', { name: newTitle })).toBeInTheDocument();
+  expect(await screen.findByText(newBody)).toBeInTheDocument();
 });
 
 test('should create and delete a comment on the discussion', async () => {

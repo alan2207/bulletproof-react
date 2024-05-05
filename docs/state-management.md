@@ -9,7 +9,7 @@ This is the state that only a component needs, and it is not meant to be shared 
 - [useState](https://react.dev/reference/react/useState) - for simpler states that are independent
 - [useReducer](https://react.dev/reference/react/useReducer) - for more complex states where on a single action you want to update several pieces of state
 
-[Component State Example Code](../src/components/Layout/MainLayout.tsx)
+[Component State Example Code](../src/features/auth/components/RegisterForm.tsx)
 
 ## Application State
 
@@ -57,9 +57,9 @@ Although it is possible to build any form using only React, there are pretty goo
 
 Create abstracted `Form` component and all the input field components that wrap the library functionality and are adapted to the application needs. You can reuse it then throughout the application.
 
-[Form Example Code](../src/components/Form/Form.tsx)
+[Form Example Code](../src/components/ui/form/form.tsx)
 
-[Input Field Example Code](../src/components/Form/InputField.tsx)
+[Input Field Example Code](../src/components/ui/form/input.tsx)
 
 You can also integrate validation libraries with the mentioned solutions to validate inputs on the client. Some good options are:
 

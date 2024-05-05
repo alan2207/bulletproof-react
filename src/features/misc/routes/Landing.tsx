@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router';
 
 import logo from '@/assets/logo.svg';
-import { Button } from '@/components/Elements';
-import { Head } from '@/components/Head';
+import { Head } from '@/components/seo';
+import { Button } from '@/components/ui/button';
 import { useUser } from '@/features/auth';
 
 export const LandingRoute = () => {
@@ -31,7 +31,7 @@ export const LandingRoute = () => {
             <div className="inline-flex rounded-md shadow">
               <Button
                 onClick={handleStart}
-                startIcon={
+                icon={
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="size-6"
@@ -58,8 +58,8 @@ export const LandingRoute = () => {
                 rel="noreferrer"
               >
                 <Button
-                  variant="inverse"
-                  startIcon={
+                  variant="outline"
+                  icon={
                     <svg fill="currentColor" viewBox="0 0 24 24" className="size-6">
                       <path
                         fillRule="evenodd"

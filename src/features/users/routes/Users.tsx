@@ -1,4 +1,4 @@
-import { ContentLayout } from '@/components/Layout';
+import { ContentLayout } from '@/components/layouts';
 import { Authorization, ROLES } from '@/features/auth';
 
 import { UsersList } from '../components/UsersList';
@@ -6,14 +6,12 @@ import { UsersList } from '../components/UsersList';
 export const UsersRoute = () => {
   return (
     <ContentLayout title="Users">
-      <div className="mt-4">
-        <Authorization
-          forbiddenFallback={<div>Only admin can view this.</div>}
-          allowedRoles={[ROLES.ADMIN]}
-        >
-          <UsersList />
-        </Authorization>
-      </div>
+      <Authorization
+        forbiddenFallback={<div>Only admin can view this.</div>}
+        allowedRoles={[ROLES.ADMIN]}
+      >
+        <UsersList />
+      </Authorization>
     </ContentLayout>
   );
 };

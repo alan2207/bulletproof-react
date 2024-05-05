@@ -1,10 +1,9 @@
-import { Switch } from '@headlessui/react';
 import * as React from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import * as z from 'zod';
 
-import { Button } from '@/components/Elements';
-import { Form, InputField, SelectField } from '@/components/Form';
+import { Button } from '@/components/ui/button';
+import { Form, Input, Select, Label, Switch } from '@/components/ui/form';
 import { useTeams } from '@/features/teams';
 
 import { useRegister } from '../lib/auth';
@@ -63,52 +62,45 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
       >
         {({ register, formState }) => (
           <>
-            <InputField
+            <Input
               type="text"
               label="First Name"
               error={formState.errors['firstName']}
               registration={register('firstName')}
             />
-            <InputField
+            <Input
               type="text"
               label="Last Name"
               error={formState.errors['lastName']}
               registration={register('lastName')}
             />
-            <InputField
+            <Input
               type="email"
               label="Email Address"
               error={formState.errors['email']}
               registration={register('email')}
             />
-            <InputField
+            <Input
               type="password"
               label="Password"
               error={formState.errors['password']}
               registration={register('password')}
             />
 
-            <Switch.Group>
-              <div className="flex items-center">
-                <Switch
-                  checked={chooseTeam}
-                  onChange={setChooseTeam}
-                  className={`${
-                    chooseTeam ? 'bg-blue-600' : 'bg-gray-200'
-                  } relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2`}
-                >
-                  <span
-                    className={`${
-                      chooseTeam ? 'translate-x-6' : 'translate-x-1'
-                    } inline-block size-4 rounded-full bg-white transition-transform`}
-                  />
-                </Switch>
-                <Switch.Label className="ml-4">Join Existing Team</Switch.Label>
-              </div>
-            </Switch.Group>
+            <div className="flex items-center space-x-2">
+              <Switch
+                checked={chooseTeam}
+                onCheckedChange={setChooseTeam}
+                className={`${
+                  chooseTeam ? 'bg-blue-600' : 'bg-gray-200'
+                } relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2`}
+                id="choose-team"
+              />
+              <Label htmlFor="airplane-mode">Join Existing Team</Label>
+            </div>
 
             {chooseTeam && teamsQuery.data ? (
-              <SelectField
+              <Select
                 label="Team"
                 error={formState.errors['teamId']}
                 registration={register('teamId')}
@@ -118,7 +110,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
                 }))}
               />
             ) : (
-              <InputField
+              <Input
                 type="text"
                 label="Team Name"
                 error={formState.errors['teamName']}

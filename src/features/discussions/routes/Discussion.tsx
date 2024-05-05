@@ -1,8 +1,9 @@
 import { useParams } from 'react-router-dom';
 
-import { Spinner, MDPreview } from '@/components/Elements';
-import { Head } from '@/components/Head';
-import { ContentLayout } from '@/components/Layout';
+import { ContentLayout } from '@/components/layouts';
+import { Head } from '@/components/seo';
+import { MDPreview } from '@/components/ui/md-preview';
+import { Spinner } from '@/components/ui/spinner';
 import { Comments } from '@/features/comments';
 import { formatDate } from '@/utils/format';
 
