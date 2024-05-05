@@ -6,15 +6,16 @@ import { Spinner } from '@/components/ui/spinner';
 import { ProtectedRoute } from '@/features/auth';
 import { lazyImport } from '@/utils/lazy-import';
 
-const { DashboardRoute } = lazyImport(() => import('@/features/misc'), 'DashboardRoute');
 const { ProfileRoute } = lazyImport(() => import('@/features/users'), 'ProfileRoute');
 const { UsersRoute } = lazyImport(() => import('@/features/users'), 'UsersRoute');
 const { RegisterRoute } = lazyImport(() => import('@/features/auth'), 'RegisterRoute');
 const { LoginRoute } = lazyImport(() => import('@/features/auth'), 'LoginRoute');
 const { DiscussionRoute } = lazyImport(() => import('@/features/discussions'), 'DiscussionRoute');
 const { DiscussionsRoute } = lazyImport(() => import('@/features/discussions'), 'DiscussionsRoute');
-const { LandingRoute } = lazyImport(() => import('@/features/misc'), 'LandingRoute');
-const { NotFoundRoute } = lazyImport(() => import('@/features/misc'), 'NotFoundRoute');
+
+const { DashboardRoute } = lazyImport(() => import('./dashboard'), 'DashboardRoute');
+const { LandingRoute } = lazyImport(() => import('./landing'), 'LandingRoute');
+const { NotFoundRoute } = lazyImport(() => import('./not-found'), 'NotFoundRoute');
 
 const MainApp = () => {
   return (

@@ -1,18 +1,10 @@
 import { Pen } from 'lucide-react';
-import * as z from 'zod';
 
 import { Button } from '@/components/ui/button';
 import { Form, FormDrawer, Input, Textarea } from '@/components/ui/form';
 import { useUser } from '@/features/auth';
 
-import { UpdateProfileDTO, useUpdateProfile } from '../api/update-profile';
-
-const schema = z.object({
-  email: z.string().min(1, 'Required'),
-  firstName: z.string().min(1, 'Required'),
-  lastName: z.string().min(1, 'Required'),
-  bio: z.string(),
-});
+import { updateProfileInputSchema, useUpdateProfile } from '../api/update-profile';
 
 export const UpdateProfile = () => {
   const user = useUser();
@@ -38,20 +30,20 @@ export const UpdateProfile = () => {
         </Button>
       }
     >
-      <Form<UpdateProfileDTO['data'], typeof schema>
+      <Form
         id="update-profile"
         onSubmit={async (values) => {
           await updateProfileMutation.mutateAsync({ data: values });
         }}
         options={{
           defaultValues: {
-            firstName: user.data?.firstName,
-            lastName: user.data?.lastName,
-            email: user.data?.email,
-            bio: user.data?.bio,
+            firstName: user.data?.firstName ?? '',
+            lastName: user.data?.lastName ?? '',
+            email: user.data?.email ?? '',
+            bio: user.data?.bio ?? '',
           },
         }}
-        schema={schema}
+        schema={updateProfileInputSchema}
       >
         {({ register, formState }) => (
           <>

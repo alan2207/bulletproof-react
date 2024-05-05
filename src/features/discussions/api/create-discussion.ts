@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { z } from 'zod';
 
 import { axios } from '@/lib/axios';
 import { MutationConfig } from '@/lib/react-query';
@@ -6,14 +7,18 @@ import { useNotificationStore } from '@/stores/notifications';
 
 import { Discussion } from '../types';
 
-export type CreateDiscussionDTO = {
-  data: {
-    title: string;
-    body: string;
-  };
-};
+export const createDiscussionInputSchema = z.object({
+  title: z.string().min(1, 'Required'),
+  body: z.string().min(1, 'Required'),
+});
 
-export const createDiscussion = ({ data }: CreateDiscussionDTO): Promise<Discussion> => {
+export type CreateDiscussionInput = z.infer<typeof createDiscussionInputSchema>;
+
+export const createDiscussion = ({
+  data,
+}: {
+  data: CreateDiscussionInput;
+}): Promise<Discussion> => {
   return axios.post(`/discussions`, data);
 };
 

@@ -1,4 +1,5 @@
-import * as z from 'zod';
+import { SubmitHandler } from 'react-hook-form';
+import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
 import { rtlRender, screen, waitFor, userEvent } from '@/test/test-utils';
@@ -15,10 +16,10 @@ const schema = z.object({
 });
 
 test('should render and submit a basic Form component', async () => {
-  const handleSubmit = vi.fn();
+  const handleSubmit = vi.fn() as SubmitHandler<z.infer<typeof schema>>;
 
   rtlRender(
-    <Form<typeof testData, typeof schema> onSubmit={handleSubmit} schema={schema} id="my-form">
+    <Form onSubmit={handleSubmit} schema={schema} id="my-form">
       {({ register, formState }) => (
         <>
           <Input label="Title" error={formState.errors['title']} registration={register('title')} />
@@ -39,10 +40,10 @@ test('should render and submit a basic Form component', async () => {
 });
 
 test('should fail submission if validation fails', async () => {
-  const handleSubmit = vi.fn();
+  const handleSubmit = vi.fn() as SubmitHandler<z.infer<typeof schema>>;
 
   rtlRender(
-    <Form<typeof testData, typeof schema> onSubmit={handleSubmit} schema={schema} id="my-form">
+    <Form onSubmit={handleSubmit} schema={schema} id="my-form">
       {({ register, formState }) => (
         <>
           <Input label="Title" error={formState.errors['title']} registration={register('title')} />

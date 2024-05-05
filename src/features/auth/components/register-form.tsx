@@ -1,43 +1,19 @@
 import * as React from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import * as z from 'zod';
 
 import { Button } from '@/components/ui/button';
 import { Form, Input, Select, Label, Switch } from '@/components/ui/form';
 import { useTeams } from '@/features/teams';
 
+import { registerInputSchema } from '../api/register';
 import { useRegister } from '../lib/auth';
-
-const schema = z
-  .object({
-    email: z.string().min(1, 'Required'),
-    firstName: z.string().min(1, 'Required'),
-    lastName: z.string().min(1, 'Required'),
-    password: z.string().min(1, 'Required'),
-  })
-  .and(
-    z
-      .object({
-        teamId: z.string().min(1, 'Required'),
-      })
-      .or(z.object({ teamName: z.string().min(1, 'Required') }))
-  );
-
-type RegisterValues = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  teamId?: string;
-  teamName?: string;
-};
 
 type RegisterFormProps = {
   onSuccess: () => void;
 };
 
 export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
-  const registering = useRegister();
+  const registering = useRegister({ onSuccess });
   const [chooseTeam, setChooseTeam] = React.useState(false);
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo');
@@ -50,12 +26,11 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
 
   return (
     <div>
-      <Form<RegisterValues, typeof schema>
-        onSubmit={async (values) => {
-          await registering.mutateAsync(values);
-          onSuccess();
+      <Form
+        onSubmit={(values) => {
+          registering.mutate(values);
         }}
-        schema={schema}
+        schema={registerInputSchema}
         options={{
           shouldUnregister: true,
         }}

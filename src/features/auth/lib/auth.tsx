@@ -1,9 +1,9 @@
 import { configureAuth } from 'react-query-auth';
 
 import { getUser } from '../api/get-user';
-import { LoginCredentialsDTO, loginWithEmailAndPassword } from '../api/login';
+import { LoginInput, loginWithEmailAndPassword } from '../api/login';
 import { logout } from '../api/logout';
-import { RegisterCredentialsDTO, registerWithEmailAndPassword } from '../api/register';
+import { RegisterInput, registerWithEmailAndPassword } from '../api/register';
 import { UserResponse } from '../types';
 
 async function handleUserResponse(data: UserResponse) {
@@ -15,13 +15,13 @@ async function userFn() {
   return getUser();
 }
 
-async function loginFn(data: LoginCredentialsDTO) {
+async function loginFn(data: LoginInput) {
   const response = await loginWithEmailAndPassword(data);
   const user = await handleUserResponse(response);
   return user;
 }
 
-async function registerFn(data: RegisterCredentialsDTO) {
+async function registerFn(data: RegisterInput) {
   const response = await registerWithEmailAndPassword(data);
   const user = await handleUserResponse(response);
   return user;

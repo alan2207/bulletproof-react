@@ -1,38 +1,29 @@
 import { Link, useSearchParams } from 'react-router-dom';
-import * as z from 'zod';
 
 import { Button } from '@/components/ui/button';
 import { Form, Input } from '@/components/ui/form';
 
+import { loginInputSchema } from '../api/login';
 import { useLogin } from '../lib/auth';
-
-const schema = z.object({
-  email: z.string().min(1, 'Required'),
-  password: z.string().min(1, 'Required'),
-});
-
-type LoginValues = {
-  email: string;
-  password: string;
-};
 
 type LoginFormProps = {
   onSuccess: () => void;
 };
 
 export const LoginForm = ({ onSuccess }: LoginFormProps) => {
-  const login = useLogin();
+  const login = useLogin({
+    onSuccess,
+  });
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo');
 
   return (
     <div>
-      <Form<LoginValues, typeof schema>
-        onSubmit={async (values) => {
-          await login.mutateAsync(values);
-          onSuccess();
+      <Form
+        onSubmit={(values) => {
+          login.mutate(values);
         }}
-        schema={schema}
+        schema={loginInputSchema}
       >
         {({ register, formState }) => (
           <>

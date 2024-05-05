@@ -1,16 +1,10 @@
 import { Plus } from 'lucide-react';
-import * as z from 'zod';
 
 import { Button } from '@/components/ui/button';
 import { Form, FormDrawer, Input, Textarea } from '@/components/ui/form';
 import { Authorization, ROLES } from '@/features/auth';
 
-import { CreateDiscussionDTO, useCreateDiscussion } from '../api/create-discussion';
-
-const schema = z.object({
-  title: z.string().min(1, 'Required'),
-  body: z.string().min(1, 'Required'),
-});
+import { createDiscussionInputSchema, useCreateDiscussion } from '../api/create-discussion';
 
 export const CreateDiscussion = () => {
   const createDiscussionMutation = useCreateDiscussion();
@@ -36,12 +30,12 @@ export const CreateDiscussion = () => {
           </Button>
         }
       >
-        <Form<CreateDiscussionDTO['data'], typeof schema>
+        <Form
           id="create-discussion"
           onSubmit={async (values) => {
             await createDiscussionMutation.mutateAsync({ data: values });
           }}
-          schema={schema}
+          schema={createDiscussionInputSchema}
         >
           {({ register, formState }) => (
             <>

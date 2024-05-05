@@ -4,7 +4,6 @@ import { Table } from '@/components/ui/table';
 import { formatDate } from '@/utils/format';
 
 import { useDiscussions } from '../api/get-discussions';
-import { Discussion } from '../types';
 
 import { DeleteDiscussion } from './delete-discussion';
 
@@ -22,7 +21,7 @@ export const DiscussionsList = () => {
   if (!discussionsQuery.data) return null;
 
   return (
-    <Table<Discussion>
+    <Table
       data={discussionsQuery.data}
       columns={[
         {

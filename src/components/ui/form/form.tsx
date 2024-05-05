@@ -14,7 +14,7 @@ import {
   useForm,
   useFormContext,
 } from 'react-hook-form';
-import { ZodType, ZodTypeDef } from 'zod';
+import { ZodType, z } from 'zod';
 
 import { cn } from '@/utils/cn';
 
@@ -30,7 +30,7 @@ type FormFieldContextValue<
 const FormFieldContext = React.createContext<FormFieldContextValue>({} as FormFieldContextValue);
 
 const FormField = <
-  TFieldValues extends FieldValues = FieldValues,
+  TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
   ...props
@@ -161,17 +161,17 @@ const FormMessage = React.forwardRef<
 FormMessage.displayName = 'FormMessage';
 
 type FormProps<TFormValues extends FieldValues, Schema> = {
-  className?: string;
   onSubmit: SubmitHandler<TFormValues>;
+  schema: Schema;
+  className?: string;
   children: (methods: UseFormReturn<TFormValues>) => React.ReactNode;
   options?: UseFormProps<TFormValues>;
   id?: string;
-  schema?: Schema;
 };
 
 const Form = <
-  TFormValues extends Record<string, unknown> = Record<string, unknown>,
-  Schema extends ZodType<unknown, ZodTypeDef, unknown> = ZodType<unknown, ZodTypeDef, unknown>,
+  Schema extends ZodType<any, any, any>,
+  TFormValues extends FieldValues = z.infer<Schema>,
 >({
   onSubmit,
   children,
@@ -180,7 +180,7 @@ const Form = <
   id,
   schema,
 }: FormProps<TFormValues, Schema>) => {
-  const form = useForm<TFormValues>({ ...options, resolver: schema && zodResolver(schema) });
+  const form = useForm({ ...options, resolver: zodResolver(schema) });
   return (
     <FormProvider {...form}>
       <form className={cn('space-y-6', className)} onSubmit={form.handleSubmit(onSubmit)} id={id}>

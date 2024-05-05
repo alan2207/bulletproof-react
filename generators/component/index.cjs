@@ -44,12 +44,12 @@ module.exports = {
       {
         type: 'add',
         path: componentGeneratePath + '/{{kebabCase name}}/{{kebabCase name}}.tsx',
-        templateFile: 'generators/component/Component.tsx.hbs',
+        templateFile: 'generators/component/component.tsx.hbs',
       },
       {
         type: 'add',
         path: componentGeneratePath + '/{{kebabCase name}}/{{kebabCase name}}.stories.tsx',
-        templateFile: 'generators/component/Component.stories.tsx.hbs',
+        templateFile: 'generators/component/component.stories.tsx.hbs',
       },
     ];
   },

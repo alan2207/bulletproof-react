@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { z } from 'zod';
 
 import { axios } from '@/lib/axios';
 import { MutationConfig } from '@/lib/react-query';
@@ -6,18 +7,20 @@ import { useNotificationStore } from '@/stores/notifications';
 
 import { Discussion } from '../types';
 
-export type UpdateDiscussionDTO = {
-  data: {
-    title: string;
-    body: string;
-  };
-  discussionId: string;
-};
+export const updateDiscussionInputSchema = z.object({
+  title: z.string().min(1, 'Required'),
+  body: z.string().min(1, 'Required'),
+});
+
+export type UpdateDiscussionInput = z.infer<typeof updateDiscussionInputSchema>;
 
 export const updateDiscussion = ({
   data,
   discussionId,
-}: UpdateDiscussionDTO): Promise<Discussion> => {
+}: {
+  data: UpdateDiscussionInput;
+  discussionId: string;
+}): Promise<Discussion> => {
   return axios.patch(`/discussions/${discussionId}`, data);
 };
 

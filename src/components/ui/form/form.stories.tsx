@@ -9,16 +9,9 @@ import { Input } from './input';
 import { Select } from './select';
 import { Textarea } from './textarea';
 
-type FormValues = {
-  title: string;
-  description: string;
-  type: string;
-  content: string;
-};
-
 const MyForm = ({ hideSubmit = false }: { hideSubmit?: boolean }) => {
   return (
-    <Form<FormValues>
+    <Form
       onSubmit={async (values) => {
         alert(JSON.stringify(values, null, 2));
       }}

@@ -1,21 +1,15 @@
 import { Pen } from 'lucide-react';
-import * as z from 'zod';
 
 import { Button } from '@/components/ui/button';
 import { Form, FormDrawer, Input, Textarea } from '@/components/ui/form';
 import { Authorization, ROLES } from '@/features/auth';
 
 import { useDiscussion } from '../api/get-discussion';
-import { UpdateDiscussionDTO, useUpdateDiscussion } from '../api/update-discussion';
+import { updateDiscussionInputSchema, useUpdateDiscussion } from '../api/update-discussion';
 
 type UpdateDiscussionProps = {
   discussionId: string;
 };
-
-const schema = z.object({
-  title: z.string().min(1, 'Required'),
-  body: z.string().min(1, 'Required'),
-});
 
 export const UpdateDiscussion = ({ discussionId }: UpdateDiscussionProps) => {
   const discussionQuery = useDiscussion({ discussionId });
@@ -42,18 +36,18 @@ export const UpdateDiscussion = ({ discussionId }: UpdateDiscussionProps) => {
           </Button>
         }
       >
-        <Form<UpdateDiscussionDTO['data'], typeof schema>
+        <Form
           id="update-discussion"
           onSubmit={async (values) => {
             await updateDiscussionMutation.mutateAsync({ data: values, discussionId });
           }}
           options={{
             defaultValues: {
-              title: discussionQuery.data?.title,
-              body: discussionQuery.data?.body,
+              title: discussionQuery.data?.title ?? '',
+              body: discussionQuery.data?.body ?? '',
             },
           }}
-          schema={schema}
+          schema={updateDiscussionInputSchema}
         >
           {({ register, formState }) => (
             <>

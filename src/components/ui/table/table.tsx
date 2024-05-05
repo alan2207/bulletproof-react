@@ -1,6 +1,7 @@
 import { ArchiveX } from 'lucide-react';
 import * as React from 'react';
 
+import { BaseEntity } from '@/types';
 import { cn } from '@/utils/cn';
 
 const TableElement = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(
@@ -114,7 +115,7 @@ export type TableProps<Entry> = {
   columns: TableColumn<Entry>[];
 };
 
-export const Table = <Entry extends { id: string }>({ data, columns }: TableProps<Entry>) => {
+export const Table = <Entry extends BaseEntity>({ data, columns }: TableProps<Entry>) => {
   if (!data?.length) {
     return (
       <div className="flex h-80 flex-col items-center justify-center bg-white text-gray-500">

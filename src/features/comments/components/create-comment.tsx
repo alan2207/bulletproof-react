@@ -1,14 +1,9 @@
 import { Plus } from 'lucide-react';
-import * as z from 'zod';
 
 import { Button } from '@/components/ui/button';
 import { Form, FormDrawer, Textarea } from '@/components/ui/form';
 
-import { CreateCommentDTO, useCreateComment } from '../api/create-comment';
-
-const schema = z.object({
-  body: z.string().min(1, 'Required'),
-});
+import { useCreateComment, createCommentInputSchema } from '../api/create-comment';
 
 type CreateCommentProps = {
   discussionId: string;
@@ -38,17 +33,20 @@ export const CreateComment = ({ discussionId }: CreateCommentProps) => {
           </Button>
         }
       >
-        <Form<CreateCommentDTO['data'], typeof schema>
+        <Form
           id="create-comment"
           onSubmit={async (values) => {
             await createCommentMutation.mutateAsync({
-              data: {
-                body: values.body,
-                discussionId,
-              },
+              data: values,
             });
           }}
-          schema={schema}
+          schema={createCommentInputSchema}
+          options={{
+            defaultValues: {
+              body: '',
+              discussionId: discussionId,
+            },
+          }}
         >
           {({ register, formState }) => (
             <Textarea
