@@ -50,6 +50,7 @@
     "@eslint/eslintrc": "^3.0.2",
     "@mswjs/data": "^0.16.1",
     "@playwright/test": "^1.43.1",
+    "@storybook/addon-a11y": "^8.0.10",
     "@storybook/addon-actions": "^8.0.9",
     "@storybook/addon-essentials": "^8.0.9",
     "@storybook/addon-links": "^8.0.9",
