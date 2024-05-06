@@ -1,4 +1,4 @@
-import { createUser, renderApp, screen, userEvent, waitFor } from '@/test/test-utils';
+import { createUser, renderApp, screen, userEvent, waitFor } from '@/testing/test-utils';
 
 import { LoginForm } from '../login-form';
 

@@ -1,10 +1,10 @@
-import { userGenerator } from '@/test/data-generators';
-import { renderApp, screen, userEvent, waitFor } from '@/test/test-utils';
+import { createUser } from '@/testing/data-generators';
+import { renderApp, screen, userEvent, waitFor } from '@/testing/test-utils';
 
 import { RegisterForm } from '../register-form';
 
 test('should register new user and call onSuccess cb which should navigate the user to the app', async () => {
-  const newUser = userGenerator({});
+  const newUser = createUser({});
 
   const onSuccess = vi.fn();
 

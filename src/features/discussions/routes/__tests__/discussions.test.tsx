@@ -1,7 +1,7 @@
 import type { Mock } from 'vitest';
 
-import { discussionGenerator } from '@/test/data-generators';
-import { renderApp, screen, userEvent, waitFor, within } from '@/test/test-utils';
+import { createDiscussion } from '@/testing/data-generators';
+import { renderApp, screen, userEvent, waitFor, within } from '@/testing/test-utils';
 import { formatDate } from '@/utils/format';
 
 import { DiscussionsRoute } from '../discussions';
@@ -17,7 +17,7 @@ afterAll(() => {
 test('should create, render and delete discussions', async () => {
   await renderApp(<DiscussionsRoute />);
 
-  const newDiscussion = discussionGenerator();
+  const newDiscussion = createDiscussion();
 
   expect(await screen.findByText(/no entries/i)).toBeInTheDocument();
 

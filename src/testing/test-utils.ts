@@ -4,18 +4,21 @@ import Cookies from 'js-cookie';
 
 import { AppProvider } from '@/providers/app';
 
-import { discussionGenerator, userGenerator } from './data-generators';
-import { db } from './server/db';
-import { AUTH_COOKIE, authenticate, hash } from './server/utils';
+import {
+  createDiscussion as generateDiscussion,
+  createUser as generateUser,
+} from './data-generators';
+import { db } from './mocks/db';
+import { AUTH_COOKIE, authenticate, hash } from './mocks/utils';
 
 export const createUser = async (userProperties?: any) => {
-  const user = userGenerator(userProperties) as any;
+  const user = generateUser(userProperties) as any;
   await db.user.create({ ...user, password: hash(user.password) });
   return user;
 };
 
 export const createDiscussion = async (discussionProperties?: any) => {
-  const discussion = discussionGenerator(discussionProperties);
+  const discussion = generateDiscussion(discussionProperties);
   const res = await db.discussion.create(discussion);
   return res;
 };

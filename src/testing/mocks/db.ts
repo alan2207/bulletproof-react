@@ -1,8 +1,9 @@
 import { factory, primaryKey } from '@mswjs/data';
+import { nanoid } from 'nanoid';
 
 const models = {
   user: {
-    id: primaryKey(String),
+    id: primaryKey(nanoid),
     firstName: String,
     lastName: String,
     email: String,
@@ -10,28 +11,28 @@ const models = {
     teamId: String,
     role: String,
     bio: String,
-    createdAt: Number,
+    createdAt: Date.now,
   },
   team: {
-    id: primaryKey(String),
+    id: primaryKey(nanoid),
     name: String,
     description: String,
-    createdAt: Number,
+    createdAt: Date.now,
   },
   discussion: {
-    id: primaryKey(String),
+    id: primaryKey(nanoid),
     title: String,
     body: String,
     authorId: String,
     teamId: String,
-    createdAt: Number,
+    createdAt: Date.now,
   },
   comment: {
-    id: primaryKey(String),
+    id: primaryKey(nanoid),
     body: String,
     authorId: String,
     discussionId: String,
-    createdAt: Number,
+    createdAt: Date.now,
   },
 };
 
@@ -64,5 +65,3 @@ export const initializeDb = () => {
 export const resetDb = () => {
   window.localStorage.clear();
 };
-
-initializeDb();

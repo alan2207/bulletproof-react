@@ -1,12 +1,12 @@
 import { test, expect } from '@playwright/test';
 
-import { userGenerator, discussionGenerator, commentGenerator } from '../src/test/data-generators';
+import { createUser, createDiscussion, createComment } from '../../src/testing/data-generators';
 test('smoke', async ({ page }) => {
-  const user = userGenerator();
-  const discussion = discussionGenerator({
+  const user = createUser();
+  const discussion = createDiscussion({
     authorId: user.id,
   });
-  const comment = commentGenerator({
+  const comment = createComment({
     authorId: user.id,
   });
 

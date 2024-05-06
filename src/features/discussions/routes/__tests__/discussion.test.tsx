@@ -9,7 +9,7 @@ import {
   createDiscussion,
   createUser,
   within,
-} from '@/test/test-utils';
+} from '@/testing/test-utils';
 
 import { DiscussionRoute } from '../discussion';
 

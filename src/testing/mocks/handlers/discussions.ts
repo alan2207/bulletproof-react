@@ -1,5 +1,4 @@
 import { HttpResponse, http } from 'msw';
-import { nanoid } from 'nanoid';
 
 import { env } from '@/config/env';
 
@@ -89,8 +88,6 @@ export const discussionsHandlers = [
       requireAdmin(user);
       const result = db.discussion.create({
         teamId: user?.teamId,
-        id: nanoid(),
-        createdAt: Date.now(),
         authorId: user?.id,
         ...data,
       });

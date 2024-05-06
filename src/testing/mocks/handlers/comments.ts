@@ -1,5 +1,4 @@
 import { HttpResponse, http } from 'msw';
-import { nanoid } from 'nanoid';
 
 import { env } from '@/config/env';
 
@@ -50,8 +49,6 @@ export const commentsHandlers = [
       const data = (await request.json()) as CreateCommentBody;
       const result = db.comment.create({
         authorId: user?.id,
-        id: nanoid(),
-        createdAt: Date.now(),
         ...data,
       });
       persistDb('comment');
