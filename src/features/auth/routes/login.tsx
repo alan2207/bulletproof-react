@@ -11,7 +11,11 @@ export const LoginRoute = () => {
   return (
     <Layout title="Log in to your account">
       <LoginForm
-        onSuccess={() => navigate(`${redirectTo ? `${redirectTo}` : '/app'}`, { replace: true })}
+        onSuccess={() =>
+          navigate(`${redirectTo ? `${redirectTo}` : '/app'}`, {
+            replace: true,
+          })
+        }
       />
     </Layout>
   );

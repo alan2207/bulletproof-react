@@ -6,16 +6,40 @@ import { Spinner } from '@/components/ui/spinner';
 import { ProtectedRoute } from '@/features/auth';
 import { lazyImport } from '@/utils/lazy-import';
 
-const { ProfileRoute } = lazyImport(() => import('@/features/users'), 'ProfileRoute');
-const { UsersRoute } = lazyImport(() => import('@/features/users'), 'UsersRoute');
-const { RegisterRoute } = lazyImport(() => import('@/features/auth'), 'RegisterRoute');
-const { LoginRoute } = lazyImport(() => import('@/features/auth'), 'LoginRoute');
-const { DiscussionRoute } = lazyImport(() => import('@/features/discussions'), 'DiscussionRoute');
-const { DiscussionsRoute } = lazyImport(() => import('@/features/discussions'), 'DiscussionsRoute');
+const { ProfileRoute } = lazyImport(
+  () => import('@/features/users'),
+  'ProfileRoute',
+);
+const { UsersRoute } = lazyImport(
+  () => import('@/features/users'),
+  'UsersRoute',
+);
+const { RegisterRoute } = lazyImport(
+  () => import('@/features/auth'),
+  'RegisterRoute',
+);
+const { LoginRoute } = lazyImport(
+  () => import('@/features/auth'),
+  'LoginRoute',
+);
+const { DiscussionRoute } = lazyImport(
+  () => import('@/features/discussions'),
+  'DiscussionRoute',
+);
+const { DiscussionsRoute } = lazyImport(
+  () => import('@/features/discussions'),
+  'DiscussionsRoute',
+);
 
-const { DashboardRoute } = lazyImport(() => import('./dashboard'), 'DashboardRoute');
+const { DashboardRoute } = lazyImport(
+  () => import('./dashboard'),
+  'DashboardRoute',
+);
 const { LandingRoute } = lazyImport(() => import('./landing'), 'LandingRoute');
-const { NotFoundRoute } = lazyImport(() => import('./not-found'), 'NotFoundRoute');
+const { NotFoundRoute } = lazyImport(
+  () => import('./not-found'),
+  'NotFoundRoute',
+);
 
 const MainApp = () => {
   return (
@@ -48,7 +72,10 @@ export const AppRoutes = () => {
         }
       >
         <Route path="/app/discussions" element={<DiscussionsRoute />} />
-        <Route path="/app/discussions/:discussionId" element={<DiscussionRoute />} />
+        <Route
+          path="/app/discussions/:discussionId"
+          element={<DiscussionRoute />}
+        />
         <Route path="/app/users" element={<UsersRoute />} />
         <Route path="/app/profile" element={<ProfileRoute />} />
         <Route path="/app/" element={<DashboardRoute />} />

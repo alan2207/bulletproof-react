@@ -4,7 +4,10 @@ import { Button } from '@/components/ui/button';
 import { Form, FormDrawer, Input, Textarea } from '@/components/ui/form';
 import { Authorization, ROLES } from '@/features/auth';
 
-import { createDiscussionInputSchema, useCreateDiscussion } from '../api/create-discussion';
+import {
+  createDiscussionInputSchema,
+  useCreateDiscussion,
+} from '../api/create-discussion';
 
 export const CreateDiscussion = () => {
   const createDiscussionMutation = useCreateDiscussion();

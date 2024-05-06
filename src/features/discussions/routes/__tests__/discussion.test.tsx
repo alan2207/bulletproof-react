@@ -53,7 +53,9 @@ test('should update discussion', async () => {
 
   console.log('fakeDiscussion', fakeDiscussion.title);
 
-  await userEvent.click(screen.getByRole('button', { name: /update discussion/i }));
+  await userEvent.click(
+    screen.getByRole('button', { name: /update discussion/i }),
+  );
 
   const drawer = await screen.findByRole('dialog', {
     name: /update discussion/i,
@@ -79,7 +81,9 @@ test('should update discussion', async () => {
 
   await waitFor(() => expect(drawer).not.toBeInTheDocument());
 
-  expect(await screen.findByRole('heading', { name: newTitle })).toBeInTheDocument();
+  expect(
+    await screen.findByRole('heading', { name: newTitle }),
+  ).toBeInTheDocument();
   expect(await screen.findByText(newBody)).toBeInTheDocument();
 });
 
@@ -88,7 +92,9 @@ test('should create and delete a comment on the discussion', async () => {
 
   const comment = 'Hello World';
 
-  await userEvent.click(screen.getByRole('button', { name: /create comment/i }));
+  await userEvent.click(
+    screen.getByRole('button', { name: /create comment/i }),
+  );
 
   const drawer = await screen.findByRole('dialog', {
     name: /create comment/i,
@@ -127,9 +133,12 @@ test('should create and delete a comment on the discussion', async () => {
     name: /delete comment/i,
   });
 
-  const confirmationDeleteButton = await within(confirmationDialog).findByRole('button', {
-    name: /delete/i,
-  });
+  const confirmationDeleteButton = await within(confirmationDialog).findByRole(
+    'button',
+    {
+      name: /delete/i,
+    },
+  );
 
   await userEvent.click(confirmationDeleteButton);
 

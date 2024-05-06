@@ -15,7 +15,10 @@ type UseDeleteCommentOptions = {
   config?: MutationConfig<typeof deleteComment>;
 };
 
-export const useDeleteComment = ({ config, discussionId }: UseDeleteCommentOptions) => {
+export const useDeleteComment = ({
+  config,
+  discussionId,
+}: UseDeleteCommentOptions) => {
   const { addNotification } = useNotificationStore();
   const queryClient = useQueryClient();
 
@@ -25,18 +28,26 @@ export const useDeleteComment = ({ config, discussionId }: UseDeleteCommentOptio
         queryKey: ['comments', discussionId],
       });
 
-      const previousComments = queryClient.getQueryData<Comment[]>(['comments', discussionId]);
+      const previousComments = queryClient.getQueryData<Comment[]>([
+        'comments',
+        discussionId,
+      ]);
 
       queryClient.setQueryData(
         ['comments', discussionId],
-        previousComments?.filter((comment) => comment.id !== deletedComment.commentId)
+        previousComments?.filter(
+          (comment) => comment.id !== deletedComment.commentId,
+        ),
       );
 
       return { previousComments };
     },
     onError: (_, __, context: any) => {
       if (context?.previousComments) {
-        queryClient.setQueryData(['comments', discussionId], context.previousComments);
+        queryClient.setQueryData(
+          ['comments', discussionId],
+          context.previousComments,
+        );
       }
     },
     onSuccess: () => {

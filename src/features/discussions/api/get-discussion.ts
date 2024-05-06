@@ -5,7 +5,11 @@ import { ApiFnReturnType, QueryConfig } from '@/lib/react-query';
 
 import { Discussion } from '../types';
 
-export const getDiscussion = ({ discussionId }: { discussionId: string }): Promise<Discussion> => {
+export const getDiscussion = ({
+  discussionId,
+}: {
+  discussionId: string;
+}): Promise<Discussion> => {
   return axios.get(`/discussions/${discussionId}`);
 };
 
@@ -16,7 +20,10 @@ type UseDiscussionOptions = {
   config?: QueryConfig<QueryFnType>;
 };
 
-export const useDiscussion = ({ discussionId, config }: UseDiscussionOptions) => {
+export const useDiscussion = ({
+  discussionId,
+  config,
+}: UseDiscussionOptions) => {
   return useQuery<ApiFnReturnType<QueryFnType>>({
     ...config,
     queryKey: ['discussion', discussionId],

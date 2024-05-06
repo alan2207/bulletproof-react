@@ -3,7 +3,10 @@ import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Form, FormDrawer, Textarea } from '@/components/ui/form';
 
-import { useCreateComment, createCommentInputSchema } from '../api/create-comment';
+import {
+  useCreateComment,
+  createCommentInputSchema,
+} from '../api/create-comment';
 
 type CreateCommentProps = {
   discussionId: string;
@@ -48,7 +51,11 @@ export const CreateComment = ({ discussionId }: CreateCommentProps) => {
         }}
       >
         {({ register, formState }) => (
-          <Textarea label="Body" error={formState.errors['body']} registration={register('body')} />
+          <Textarea
+            label="Body"
+            error={formState.errors['body']}
+            registration={register('body')}
+          />
         )}
       </Form>
     </FormDrawer>

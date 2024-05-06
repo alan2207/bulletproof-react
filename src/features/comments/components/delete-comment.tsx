@@ -20,7 +20,11 @@ export const DeleteComment = ({ id, discussionId }: DeleteCommentProps) => {
       title="Delete Comment"
       body="Are you sure you want to delete this comment?"
       triggerButton={
-        <Button variant="destructive" size="sm" icon={<Trash className="size-4" />}>
+        <Button
+          variant="destructive"
+          size="sm"
+          icon={<Trash className="size-4" />}
+        >
           Delete Comment
         </Button>
       }
@@ -29,7 +33,9 @@ export const DeleteComment = ({ id, discussionId }: DeleteCommentProps) => {
           isLoading={deleteCommentMutation.isPending}
           type="button"
           variant="destructive"
-          onClick={async () => await deleteCommentMutation.mutateAsync({ commentId: id })}
+          onClick={async () =>
+            await deleteCommentMutation.mutateAsync({ commentId: id })
+          }
         >
           Delete Comment
         </Button>

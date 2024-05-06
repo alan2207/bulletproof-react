@@ -41,7 +41,7 @@ export const useAuthorization = () => {
 
       return true;
     },
-    [user.data]
+    [user.data],
   );
 
   return { checkAccess, role: user.data.role };

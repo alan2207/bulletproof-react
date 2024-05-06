@@ -14,7 +14,11 @@ export const createCommentInputSchema = z.object({
 
 export type CreateCommentInput = z.infer<typeof createCommentInputSchema>;
 
-export const createComment = ({ data }: { data: CreateCommentInput }): Promise<Comment> => {
+export const createComment = ({
+  data,
+}: {
+  data: CreateCommentInput;
+}): Promise<Comment> => {
   return axios.post('/comments', data);
 };
 
@@ -23,7 +27,10 @@ type UseCreateCommentOptions = {
   config?: MutationConfig<typeof createComment>;
 };
 
-export const useCreateComment = ({ config, discussionId }: UseCreateCommentOptions) => {
+export const useCreateComment = ({
+  config,
+  discussionId,
+}: UseCreateCommentOptions) => {
   const { addNotification } = useNotificationStore();
   const queryClient = useQueryClient();
 
@@ -33,18 +40,24 @@ export const useCreateComment = ({ config, discussionId }: UseCreateCommentOptio
         queryKey: ['comments', discussionId],
       });
 
-      const previousComments = queryClient.getQueryData<Comment[]>(['comments', discussionId]);
+      const previousComments = queryClient.getQueryData<Comment[]>([
+        'comments',
+        discussionId,
+      ]);
 
       queryClient.setQueryData(
         ['comments', discussionId],
-        [...(previousComments || []), newComment.data]
+        [...(previousComments || []), newComment.data],
       );
 
       return { previousComments };
     },
     onError: (_, __, context: any) => {
       if (context?.previousComments) {
-        queryClient.setQueryData(['comments', discussionId], context.previousComments);
+        queryClient.setQueryData(
+          ['comments', discussionId],
+          context.previousComments,
+        );
       }
     },
     onSuccess: () => {

@@ -29,10 +29,13 @@ export const DiscussionRoute = () => {
     <>
       <Head title={discussionQuery.data.title} />
       <ContentLayout title={discussionQuery.data.title}>
-        <span className="text-xs font-bold">{formatDate(discussionQuery.data.createdAt)}</span>
+        <span className="text-xs font-bold">
+          {formatDate(discussionQuery.data.createdAt)}
+        </span>
         {discussionQuery.data.author && (
           <span className="ml-2 text-sm font-bold">
-            by {discussionQuery.data.author.firstName} {discussionQuery.data.author.lastName}
+            by {discussionQuery.data.author.firstName}{' '}
+            {discussionQuery.data.author.lastName}
           </span>
         )}
         <div className="mt-6 flex flex-col space-y-16">

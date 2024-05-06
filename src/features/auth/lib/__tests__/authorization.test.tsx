@@ -9,9 +9,14 @@ test('should view protected resource if user role is matching', async () => {
 
   const protectedResource = 'This is very confidential data';
 
-  await renderApp(<Authorization allowedRoles={[ROLES.ADMIN]}>{protectedResource}</Authorization>, {
-    user,
-  });
+  await renderApp(
+    <Authorization allowedRoles={[ROLES.ADMIN]}>
+      {protectedResource}
+    </Authorization>,
+    {
+      user,
+    },
+  );
 
   expect(screen.getByText(protectedResource)).toBeInTheDocument();
 });
@@ -25,10 +30,13 @@ test('should not view protected resource if user role does not match and show fa
 
   const forbiddenMessage = 'You are unauthorized to view this resource';
   await renderApp(
-    <Authorization forbiddenFallback={<div>{forbiddenMessage}</div>} allowedRoles={[ROLES.ADMIN]}>
+    <Authorization
+      forbiddenFallback={<div>{forbiddenMessage}</div>}
+      allowedRoles={[ROLES.ADMIN]}
+    >
       {protectedResource}
     </Authorization>,
-    { user }
+    { user },
   );
 
   expect(screen.queryByText(protectedResource)).not.toBeInTheDocument();
@@ -43,7 +51,10 @@ test('should view protected resource if policy check passes', async () => {
 
   const protectedResource = 'This is very confidential data';
 
-  await renderApp(<Authorization policyCheck={true}>{protectedResource}</Authorization>, { user });
+  await renderApp(
+    <Authorization policyCheck={true}>{protectedResource}</Authorization>,
+    { user },
+  );
 
   expect(screen.getByText(protectedResource)).toBeInTheDocument();
 });
@@ -57,10 +68,13 @@ test('should not view protected resource if policy check fails and show fallback
 
   const forbiddenMessage = 'You are unauthorized to view this resource';
   await renderApp(
-    <Authorization forbiddenFallback={<div>{forbiddenMessage}</div>} policyCheck={false}>
+    <Authorization
+      forbiddenFallback={<div>{forbiddenMessage}</div>}
+      policyCheck={false}
+    >
       {protectedResource}
     </Authorization>,
-    { user }
+    { user },
   );
 
   expect(screen.queryByText(protectedResource)).not.toBeInTheDocument();

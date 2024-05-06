@@ -93,7 +93,11 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
               />
             )}
             <div>
-              <Button isLoading={registering.isPending} type="submit" className="w-full">
+              <Button
+                isLoading={registering.isPending}
+                type="submit"
+                className="w-full"
+              >
                 Register
               </Button>
             </div>

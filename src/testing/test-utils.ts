@@ -1,4 +1,8 @@
-import { render as rtlRender, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import {
+  render as rtlRender,
+  screen,
+  waitForElementToBeRemoved,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Cookies from 'js-cookie';
 
@@ -31,8 +35,11 @@ export const loginAsUser = async (user: any) => {
 
 export const waitForLoadingToFinish = () =>
   waitForElementToBeRemoved(
-    () => [...screen.queryAllByTestId(/loading/i), ...screen.queryAllByText(/loading/i)],
-    { timeout: 4000 }
+    () => [
+      ...screen.queryAllByTestId(/loading/i),
+      ...screen.queryAllByText(/loading/i),
+    ],
+    { timeout: 4000 },
   );
 
 const initializeUser = async (user: any) => {
@@ -49,7 +56,7 @@ const initializeUser = async (user: any) => {
 // eslint-disable-next-line import/export
 export const renderApp = async (
   ui: any,
-  { route = '/', user, ...renderOptions }: Record<string, any> = {}
+  { route = '/', user, ...renderOptions }: Record<string, any> = {},
 ) => {
   // if you want to render the app unauthenticated then pass "null" as the user
   const initializedUser = await initializeUser(user);

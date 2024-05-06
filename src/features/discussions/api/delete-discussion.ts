@@ -6,7 +6,11 @@ import { useNotificationStore } from '@/stores/notifications';
 
 import { Discussion } from '../types';
 
-export const deleteDiscussion = ({ discussionId }: { discussionId: string }) => {
+export const deleteDiscussion = ({
+  discussionId,
+}: {
+  discussionId: string;
+}) => {
   return axios.delete(`/discussions/${discussionId}`);
 };
 
@@ -14,7 +18,9 @@ type UseDeleteDiscussionOptions = {
   config?: MutationConfig<typeof deleteDiscussion>;
 };
 
-export const useDeleteDiscussion = ({ config }: UseDeleteDiscussionOptions = {}) => {
+export const useDeleteDiscussion = ({
+  config,
+}: UseDeleteDiscussionOptions = {}) => {
   const { addNotification } = useNotificationStore();
   const queryClient = useQueryClient();
 
@@ -24,13 +30,15 @@ export const useDeleteDiscussion = ({ config }: UseDeleteDiscussionOptions = {})
         queryKey: ['discussions'],
       });
 
-      const previousDiscussions = queryClient.getQueryData<Discussion[]>(['discussions']);
+      const previousDiscussions = queryClient.getQueryData<Discussion[]>([
+        'discussions',
+      ]);
 
       queryClient.setQueryData(
         ['discussions'],
         previousDiscussions?.filter(
-          (discussion) => discussion.id !== deletedDiscussion.discussionId
-        )
+          (discussion) => discussion.id !== deletedDiscussion.discussionId,
+        ),
       );
 
       return { previousDiscussions };

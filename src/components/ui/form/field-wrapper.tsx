@@ -11,7 +11,10 @@ type FieldWrapperProps = {
   error?: FieldError | undefined;
 };
 
-export type FieldWrapperPassThroughProps = Omit<FieldWrapperProps, 'className' | 'children'>;
+export type FieldWrapperPassThroughProps = Omit<
+  FieldWrapperProps,
+  'className' | 'children'
+>;
 
 export const FieldWrapper = (props: FieldWrapperProps) => {
   const { label, error, children } = props;

@@ -34,7 +34,10 @@ export const authHandlers = [
       });
 
       if (existingUser) {
-        return HttpResponse.json({ message: 'The user already exists' }, { status: 400 });
+        return HttpResponse.json(
+          { message: 'The user already exists' },
+          { status: 400 },
+        );
       }
 
       let teamId;
@@ -61,7 +64,7 @@ export const authHandlers = [
             {
               message: 'The team you are trying to join does not exist!',
             },
-            { status: 400 }
+            { status: 400 },
           );
         }
         teamId = userObject.teamId;
@@ -77,7 +80,10 @@ export const authHandlers = [
 
       persistDb('user');
 
-      const result = authenticate({ email: userObject.email, password: userObject.password });
+      const result = authenticate({
+        email: userObject.email,
+        password: userObject.password,
+      });
 
       // todo: remove once tests in Github Actions are fixed
       Cookies.set(AUTH_COOKIE, result.jwt, { path: '/' });
@@ -89,7 +95,10 @@ export const authHandlers = [
         },
       });
     } catch (error: any) {
-      return HttpResponse.json({ message: error?.message || 'Server Error' }, { status: 500 });
+      return HttpResponse.json(
+        { message: error?.message || 'Server Error' },
+        { status: 500 },
+      );
     }
   }),
 
@@ -108,7 +117,10 @@ export const authHandlers = [
         },
       });
     } catch (error: any) {
-      return HttpResponse.json({ message: error?.message || 'Server Error' }, { status: 500 });
+      return HttpResponse.json(
+        { message: error?.message || 'Server Error' },
+        { status: 500 },
+      );
     }
   }),
 
@@ -122,7 +134,7 @@ export const authHandlers = [
         headers: {
           'Set-Cookie': `${AUTH_COOKIE}=; Path=/;`,
         },
-      }
+      },
     );
   }),
 
@@ -131,7 +143,10 @@ export const authHandlers = [
       const user = requireAuth(cookies, false);
       return HttpResponse.json(user);
     } catch (error: any) {
-      return HttpResponse.json({ message: error?.message || 'Server Error' }, { status: 500 });
+      return HttpResponse.json(
+        { message: error?.message || 'Server Error' },
+        { status: 500 },
+      );
     }
   }),
 ];

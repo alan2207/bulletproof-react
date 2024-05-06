@@ -28,7 +28,9 @@ type UseUpdateDiscussionOptions = {
   config?: MutationConfig<typeof updateDiscussion>;
 };
 
-export const useUpdateDiscussion = ({ config }: UseUpdateDiscussionOptions = {}) => {
+export const useUpdateDiscussion = ({
+  config,
+}: UseUpdateDiscussionOptions = {}) => {
   const { addNotification } = useNotificationStore();
   const queryClient = useQueryClient();
 
@@ -43,11 +45,14 @@ export const useUpdateDiscussion = ({ config }: UseUpdateDiscussionOptions = {})
         updatingDiscussion?.discussionId,
       ]);
 
-      queryClient.setQueryData(['discussion', updatingDiscussion?.discussionId], {
-        ...previousDiscussion,
-        ...updatingDiscussion.data,
-        id: updatingDiscussion.discussionId,
-      });
+      queryClient.setQueryData(
+        ['discussion', updatingDiscussion?.discussionId],
+        {
+          ...previousDiscussion,
+          ...updatingDiscussion.data,
+          id: updatingDiscussion.discussionId,
+        },
+      );
 
       return { previousDiscussion };
     },
@@ -55,7 +60,7 @@ export const useUpdateDiscussion = ({ config }: UseUpdateDiscussionOptions = {})
       if (context?.previousDiscussion) {
         queryClient.setQueryData(
           ['discussion', context.previousDiscussion.id],
-          context.previousDiscussion
+          context.previousDiscussion,
         );
       }
     },

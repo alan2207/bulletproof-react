@@ -26,9 +26,16 @@ const omit = <T extends object>(obj: T, keys: string[]): T => {
   return result;
 };
 
-export const sanitizeUser = <O extends object>(user: O) => omit<O>(user, ['password', 'iat']);
+export const sanitizeUser = <O extends object>(user: O) =>
+  omit<O>(user, ['password', 'iat']);
 
-export function authenticate({ email, password }: { email: string; password: string }) {
+export function authenticate({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) {
   const user = db.user.findFirst({
     where: {
       email: {
@@ -49,7 +56,10 @@ export function authenticate({ email, password }: { email: string; password: str
 
 export const AUTH_COOKIE = `bulletproof_react_app_token`;
 
-export function requireAuth(cookies: Record<string, string>, shouldThrow = true) {
+export function requireAuth(
+  cookies: Record<string, string>,
+  shouldThrow = true,
+) {
   try {
     // todo: fix once tests in Github Actions are fixed
     // const encodedToken = cookies[AUTH_COOKIE];

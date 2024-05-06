@@ -20,7 +20,7 @@ const DrawerOverlay = React.forwardRef<
   <DrawerPrimitive.Overlay
     className={cn(
       'fixed inset-0 z-50 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
-      className
+      className,
     )}
     {...props}
     ref={ref}
@@ -44,10 +44,12 @@ const drawerVariants = cva(
     defaultVariants: {
       side: 'right',
     },
-  }
+  },
 );
 
-type DrawerContentProps = React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content> &
+type DrawerContentProps = React.ComponentPropsWithoutRef<
+  typeof DrawerPrimitive.Content
+> &
   VariantProps<typeof drawerVariants>;
 
 const DrawerContent = React.forwardRef<
@@ -71,14 +73,29 @@ const DrawerContent = React.forwardRef<
 ));
 DrawerContent.displayName = DrawerPrimitive.Content.displayName;
 
-const DrawerHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn('flex flex-col space-y-2 text-center sm:text-left', className)} {...props} />
+const DrawerHeader = ({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) => (
+  <div
+    className={cn(
+      'flex flex-col space-y-2 text-center sm:text-left',
+      className,
+    )}
+    {...props}
+  />
 );
 DrawerHeader.displayName = 'DrawerHeader';
 
-const DrawerFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+const DrawerFooter = ({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)}
+    className={cn(
+      'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
+      className,
+    )}
     {...props}
   />
 );

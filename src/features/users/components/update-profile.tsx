@@ -4,7 +4,10 @@ import { Button } from '@/components/ui/button';
 import { Form, FormDrawer, Input, Textarea } from '@/components/ui/form';
 import { useUser } from '@/features/auth';
 
-import { updateProfileInputSchema, useUpdateProfile } from '../api/update-profile';
+import {
+  updateProfileInputSchema,
+  useUpdateProfile,
+} from '../api/update-profile';
 
 export const UpdateProfile = () => {
   const user = useUser();
@@ -64,7 +67,11 @@ export const UpdateProfile = () => {
               registration={register('email')}
             />
 
-            <Textarea label="Bio" error={formState.errors['bio']} registration={register('bio')} />
+            <Textarea
+              label="Bio"
+              error={formState.errors['bio']}
+              registration={register('bio')}
+            />
           </>
         )}
       </Form>

@@ -3,7 +3,9 @@ import { Info, CircleAlert, CircleX, CircleCheck } from 'lucide-react';
 const icons = {
   info: <Info className="size-6 text-blue-500" aria-hidden="true" />,
   success: <CircleCheck className="size-6 text-green-500" aria-hidden="true" />,
-  warning: <CircleAlert className="size-6 text-yellow-500" aria-hidden="true" />,
+  warning: (
+    <CircleAlert className="size-6 text-yellow-500" aria-hidden="true" />
+  ),
   error: <CircleX className="size-6 text-red-500" aria-hidden="true" />,
 };
 

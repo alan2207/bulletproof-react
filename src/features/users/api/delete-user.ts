@@ -32,7 +32,7 @@ export const useDeleteUser = ({ config }: UseDeleteUserOptions = {}) => {
 
       queryClient.setQueryData(
         ['users'],
-        previousUsers?.filter((user) => user.id !== deletedUser.userId)
+        previousUsers?.filter((user) => user.id !== deletedUser.userId),
       );
 
       return { previousUsers };

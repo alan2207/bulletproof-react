@@ -11,7 +11,11 @@ export const RegisterRoute = () => {
   return (
     <Layout title="Register your account">
       <RegisterForm
-        onSuccess={() => navigate(`${redirectTo ? `${redirectTo}` : '/app'}`, { replace: true })}
+        onSuccess={() =>
+          navigate(`${redirectTo ? `${redirectTo}` : '/app'}`, {
+            replace: true,
+          })
+        }
       />
     </Layout>
   );

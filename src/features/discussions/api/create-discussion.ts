@@ -26,7 +26,9 @@ type UseCreateDiscussionOptions = {
   config?: MutationConfig<typeof createDiscussion>;
 };
 
-export const useCreateDiscussion = ({ config }: UseCreateDiscussionOptions = {}) => {
+export const useCreateDiscussion = ({
+  config,
+}: UseCreateDiscussionOptions = {}) => {
   const { addNotification } = useNotificationStore();
   const queryClient = useQueryClient();
 
@@ -36,11 +38,13 @@ export const useCreateDiscussion = ({ config }: UseCreateDiscussionOptions = {})
         queryKey: ['discussions'],
       });
 
-      const previousDiscussions = queryClient.getQueryData<Discussion[]>(['discussions']);
+      const previousDiscussions = queryClient.getQueryData<Discussion[]>([
+        'discussions',
+      ]);
 
       queryClient.setQueryData(
         ['discussions'],
-        [...(previousDiscussions || []), newDiscussion.data]
+        [...(previousDiscussions || []), newDiscussion.data],
       );
 
       return { previousDiscussions };

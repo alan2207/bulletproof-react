@@ -28,7 +28,10 @@ export const usersHandlers = [
 
       return HttpResponse.json(result);
     } catch (error: any) {
-      return HttpResponse.json({ message: error?.message || 'Server Error' }, { status: 500 });
+      return HttpResponse.json(
+        { message: error?.message || 'Server Error' },
+        { status: 500 },
+      );
     }
   }),
 
@@ -47,7 +50,10 @@ export const usersHandlers = [
       persistDb('user');
       return HttpResponse.json(result);
     } catch (error: any) {
-      return HttpResponse.json({ message: error?.message || 'Server Error' }, { status: 500 });
+      return HttpResponse.json(
+        { message: error?.message || 'Server Error' },
+        { status: 500 },
+      );
     }
   }),
 
@@ -69,7 +75,10 @@ export const usersHandlers = [
       persistDb('user');
       return HttpResponse.json(result);
     } catch (error: any) {
-      return HttpResponse.json({ message: error?.message || 'Server Error' }, { status: 500 });
+      return HttpResponse.json(
+        { message: error?.message || 'Server Error' },
+        { status: 500 },
+      );
     }
   }),
 ];

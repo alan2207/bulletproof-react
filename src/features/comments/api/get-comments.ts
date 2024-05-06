@@ -5,7 +5,11 @@ import { ApiFnReturnType, QueryConfig } from '@/lib/react-query';
 
 import { Comment } from '../types';
 
-export const getComments = ({ discussionId }: { discussionId: string }): Promise<Comment[]> => {
+export const getComments = ({
+  discussionId,
+}: {
+  discussionId: string;
+}): Promise<Comment[]> => {
   return axios.get(`/comments`, {
     params: {
       discussionId,

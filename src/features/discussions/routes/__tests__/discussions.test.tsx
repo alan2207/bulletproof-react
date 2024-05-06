@@ -1,7 +1,13 @@
 import type { Mock } from 'vitest';
 
 import { createDiscussion } from '@/testing/data-generators';
-import { renderApp, screen, userEvent, waitFor, within } from '@/testing/test-utils';
+import {
+  renderApp,
+  screen,
+  userEvent,
+  waitFor,
+  within,
+} from '@/testing/test-utils';
 import { formatDate } from '@/utils/format';
 
 import { DiscussionsRoute } from '../discussions';
@@ -21,7 +27,9 @@ test('should create, render and delete discussions', async () => {
 
   expect(await screen.findByText(/no entries/i)).toBeInTheDocument();
 
-  await userEvent.click(screen.getByRole('button', { name: /create discussion/i }));
+  await userEvent.click(
+    screen.getByRole('button', { name: /create discussion/i }),
+  );
 
   const drawer = await screen.findByRole('dialog', {
     name: /create discussion/i,
@@ -48,22 +56,25 @@ test('should create, render and delete discussions', async () => {
   expect(
     within(row).getByRole('cell', {
       name: newDiscussion.title,
-    })
+    }),
   ).toBeInTheDocument();
 
   await userEvent.click(
     within(row).getByRole('button', {
       name: /delete discussion/i,
-    })
+    }),
   );
 
   const confirmationDialog = await screen.findByRole('dialog', {
     name: /delete discussion/i,
   });
 
-  const confirmationDeleteButton = within(confirmationDialog).getByRole('button', {
-    name: /delete discussion/i,
-  });
+  const confirmationDeleteButton = within(confirmationDialog).getByRole(
+    'button',
+    {
+      name: /delete discussion/i,
+    },
+  );
 
   await userEvent.click(confirmationDeleteButton);
 
@@ -72,6 +83,6 @@ test('should create, render and delete discussions', async () => {
   expect(
     within(row).queryByRole('cell', {
       name: newDiscussion.title,
-    })
+    }),
   ).not.toBeInTheDocument();
 });

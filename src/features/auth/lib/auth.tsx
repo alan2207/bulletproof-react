@@ -39,4 +39,5 @@ const authConfig = {
   logoutFn,
 };
 
-export const { useUser, useLogin, useLogout, useRegister, AuthLoader } = configureAuth(authConfig);
+export const { useUser, useLogin, useLogout, useRegister, AuthLoader } =
+  configureAuth(authConfig);

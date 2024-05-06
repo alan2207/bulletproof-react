@@ -11,6 +11,8 @@ export const loginInputSchema = z.object({
 
 export type LoginInput = z.infer<typeof loginInputSchema>;
 
-export const loginWithEmailAndPassword = (data: LoginInput): Promise<UserResponse> => {
+export const loginWithEmailAndPassword = (
+  data: LoginInput,
+): Promise<UserResponse> => {
   return axios.post('/auth/login', data);
 };

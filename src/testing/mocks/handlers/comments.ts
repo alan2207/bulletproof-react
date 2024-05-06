@@ -39,7 +39,10 @@ export const commentsHandlers = [
         });
       return HttpResponse.json(comments);
     } catch (error: any) {
-      return HttpResponse.json({ message: error?.message || 'Server Error' }, { status: 500 });
+      return HttpResponse.json(
+        { message: error?.message || 'Server Error' },
+        { status: 500 },
+      );
     }
   }),
 
@@ -54,7 +57,10 @@ export const commentsHandlers = [
       persistDb('comment');
       return HttpResponse.json(result);
     } catch (error: any) {
-      return HttpResponse.json({ message: error?.message || 'Server Error' }, { status: 500 });
+      return HttpResponse.json(
+        { message: error?.message || 'Server Error' },
+        { status: 500 },
+      );
     }
   }),
 
@@ -77,7 +83,10 @@ export const commentsHandlers = [
       persistDb('comment');
       return HttpResponse.json(result);
     } catch (error: any) {
-      return HttpResponse.json({ message: error?.message || 'Server Error' }, { status: 500 });
+      return HttpResponse.json(
+        { message: error?.message || 'Server Error' },
+        { status: 500 },
+      );
     }
   }),
 ];

@@ -17,11 +17,18 @@ export const registerInputSchema = z
         teamId: z.string().min(1, 'Required'),
         teamName: z.null().default(null),
       })
-      .or(z.object({ teamName: z.string().min(1, 'Required'), teamId: z.null().default(null) }))
+      .or(
+        z.object({
+          teamName: z.string().min(1, 'Required'),
+          teamId: z.null().default(null),
+        }),
+      ),
   );
 
 export type RegisterInput = z.infer<typeof registerInputSchema>;
 
-export const registerWithEmailAndPassword = (data: RegisterInput): Promise<UserResponse> => {
+export const registerWithEmailAndPassword = (
+  data: RegisterInput,
+): Promise<UserResponse> => {
   return axios.post('/auth/register', data);
 };

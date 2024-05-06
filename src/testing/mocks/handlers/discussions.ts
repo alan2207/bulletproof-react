@@ -37,49 +37,61 @@ export const discussionsHandlers = [
         });
       return HttpResponse.json(result);
     } catch (error: any) {
-      return HttpResponse.json({ message: error?.message || 'Server Error' }, { status: 500 });
+      return HttpResponse.json(
+        { message: error?.message || 'Server Error' },
+        { status: 500 },
+      );
     }
   }),
 
-  http.get(`${env.API_URL}/discussions/:discussionId`, async ({ params, cookies }) => {
-    try {
-      const user = requireAuth(cookies);
-      const discussionId = params.discussionId as string;
-      const discussion = db.discussion.findFirst({
-        where: {
-          id: {
-            equals: discussionId,
+  http.get(
+    `${env.API_URL}/discussions/:discussionId`,
+    async ({ params, cookies }) => {
+      try {
+        const user = requireAuth(cookies);
+        const discussionId = params.discussionId as string;
+        const discussion = db.discussion.findFirst({
+          where: {
+            id: {
+              equals: discussionId,
+            },
+            teamId: {
+              equals: user?.teamId,
+            },
           },
-          teamId: {
-            equals: user?.teamId,
-          },
-        },
-      });
+        });
 
-      if (!discussion) {
-        return HttpResponse.json({ message: 'Discussion not found' }, { status: 404 });
+        if (!discussion) {
+          return HttpResponse.json(
+            { message: 'Discussion not found' },
+            { status: 404 },
+          );
+        }
+
+        const author = db.user.findFirst({
+          where: {
+            id: {
+              equals: discussion.authorId,
+            },
+          },
+        });
+
+        // delete discussion.authorId;
+
+        const result = {
+          ...discussion,
+          author: author ? sanitizeUser(author) : {},
+        };
+
+        return HttpResponse.json(result);
+      } catch (error: any) {
+        return HttpResponse.json(
+          { message: error?.message || 'Server Error' },
+          { status: 500 },
+        );
       }
-
-      const author = db.user.findFirst({
-        where: {
-          id: {
-            equals: discussion.authorId,
-          },
-        },
-      });
-
-      // delete discussion.authorId;
-
-      const result = {
-        ...discussion,
-        author: author ? sanitizeUser(author) : {},
-      };
-
-      return HttpResponse.json(result);
-    } catch (error: any) {
-      return HttpResponse.json({ message: error?.message || 'Server Error' }, { status: 500 });
-    }
-  }),
+    },
+  ),
 
   http.post(`${env.API_URL}/discussions`, async ({ request, cookies }) => {
     try {
@@ -94,50 +106,65 @@ export const discussionsHandlers = [
       persistDb('discussion');
       return HttpResponse.json(result);
     } catch (error: any) {
-      return HttpResponse.json({ message: error?.message || 'Server Error' }, { status: 500 });
+      return HttpResponse.json(
+        { message: error?.message || 'Server Error' },
+        { status: 500 },
+      );
     }
   }),
 
-  http.patch(`${env.API_URL}/discussions/:discussionId`, async ({ request, params, cookies }) => {
-    try {
-      const user = requireAuth(cookies);
-      const data = (await request.json()) as DiscussionBody;
-      const discussionId = params.discussionId as string;
-      requireAdmin(user);
-      const result = db.discussion.update({
-        where: {
-          teamId: {
-            equals: user?.teamId,
+  http.patch(
+    `${env.API_URL}/discussions/:discussionId`,
+    async ({ request, params, cookies }) => {
+      try {
+        const user = requireAuth(cookies);
+        const data = (await request.json()) as DiscussionBody;
+        const discussionId = params.discussionId as string;
+        requireAdmin(user);
+        const result = db.discussion.update({
+          where: {
+            teamId: {
+              equals: user?.teamId,
+            },
+            id: {
+              equals: discussionId,
+            },
           },
-          id: {
-            equals: discussionId,
-          },
-        },
-        data,
-      });
-      persistDb('discussion');
-      return HttpResponse.json(result);
-    } catch (error: any) {
-      return HttpResponse.json({ message: error?.message || 'Server Error' }, { status: 500 });
-    }
-  }),
+          data,
+        });
+        persistDb('discussion');
+        return HttpResponse.json(result);
+      } catch (error: any) {
+        return HttpResponse.json(
+          { message: error?.message || 'Server Error' },
+          { status: 500 },
+        );
+      }
+    },
+  ),
 
-  http.delete(`${env.API_URL}/discussions/:discussionId`, async ({ cookies, params }) => {
-    try {
-      const user = requireAuth(cookies);
-      const discussionId = params.discussionId as string;
-      requireAdmin(user);
-      const result = db.discussion.delete({
-        where: {
-          id: {
-            equals: discussionId,
+  http.delete(
+    `${env.API_URL}/discussions/:discussionId`,
+    async ({ cookies, params }) => {
+      try {
+        const user = requireAuth(cookies);
+        const discussionId = params.discussionId as string;
+        requireAdmin(user);
+        const result = db.discussion.delete({
+          where: {
+            id: {
+              equals: discussionId,
+            },
           },
-        },
-      });
-      persistDb('discussion');
-      return HttpResponse.json(result);
-    } catch (error: any) {
-      return HttpResponse.json({ message: error?.message || 'Server Error' }, { status: 500 });
-    }
-  }),
+        });
+        persistDb('discussion');
+        return HttpResponse.json(result);
+      } catch (error: any) {
+        return HttpResponse.json(
+          { message: error?.message || 'Server Error' },
+          { status: 500 },
+        );
+      }
+    },
+  ),
 ];
