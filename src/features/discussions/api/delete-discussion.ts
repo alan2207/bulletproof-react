@@ -6,6 +6,8 @@ import { useNotificationStore } from '@/stores/notifications';
 
 import { Discussion } from '../types';
 
+import { getDiscussionsKey } from './get-discussions';
+
 export const deleteDiscussion = ({
   discussionId,
 }: {
@@ -27,15 +29,14 @@ export const useDeleteDiscussion = ({
   return useMutation({
     onMutate: async (deletedDiscussion) => {
       await queryClient.cancelQueries({
-        queryKey: ['discussions'],
+        queryKey: getDiscussionsKey(),
       });
 
-      const previousDiscussions = queryClient.getQueryData<Discussion[]>([
-        'discussions',
-      ]);
+      const previousDiscussions =
+        queryClient.getQueryData<Discussion[]>(getDiscussionsKey());
 
       queryClient.setQueryData(
-        ['discussions'],
+        getDiscussionsKey(),
         previousDiscussions?.filter(
           (discussion) => discussion.id !== deletedDiscussion.discussionId,
         ),
@@ -45,12 +46,15 @@ export const useDeleteDiscussion = ({
     },
     onError: (_, __, context: any) => {
       if (context?.previousDiscussions) {
-        queryClient.setQueryData(['discussions'], context.previousDiscussions);
+        queryClient.setQueryData(
+          getDiscussionsKey(),
+          context.previousDiscussions,
+        );
       }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['discussions'],
+        queryKey: getDiscussionsKey(),
       });
       addNotification({
         type: 'success',

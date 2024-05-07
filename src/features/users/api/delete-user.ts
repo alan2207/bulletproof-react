@@ -6,6 +6,8 @@ import { useNotificationStore } from '@/stores/notifications';
 
 import { User } from '../types';
 
+import { getUsersKey } from './get-users';
+
 export type DeleteUserDTO = {
   userId: string;
 };
@@ -25,13 +27,13 @@ export const useDeleteUser = ({ config }: UseDeleteUserOptions = {}) => {
   return useMutation({
     onMutate: async (deletedUser) => {
       await queryClient.cancelQueries({
-        queryKey: ['users'],
+        queryKey: getUsersKey(),
       });
 
-      const previousUsers = queryClient.getQueryData<User[]>(['users']);
+      const previousUsers = queryClient.getQueryData<User[]>(getUsersKey());
 
       queryClient.setQueryData(
-        ['users'],
+        getUsersKey(),
         previousUsers?.filter((user) => user.id !== deletedUser.userId),
       );
 
@@ -39,12 +41,12 @@ export const useDeleteUser = ({ config }: UseDeleteUserOptions = {}) => {
     },
     onError: (_, __, context: any) => {
       if (context?.previousUsers) {
-        queryClient.setQueryData(['users'], context.previousUsers);
+        queryClient.setQueryData(getUsersKey(), context.previousUsers);
       }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['users'],
+        queryKey: getUsersKey(),
       });
       addNotification({
         type: 'success',

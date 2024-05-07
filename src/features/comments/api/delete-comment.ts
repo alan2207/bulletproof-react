@@ -6,6 +6,8 @@ import { useNotificationStore } from '@/stores/notifications';
 
 import { Comment } from '../types';
 
+import { getCommentsKey } from './get-comments';
+
 export const deleteComment = ({ commentId }: { commentId: string }) => {
   return api.delete(`/comments/${commentId}`);
 };
@@ -25,7 +27,7 @@ export const useDeleteComment = ({
   return useMutation({
     onMutate: async (deletedComment) => {
       await queryClient.cancelQueries({
-        queryKey: ['comments', discussionId],
+        queryKey: getCommentsKey(discussionId),
       });
 
       const previousComments = queryClient.getQueryData<Comment[]>([
@@ -34,7 +36,7 @@ export const useDeleteComment = ({
       ]);
 
       queryClient.setQueryData(
-        ['comments', discussionId],
+        getCommentsKey(discussionId),
         previousComments?.filter(
           (comment) => comment.id !== deletedComment.commentId,
         ),
@@ -45,14 +47,14 @@ export const useDeleteComment = ({
     onError: (_, __, context: any) => {
       if (context?.previousComments) {
         queryClient.setQueryData(
-          ['comments', discussionId],
+          getCommentsKey(discussionId),
           context.previousComments,
         );
       }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['comments', discussionId],
+        queryKey: getCommentsKey(discussionId),
       });
       addNotification({
         type: 'success',

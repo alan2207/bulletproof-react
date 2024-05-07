@@ -11,6 +11,8 @@ export const getTeams = (): Promise<Team[]> => {
 
 type QueryFnType = typeof getTeams;
 
+export const getTeamsKey = () => ['teams'];
+
 type UseTeamsOptions = {
   config?: QueryConfig<QueryFnType>;
 };
@@ -18,7 +20,7 @@ type UseTeamsOptions = {
 export const useTeams = ({ config = {} }: UseTeamsOptions = {}) => {
   return useQuery<ApiFnReturnType<QueryFnType>>({
     ...config,
-    queryKey: ['teams'],
+    queryKey: getTeamsKey(),
     queryFn: () => getTeams(),
   });
 };

@@ -19,6 +19,11 @@ export const getComments = ({
 
 type QueryFnType = typeof getComments;
 
+export const getCommentsKey = (discussionId: string) => [
+  'comments',
+  discussionId,
+];
+
 type UseCommentsOptions = {
   discussionId: string;
   config?: QueryConfig<QueryFnType>;
@@ -26,7 +31,7 @@ type UseCommentsOptions = {
 
 export const useComments = ({ discussionId, config }: UseCommentsOptions) => {
   return useQuery<ApiFnReturnType<QueryFnType>>({
-    queryKey: ['comments', discussionId],
+    queryKey: getCommentsKey(discussionId),
     queryFn: () => getComments({ discussionId }),
     ...config,
   });

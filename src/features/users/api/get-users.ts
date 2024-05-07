@@ -11,6 +11,8 @@ export const getUsers = (): Promise<User[]> => {
 
 type QueryFnType = typeof getUsers;
 
+export const getUsersKey = () => ['users'];
+
 type UseUsersOptions = {
   config?: QueryConfig<QueryFnType>;
 };
@@ -18,7 +20,7 @@ type UseUsersOptions = {
 export const useUsers = ({ config }: UseUsersOptions = {}) => {
   return useQuery<ApiFnReturnType<QueryFnType>>({
     ...config,
-    queryKey: ['users'],
+    queryKey: getUsersKey(),
     queryFn: () => getUsers(),
   });
 };

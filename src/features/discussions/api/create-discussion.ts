@@ -7,6 +7,8 @@ import { useNotificationStore } from '@/stores/notifications';
 
 import { Discussion } from '../types';
 
+import { getDiscussionsKey } from './get-discussions';
+
 export const createDiscussionInputSchema = z.object({
   title: z.string().min(1, 'Required'),
   body: z.string().min(1, 'Required'),
@@ -35,28 +37,30 @@ export const useCreateDiscussion = ({
   return useMutation({
     onMutate: async (newDiscussion) => {
       await queryClient.cancelQueries({
-        queryKey: ['discussions'],
+        queryKey: getDiscussionsKey(),
       });
 
-      const previousDiscussions = queryClient.getQueryData<Discussion[]>([
-        'discussions',
-      ]);
+      const previousDiscussions =
+        queryClient.getQueryData<Discussion[]>(getDiscussionsKey());
 
-      queryClient.setQueryData(
-        ['discussions'],
-        [...(previousDiscussions || []), newDiscussion.data],
-      );
+      queryClient.setQueryData(getDiscussionsKey(), [
+        ...(previousDiscussions || []),
+        newDiscussion.data,
+      ]);
 
       return { previousDiscussions };
     },
     onError: (_, __, context: any) => {
       if (context?.previousDiscussions) {
-        queryClient.setQueryData(['discussions'], context.previousDiscussions);
+        queryClient.setQueryData(
+          getDiscussionsKey(),
+          context.previousDiscussions,
+        );
       }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['discussions'],
+        queryKey: getDiscussionsKey(),
       });
       addNotification({
         type: 'success',

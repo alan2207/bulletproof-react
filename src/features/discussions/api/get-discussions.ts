@@ -11,6 +11,8 @@ export const getDiscussions = (): Promise<Discussion[]> => {
 
 type QueryFnType = typeof getDiscussions;
 
+export const getDiscussionsKey = () => ['discussions'];
+
 type UseDiscussionsOptions = {
   config?: QueryConfig<QueryFnType>;
 };
@@ -18,7 +20,7 @@ type UseDiscussionsOptions = {
 export const useDiscussions = ({ config }: UseDiscussionsOptions = {}) => {
   return useQuery<ApiFnReturnType<QueryFnType>>({
     ...config,
-    queryKey: ['discussions'],
+    queryKey: getDiscussionsKey(),
     queryFn: () => getDiscussions(),
   });
 };

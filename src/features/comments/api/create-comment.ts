@@ -7,6 +7,8 @@ import { useNotificationStore } from '@/stores/notifications';
 
 import { Comment } from '../types';
 
+import { getCommentsKey } from './get-comments';
+
 export const createCommentInputSchema = z.object({
   discussionId: z.string().min(1, 'Required'),
   body: z.string().min(1, 'Required'),
@@ -37,7 +39,7 @@ export const useCreateComment = ({
   return useMutation({
     onMutate: async (newComment) => {
       await queryClient.cancelQueries({
-        queryKey: ['comments', discussionId],
+        queryKey: getCommentsKey(discussionId),
       });
 
       const previousComments = queryClient.getQueryData<Comment[]>([
@@ -45,24 +47,24 @@ export const useCreateComment = ({
         discussionId,
       ]);
 
-      queryClient.setQueryData(
-        ['comments', discussionId],
-        [...(previousComments || []), newComment.data],
-      );
+      queryClient.setQueryData(getCommentsKey(discussionId), [
+        ...(previousComments || []),
+        newComment.data,
+      ]);
 
       return { previousComments };
     },
     onError: (_, __, context: any) => {
       if (context?.previousComments) {
         queryClient.setQueryData(
-          ['comments', discussionId],
+          getCommentsKey(discussionId),
           context.previousComments,
         );
       }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['comments', discussionId],
+        queryKey: getCommentsKey(discussionId),
       });
       addNotification({
         type: 'success',
