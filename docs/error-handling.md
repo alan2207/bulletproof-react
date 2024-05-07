@@ -4,7 +4,7 @@
 
 Set up an interceptor for handling errors. You can use it to fire a notification toast to notify users that something went wrong, log out unauthorized users, or send new requests for refreshing tokens.
 
-[API Errors Notification Example Code](../src/lib/axios.ts)
+[API Errors Notification Example Code](../src/lib/api-client.ts)
 
 ### In App Errors
 

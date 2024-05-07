@@ -49,8 +49,8 @@ For prototyping the API use msw, which is a great tool for quickly creating fron
 
 It can be used for designing API endpoints. The business logic of the mocked API can be created in its handlers.
 
-[API Handlers Example Code](../src/test/server/handlers/auth.ts)
+[API Handlers Example Code](../src/testing/mocks/handlers/auth.ts)
 
-[Data Models Example Code](../src/test/server/db.ts)
+[Data Models Example Code](../src/testing/mocks/db.ts)
 
 Having a fully functional mocked API server is also handy when it comes to testing, you don't have to mock fetch, but make requests to the mocked server instead with the data your application would expect.

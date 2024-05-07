@@ -6,13 +6,13 @@ Code splitting is a technique of splitting production JavaScript into smaller fi
 
 Most of the time code splitting should be done on the routes level, but can also be used for other lazy loaded parts of application.
 
-Do not code split everything as it might even worsen your application's performance.
+Do not code split everything as it might even worsen your application's performance because of many requests your application needs to make to get all the chunks.
 
 [Code Splitting Example Code](../src/routes/index.tsx)
 
 ### Component and state optimizations
 
-- Do not put everything in a single state. That might trigger unnecessary re-renders. Instead split the global state into multiple stores according to where it is being used.
+- Do not put everything in a single state. That might trigger unnecessary re-renders. Instead split the global state into multiple states according to where they are being used.
 
 - Keep the state as close as possible to where it is being used. This will prevent re-rendering components that do not depend on the updated state.
 
@@ -26,15 +26,15 @@ const [state, setState] = React.useState(myExpensiveFn());
 const [state, setState] = React.useState(() => myExpensiveFn());
 ```
 
-- If you develop an application that requires the state to track many elements at once, you might consider state management libraries with atomic updates such as [recoil](https://recoiljs.org/) or [jotai](https://jotai.pmnd.rs/).
+- If you develop an application that requires a state to track many elements at once, you might consider state management libraries with atomic updates such as [jotai](https://jotai.pmnd.rs/).
 
 - Use React Context wisely. React Context is good for low-velocity data like themes, user data, small local state etc. While dealing with medium-velocity/high-velocity data, you may consider using the [use-context-selector](https://github.com/dai-shi/use-context-selector) library that supports selectors (selectors are already built-in in most popular state management libraries like [zustand](https://docs.pmnd.rs/zustand/getting-started/introduction) or [jotai](https://jotai.org/)). Important to remember, context is often used as the "golden tool" for props drilling, whereas in many scenarios you may satisfy your needs by [lifting the state up](https://react.dev/learn/sharing-state-between-components#lifting-state-up-by-example) or [a proper composition of components](https://react.dev/learn/passing-data-deeply-with-context#before-you-use-context). Do not rush with context.
 
-- If your application is expected to have frequent updates that might affect performance, consider switching from runtime styling solutions ([Chakra UI](https://chakra-ui.com/), [emotion](https://emotion.sh/docs/introduction), [styled-components](https://styled-components.com/) that generate styles during runtime) to zero runtime styling solutions ([tailwind](https://tailwindcss.com/), [linaria](https://github.com/callstack/linaria), [vanilla-extract](https://github.com/seek-oss/vanilla-extract), [CSS modules](https://github.com/css-modules/css-modules) which generate styles during build time).
+- If your application is expected to have frequent updates that might affect performance, consider switching from runtime styling solutions such as [emotion](https://emotion.sh/docs/introduction), [styled-components](https://styled-components.com/) that generate styles during runtime) to zero runtime styling solutions ([tailwind](https://tailwindcss.com/), [vanilla-extract](https://github.com/seek-oss/vanilla-extract), [CSS modules](https://github.com/css-modules/css-modules) which generate styles during build time).
 
 ### Children as the most basic optimization
 
-- The `children` prop is the most basic and easiest way to optimize your components. Applied properly, it eliminates a lot of unnecessary rerenders. The JSX, passed in the form of `children` prop, represents an isolated VDOM structure that does not need (and cannot) be re-rendered by its parent. Example below:
+- The `children` prop is the most basic and easiest way to optimize your components. When applied properly, it eliminates a lot of unnecessary rerenders. The JSX, passed in the form of `children` prop, represents an isolated VDOM structure that does not need (and cannot) be re-rendered by its parent. Example below:
 
 ```javascript
 // Not optimized example
@@ -45,7 +45,9 @@ const Counter = () => {
 
   return (
     <div>
-      <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
+      <button onClick={() => setCount((count) => count + 1)}>
+        count is {count}
+      </button>
       <PureComponent /> // will rerender whenever "count" updates
     </div>
   );
@@ -65,7 +67,9 @@ const Counter = ({ children }) => {
 
   return (
     <div>
-      <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
+      <button onClick={() => setCount((count) => count + 1)}>
+        count is {count}
+      </button>
       {children} // won't rerender whenever "count" updates
     </div>
   );

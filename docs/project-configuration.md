@@ -1,6 +1,13 @@
 # ⚙️ Project Configuration
 
-The application has been bootstrapped using `Vite ` and its `react-ts` template for simplicity reasons. It allows us to create applications quickly without dealing with a complex tooling setup such as bundling, transpiling etc.
+The application has been bootstrapped using `Vite ` and its `react-ts` template. It allows us to create applications quickly without dealing with a complex tooling setup such as bundling, transpiling etc.
+
+Other popular ways we could have bootstrapped the application are:
+
+- [Next.js](https://nextjs.org/)
+- [Remix](https://remix.run/)
+
+But for simplicity we will use Vite, as it doesn't force us to use the meta-framework specific things, and allows us to focus on React.
 
 You should always configure and use the following tools:
 
@@ -12,7 +19,7 @@ ESLint is a linting tool for JavaScript. By providing specific configuration def
 
 #### Prettier
 
-This is a great tool for formatting code. It enforces a consistent code style across your entire codebase. By utilizing the "format on save" feature in your IDE you can automatically format the code based on the configuration provided in the `.prettierrc` file. It will also give you good feedback when something is wrong with the code. If the auto-format doesn't work, something is wrong with the code.
+Prettier is a great tool for formatting code. It enforces a consistent code style across your entire codebase. By utilizing the "format on save" feature in your IDE you can automatically format the code based on the configuration provided in the `.prettierrc` file. It will also give you good feedback when something is wrong with the code. If the auto-format doesn't work, something is wrong with the code.
 
 [Prettier Configuration Example Code](../.prettierrc)
 

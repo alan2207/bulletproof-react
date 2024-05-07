@@ -18,11 +18,13 @@ That is why tokens are stored in a cookie or `localStorage/sessionStorage`..
 
 Storing it in `localStorage` could bring a security issue, if your application is vulnerable to [XSS](https://owasp.org/www-community/attacks/xss/) someone could steal your token.
 
-Storing tokens in a cookie might be safer if the cookie is set to be `HttpOnly` which would mean it wouldn't be accessible from the client side JavaScript. For simplicity reasons, we are using `js-cookie` to handle cookies in the mocked API, but let's assume that the real API would set the cookie to be `HttpOnly` and we would not have access to it from the client side.
+Storing tokens in a cookie might be safer if the cookie is set to be `HttpOnly` which would mean it wouldn't be accessible from the client side JavaScript. In the sample app, for simplicity reasons, we are using `js-cookie` to handle cookies in the mocked API, but let's assume that the real API would set the cookie to be `HttpOnly` and we would not have access to it from the client side.
 
 To keep the application safe, instead of focusing only on where to store the token safely, it is recommended to make the entire application as resistant as possible to XSS attacks E.g - every input from the user should be sanitized before it's injected into the DOM.
 
 [HTML Sanitization Example Code](../src/components/ui/md-preview/md-preview.tsx)
+
+For full list of security risks, check [OWASP](https://owasp.org/www-project-top-10-client-side-security-risks/).
 
 #### Handling user data
 
@@ -49,7 +51,7 @@ The most common method. Define allowed roles for a resource and then check if a 
 
 #### PBAC (Permission based access control)
 
-Sometimes RBAC is not enough. Some of the operations should be allowed only by the owner of the resource. For example user's comment - only the author of the comment should be able to delete it. That's why you might want to use PBAC, as it is more flexible.
+Sometimes RBAC is not enough when you need a more granular solution. For example, some of the operations should be allowed only by the owner of the resource. For example user's comment - only the author of the comment should be able to delete it. That's why you might want to use PBAC, as it is more flexible.
 
 For RBAC protection you can use the `RBAC` component by passing allowed roles to it. On the other hand if you need more strict protection, you can pass policies check to it.
 

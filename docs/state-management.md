@@ -13,7 +13,7 @@ This is the state that only a component needs, and it is not meant to be shared 
 
 ## Application State
 
-This is the state that controls interactive parts of an application. Opening modals, notifications, changing color mode, etc. For best performance and maintainability, keep the state as close as possible to the components that are using it. Don't make everything global out of the box.
+This is the state that controls interactive parts of an application. Opening global modals, notifications, changing color mode, etc. For best performance and maintainability, keep the state as close as possible to the components that are using it. Don't make everything global out of the box.
 
 Good Application State Solutions:
 
@@ -21,12 +21,10 @@ Good Application State Solutions:
 - [redux](https://redux.js.org/) + [redux toolkit](https://redux-toolkit.js.org/)
 - [mobx](https://mobx.js.org)
 - [zustand](https://github.com/pmndrs/zustand)
-- [constate](https://github.com/diegohaz/constate)
 - [jotai](https://github.com/pmndrs/jotai)
-- [recoil](https://recoiljs.org/)
 - [xstate](https://xstate.js.org/)
 
-[UI State Example Code](../src/stores/notifications.ts)
+[Global State Example Code](../src/stores/notifications.ts)
 
 ## Server Cache State
 
@@ -38,8 +36,9 @@ Good Server Cache Libraries:
 - [swr](https://swr.vercel.app/) - REST + GraphQL
 - [apollo client](https://www.apollographql.com/) - GraphQL
 - [urql](https://formidable.com/open-source/urql/) - GraphQl
+- [RTK](https://redux-toolkit.js.org/rtk-query)
 
-[Server State Example Code](../src/features/discussions/api/get-discussions.ts)
+[Server Cache State Example Code](../src/features/discussions/api/get-discussions.ts)
 
 ## Form State
 

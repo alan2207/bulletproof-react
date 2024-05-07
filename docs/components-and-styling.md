@@ -35,7 +35,7 @@ function Component() {
 
 #### Stay consistent
 
-Keep your code style consistent. e.g If you name your components by using pascal case, do it everywhere. More on this can be found [here](./style-guide.md)
+Keep your code style consistent. For example, if you name your components using pascal case, do it everywhere. Most of code consistency is achieved by using linters and code formatters, so make sure you have them set up in your project.
 
 #### Limit the number of props a component is accepting as input
 
@@ -61,15 +61,17 @@ Every project requires some UI components such as modals, tabs, sidebars, menus,
 
 These component libraries come with their components fully styled.
 
-- [Chakra UI](https://chakra-ui.com/) - great library with probably the best developer experience, allows very fast prototyping with decent design defaults. Plenty of components that are very customizable and flexible with accessibility already configured out of the box.
+- [Chakra UI](https://chakra-ui.com/) - great library with great developer experience, allows very fast prototyping with decent design defaults. Plenty of components that are very customizable and flexible with accessibility already configured out of the box.
 
 - [AntD](https://ant.design/) - another great component library that has a lot of different components. Best suitable for creating admin dashboards. However, it might be a bit difficult to change the styles in order to adapt them to a custom design.
 
-- [MUI](https://mui.com/) - the most popular component library for React. Has a lot of different components. Can be used as a styled solution by implementing Material Design or as unstyled headless component library.
+- [MUI](https://mui.com/material-ui/) - the most popular component library for React. Has a lot of different components. Can be used as a styled solution by implementing Material Design or as unstyled headless component library.
+
+- [Mantine](https://mantine.dev/) - a modern react component library with a lot of components and hooks. It is very customizable and has a lot of features out of the box.
 
 #### Headless component libraries:
 
-These component libraries come with their components unstyled. If you have a specific design system to implement, it might be easier and better solution to go with headless components that come unstyled than to adapt a styled components library such as Material UI to your needs. Some good options are:
+These component libraries come with their components unstyled. If you have a specific design system to implement, it might be easier and better solution to go with headless components that come unstyled than to adapt a fully featured component library such as Material UI to your needs. Some good options are:
 
 - [Radix UI](https://www.radix-ui.com/)
 - [Headless UI](https://headlessui.dev/)
@@ -87,7 +89,6 @@ There are multiple ways to style a react application. Some good options are:
 - [CSS modules](https://github.com/css-modules/css-modules)
 - [styled-components](https://styled-components.com/)
 - [emotion](https://emotion.sh/docs/introduction)
-- [linaria](https://github.com/callstack/linaria)
 
 NOTE: Keep React Server Components in mind as they require zero runtime styling solution.
 

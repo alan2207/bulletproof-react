@@ -3,11 +3,10 @@
 ## React
 
 - [Official Documentation](https://react.dev/)
-- [The Beginner's Guide to React](https://egghead.io/courses/the-beginner-s-guide-to-react)
-- [React Patterns](https://reactpatterns.com/)
 - [Tao Of React](https://alexkondov.com/tao-of-react/)
 - [React Handbook](https://github.com/ericdiviney/react-handbook/)
 - [React Philosophies](https://github.com/mithi/react-philosophies)
+- [React Patterns](https://reactpatterns.com/)
 
 ## JavaScript
 

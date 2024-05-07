@@ -82,4 +82,20 @@ This can also be configured in the ESLint configuration to disallow the later im
 }
 ```
 
+To prevent circular dependencies, here is another ESLint rule that can be used:
+
+```js
+{
+    rules: {
+        'import/no-cycle': 'error',
+    // ...rest of the configuration
+}
+```
+
 This was inspired by how [NX](https://nx.dev/) handles libraries that are isolated but available to be used by the other modules. Think of a feature as a library or a module that is self-contained but can expose different parts to other features via its entry point. This approach will also make it easier to split the application in a monorepo in the future.
+
+This way, you can ensure that the codebase is clean and easy to maintain.
+
+If you are still getting circular dependencies, consider breaking the feature into smaller features or moving the shared code to the `lib` folder. Or you can always opt-out of the barrel export pattern and import the files directly.
+
+Sometimes, it will make more sense to move the whole API layer to the `lib` folder, especially if it is shared across multiple features. The same goes for the `stores` folder. If you have a global store that is used across the entire application, it should be moved to the `stores` folder.
