@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { axios } from '@/lib/axios';
+import { api } from '@/lib/api-client';
 
 import { UserResponse } from '../types';
 
@@ -30,5 +30,5 @@ export type RegisterInput = z.infer<typeof registerInputSchema>;
 export const registerWithEmailAndPassword = (
   data: RegisterInput,
 ): Promise<UserResponse> => {
-  return axios.post('/auth/register', data);
+  return api.post('/auth/register', data);
 };

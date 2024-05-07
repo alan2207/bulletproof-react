@@ -1,13 +1,13 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { axios } from '@/lib/axios';
+import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 import { useNotificationStore } from '@/stores/notifications';
 
 import { Comment } from '../types';
 
 export const deleteComment = ({ commentId }: { commentId: string }) => {
-  return axios.delete(`/comments/${commentId}`);
+  return api.delete(`/comments/${commentId}`);
 };
 
 type UseDeleteCommentOptions = {

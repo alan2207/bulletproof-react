@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { axios } from '@/lib/axios';
+import { api } from '@/lib/api-client';
 import { ApiFnReturnType, QueryConfig } from '@/lib/react-query';
 
 import { Discussion } from '../types';
 
 export const getDiscussions = (): Promise<Discussion[]> => {
-  return axios.get('/discussions');
+  return api.get('/discussions');
 };
 
 type QueryFnType = typeof getDiscussions;

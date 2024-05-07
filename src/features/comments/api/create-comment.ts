@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
 
-import { axios } from '@/lib/axios';
+import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 import { useNotificationStore } from '@/stores/notifications';
 
@@ -19,7 +19,7 @@ export const createComment = ({
 }: {
   data: CreateCommentInput;
 }): Promise<Comment> => {
-  return axios.post('/comments', data);
+  return api.post('/comments', data);
 };
 
 type UseCreateCommentOptions = {

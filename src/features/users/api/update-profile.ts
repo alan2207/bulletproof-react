@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { z } from 'zod';
 
 import { useUser } from '@/features/auth';
-import { axios } from '@/lib/axios';
+import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 import { useNotificationStore } from '@/stores/notifications';
 
@@ -16,7 +16,7 @@ export const updateProfileInputSchema = z.object({
 export type UpdateProfileInput = z.infer<typeof updateProfileInputSchema>;
 
 export const updateProfile = ({ data }: { data: UpdateProfileInput }) => {
-  return axios.patch(`/users/profile`, data);
+  return api.patch(`/users/profile`, data);
 };
 
 type UseUpdateProfileOptions = {

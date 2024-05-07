@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
 
-import { axios } from '@/lib/axios';
+import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 import { useNotificationStore } from '@/stores/notifications';
 
@@ -21,7 +21,7 @@ export const updateDiscussion = ({
   data: UpdateDiscussionInput;
   discussionId: string;
 }): Promise<Discussion> => {
-  return axios.patch(`/discussions/${discussionId}`, data);
+  return api.patch(`/discussions/${discussionId}`, data);
 };
 
 type UseUpdateDiscussionOptions = {

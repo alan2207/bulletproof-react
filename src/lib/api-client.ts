@@ -10,12 +10,12 @@ function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   return config;
 }
 
-export const axios = Axios.create({
+export const api = Axios.create({
   baseURL: env.API_URL,
 });
 
-axios.interceptors.request.use(authRequestInterceptor);
-axios.interceptors.response.use(
+api.interceptors.request.use(authRequestInterceptor);
+api.interceptors.response.use(
   (response) => {
     return response.data;
   },

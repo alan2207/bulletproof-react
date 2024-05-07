@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { axios } from '@/lib/axios';
+import { api } from '@/lib/api-client';
 import { ApiFnReturnType, QueryConfig } from '@/lib/react-query';
 
 import { Comment } from '../types';
@@ -10,7 +10,7 @@ export const getComments = ({
 }: {
   discussionId: string;
 }): Promise<Comment[]> => {
-  return axios.get(`/comments`, {
+  return api.get(`/comments`, {
     params: {
       discussionId,
     },

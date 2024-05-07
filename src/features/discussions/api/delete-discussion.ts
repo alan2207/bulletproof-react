@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { axios } from '@/lib/axios';
+import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 import { useNotificationStore } from '@/stores/notifications';
 
@@ -11,7 +11,7 @@ export const deleteDiscussion = ({
 }: {
   discussionId: string;
 }) => {
-  return axios.delete(`/discussions/${discussionId}`);
+  return api.delete(`/discussions/${discussionId}`);
 };
 
 type UseDeleteDiscussionOptions = {

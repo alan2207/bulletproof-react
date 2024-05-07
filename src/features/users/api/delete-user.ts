@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { axios } from '@/lib/axios';
+import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 import { useNotificationStore } from '@/stores/notifications';
 
@@ -11,7 +11,7 @@ export type DeleteUserDTO = {
 };
 
 export const deleteUser = ({ userId }: DeleteUserDTO) => {
-  return axios.delete(`/users/${userId}`);
+  return api.delete(`/users/${userId}`);
 };
 
 type UseDeleteUserOptions = {

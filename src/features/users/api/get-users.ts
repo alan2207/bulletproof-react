@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { axios } from '@/lib/axios';
+import { api } from '@/lib/api-client';
 import { ApiFnReturnType, QueryConfig } from '@/lib/react-query';
 
 import { User } from '../types';
 
 export const getUsers = (): Promise<User[]> => {
-  return axios.get(`/users`);
+  return api.get(`/users`);
 };
 
 type QueryFnType = typeof getUsers;

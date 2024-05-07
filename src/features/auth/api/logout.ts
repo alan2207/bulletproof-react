@@ -1,5 +1,5 @@
-import { axios } from '@/lib/axios';
+import { api } from '@/lib/api-client';
 
 export const logout = (): Promise<void> => {
-  return axios.post('/auth/logout');
+  return api.post('/auth/logout');
 };
