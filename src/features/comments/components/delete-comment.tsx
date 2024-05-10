@@ -33,9 +33,7 @@ export const DeleteComment = ({ id, discussionId }: DeleteCommentProps) => {
           isLoading={deleteCommentMutation.isPending}
           type="button"
           variant="destructive"
-          onClick={async () =>
-            await deleteCommentMutation.mutateAsync({ commentId: id })
-          }
+          onClick={() => deleteCommentMutation.mutate({ commentId: id })}
         >
           Delete Comment
         </Button>

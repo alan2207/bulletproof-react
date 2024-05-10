@@ -35,8 +35,8 @@ export const CreateDiscussion = () => {
       >
         <Form
           id="create-discussion"
-          onSubmit={async (values) => {
-            await createDiscussionMutation.mutateAsync({ data: values });
+          onSubmit={(values) => {
+            createDiscussionMutation.mutate({ data: values });
           }}
           schema={createDiscussionInputSchema}
         >

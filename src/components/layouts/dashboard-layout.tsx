@@ -23,7 +23,7 @@ type SideNavigationItem = {
 };
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const { mutate: logout } = useLogout();
+  const logout = useLogout();
   const { checkAccess } = useAuthorization();
   const navigate = useNavigate();
   const navigation = [
@@ -143,7 +143,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 className={cn('block px-4 py-2 text-sm text-gray-700 w-full')}
-                onClick={() => logout({})}
+                onClick={() => logout.mutate({})}
               >
                 Sign Out
               </DropdownMenuItem>

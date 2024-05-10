@@ -37,8 +37,8 @@ export const CreateComment = ({ discussionId }: CreateCommentProps) => {
     >
       <Form
         id="create-comment"
-        onSubmit={async (values) => {
-          await createCommentMutation.mutateAsync({
+        onSubmit={(values) => {
+          createCommentMutation.mutate({
             data: values,
           });
         }}

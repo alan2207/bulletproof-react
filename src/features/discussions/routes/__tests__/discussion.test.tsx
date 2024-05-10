@@ -51,8 +51,6 @@ test('should update discussion', async () => {
   const titleUpdate = '-Updated';
   const bodyUpdate = '-Updated';
 
-  console.log('fakeDiscussion', fakeDiscussion.title);
-
   await userEvent.click(
     screen.getByRole('button', { name: /update discussion/i }),
   );

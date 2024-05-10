@@ -35,8 +35,8 @@ export const UpdateProfile = () => {
     >
       <Form
         id="update-profile"
-        onSubmit={async (values) => {
-          await updateProfileMutation.mutateAsync({ data: values });
+        onSubmit={(values) => {
+          updateProfileMutation.mutate({ data: values });
         }}
         options={{
           defaultValues: {

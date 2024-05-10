@@ -41,8 +41,8 @@ export const UpdateDiscussion = ({ discussionId }: UpdateDiscussionProps) => {
       >
         <Form
           id="update-discussion"
-          onSubmit={async (values) => {
-            await updateDiscussionMutation.mutateAsync({
+          onSubmit={(values) => {
+            updateDiscussionMutation.mutate({
               data: values,
               discussionId,
             });
