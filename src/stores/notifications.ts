@@ -14,7 +14,7 @@ type NotificationsStore = {
   dismissNotification: (id: string) => void;
 };
 
-export const useNotificationStore = create<NotificationsStore>((set) => ({
+export const useNotifications = create<NotificationsStore>((set) => ({
   notifications: [],
   addNotification: (notification) =>
     set((state) => ({

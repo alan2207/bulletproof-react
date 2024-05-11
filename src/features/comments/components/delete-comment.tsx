@@ -2,6 +2,7 @@ import { Trash } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { ConfirmationDialog } from '@/components/ui/dialog';
+import { useNotifications } from '@/stores/notifications';
 
 import { useDeleteComment } from '../api/delete-comment';
 
@@ -11,7 +12,18 @@ type DeleteCommentProps = {
 };
 
 export const DeleteComment = ({ id, discussionId }: DeleteCommentProps) => {
-  const deleteCommentMutation = useDeleteComment({ discussionId });
+  const { addNotification } = useNotifications();
+  const deleteCommentMutation = useDeleteComment({
+    discussionId,
+    config: {
+      onSuccess: () => {
+        addNotification({
+          type: 'success',
+          title: 'Comment Deleted',
+        });
+      },
+    },
+  });
 
   return (
     <ConfirmationDialog

@@ -1,9 +1,9 @@
-import { useNotificationStore } from '@/stores/notifications';
+import { useNotifications } from '@/stores/notifications';
 
 import { Notification } from './notification';
 
 export const Notifications = () => {
-  const { notifications, dismissNotification } = useNotificationStore();
+  const { notifications, dismissNotification } = useNotifications();
 
   return (
     <div

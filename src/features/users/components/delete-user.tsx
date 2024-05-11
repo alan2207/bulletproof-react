@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { ConfirmationDialog } from '@/components/ui/dialog';
 import { useUser } from '@/features/auth';
+import { useNotifications } from '@/stores/notifications';
 
 import { useDeleteUser } from '../api/delete-user';
 
@@ -10,7 +11,17 @@ type DeleteUserProps = {
 
 export const DeleteUser = ({ id }: DeleteUserProps) => {
   const user = useUser();
-  const deleteUserMutation = useDeleteUser();
+  const { addNotification } = useNotifications();
+  const deleteUserMutation = useDeleteUser({
+    config: {
+      onSuccess: () => {
+        addNotification({
+          type: 'success',
+          title: 'User Deleted',
+        });
+      },
+    },
+  });
 
   if (user.data?.id === id) return null;
 

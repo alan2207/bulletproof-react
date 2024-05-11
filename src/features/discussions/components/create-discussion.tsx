@@ -3,6 +3,7 @@ import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Form, FormDrawer, Input, Textarea } from '@/components/ui/form';
 import { Authorization, ROLES } from '@/features/auth';
+import { useNotifications } from '@/stores/notifications';
 
 import {
   createDiscussionInputSchema,
@@ -10,7 +11,17 @@ import {
 } from '../api/create-discussion';
 
 export const CreateDiscussion = () => {
-  const createDiscussionMutation = useCreateDiscussion();
+  const { addNotification } = useNotifications();
+  const createDiscussionMutation = useCreateDiscussion({
+    config: {
+      onSuccess: () => {
+        addNotification({
+          type: 'success',
+          title: 'Discussion Created',
+        });
+      },
+    },
+  });
 
   return (
     <Authorization allowedRoles={[ROLES.ADMIN]}>

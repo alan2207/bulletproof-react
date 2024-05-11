@@ -3,7 +3,6 @@ import { z } from 'zod';
 
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
-import { useNotificationStore } from '@/stores/notifications';
 
 import { Comment } from '../types';
 
@@ -33,45 +32,18 @@ export const useCreateComment = ({
   config,
   discussionId,
 }: UseCreateCommentOptions) => {
-  const { addNotification } = useNotificationStore();
   const queryClient = useQueryClient();
 
+  const { onSuccess, ...restConfig } = config || {};
+
   return useMutation({
-    onMutate: async (newComment) => {
-      await queryClient.cancelQueries({
-        queryKey: getCommentsKey(discussionId),
-      });
-
-      const previousComments = queryClient.getQueryData<Comment[]>([
-        'comments',
-        discussionId,
-      ]);
-
-      queryClient.setQueryData(getCommentsKey(discussionId), [
-        ...(previousComments || []),
-        newComment.data,
-      ]);
-
-      return { previousComments };
-    },
-    onError: (_, __, context: any) => {
-      if (context?.previousComments) {
-        queryClient.setQueryData(
-          getCommentsKey(discussionId),
-          context.previousComments,
-        );
-      }
-    },
-    onSuccess: () => {
+    onSuccess: (...args) => {
       queryClient.invalidateQueries({
         queryKey: getCommentsKey(discussionId),
       });
-      addNotification({
-        type: 'success',
-        title: 'Comment Created',
-      });
+      onSuccess?.(...args);
     },
-    ...config,
+    ...restConfig,
     mutationFn: createComment,
   });
 };

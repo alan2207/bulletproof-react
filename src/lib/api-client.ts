@@ -1,7 +1,7 @@
 import Axios, { InternalAxiosRequestConfig } from 'axios';
 
 import { env } from '@/config/env';
-import { useNotificationStore } from '@/stores/notifications';
+import { useNotifications } from '@/stores/notifications';
 
 function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   if (config.headers) {
@@ -21,7 +21,7 @@ api.interceptors.response.use(
   },
   (error) => {
     const message = error.response?.data?.message || error.message;
-    useNotificationStore.getState().addNotification({
+    useNotifications.getState().addNotification({
       type: 'error',
       title: 'Error',
       message,

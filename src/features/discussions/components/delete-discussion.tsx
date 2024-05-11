@@ -3,6 +3,7 @@ import { Trash } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ConfirmationDialog } from '@/components/ui/dialog';
 import { Authorization, ROLES } from '@/features/auth';
+import { useNotifications } from '@/stores/notifications';
 
 import { useDeleteDiscussion } from '../api/delete-discussion';
 
@@ -11,7 +12,17 @@ type DeleteDiscussionProps = {
 };
 
 export const DeleteDiscussion = ({ id }: DeleteDiscussionProps) => {
-  const deleteDiscussionMutation = useDeleteDiscussion();
+  const { addNotification } = useNotifications();
+  const deleteDiscussionMutation = useDeleteDiscussion({
+    config: {
+      onSuccess: () => {
+        addNotification({
+          type: 'success',
+          title: 'Discussion Deleted',
+        });
+      },
+    },
+  });
 
   return (
     <Authorization allowedRoles={[ROLES.ADMIN]}>

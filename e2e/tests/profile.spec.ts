@@ -10,7 +10,7 @@ test('profile', async ({ page }) => {
   await page.getByLabel('Bio').fill('My bio');
   await page.getByRole('button', { name: 'Submit' }).click();
   await page
-    .getByLabel('User Updated')
+    .getByLabel('Profile Updated')
     .getByRole('button', { name: 'Close' })
     .click();
   await expect(page.getByText('My bio')).toBeVisible();

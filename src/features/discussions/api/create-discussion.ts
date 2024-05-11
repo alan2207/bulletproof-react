@@ -3,7 +3,6 @@ import { z } from 'zod';
 
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
-import { useNotificationStore } from '@/stores/notifications';
 
 import { Discussion } from '../types';
 
@@ -31,43 +30,18 @@ type UseCreateDiscussionOptions = {
 export const useCreateDiscussion = ({
   config,
 }: UseCreateDiscussionOptions = {}) => {
-  const { addNotification } = useNotificationStore();
   const queryClient = useQueryClient();
 
+  const { onSuccess, ...restConfig } = config || {};
+
   return useMutation({
-    onMutate: async (newDiscussion) => {
-      await queryClient.cancelQueries({
-        queryKey: getDiscussionsKey(),
-      });
-
-      const previousDiscussions =
-        queryClient.getQueryData<Discussion[]>(getDiscussionsKey());
-
-      queryClient.setQueryData(getDiscussionsKey(), [
-        ...(previousDiscussions || []),
-        newDiscussion.data,
-      ]);
-
-      return { previousDiscussions };
-    },
-    onError: (_, __, context: any) => {
-      if (context?.previousDiscussions) {
-        queryClient.setQueryData(
-          getDiscussionsKey(),
-          context.previousDiscussions,
-        );
-      }
-    },
-    onSuccess: () => {
+    onSuccess: (...args) => {
       queryClient.invalidateQueries({
         queryKey: getDiscussionsKey(),
       });
-      addNotification({
-        type: 'success',
-        title: 'Discussion Created',
-      });
+      onSuccess?.(...args);
     },
-    ...config,
+    ...restConfig,
     mutationFn: createDiscussion,
   });
 };

@@ -4,7 +4,6 @@ import { z } from 'zod';
 import { useUser } from '@/features/auth';
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
-import { useNotificationStore } from '@/stores/notifications';
 
 export const updateProfileInputSchema = z.object({
   email: z.string().min(1, 'Required').email('Invalid email'),
@@ -24,17 +23,16 @@ type UseUpdateProfileOptions = {
 };
 
 export const useUpdateProfile = ({ config }: UseUpdateProfileOptions = {}) => {
-  const { addNotification } = useNotificationStore();
   const { refetch: refetchUser } = useUser();
+
+  const { onSuccess, ...restConfig } = config || {};
+
   return useMutation({
-    onSuccess: () => {
-      addNotification({
-        type: 'success',
-        title: 'User Updated',
-      });
+    onSuccess: (...args) => {
       refetchUser();
+      onSuccess?.(...args);
     },
-    ...config,
+    ...restConfig,
     mutationFn: updateProfile,
   });
 };

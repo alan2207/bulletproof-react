@@ -3,6 +3,7 @@ import { Pen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Form, FormDrawer, Input, Textarea } from '@/components/ui/form';
 import { useUser } from '@/features/auth';
+import { useNotifications } from '@/stores/notifications';
 
 import {
   updateProfileInputSchema,
@@ -11,7 +12,17 @@ import {
 
 export const UpdateProfile = () => {
   const user = useUser();
-  const updateProfileMutation = useUpdateProfile();
+  const { addNotification } = useNotifications();
+  const updateProfileMutation = useUpdateProfile({
+    config: {
+      onSuccess: () => {
+        addNotification({
+          type: 'success',
+          title: 'Profile Updated',
+        });
+      },
+    },
+  });
 
   return (
     <FormDrawer

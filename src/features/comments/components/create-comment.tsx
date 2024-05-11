@@ -2,6 +2,7 @@ import { Plus } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Form, FormDrawer, Textarea } from '@/components/ui/form';
+import { useNotifications } from '@/stores/notifications';
 
 import {
   useCreateComment,
@@ -13,7 +14,19 @@ type CreateCommentProps = {
 };
 
 export const CreateComment = ({ discussionId }: CreateCommentProps) => {
-  const createCommentMutation = useCreateComment({ discussionId });
+  const { addNotification } = useNotifications();
+  const createCommentMutation = useCreateComment({
+    discussionId,
+    config: {
+      onSuccess: () => {
+        addNotification({
+          type: 'success',
+          title: 'Comment Created',
+        });
+      },
+    },
+  });
+
   return (
     <FormDrawer
       isDone={createCommentMutation.isSuccess}
