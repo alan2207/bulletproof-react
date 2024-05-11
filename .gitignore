@@ -11,6 +11,7 @@
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+/e2e/.auth/
 
 # storybook
 migration-storybook.log
