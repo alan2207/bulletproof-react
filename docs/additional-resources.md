@@ -4,9 +4,10 @@
 
 - [Official Documentation](https://react.dev/)
 - [Tao Of React](https://alexkondov.com/tao-of-react/)
-- [React Handbook](https://github.com/ericdiviney/react-handbook/)
+- [React Handbook](https://reacthandbook.dev/)
 - [React Philosophies](https://github.com/mithi/react-philosophies)
 - [React Patterns](https://reactpatterns.com/)
+- [React Typescript Cheatsheet](https://react-typescript-cheatsheet.netlify.app/)
 
 ## JavaScript
 
@@ -20,4 +21,3 @@
 - [patterns.dev](https://www.patterns.dev/)
 - [Naming Cheatsheet](https://github.com/kettanaito/naming-cheatsheet)
 - [Clean Code Javascript](https://github.com/ryanmcdermott/clean-code-javascript)
-- [React Typescript Cheatsheet](https://react-typescript-cheatsheet.netlify.app/)

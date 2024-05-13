@@ -1,10 +1,10 @@
 # 🗃️ State Management
 
-There is no need to keep all of your state in a single centralized store. There are different needs for different types of state that can be split into several types:
+Managing state effectively is crucial for optimizing your application's performance. Instead of storing all state information in a single centralized repository, consider dividing it into various categories based on their usage. By categorizing your state, you can streamline your state management process and enhance your application's overall efficiency.
 
 ## Component State
 
-This is the state that only a component needs, and it is not meant to be shared anywhere else. But you can pass it as prop to children components if needed. Most of the time, you want to start from here and lift the state up if needed elsewhere. For this type of state, you will usually need:
+Component state is specific to individual components and should not be shared globally. It can be passed down to child components as props when necessary. Typically, you should begin by defining state within the component itself and consider elevating it to a higher level if it's required elsewhere in the application. When managing component state, you can use the following React hooks:
 
 - [useState](https://react.dev/reference/react/useState) - for simpler states that are independent
 - [useReducer](https://react.dev/reference/react/useReducer) - for more complex states where on a single action you want to update several pieces of state
@@ -13,7 +13,7 @@ This is the state that only a component needs, and it is not meant to be shared 
 
 ## Application State
 
-This is the state that controls interactive parts of an application. Opening global modals, notifications, changing color mode, etc. For best performance and maintainability, keep the state as close as possible to the components that are using it. Don't make everything global out of the box.
+Application state manages global parts of an application, such as controlling global modals, notifications, and toggling color modes. To ensure optimal performance and ease of maintenance, it is advisable to localize the state as closely as possible to the components that require it. Avoid unnecessarily globalizing all state variables from the outset to maintain a structured and efficient state management architecture.
 
 Good Application State Solutions:
 
@@ -28,11 +28,11 @@ Good Application State Solutions:
 
 ## Server Cache State
 
-This is the state that comes from the server which is being cached on the client for further usage. It is possible to store remote data inside a state management store such as redux, but there are better solutions for that.
+The Server Cache State refers to the data retrieved from the server that is stored locally on the client-side for future use. While it is feasible to cache remote data within a state management store like Redux, there exist more optimal solutions to this practice. It is essential to consider more efficient caching mechanisms to enhance performance and optimize data retrieval processes.
 
 Good Server Cache Libraries:
 
-- [react-query](https://react-query.tanstack.com/) - REST + GraphQL
+- [react-query](https://tanstack.com/query) - REST + GraphQL
 - [swr](https://swr.vercel.app/) - REST + GraphQL
 - [apollo client](https://www.apollographql.com/) - GraphQL
 - [urql](https://formidable.com/open-source/urql/) - GraphQl
@@ -42,19 +42,19 @@ Good Server Cache Libraries:
 
 ## Form State
 
-This is a state that tracks users inputs in a form.
+Forms are a crucial part of any application, and managing form state effectively is essential for a seamless user experience. When handling form state, consider using libraries like Formik, React Hook Form, or Final Form to streamline the process. These libraries provide built-in validation, error handling, and form submission functionalities, making it easier to manage form state within your application.
 
 Forms in React can be [controlled and uncontrolled](https://react.dev/learn/sharing-state-between-components#controlled-and-uncontrolled-components).
 
-Depending on the application needs, they might be pretty complex with many different fields which require validation.
+Depending on the application needs, they might be pretty complex with many different fields that require validation.
 
-Although it is possible to build any form using only React, there are pretty good solutions out there that help with handling forms such as:
+Although it is possible to build any form using only React primitives, there are some good solutions out there that help with handling forms such as:
 
 - [React Hook Form](https://react-hook-form.com/)
 - [Formik](https://formik.org/)
 - [React Final Form](https://github.com/final-form/react-final-form)
 
-Create abstracted `Form` component and all the input field components that wrap the library functionality and are adapted to the application needs. You can reuse it then throughout the application.
+Create abstracted `Form` component and all the input field components that wrap the library functionality and are adapted to the application needs.
 
 [Form Example Code](../src/components/ui/form/form.tsx)
 
@@ -69,6 +69,6 @@ You can also integrate validation libraries with the mentioned solutions to vali
 
 ## URL State
 
-State that is being kept in the address bar of the browser. It is usually tracked via url params (`/app/${dynamicParam}`) or query params (`/app?dynamicParam=1`). It can be accessed and controlled via your routing solution such as `react-router-dom`.
+URL state refers to the data stored and manipulated within the address bar of the browser. This state is commonly managed through URL parameters (e.g., /app/${dynamicParam}) or query parameters (e.g., /app?dynamicParam=1). By incorporating routing solutions like react-router-dom, you can effectively access and control the URL state, enabling dynamic manipulation of application parameters directly from the browser's address bar.
 
 [URL State Example Code](../src/features/discussions/routes/discussion.tsx)

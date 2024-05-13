@@ -2,11 +2,9 @@
 
 ### Code Splitting
 
-Code splitting is a technique of splitting production JavaScript into smaller files, thus allowing the application to be only partially downloaded. Any unused code will not be downloaded until it is required by the application.
+Code splitting involves dividing production JavaScript into smaller files to optimize application loading times. This technique enables the application to be downloaded in parts, fetching only the necessary code when required.
 
-Most of the time code splitting should be done on the routes level, but can also be used for other lazy loaded parts of application.
-
-Do not code split everything as it might even worsen your application's performance because of many requests your application needs to make to get all the chunks.
+Ideally, code splitting should be implemented at the routes level, ensuring that only essential code is loaded initially, with additional parts fetched lazily as needed. It's important to avoid excessive code splitting, as this can lead to a performance decline due to the increased number of requests required to fetch all the code chunks. Strategic code splitting, focusing on critical parts of the application, helps balance performance optimization with efficient resource loading.
 
 [Code Splitting Example Code](../src/routes/index.tsx)
 
@@ -28,7 +26,7 @@ const [state, setState] = React.useState(() => myExpensiveFn());
 
 - If you develop an application that requires a state to track many elements at once, you might consider state management libraries with atomic updates such as [jotai](https://jotai.pmnd.rs/).
 
-- Use React Context wisely. React Context is good for low-velocity data like themes, user data, small local state etc. While dealing with medium-velocity/high-velocity data, you may consider using the [use-context-selector](https://github.com/dai-shi/use-context-selector) library that supports selectors (selectors are already built-in in most popular state management libraries like [zustand](https://docs.pmnd.rs/zustand/getting-started/introduction) or [jotai](https://jotai.org/)). Important to remember, context is often used as the "golden tool" for props drilling, whereas in many scenarios you may satisfy your needs by [lifting the state up](https://react.dev/learn/sharing-state-between-components#lifting-state-up-by-example) or [a proper composition of components](https://react.dev/learn/passing-data-deeply-with-context#before-you-use-context). Do not rush with context.
+- Use React Context wisely. React Context is good for low-velocity data like themes, user data, small local state etc. While dealing with medium-velocity/high-velocity data, you may consider using the [use-context-selector](https://github.com/dai-shi/use-context-selector) library that supports selectors (selectors are already built-in in most popular state management libraries like [zustand](https://docs.pmnd.rs/zustand/getting-started/introduction) or [jotai](https://jotai.org/)). Important to remember, context is often used as the "golden tool" for props drilling, whereas in many scenarios you may satisfy your needs by [lifting the state up](https://react.dev/learn/sharing-state-between-components#lifting-state-up-by-example) or [a proper composition of components](https://react.dev/learn/passing-data-deeply-with-context#before-you-use-context). Do not rush with context and global state.
 
 - If your application is expected to have frequent updates that might affect performance, consider switching from runtime styling solutions such as [emotion](https://emotion.sh/docs/introduction), [styled-components](https://styled-components.com/) that generate styles during runtime) to zero runtime styling solutions ([tailwind](https://tailwindcss.com/), [vanilla-extract](https://github.com/seek-oss/vanilla-extract), [CSS modules](https://github.com/css-modules/css-modules) which generate styles during build time).
 
