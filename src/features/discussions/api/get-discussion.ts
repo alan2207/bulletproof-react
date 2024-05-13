@@ -1,7 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, queryOptions } from '@tanstack/react-query';
 
 import { api } from '@/lib/api-client';
-import { ApiFnReturnType, QueryConfig } from '@/lib/react-query';
+import { QueryConfig } from '@/lib/react-query';
 
 import { Discussion } from '../types';
 
@@ -13,25 +13,24 @@ export const getDiscussion = ({
   return api.get(`/discussions/${discussionId}`);
 };
 
-type QueryFnType = typeof getDiscussion;
-
-export const getDiscussionKey = (discussionId: string) => [
-  'discussions',
-  discussionId,
-];
+export const getDiscussionsQueryOptions = (discussionId: string) => {
+  return queryOptions({
+    queryKey: ['discussions', discussionId],
+    queryFn: () => getDiscussion({ discussionId }),
+  });
+};
 
 type UseDiscussionOptions = {
   discussionId: string;
-  config?: QueryConfig<QueryFnType>;
+  queryConfig?: QueryConfig<typeof getDiscussionsQueryOptions>;
 };
 
 export const useDiscussion = ({
   discussionId,
-  config,
+  queryConfig,
 }: UseDiscussionOptions) => {
-  return useQuery<ApiFnReturnType<QueryFnType>>({
-    ...config,
-    queryKey: getDiscussionKey(discussionId),
-    queryFn: () => getDiscussion({ discussionId }),
+  return useQuery({
+    ...getDiscussionsQueryOptions(discussionId),
+    ...queryConfig,
   });
 };

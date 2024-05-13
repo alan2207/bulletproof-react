@@ -1,7 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
+import { queryOptions, useQuery } from '@tanstack/react-query';
 
 import { api } from '@/lib/api-client';
-import { ApiFnReturnType, QueryConfig } from '@/lib/react-query';
+import { QueryConfig } from '@/lib/react-query';
 
 import { Comment } from '../types';
 
@@ -17,22 +17,24 @@ export const getComments = ({
   });
 };
 
-type QueryFnType = typeof getComments;
-
-export const getCommentsKey = (discussionId: string) => [
-  'comments',
-  discussionId,
-];
+export const getCommentsQueryOptions = (discussionId: string) => {
+  return queryOptions({
+    queryKey: ['comments', discussionId],
+    queryFn: () => getComments({ discussionId }),
+  });
+};
 
 type UseCommentsOptions = {
   discussionId: string;
-  config?: QueryConfig<QueryFnType>;
+  queryConfig?: QueryConfig<typeof getComments>;
 };
 
-export const useComments = ({ discussionId, config }: UseCommentsOptions) => {
-  return useQuery<ApiFnReturnType<QueryFnType>>({
-    queryKey: getCommentsKey(discussionId),
-    queryFn: () => getComments({ discussionId }),
-    ...config,
+export const useComments = ({
+  discussionId,
+  queryConfig,
+}: UseCommentsOptions) => {
+  return useQuery({
+    ...getCommentsQueryOptions(discussionId),
+    ...queryConfig,
   });
 };

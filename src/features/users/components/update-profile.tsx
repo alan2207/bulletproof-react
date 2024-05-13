@@ -14,7 +14,7 @@ export const UpdateProfile = () => {
   const user = useUser();
   const { addNotification } = useNotifications();
   const updateProfileMutation = useUpdateProfile({
-    config: {
+    mutationConfig: {
       onSuccess: () => {
         addNotification({
           type: 'success',

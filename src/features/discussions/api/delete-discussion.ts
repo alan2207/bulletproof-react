@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 
-import { getDiscussionsKey } from './get-discussions';
+import { getDiscussionsQueryOptions } from './get-discussions';
 
 export const deleteDiscussion = ({
   discussionId,
@@ -14,20 +14,20 @@ export const deleteDiscussion = ({
 };
 
 type UseDeleteDiscussionOptions = {
-  config?: MutationConfig<typeof deleteDiscussion>;
+  mutationConfig?: MutationConfig<typeof deleteDiscussion>;
 };
 
 export const useDeleteDiscussion = ({
-  config,
+  mutationConfig,
 }: UseDeleteDiscussionOptions = {}) => {
   const queryClient = useQueryClient();
 
-  const { onSuccess, ...restConfig } = config || {};
+  const { onSuccess, ...restConfig } = mutationConfig || {};
 
   return useMutation({
     onSuccess: (...args) => {
       queryClient.invalidateQueries({
-        queryKey: getDiscussionsKey(),
+        queryKey: getDiscussionsQueryOptions().queryKey,
       });
       onSuccess?.(...args);
     },

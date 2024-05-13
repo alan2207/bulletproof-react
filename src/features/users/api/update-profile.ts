@@ -19,13 +19,15 @@ export const updateProfile = ({ data }: { data: UpdateProfileInput }) => {
 };
 
 type UseUpdateProfileOptions = {
-  config?: MutationConfig<typeof updateProfile>;
+  mutationConfig?: MutationConfig<typeof updateProfile>;
 };
 
-export const useUpdateProfile = ({ config }: UseUpdateProfileOptions = {}) => {
+export const useUpdateProfile = ({
+  mutationConfig,
+}: UseUpdateProfileOptions = {}) => {
   const { refetch: refetchUser } = useUser();
 
-  const { onSuccess, ...restConfig } = config || {};
+  const { onSuccess, ...restConfig } = mutationConfig || {};
 
   return useMutation({
     onSuccess: (...args) => {

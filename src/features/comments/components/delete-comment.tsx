@@ -15,7 +15,7 @@ export const DeleteComment = ({ id, discussionId }: DeleteCommentProps) => {
   const { addNotification } = useNotifications();
   const deleteCommentMutation = useDeleteComment({
     discussionId,
-    config: {
+    mutationConfig: {
       onSuccess: () => {
         addNotification({
           type: 'success',

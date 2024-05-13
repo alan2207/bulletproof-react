@@ -14,7 +14,7 @@ type DeleteDiscussionProps = {
 export const DeleteDiscussion = ({ id }: DeleteDiscussionProps) => {
   const { addNotification } = useNotifications();
   const deleteDiscussionMutation = useDeleteDiscussion({
-    config: {
+    mutationConfig: {
       onSuccess: () => {
         addNotification({
           type: 'success',

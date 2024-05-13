@@ -6,7 +6,7 @@ import { MutationConfig } from '@/lib/react-query';
 
 import { Comment } from '../types';
 
-import { getCommentsKey } from './get-comments';
+import { getCommentsQueryOptions } from './get-comments';
 
 export const createCommentInputSchema = z.object({
   discussionId: z.string().min(1, 'Required'),
@@ -25,21 +25,21 @@ export const createComment = ({
 
 type UseCreateCommentOptions = {
   discussionId: string;
-  config?: MutationConfig<typeof createComment>;
+  mutationConfig?: MutationConfig<typeof createComment>;
 };
 
 export const useCreateComment = ({
-  config,
+  mutationConfig,
   discussionId,
 }: UseCreateCommentOptions) => {
   const queryClient = useQueryClient();
 
-  const { onSuccess, ...restConfig } = config || {};
+  const { onSuccess, ...restConfig } = mutationConfig || {};
 
   return useMutation({
     onSuccess: (...args) => {
       queryClient.invalidateQueries({
-        queryKey: getCommentsKey(discussionId),
+        queryKey: getCommentsQueryOptions(discussionId).queryKey,
       });
       onSuccess?.(...args);
     },

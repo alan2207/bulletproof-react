@@ -6,7 +6,7 @@ import { MutationConfig } from '@/lib/react-query';
 
 import { Discussion } from '../types';
 
-import { getDiscussionsKey } from './get-discussions';
+import { getDiscussionsQueryOptions } from './get-discussions';
 
 export const createDiscussionInputSchema = z.object({
   title: z.string().min(1, 'Required'),
@@ -24,20 +24,20 @@ export const createDiscussion = ({
 };
 
 type UseCreateDiscussionOptions = {
-  config?: MutationConfig<typeof createDiscussion>;
+  mutationConfig?: MutationConfig<typeof createDiscussion>;
 };
 
 export const useCreateDiscussion = ({
-  config,
+  mutationConfig,
 }: UseCreateDiscussionOptions = {}) => {
   const queryClient = useQueryClient();
 
-  const { onSuccess, ...restConfig } = config || {};
+  const { onSuccess, ...restConfig } = mutationConfig || {};
 
   return useMutation({
     onSuccess: (...args) => {
       queryClient.invalidateQueries({
-        queryKey: getDiscussionsKey(),
+        queryKey: getDiscussionsQueryOptions().queryKey,
       });
       onSuccess?.(...args);
     },

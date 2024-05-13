@@ -17,7 +17,7 @@ export const CreateComment = ({ discussionId }: CreateCommentProps) => {
   const { addNotification } = useNotifications();
   const createCommentMutation = useCreateComment({
     discussionId,
-    config: {
+    mutationConfig: {
       onSuccess: () => {
         addNotification({
           type: 'success',

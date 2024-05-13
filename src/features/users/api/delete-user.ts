@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 
-import { getUsersKey } from './get-users';
+import { getUsersQueryOptions } from './get-users';
 
 export type DeleteUserDTO = {
   userId: string;
@@ -14,18 +14,20 @@ export const deleteUser = ({ userId }: DeleteUserDTO) => {
 };
 
 type UseDeleteUserOptions = {
-  config?: MutationConfig<typeof deleteUser>;
+  mutationConfig?: MutationConfig<typeof deleteUser>;
 };
 
-export const useDeleteUser = ({ config }: UseDeleteUserOptions = {}) => {
+export const useDeleteUser = ({
+  mutationConfig,
+}: UseDeleteUserOptions = {}) => {
   const queryClient = useQueryClient();
 
-  const { onSuccess, ...restConfig } = config || {};
+  const { onSuccess, ...restConfig } = mutationConfig || {};
 
   return useMutation({
     onSuccess: (...args) => {
       queryClient.invalidateQueries({
-        queryKey: getUsersKey(),
+        queryKey: getUsersQueryOptions().queryKey,
       });
       onSuccess?.(...args);
     },

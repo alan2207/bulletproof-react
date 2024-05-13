@@ -8,7 +8,11 @@ import { useDiscussions } from '../api/get-discussions';
 import { DeleteDiscussion } from './delete-discussion';
 
 export const DiscussionsList = () => {
-  const discussionsQuery = useDiscussions();
+  const discussionsQuery = useDiscussions({
+    queryConfig: {
+      refetchInterval: () => 1000,
+    },
+  });
 
   if (discussionsQuery.isLoading) {
     return (

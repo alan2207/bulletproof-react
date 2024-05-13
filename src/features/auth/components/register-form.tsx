@@ -19,7 +19,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
   const redirectTo = searchParams.get('redirectTo');
 
   const teamsQuery = useTeams({
-    config: {
+    queryConfig: {
       enabled: chooseTeam,
     },
   });

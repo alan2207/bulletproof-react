@@ -1,7 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
+import { queryOptions, useQuery } from '@tanstack/react-query';
 
 import { api } from '@/lib/api-client';
-import { ApiFnReturnType, QueryConfig } from '@/lib/react-query';
+import { QueryConfig } from '@/lib/react-query';
 
 import { Team } from '../types';
 
@@ -9,18 +9,20 @@ export const getTeams = (): Promise<Team[]> => {
   return api.get('/teams');
 };
 
-type QueryFnType = typeof getTeams;
-
-export const getTeamsKey = () => ['teams'];
-
-type UseTeamsOptions = {
-  config?: QueryConfig<QueryFnType>;
+export const getTeamsQueryOptions = () => {
+  return queryOptions({
+    queryKey: ['teams'],
+    queryFn: () => getTeams(),
+  });
 };
 
-export const useTeams = ({ config = {} }: UseTeamsOptions = {}) => {
-  return useQuery<ApiFnReturnType<QueryFnType>>({
-    ...config,
-    queryKey: getTeamsKey(),
-    queryFn: () => getTeams(),
+type UseTeamsOptions = {
+  queryConfig?: QueryConfig<typeof getTeamsQueryOptions>;
+};
+
+export const useTeams = ({ queryConfig = {} }: UseTeamsOptions = {}) => {
+  return useQuery({
+    ...getTeamsQueryOptions(),
+    ...queryConfig,
   });
 };

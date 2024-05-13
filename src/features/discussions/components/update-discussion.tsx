@@ -19,7 +19,7 @@ export const UpdateDiscussion = ({ discussionId }: UpdateDiscussionProps) => {
   const { addNotification } = useNotifications();
   const discussionQuery = useDiscussion({ discussionId });
   const updateDiscussionMutation = useUpdateDiscussion({
-    config: {
+    mutationConfig: {
       onSuccess: () => {
         addNotification({
           type: 'success',

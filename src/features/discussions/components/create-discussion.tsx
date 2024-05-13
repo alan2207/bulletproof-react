@@ -13,7 +13,7 @@ import {
 export const CreateDiscussion = () => {
   const { addNotification } = useNotifications();
   const createDiscussionMutation = useCreateDiscussion({
-    config: {
+    mutationConfig: {
       onSuccess: () => {
         addNotification({
           type: 'success',

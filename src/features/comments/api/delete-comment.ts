@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 
-import { getCommentsKey } from './get-comments';
+import { getCommentsQueryOptions } from './get-comments';
 
 export const deleteComment = ({ commentId }: { commentId: string }) => {
   return api.delete(`/comments/${commentId}`);
@@ -11,21 +11,21 @@ export const deleteComment = ({ commentId }: { commentId: string }) => {
 
 type UseDeleteCommentOptions = {
   discussionId: string;
-  config?: MutationConfig<typeof deleteComment>;
+  mutationConfig?: MutationConfig<typeof deleteComment>;
 };
 
 export const useDeleteComment = ({
-  config,
+  mutationConfig,
   discussionId,
 }: UseDeleteCommentOptions) => {
   const queryClient = useQueryClient();
 
-  const { onSuccess, ...restConfig } = config || {};
+  const { onSuccess, ...restConfig } = mutationConfig || {};
 
   return useMutation({
     onSuccess: (...args) => {
       queryClient.invalidateQueries({
-        queryKey: getCommentsKey(discussionId),
+        queryKey: getCommentsQueryOptions(discussionId).queryKey,
       });
       onSuccess?.(...args);
     },

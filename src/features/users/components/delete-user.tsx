@@ -13,7 +13,7 @@ export const DeleteUser = ({ id }: DeleteUserProps) => {
   const user = useUser();
   const { addNotification } = useNotifications();
   const deleteUserMutation = useDeleteUser({
-    config: {
+    mutationConfig: {
       onSuccess: () => {
         addNotification({
           type: 'success',

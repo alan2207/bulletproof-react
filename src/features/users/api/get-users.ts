@@ -1,7 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
+import { queryOptions, useQuery } from '@tanstack/react-query';
 
 import { api } from '@/lib/api-client';
-import { ApiFnReturnType, QueryConfig } from '@/lib/react-query';
+import { QueryConfig } from '@/lib/react-query';
 
 import { User } from '../types';
 
@@ -9,18 +9,20 @@ export const getUsers = (): Promise<User[]> => {
   return api.get(`/users`);
 };
 
-type QueryFnType = typeof getUsers;
-
-export const getUsersKey = () => ['users'];
-
-type UseUsersOptions = {
-  config?: QueryConfig<QueryFnType>;
+export const getUsersQueryOptions = () => {
+  return queryOptions({
+    queryKey: ['users'],
+    queryFn: getUsers,
+  });
 };
 
-export const useUsers = ({ config }: UseUsersOptions = {}) => {
-  return useQuery<ApiFnReturnType<QueryFnType>>({
-    ...config,
-    queryKey: getUsersKey(),
-    queryFn: () => getUsers(),
+type UseUsersOptions = {
+  queryConfig?: QueryConfig<typeof getUsersQueryOptions>;
+};
+
+export const useUsers = ({ queryConfig }: UseUsersOptions = {}) => {
+  return useQuery({
+    ...getUsersQueryOptions(),
+    ...queryConfig,
   });
 };

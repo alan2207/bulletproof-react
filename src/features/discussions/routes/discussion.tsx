@@ -13,7 +13,12 @@ import { UpdateDiscussion } from '../components/update-discussion';
 export const DiscussionRoute = () => {
   const params = useParams();
   const discussionId = params.discussionId as string;
-  const discussionQuery = useDiscussion({ discussionId });
+  const discussionQuery = useDiscussion({
+    discussionId,
+    queryConfig: {
+      refetchInterval: 1000,
+    },
+  });
 
   if (discussionQuery.isLoading) {
     return (
