@@ -2,15 +2,15 @@
 
 ### API Errors
 
-Set up an interceptor for handling errors. You can use it to fire a notification toast to notify users that something went wrong, log out unauthorized users, or send new requests for refreshing tokens.
+Implement an interceptor to manage errors effectively. This interceptor can be utilized to trigger notification toasts informing users of errors, log out unauthorized users, or send requests to refresh tokens to maintain secure and seamless application operation.
 
-[API Errors Notification Example Code](../src/lib/axios.ts)
+[API Errors Notification Example Code](../src/lib/api-client.ts)
 
 ### In App Errors
 
-Use error boundaries to handle errors that happen in the React tree. It is very popular to set only 1 single error boundary for the entire application, which would break the entire application when an error occurs. That's why you should have more error boundaries on more specific parts of the application. That way if an error occurs the app will still work without the need to restart it.
+Utilize error boundaries in React to handle errors within specific parts of your application. Instead of having only one error boundary for the entire app, consider placing multiple error boundaries in different areas. This way, if an error occurs, it can be contained and managed locally without disrupting the entire application's functionality, ensuring a smoother user experience.
 
-[Error Boundary Example Code](../src/providers/app.tsx)
+[Error Boundary Example Code](../src/features/discussions/routes/discussion.tsx)
 
 ### Error Tracking
 

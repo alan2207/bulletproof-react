@@ -1,12 +1,18 @@
-import { axios } from '@/lib/axios';
+import { z } from 'zod';
+
+import { api } from '@/lib/api-client';
 
 import { UserResponse } from '../types';
 
-export type LoginCredentialsDTO = {
-  email: string;
-  password: string;
-};
+export const loginInputSchema = z.object({
+  email: z.string().min(1, 'Required').email('Invalid email'),
+  password: z.string().min(5, 'Required'),
+});
 
-export const loginWithEmailAndPassword = (data: LoginCredentialsDTO): Promise<UserResponse> => {
-  return axios.post('/auth/login', data);
+export type LoginInput = z.infer<typeof loginInputSchema>;
+
+export const loginWithEmailAndPassword = (
+  data: LoginInput,
+): Promise<UserResponse> => {
+  return api.post('/auth/login', data);
 };

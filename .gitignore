@@ -7,11 +7,20 @@
 
 # testing
 /coverage
-/cypress/videos
-/cypress/screenshots
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/e2e/.auth/
+
+# storybook
+migration-storybook.log
+storybook.log
+storybook-static
+
 
 # production
-/build
+/dist
 
 # misc
 .DS_Store
@@ -24,3 +33,4 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+

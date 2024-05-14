@@ -1,7 +1,8 @@
-export * from './api/getUser';
-export * from './api/login';
-export * from './api/register';
+export * from './lib/auth';
+export * from './lib/authorization';
+export * from './lib/protected-route';
 
-export * from './routes';
+export * from './routes/register';
+export * from './routes/login';
 
 export * from './types';
