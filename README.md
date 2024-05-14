@@ -38,7 +38,7 @@ To get most out of it, do not get limited by the technologies used in this sampl
 ## Table Of Contents:
 
 - [💻 Application Overview](docs/application-overview.md)
-- [⚙️ Project Configuration](docs/project-configuration.md)
+- [⚙️ Project Standards](docs/project-standards.md)
 - [🗄️ Project Structure](docs/project-structure.md)
 - [🧱 Components And Styling](docs/components-and-styling.md)
 - [📡 API Layer](docs/api-layer.md)

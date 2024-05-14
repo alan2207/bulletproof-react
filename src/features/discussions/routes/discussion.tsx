@@ -1,3 +1,4 @@
+import { ErrorBoundary } from 'react-error-boundary';
 import { useParams } from 'react-router-dom';
 
 import { ContentLayout } from '@/components/layouts';
@@ -56,9 +57,13 @@ export const DiscussionRoute = () => {
               </div>
             </div>
           </div>
-          <div>
+          <ErrorBoundary
+            fallback={
+              <div>Failed to load comments. Try to refresh the page.</div>
+            }
+          >
             <Comments discussionId={discussionId} />
-          </div>
+          </ErrorBoundary>
         </div>
       </ContentLayout>
     </>

@@ -1,21 +1,12 @@
-# ⚙️ Project Configuration
+# ⚙️ Project Standards
 
-The sample application has been bootstrapped using `Vite ` and its `react-ts` template. It allows us to create applications quickly without dealing with a complex tooling setup such as bundling, transpiling etc.
-
-Other popular ways you can bootstrap the application are:
-
-- [Next.js](https://nextjs.org/)
-- [Remix](https://remix.run/)
-
-For simplicity we will use Vite, as it doesn't force us to use the meta-framework specific things, and allows us to focus on React.
-
-You should always configure and use the following tools:
+Enforcing project standards is crucial for maintaining code quality, consistency, and scalability in a React application. By establishing and adhering to a set of best practices, developers can ensure that the codebase remains clean, organized, and easy to maintain.
 
 #### ESLint
 
 ESLint serves as a valuable linting tool for JavaScript, helping developers in maintaining code quality and adhering to coding standards. By configuring rules in the `.eslintrc.js` file, ESLint helps identify and prevent common errors, ensuring code correctness and promoting consistency throughout the codebase. This approach not only helps in catching mistakes early but also enforces uniformity in coding practices, thereby enhancing the overall quality and readability of the code.
 
-[ESLint Configuration Example Code](../.eslintrc.js)
+[ESLint Configuration Example Code](../.eslintrc.cjs)
 
 #### Prettier
 
