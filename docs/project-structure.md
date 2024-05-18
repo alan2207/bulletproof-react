@@ -52,7 +52,11 @@ src/features/awesome-feature
 +-- utils       # utility functions for a specific feature
 ```
 
-It might be a bad idea to import across the features. Instead, compose different features at the application level in the routes/pages. This way, you can ensure that each feature is independent and can be easily moved or removed without affecting other parts of the application and also makes the codebase less convoluted.
+NOTE: You don't need all of these folders for every feature. Only include the ones that are necessary for the feature.
+
+Previously, it was recommended to use barrel files to export all the files from a feature. However, it can cause issues for Vite to do tree shaking and can lead to performance issues. Therefore, it is recommended to import the files directly.
+
+It might be a bad idea to import across the features. Instead, compose different features at the application level. This way, you can ensure that each feature is independent and can be easily moved or removed without affecting other parts of the application and also makes the codebase less convoluted.
 
 To forbid cross-feature imports, you can use ESLint:
 
@@ -61,6 +65,8 @@ To forbid cross-feature imports, you can use ESLint:
     'error',
     {
         zones: [
+            // disables cross-feature imports:
+            // eg. src/features/auth should not import from src/features/comments, etc.
             {
                 target: './src/features/auth',
                 from: './src/features',
@@ -86,7 +92,41 @@ To forbid cross-feature imports, you can use ESLint:
                 from: './src/features',
                 except: ['./users'],
             },
+
+            // More restrictions...
         ],
+    },
+],
+```
+
+You might also want to enforce unidirectional codebase architecture. This means that the code should flow in one direction, from the top to the bottom of the application. This is a good practice to follow as it makes the codebase more predictable and easier to understand. To enforce this, you can use ESLint:
+
+```js
+'import/no-restricted-paths': [
+    'error',
+    {
+    zones: [
+        // Previous restrictions...
+
+        // enforce unidirectional codebase:
+        // e.g. src/app can import from src/features but not the other way around
+        {
+            target: './src/features',
+            from: './src/app',
+        },
+
+        // e.g src/features and src/app can import from these shared modules but not the other way around
+        {
+            target: [
+                './src/components',
+                './src/hooks',
+                './src/lib',
+                './src/types',
+                './src/utils',
+            ],
+            from: ['./src/features', './src/app'],
+        },
+    ],
     },
 ],
 ```

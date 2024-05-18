@@ -62,7 +62,7 @@ export const router = createBrowserRouter([
         path: 'discussions',
         lazy: async () => {
           const { DiscussionsRoute } = await import(
-            '@/routes/app/discussions/discussions'
+            './app/discussions/discussions'
           );
           return { Component: DiscussionsRoute };
         },
@@ -71,7 +71,7 @@ export const router = createBrowserRouter([
         path: 'discussions/:discussionId',
         lazy: async () => {
           const { DiscussionRoute } = await import(
-            '@/routes/app/discussions/discussion'
+            './app/discussions/discussion'
           );
           return { Component: DiscussionRoute };
         },

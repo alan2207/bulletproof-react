@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event';
 import Cookies from 'js-cookie';
 import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 
-import { AppProvider } from '@/providers/app';
+import { AppProvider } from '@/app/main-provider';
 
 import {
   createDiscussion as generateDiscussion,
