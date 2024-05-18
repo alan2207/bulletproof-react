@@ -1,8 +1,14 @@
-import { User } from '@/features/users';
-import { BaseEntity } from '@/types';
+import { Entity } from '@/types';
 
-export type Comment = {
+export type Comment = Entity<{
   body: string;
   discussionId: string;
-  author: User;
-} & BaseEntity;
+  author: Entity<{
+    firstName: string;
+    lastName: string;
+    email: string;
+    role: 'ADMIN' | 'USER';
+    teamId: string;
+    bio: string;
+  }>;
+}>;

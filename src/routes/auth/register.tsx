@@ -1,7 +1,7 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { Layout } from '../components/auth-layout';
-import { RegisterForm } from '../components/register-form';
+import { Layout } from '@/components/layouts/auth-layout';
+import { RegisterForm } from '@/features/auth/components/register-form';
 
 export const RegisterRoute = () => {
   const navigate = useNavigate();

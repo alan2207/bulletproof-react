@@ -1,16 +1,14 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import * as React from 'react';
-import { useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { HelmetProvider } from 'react-helmet-async';
-import { BrowserRouter as Router } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 import { Notifications } from '@/components/ui/notifications';
 import { Spinner } from '@/components/ui/spinner';
-import { AuthLoader } from '@/features/auth';
-import { queryConfig } from '@/lib/react-query';
+import { AuthLoader } from '@/lib/auth';
+import { queryClient } from '@/lib/react-query';
 
 const ErrorFallback = () => {
   return (
@@ -34,11 +32,6 @@ type AppProviderProps = {
 };
 
 export const AppProvider = ({ children }: AppProviderProps) => {
-  const [queryClient] = useState(() => {
-    return new QueryClient({
-      defaultOptions: queryConfig,
-    });
-  });
   return (
     <React.Suspense
       fallback={
@@ -59,7 +52,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
                 </div>
               )}
             >
-              <Router>{children}</Router>
+              {children}
             </AuthLoader>
           </QueryClientProvider>
         </HelmetProvider>

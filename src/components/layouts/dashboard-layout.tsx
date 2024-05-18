@@ -4,7 +4,8 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import logo from '@/assets/logo.svg';
 import { Button } from '@/components/ui/button';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
-import { ROLES, useAuthorization, useLogout } from '@/features/auth';
+import { useLogout } from '@/lib/auth';
+import { ROLES, useAuthorization } from '@/lib/authorization';
 import { cn } from '@/utils/cn';
 
 import {
@@ -22,6 +23,17 @@ type SideNavigationItem = {
   icon: (props: React.SVGProps<SVGSVGElement>) => JSX.Element;
 };
 
+const Logo = () => {
+  return (
+    <Link className="flex items-center text-white" to="/">
+      <img className="h-8 w-auto" src={logo} alt="Workflow" />
+      <span className="text-sm font-semibold text-white">
+        Bulletproof React
+      </span>
+    </Link>
+  );
+};
+
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const logout = useLogout();
   const { checkAccess } = useAuthorization();
@@ -35,17 +47,6 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
       icon: Users,
     },
   ].filter(Boolean) as SideNavigationItem[];
-
-  const Logo = () => {
-    return (
-      <Link className="flex items-center text-white" to="/">
-        <img className="h-8 w-auto" src={logo} alt="Workflow" />
-        <span className="text-sm font-semibold text-white">
-          Bulletproof React
-        </span>
-      </Link>
-    );
-  };
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">

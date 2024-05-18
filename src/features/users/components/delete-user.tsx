@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { ConfirmationDialog } from '@/components/ui/dialog';
-import { useUser } from '@/features/auth';
+import { useUser } from '@/lib/auth';
 import { useNotifications } from '@/stores/notifications';
 
 import { useDeleteUser } from '../api/delete-user';

@@ -3,10 +3,8 @@ import { Link, useSearchParams } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 import { Form, Input, Select, Label, Switch } from '@/components/ui/form';
-import { useTeams } from '@/features/teams';
-
-import { registerInputSchema } from '../api/register';
-import { useRegister } from '../lib/auth';
+import { useTeams } from '@/features/teams/api/get-teams';
+import { useRegister, registerInputSchema } from '@/lib/auth';
 
 type RegisterFormProps = {
   onSuccess: () => void;

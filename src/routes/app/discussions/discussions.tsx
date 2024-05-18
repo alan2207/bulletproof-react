@@ -1,7 +1,6 @@
 import { ContentLayout } from '@/components/layouts';
-
-import { CreateDiscussion } from '../components/create-discussion';
-import { DiscussionsList } from '../components/discussions-list';
+import { CreateDiscussion } from '@/features/discussions/components/create-discussion';
+import { DiscussionsList } from '@/features/discussions/components/discussions-list';
 
 export const DiscussionsRoute = () => {
   return (

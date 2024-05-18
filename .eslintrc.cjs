@@ -4,8 +4,12 @@ module.exports = {
     node: true,
     es6: true,
   },
-  parserOptions: { ecmaVersion: 8, sourceType: 'module' },
-  ignorePatterns: ['node_modules/*', 'public/mockServiceWorker.js', 'generators/*'],
+  parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
+  ignorePatterns: [
+    'node_modules/*',
+    'public/mockServiceWorker.js',
+    'generators/*',
+  ],
   extends: ['eslint:recommended'],
   overrides: [
     {
@@ -38,10 +42,32 @@ module.exports = {
         'plugin:vitest/legacy-recommended',
       ],
       rules: {
-        'no-restricted-imports': [
+        // disables cross-feature imports:
+        'import/no-restricted-paths': [
           'error',
           {
-            patterns: ['@/features/*/*'],
+            zones: [
+              {
+                target: './src/features/comments',
+                from: './src/features',
+                except: ['./comments'],
+              },
+              {
+                target: './src/features/discussions',
+                from: './src/features',
+                except: ['./discussions'],
+              },
+              {
+                target: './src/features/teams',
+                from: './src/features',
+                except: ['./teams'],
+              },
+              {
+                target: './src/features/users',
+                from: './src/features',
+                except: ['./users'],
+              },
+            ],
           },
         ],
         'import/no-cycle': 'error',
@@ -50,7 +76,15 @@ module.exports = {
         'import/order': [
           'error',
           {
-            groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'object'],
+            groups: [
+              'builtin',
+              'external',
+              'internal',
+              'parent',
+              'sibling',
+              'index',
+              'object',
+            ],
             'newlines-between': 'always',
             alphabetize: { order: 'asc', caseInsensitive: true },
           },

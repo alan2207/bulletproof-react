@@ -5,6 +5,7 @@ import {
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Cookies from 'js-cookie';
+import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 
 import { AppProvider } from '@/providers/app';
 
@@ -53,19 +54,35 @@ const initializeUser = async (user: any) => {
   }
 };
 
-// eslint-disable-next-line import/export
 export const renderApp = async (
   ui: any,
-  { route = '/', user, ...renderOptions }: Record<string, any> = {},
+  { user, url = '/', path = '/', ...renderOptions }: Record<string, any> = {},
 ) => {
   // if you want to render the app unauthenticated then pass "null" as the user
   const initializedUser = await initializeUser(user);
 
-  window.history.pushState({}, 'Test page', route);
+  const router = createMemoryRouter(
+    [
+      {
+        path: path,
+        element: ui,
+      },
+    ],
+    {
+      initialEntries: url ? ['/', url] : ['/'],
+      initialIndex: url ? 1 : 0,
+    },
+  );
 
   const returnValue = {
     ...rtlRender(ui, {
-      wrapper: AppProvider,
+      wrapper: () => {
+        return (
+          <AppProvider>
+            <RouterProvider router={router} />
+          </AppProvider>
+        );
+      },
       ...renderOptions,
     }),
     user: initializedUser,
@@ -76,6 +93,5 @@ export const renderApp = async (
   return returnValue;
 };
 
-// eslint-disable-next-line import/export
 export * from '@testing-library/react';
 export { userEvent, rtlRender };

@@ -1,6 +1,6 @@
-import { BaseEntity } from '@/types';
+import { Entity } from '@/types';
 
-export type Team = {
+export type Team = Entity<{
   name: string;
   description: string;
-} & BaseEntity;
+}>;

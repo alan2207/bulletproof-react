@@ -2,8 +2,8 @@ import { ArchiveX } from 'lucide-react';
 
 import { MDPreview } from '@/components/ui/md-preview';
 import { Spinner } from '@/components/ui/spinner';
-import { useUser, POLICIES, Authorization } from '@/features/auth';
-import { User } from '@/features/users';
+import { User, useUser } from '@/lib/auth';
+import { POLICIES, Authorization } from '@/lib/authorization';
 import { formatDate } from '@/utils/format';
 
 import { useComments } from '../api/get-comments';

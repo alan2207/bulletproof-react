@@ -1,10 +1,10 @@
-import { BaseEntity } from '@/types';
+import { Entity } from '@/types';
 
-export type User = {
+export type User = Entity<{
   firstName: string;
   lastName: string;
   email: string;
   role: 'ADMIN' | 'USER';
   teamId: string;
   bio: string;
-} & BaseEntity;
+}>;

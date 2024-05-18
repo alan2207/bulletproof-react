@@ -1,5 +1,6 @@
 import { ContentLayout } from '@/components/layouts';
-import { useUser, ROLES } from '@/features/auth';
+import { useUser } from '@/lib/auth';
+import { ROLES } from '@/lib/authorization';
 
 export const DashboardRoute = () => {
   const user = useUser();
