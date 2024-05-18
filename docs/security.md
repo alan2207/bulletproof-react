@@ -55,6 +55,6 @@ In a role-based authorization model, access to resources is determined by defini
 
 While Role-Based Access Control (RBAC) provides a structured methodology for authorization, there are instances where a more granular approach is necessary. Precision-Based Access Control (PBAC) offers a more flexible solution, particularly in scenarios where access permissions need to be finely tuned based on specific criteria, such as allowing only the owner of a resource to perform certain operations. For example, in the case of a user's comment, PBAC ensures that only the author of the comment has the privilege to delete it, adding a layer of precision and customization to access control mechanisms.
 
-For RBAC protection you can use the `RBAC` component by passing allowed roles to it. On the other hand if you need more strict protection, you can pass policies check to it.
+For RBAC protection, you can use the `RBAC` component by passing allowed roles to it. On the other hand, if you need more strict protection, you can pass policies check to it.
 
 [PBAC Example Code](../src/features/comments/components/comments-list.tsx)
