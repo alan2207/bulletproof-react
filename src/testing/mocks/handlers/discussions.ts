@@ -3,7 +3,12 @@ import { HttpResponse, http } from 'msw';
 import { env } from '@/config/env';
 
 import { db, persistDb } from '../db';
-import { requireAuth, requireAdmin, sanitizeUser } from '../utils';
+import {
+  requireAuth,
+  requireAdmin,
+  sanitizeUser,
+  networkDelay,
+} from '../utils';
 
 type DiscussionBody = {
   title: string;
@@ -12,6 +17,8 @@ type DiscussionBody = {
 
 export const discussionsHandlers = [
   http.get(`${env.API_URL}/discussions`, async ({ cookies }) => {
+    await networkDelay();
+
     try {
       const user = requireAuth(cookies);
       const result = db.discussion
@@ -47,6 +54,8 @@ export const discussionsHandlers = [
   http.get(
     `${env.API_URL}/discussions/:discussionId`,
     async ({ params, cookies }) => {
+      await networkDelay();
+
       try {
         const user = requireAuth(cookies);
         const discussionId = params.discussionId as string;
@@ -94,6 +103,8 @@ export const discussionsHandlers = [
   ),
 
   http.post(`${env.API_URL}/discussions`, async ({ request, cookies }) => {
+    await networkDelay();
+
     try {
       const user = requireAuth(cookies);
       const data = (await request.json()) as DiscussionBody;
@@ -116,6 +127,8 @@ export const discussionsHandlers = [
   http.patch(
     `${env.API_URL}/discussions/:discussionId`,
     async ({ request, params, cookies }) => {
+      await networkDelay();
+
       try {
         const user = requireAuth(cookies);
         const data = (await request.json()) as DiscussionBody;
@@ -146,6 +159,8 @@ export const discussionsHandlers = [
   http.delete(
     `${env.API_URL}/discussions/:discussionId`,
     async ({ cookies, params }) => {
+      await networkDelay();
+
       try {
         const user = requireAuth(cookies);
         const discussionId = params.discussionId as string;
