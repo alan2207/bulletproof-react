@@ -47,12 +47,12 @@ src/features/awesome-feature
 |
 +-- stores      # state stores for a specific feature
 |
-+-- types       # typescript types for TS specific feature domain
++-- types       # typescript types used within the feature
 |
 +-- utils       # utility functions for a specific feature
 ```
 
-Do not import across the features. Instead, compose different features at the application level in the `routes` folder. This way, you can ensure that each feature is independent and can be easily moved or removed without affecting other parts of the application.
+It might be a bad idea to import across the features. Instead, compose different features at the application level in the routes/pages. This way, you can ensure that each feature is independent and can be easily moved or removed without affecting other parts of the application and also makes the codebase less convoluted.
 
 To forbid cross-feature imports, you can use ESLint:
 
@@ -61,6 +61,11 @@ To forbid cross-feature imports, you can use ESLint:
     'error',
     {
         zones: [
+            {
+                target: './src/features/auth',
+                from: './src/features',
+                except: ['./auth'],
+            },
             {
                 target: './src/features/comments',
                 from: './src/features',

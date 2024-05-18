@@ -48,6 +48,11 @@ module.exports = {
           {
             zones: [
               {
+                target: './src/features/auth',
+                from: './src/features',
+                except: ['./auth'],
+              },
+              {
                 target: './src/features/comments',
                 from: './src/features',
                 except: ['./comments'],

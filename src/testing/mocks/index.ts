@@ -1,10 +1,9 @@
 import { env } from '@/config/env';
 
-import { initializeDb } from './db';
-
 export const enableMocking = async () => {
   if (env.ENABLE_API_MOCKING) {
     const { worker } = await import('./browser');
+    const { initializeDb } = await import('./db');
     initializeDb();
     return worker.start();
   }

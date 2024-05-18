@@ -3,8 +3,7 @@ import { z } from 'zod';
 
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
-
-import { Comment } from '../types';
+import { Comment } from '@/types/api';
 
 import { getCommentsQueryOptions } from './get-comments';
 

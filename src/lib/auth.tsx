@@ -2,26 +2,12 @@ import { configureAuth } from 'react-query-auth';
 import { Navigate, useLocation } from 'react-router-dom';
 import { z } from 'zod';
 
-import { Entity } from '@/types';
+import { AuthResponse, User } from '@/types/api';
 
 import { api } from './api-client';
 
 // api call definitions for auth (types, schemas, requests):
 // these are not part of features as this is a shared module across features
-
-export type User = Entity<{
-  firstName: string;
-  lastName: string;
-  email: string;
-  role: 'ADMIN' | 'USER';
-  teamId: string;
-  bio: string;
-}>;
-
-export type UserResponse = {
-  jwt: string;
-  user: User;
-};
 
 const getUser = (): Promise<User> => {
   return api.get('/auth/me');
@@ -37,7 +23,7 @@ export const loginInputSchema = z.object({
 });
 
 export type LoginInput = z.infer<typeof loginInputSchema>;
-const loginWithEmailAndPassword = (data: LoginInput): Promise<UserResponse> => {
+const loginWithEmailAndPassword = (data: LoginInput): Promise<AuthResponse> => {
   return api.post('/auth/login', data);
 };
 
@@ -66,7 +52,7 @@ export type RegisterInput = z.infer<typeof registerInputSchema>;
 
 const registerWithEmailAndPassword = (
   data: RegisterInput,
-): Promise<UserResponse> => {
+): Promise<AuthResponse> => {
   return api.post('/auth/register', data);
 };
 

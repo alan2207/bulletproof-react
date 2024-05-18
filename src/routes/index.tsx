@@ -1,11 +1,13 @@
 import { Suspense } from 'react';
-import { Outlet, createBrowserRouter } from 'react-router-dom';
+import { ErrorBoundary } from 'react-error-boundary';
+import { Outlet, createBrowserRouter, useLocation } from 'react-router-dom';
 
 import { DashboardLayout } from '@/components/layouts';
 import { Spinner } from '@/components/ui/spinner';
 import { ProtectedRoute } from '@/lib/auth';
 
 const MainApp = () => {
+  const location = useLocation();
   return (
     <DashboardLayout>
       <Suspense
@@ -15,7 +17,12 @@ const MainApp = () => {
           </div>
         }
       >
-        <Outlet />
+        <ErrorBoundary
+          key={location.pathname}
+          fallback={<div>Something went wrong!</div>}
+        >
+          <Outlet />
+        </ErrorBoundary>
       </Suspense>
     </DashboardLayout>
   );

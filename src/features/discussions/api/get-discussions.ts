@@ -2,8 +2,7 @@ import { queryOptions, useQuery } from '@tanstack/react-query';
 
 import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
-
-import { Discussion } from '../types';
+import { Discussion } from '@/types/api';
 
 export const getDiscussions = (): Promise<Discussion[]> => {
   return api.get('/discussions');
