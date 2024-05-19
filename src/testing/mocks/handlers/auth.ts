@@ -4,7 +4,13 @@ import { HttpResponse, http } from 'msw';
 import { env } from '@/config/env';
 
 import { db, persistDb } from '../db';
-import { authenticate, hash, requireAuth, AUTH_COOKIE } from '../utils';
+import {
+  authenticate,
+  hash,
+  requireAuth,
+  AUTH_COOKIE,
+  networkDelay,
+} from '../utils';
 
 type RegisterBody = {
   firstName: string;
@@ -22,6 +28,7 @@ type LoginBody = {
 
 export const authHandlers = [
   http.post(`${env.API_URL}/auth/register`, async ({ request }) => {
+    await networkDelay();
     try {
       const userObject = (await request.json()) as RegisterBody;
 
@@ -103,6 +110,8 @@ export const authHandlers = [
   }),
 
   http.post(`${env.API_URL}/auth/login`, async ({ request }) => {
+    await networkDelay();
+
     try {
       const credentials = (await request.json()) as LoginBody;
       const result = authenticate(credentials);
@@ -124,7 +133,9 @@ export const authHandlers = [
     }
   }),
 
-  http.post(`${env.API_URL}/auth/logout`, () => {
+  http.post(`${env.API_URL}/auth/logout`, async () => {
+    await networkDelay();
+
     // todo: remove once tests in Github Actions are fixed
     Cookies.remove(AUTH_COOKIE);
 
@@ -138,7 +149,9 @@ export const authHandlers = [
     );
   }),
 
-  http.get(`${env.API_URL}/auth/me`, ({ cookies }) => {
+  http.get(`${env.API_URL}/auth/me`, async ({ cookies }) => {
+    await networkDelay();
+
     try {
       const user = requireAuth(cookies, false);
       return HttpResponse.json(user);

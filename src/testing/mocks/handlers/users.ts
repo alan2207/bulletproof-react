@@ -3,7 +3,12 @@ import { HttpResponse, http } from 'msw';
 import { env } from '@/config/env';
 
 import { db, persistDb } from '../db';
-import { requireAuth, requireAdmin, sanitizeUser } from '../utils';
+import {
+  requireAuth,
+  requireAdmin,
+  sanitizeUser,
+  networkDelay,
+} from '../utils';
 
 type ProfileBody = {
   email: string;
@@ -14,6 +19,8 @@ type ProfileBody = {
 
 export const usersHandlers = [
   http.get(`${env.API_URL}/users`, async ({ cookies }) => {
+    await networkDelay();
+
     try {
       const user = requireAuth(cookies);
       const result = db.user
@@ -36,6 +43,8 @@ export const usersHandlers = [
   }),
 
   http.patch(`${env.API_URL}/users/profile`, async ({ request, cookies }) => {
+    await networkDelay();
+
     try {
       const user = requireAuth(cookies);
       const data = (await request.json()) as ProfileBody;
@@ -58,6 +67,8 @@ export const usersHandlers = [
   }),
 
   http.delete(`${env.API_URL}/users/:userId`, async ({ cookies, params }) => {
+    await networkDelay();
+
     try {
       const user = requireAuth(cookies);
       const userId = params.userId as string;

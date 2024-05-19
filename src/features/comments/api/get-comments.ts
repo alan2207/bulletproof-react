@@ -2,8 +2,7 @@ import { queryOptions, useQuery } from '@tanstack/react-query';
 
 import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
-
-import { Comment } from '../types';
+import { Comment } from '@/types/api';
 
 export const getComments = ({
   discussionId,

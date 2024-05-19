@@ -2,7 +2,7 @@ import { Plus } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Form, FormDrawer, Textarea } from '@/components/ui/form';
-import { useNotifications } from '@/stores/notifications';
+import { useNotifications } from '@/components/ui/notifications';
 
 import {
   useCreateComment,

@@ -33,11 +33,9 @@ If you are already using `react-query`, you can use [react-query-auth](https://g
 
 User information should be treated as a central piece of data accessible throughout the application. If you are already using `react-query`, consider using it for storing user data as well. Alternatively, you can leverage React context with hooks or opt for a third-party state management library to efficiently manage user state across your application.
 
-[Auth Configuration Example Code](../src/features/auth/lib/auth.tsx)
+[Auth Configuration Example Code](../src/lib/auth.tsx)
 
 The application will assume the user is authenticated if a user object is present.
-
-[Authenticated Route Protection Example Code](../src/features/auth/lib/protected-route.tsx)
 
 ### Authorization
 
@@ -45,7 +43,7 @@ Authorization is the process of verifying whether a user has permission to acces
 
 #### RBAC (Role based access control)
 
-[Authorization Configuration Example Code](../src/features/auth/lib/authorization.tsx)
+[Authorization Configuration Example Code](../src/lib/authorization.tsx)
 
 In a role-based authorization model, access to resources is determined by defining specific roles and associating them with permissions. For example, roles such as `USER` and `ADMIN` can be assigned different levels of access rights within the application. Users are then granted access based on their roles; for instance, restricting certain functionalities to regular users while permitting administrators to access all features and functionalities.
 

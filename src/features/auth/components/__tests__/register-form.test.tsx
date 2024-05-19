@@ -8,7 +8,15 @@ test('should register new user and call onSuccess cb which should navigate the u
 
   const onSuccess = vi.fn();
 
-  await renderApp(<RegisterForm onSuccess={onSuccess} />, { user: null });
+  await renderApp(
+    <RegisterForm
+      onSuccess={onSuccess}
+      chooseTeam={false}
+      setChooseTeam={() => {}}
+      teams={[]}
+    />,
+    { user: null },
+  );
 
   await userEvent.type(screen.getByLabelText(/first name/i), newUser.firstName);
   await userEvent.type(screen.getByLabelText(/last name/i), newUser.lastName);

@@ -3,26 +3,25 @@ import { Link, useSearchParams } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 import { Form, Input, Select, Label, Switch } from '@/components/ui/form';
-import { useTeams } from '@/features/teams';
-
-import { registerInputSchema } from '../api/register';
-import { useRegister } from '../lib/auth';
+import { useRegister, registerInputSchema } from '@/lib/auth';
+import { Team } from '@/types/api';
 
 type RegisterFormProps = {
   onSuccess: () => void;
+  chooseTeam: boolean;
+  setChooseTeam: () => void;
+  teams?: Team[];
 };
 
-export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
+export const RegisterForm = ({
+  onSuccess,
+  chooseTeam,
+  setChooseTeam,
+  teams,
+}: RegisterFormProps) => {
   const registering = useRegister({ onSuccess });
-  const [chooseTeam, setChooseTeam] = React.useState(false);
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo');
-
-  const teamsQuery = useTeams({
-    queryConfig: {
-      enabled: chooseTeam,
-    },
-  });
 
   return (
     <div>
@@ -74,12 +73,12 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
               <Label htmlFor="airplane-mode">Join Existing Team</Label>
             </div>
 
-            {chooseTeam && teamsQuery.data ? (
+            {chooseTeam && teams ? (
               <Select
                 label="Team"
                 error={formState.errors['teamId']}
                 registration={register('teamId')}
-                options={teamsQuery?.data?.map((team) => ({
+                options={teams?.map((team) => ({
                   label: team.name,
                   value: team.id,
                 }))}

@@ -3,10 +3,9 @@ import { z } from 'zod';
 
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
+import { Discussion } from '@/types/api';
 
-import { Discussion } from '../types';
-
-import { getDiscussionsQueryOptions } from './get-discussion';
+import { getDiscussionQueryOptions } from './get-discussion';
 
 export const updateDiscussionInputSchema = z.object({
   title: z.string().min(1, 'Required'),
@@ -39,7 +38,7 @@ export const useUpdateDiscussion = ({
   return useMutation({
     onSuccess: (data, ...args) => {
       queryClient.refetchQueries({
-        queryKey: getDiscussionsQueryOptions(data.id).queryKey,
+        queryKey: getDiscussionQueryOptions(data.id).queryKey,
       });
       onSuccess?.(data, ...args);
     },

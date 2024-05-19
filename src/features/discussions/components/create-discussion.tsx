@@ -2,8 +2,8 @@ import { Plus } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Form, FormDrawer, Input, Textarea } from '@/components/ui/form';
-import { Authorization, ROLES } from '@/features/auth';
-import { useNotifications } from '@/stores/notifications';
+import { useNotifications } from '@/components/ui/notifications';
+import { Authorization, ROLES } from '@/lib/authorization';
 
 import {
   createDiscussionInputSchema,

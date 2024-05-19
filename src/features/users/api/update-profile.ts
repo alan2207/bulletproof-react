@@ -1,8 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
 import { z } from 'zod';
 
-import { useUser } from '@/features/auth';
 import { api } from '@/lib/api-client';
+import { useUser } from '@/lib/auth';
 import { MutationConfig } from '@/lib/react-query';
 
 export const updateProfileInputSchema = z.object({

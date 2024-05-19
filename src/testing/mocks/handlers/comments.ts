@@ -3,7 +3,7 @@ import { HttpResponse, http } from 'msw';
 import { env } from '@/config/env';
 
 import { db, persistDb } from '../db';
-import { requireAuth, sanitizeUser } from '../utils';
+import { networkDelay, requireAuth, sanitizeUser } from '../utils';
 
 type CreateCommentBody = {
   body: string;
@@ -11,7 +11,9 @@ type CreateCommentBody = {
 };
 
 export const commentsHandlers = [
-  http.get(`${env.API_URL}/comments`, ({ request, cookies }) => {
+  http.get(`${env.API_URL}/comments`, async ({ request, cookies }) => {
+    await networkDelay();
+
     try {
       requireAuth(cookies);
       const url = new URL(request.url);
@@ -47,6 +49,8 @@ export const commentsHandlers = [
   }),
 
   http.post(`${env.API_URL}/comments`, async ({ request, cookies }) => {
+    await networkDelay();
+
     try {
       const user = requireAuth(cookies);
       const data = (await request.json()) as CreateCommentBody;
@@ -64,29 +68,34 @@ export const commentsHandlers = [
     }
   }),
 
-  http.delete(`${env.API_URL}/comments/:commentId`, ({ params, cookies }) => {
-    try {
-      const user = requireAuth(cookies);
-      const commentId = params.commentId as string;
-      const result = db.comment.delete({
-        where: {
-          id: {
-            equals: commentId,
-          },
-          ...(user?.role === 'USER' && {
-            authorId: {
-              equals: user.id,
+  http.delete(
+    `${env.API_URL}/comments/:commentId`,
+    async ({ params, cookies }) => {
+      await networkDelay();
+
+      try {
+        const user = requireAuth(cookies);
+        const commentId = params.commentId as string;
+        const result = db.comment.delete({
+          where: {
+            id: {
+              equals: commentId,
             },
-          }),
-        },
-      });
-      persistDb('comment');
-      return HttpResponse.json(result);
-    } catch (error: any) {
-      return HttpResponse.json(
-        { message: error?.message || 'Server Error' },
-        { status: 500 },
-      );
-    }
-  }),
+            ...(user?.role === 'USER' && {
+              authorId: {
+                equals: user.id,
+              },
+            }),
+          },
+        });
+        persistDb('comment');
+        return HttpResponse.json(result);
+      } catch (error: any) {
+        return HttpResponse.json(
+          { message: error?.message || 'Server Error' },
+          { status: 500 },
+        );
+      }
+    },
+  ),
 ];

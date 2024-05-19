@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom/vitest';
 
+import { queryClient } from '@/lib/react-query';
 import { initializeDb, resetDb } from '@/testing/mocks/db';
 import { server } from '@/testing/mocks/server';
 
@@ -24,4 +25,5 @@ beforeEach(() => {
 afterEach(() => {
   server.resetHandlers();
   resetDb();
+  queryClient.clear();
 });

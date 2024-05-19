@@ -3,8 +3,7 @@ import { z } from 'zod';
 
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
-
-import { Discussion } from '../types';
+import { Discussion } from '@/types/api';
 
 import { getDiscussionsQueryOptions } from './get-discussions';
 

@@ -4,8 +4,12 @@ module.exports = {
     node: true,
     es6: true,
   },
-  parserOptions: { ecmaVersion: 8, sourceType: 'module' },
-  ignorePatterns: ['node_modules/*', 'public/mockServiceWorker.js', 'generators/*'],
+  parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
+  ignorePatterns: [
+    'node_modules/*',
+    'public/mockServiceWorker.js',
+    'generators/*',
+  ],
   extends: ['eslint:recommended'],
   overrides: [
     {
@@ -38,10 +42,57 @@ module.exports = {
         'plugin:vitest/legacy-recommended',
       ],
       rules: {
-        'no-restricted-imports': [
+        'import/no-restricted-paths': [
           'error',
           {
-            patterns: ['@/features/*/*'],
+            zones: [
+              // disables cross-feature imports:
+              // eg. src/features/discussions should not import from src/features/comments, etc.
+              {
+                target: './src/features/auth',
+                from: './src/features',
+                except: ['./auth'],
+              },
+              {
+                target: './src/features/comments',
+                from: './src/features',
+                except: ['./comments'],
+              },
+              {
+                target: './src/features/discussions',
+                from: './src/features',
+                except: ['./discussions'],
+              },
+              {
+                target: './src/features/teams',
+                from: './src/features',
+                except: ['./teams'],
+              },
+              {
+                target: './src/features/users',
+                from: './src/features',
+                except: ['./users'],
+              },
+              // enforce unidirectional codebase:
+
+              // e.g. src/app can import from src/features but not the other way around
+              {
+                target: './src/features',
+                from: './src/app',
+              },
+
+              // e.g src/features and src/app can import from these shared modules but not the other way around
+              {
+                target: [
+                  './src/components',
+                  './src/hooks',
+                  './src/lib',
+                  './src/types',
+                  './src/utils',
+                ],
+                from: ['./src/features', './src/app'],
+              },
+            ],
           },
         ],
         'import/no-cycle': 'error',
@@ -50,7 +101,15 @@ module.exports = {
         'import/order': [
           'error',
           {
-            groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'object'],
+            groups: [
+              'builtin',
+              'external',
+              'internal',
+              'parent',
+              'sibling',
+              'index',
+              'object',
+            ],
             'newlines-between': 'always',
             alphabetize: { order: 'asc', caseInsensitive: true },
           },

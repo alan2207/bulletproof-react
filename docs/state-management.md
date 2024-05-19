@@ -9,7 +9,7 @@ Component state is specific to individual components and should not be shared gl
 - [useState](https://react.dev/reference/react/useState) - for simpler states that are independent
 - [useReducer](https://react.dev/reference/react/useReducer) - for more complex states where on a single action you want to update several pieces of state
 
-[Component State Example Code](../src/features/auth/components/register-form.tsx)
+[Component State Example Code](../src/components/layouts/dashboard-layout.tsx)
 
 ## Application State
 
