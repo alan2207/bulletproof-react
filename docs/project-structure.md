@@ -5,9 +5,9 @@ Most of the code lives in the `src` folder and looks something like this:
 ```sh
 src
 |
-+-- app               # application level containing
++-- app               # application layer containing:
 |   |
-|   +-- routes        # application routes
+|   +-- routes        # application routes / can also be called pages
     +-- app.tsx       # main application component
     +-- app-provider  # application provider that wraps the entire application with global providers
 +-- assets            # assets folder can contain all the static files such as images, fonts, etc.
@@ -57,7 +57,7 @@ NOTE: You don't need all of these folders for every feature. Only include the on
 
 In the past, it was recommended to use barrel files to export all the files from a feature. However, it can cause issues for Vite to do tree shaking and can lead to performance issues. Therefore, it is recommended to import the files directly.
 
-It might be a bad idea to import across the features. Instead, compose different features at the application level. This way, you can ensure that each feature is independent and can be easily moved or removed without affecting other parts of the application and also makes the codebase less convoluted.
+It might be not be a good idea to import across the features. Instead, compose different features at the application level. This way, you can ensure that each feature is independent which makes the codebase less convoluted.
 
 To forbid cross-feature imports, you can use ESLint:
 
@@ -67,7 +67,7 @@ To forbid cross-feature imports, you can use ESLint:
     {
         zones: [
             // disables cross-feature imports:
-            // eg. src/features/auth should not import from src/features/comments, etc.
+            // eg. src/features/discussions should not import from src/features/comments, etc.
             {
                 target: './src/features/auth',
                 from: './src/features',
@@ -100,7 +100,13 @@ To forbid cross-feature imports, you can use ESLint:
 ],
 ```
 
-You might also want to enforce unidirectional codebase architecture. This means that the code should flow in one direction, from shared parts of the code to the application (shared -> features -> app). This is a good practice to follow as it makes the codebase more predictable and easier to understand. To enforce this, you can use ESLint:
+You might also want to enforce unidirectional codebase architecture. This means that the code should flow in one direction, from shared parts of the code to the application (shared -> features -> app). This is a good practice to follow as it makes the codebase more predictable and easier to understand.
+
+![Unidirectional Codebase](./assets/unidirectional-codebase.png)
+
+As you can see, the shared parts can be used by any part of the codebase, but the features can only import from shared parts and the app can import from features and shared parts.
+
+To enforce this, you can use ESLint:
 
 ```js
 'import/no-restricted-paths': [

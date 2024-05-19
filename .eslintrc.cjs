@@ -47,7 +47,7 @@ module.exports = {
           {
             zones: [
               // disables cross-feature imports:
-              // eg. src/features/auth should not import from src/features/comments, etc.
+              // eg. src/features/discussions should not import from src/features/comments, etc.
               {
                 target: './src/features/auth',
                 from: './src/features',
