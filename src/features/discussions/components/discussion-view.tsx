@@ -8,9 +8,6 @@ import { UpdateDiscussion } from '../components/update-discussion';
 export const DiscussionView = ({ discussionId }: { discussionId: string }) => {
   const discussionQuery = useDiscussion({
     discussionId,
-    queryConfig: {
-      refetchInterval: 1000,
-    },
   });
 
   if (discussionQuery.isLoading) {

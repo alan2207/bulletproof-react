@@ -12,7 +12,7 @@ export const getDiscussion = ({
   return api.get(`/discussions/${discussionId}`);
 };
 
-export const getDiscussionsQueryOptions = (discussionId: string) => {
+export const getDiscussionQueryOptions = (discussionId: string) => {
   return queryOptions({
     queryKey: ['discussions', discussionId],
     queryFn: () => getDiscussion({ discussionId }),
@@ -21,7 +21,7 @@ export const getDiscussionsQueryOptions = (discussionId: string) => {
 
 type UseDiscussionOptions = {
   discussionId: string;
-  queryConfig?: QueryConfig<typeof getDiscussionsQueryOptions>;
+  queryConfig?: QueryConfig<typeof getDiscussionQueryOptions>;
 };
 
 export const useDiscussion = ({
@@ -29,7 +29,7 @@ export const useDiscussion = ({
   queryConfig,
 }: UseDiscussionOptions) => {
   return useQuery({
-    ...getDiscussionsQueryOptions(discussionId),
+    ...getDiscussionQueryOptions(discussionId),
     ...queryConfig,
   });
 };
