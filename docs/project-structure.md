@@ -5,6 +5,11 @@ Most of the code lives in the `src` folder and looks something like this:
 ```sh
 src
 |
++-- app               # application level containing
+|   |
+|   +-- routes        # application routes
+    +-- app.tsx       # main application component
+    +-- app-provider  # application provider that wraps the entire application with global providers
 +-- assets            # assets folder can contain all the static files such as images, fonts, etc.
 |
 +-- components        # shared components used across the entire application
@@ -16,10 +21,6 @@ src
 +-- hooks             # shared hooks used across the entire application
 |
 +-- lib               # reusable libraries preconfigured for the application
-|
-+-- providers         # all of the application providers
-|
-+-- routes            # routes of the application
 |
 +-- stores            # global state stores
 |
@@ -54,7 +55,7 @@ src/features/awesome-feature
 
 NOTE: You don't need all of these folders for every feature. Only include the ones that are necessary for the feature.
 
-Previously, it was recommended to use barrel files to export all the files from a feature. However, it can cause issues for Vite to do tree shaking and can lead to performance issues. Therefore, it is recommended to import the files directly.
+In the past, it was recommended to use barrel files to export all the files from a feature. However, it can cause issues for Vite to do tree shaking and can lead to performance issues. Therefore, it is recommended to import the files directly.
 
 It might be a bad idea to import across the features. Instead, compose different features at the application level. This way, you can ensure that each feature is independent and can be easily moved or removed without affecting other parts of the application and also makes the codebase less convoluted.
 
@@ -99,7 +100,7 @@ To forbid cross-feature imports, you can use ESLint:
 ],
 ```
 
-You might also want to enforce unidirectional codebase architecture. This means that the code should flow in one direction, from the top to the bottom of the application. This is a good practice to follow as it makes the codebase more predictable and easier to understand. To enforce this, you can use ESLint:
+You might also want to enforce unidirectional codebase architecture. This means that the code should flow in one direction, from shared parts of the code to the application (shared -> features -> app). This is a good practice to follow as it makes the codebase more predictable and easier to understand. To enforce this, you can use ESLint:
 
 ```js
 'import/no-restricted-paths': [
@@ -130,3 +131,6 @@ You might also want to enforce unidirectional codebase architecture. This means 
     },
 ],
 ```
+
+By following these practices, you can ensure that your codebase is well-organized, scalable, and maintainable. This will help you and your team to work more efficiently and effectively on the project.
+This approach can also make it easier to apply similar architecture to apps built with Next.js, Remix or React Native.

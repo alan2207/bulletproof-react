@@ -7,7 +7,7 @@ import { AuthResponse, User } from '@/types/api';
 import { api } from './api-client';
 
 // api call definitions for auth (types, schemas, requests):
-// these are not part of features as this is a shared module across features
+// these are not part of features as this is a module shared across features
 
 const getUser = (): Promise<User> => {
   return api.get('/auth/me');
