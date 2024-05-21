@@ -11,6 +11,7 @@ module.exports = {
     'generators/*',
   ],
   extends: ['eslint:recommended'],
+  plugins: ['check-file'],
   overrides: [
     {
       files: ['**/*.ts', '**/*.tsx'],
@@ -125,6 +126,15 @@ module.exports = {
         '@typescript-eslint/no-empty-function': ['off'],
         '@typescript-eslint/no-explicit-any': ['off'],
         'prettier/prettier': ['error', {}, { usePrettierrc: true }],
+        'check-file/filename-naming-convention': [
+          'error',
+          {
+            '**/*.{ts,tsx}': 'KEBAB_CASE',
+          },
+          {
+            ignoreMiddleExtensions: true,
+          },
+        ],
       },
     },
   ],

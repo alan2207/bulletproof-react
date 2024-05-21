@@ -31,6 +31,7 @@
     "clsx": "^2.1.1",
     "dayjs": "^1.11.11",
     "dompurify": "^3.1.1",
+    "eslint-plugin-check-file": "^2.8.0",
     "lucide-react": "^0.378.0",
     "marked": "^12.0.2",
     "nanoid": "^5.0.7",

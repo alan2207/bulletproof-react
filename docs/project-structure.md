@@ -138,5 +138,22 @@ To enforce this, you can use ESLint:
 ],
 ```
 
+We can also enforce the file naming conventions. For example, you can enforce that all files should be named in `kebab-case`. This can help you to keep your codebase consistent and easier to navigate.
+
+To enforce this, you can use ESLint:
+
+```js
+'check-file/filename-naming-convention': [
+    'error',
+    {
+        '**/*.{ts,tsx}': 'KEBAB_CASE',
+    },
+    {
+        // ignore the middle extensions of the filename to support filename like bable.config.js or smoke.spec.ts
+        ignoreMiddleExtensions: true,
+    },
+],
+```
+
 By following these practices, you can ensure that your codebase is well-organized, scalable, and maintainable. This will help you and your team to work more efficiently and effectively on the project.
 This approach can also make it easier to apply similar architecture to apps built with Next.js, Remix or React Native.
