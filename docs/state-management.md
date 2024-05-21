@@ -71,4 +71,4 @@ You can also integrate validation libraries with the mentioned solutions to vali
 
 URL state refers to the data stored and manipulated within the address bar of the browser. This state is commonly managed through URL parameters (e.g., /app/${dynamicParam}) or query parameters (e.g., /app?dynamicParam=1). By incorporating routing solutions like react-router-dom, you can effectively access and control the URL state, enabling dynamic manipulation of application parameters directly from the browser's address bar.
 
-[URL State Example Code](../src/features/discussions/routes/discussion.tsx)
+[URL State Example Code](../src/features/discussions/components/discussion-view.tsx)
