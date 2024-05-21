@@ -14,7 +14,7 @@ Unit tests are the smallest tests you can write. They test individual parts of y
 
 Integration testing checks how different parts of your application work together. It's crucial to focus on integration tests for most of your testing, as they provide significant benefits and boost confidence in your application's reliability. While unit tests are helpful for individual parts, passing them doesn't guarantee your app will function correctly if the connections between parts are flawed. Testing various features with integration tests is vital to ensure that your application works smoothly and consistently.
 
-[Integration Test Example Code](../src/features/discussions/routes/__tests__/discussion.test.tsx)
+[Integration Test Example Code](../src/app/routes/app/discussions/__tests__/discussion.test.tsx)
 
 ### E2E
 
