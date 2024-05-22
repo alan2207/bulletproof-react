@@ -135,6 +135,12 @@ module.exports = {
             ignoreMiddleExtensions: true,
           },
         ],
+        'check-file/folder-naming-convention': [
+          'error',
+          {
+            'src/**/!(__tests__)': 'KEBAB_CASE',
+          },
+        ],
       },
     },
   ],
