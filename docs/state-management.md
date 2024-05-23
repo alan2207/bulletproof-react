@@ -24,7 +24,7 @@ Good Application State Solutions:
 - [jotai](https://github.com/pmndrs/jotai)
 - [xstate](https://xstate.js.org/)
 
-[Global State Example Code](../src/stores/notifications.ts)
+[Global State Example Code](../src/components/ui/notifications/notifications-store.ts)
 
 ## Server Cache State
 
