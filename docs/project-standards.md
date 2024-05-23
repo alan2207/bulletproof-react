@@ -49,3 +49,29 @@ For TypeScript (`tsconfig.json`) projects:
 ```
 
 It is also possible to define multiple paths for various folders(such as `@components`, `@hooks`, etc.), but using `@/*` works very well because it is short enough so there is no need to configure multiple paths and it differs from other dependency modules so there is no confusion in what comes from `node_modules` and what is our source folder. That means that anything in the `src` folder can be accessed via `@`, e.g some file that lives in `src/components/my-component` can be accessed using `@/components/my-component` instead of `../../../components/my-component`.
+
+#### File naming conventions
+
+We can also enforce the file naming conventions and folder naming conventions in the project. For example, you can enforce that all files should be named in `kebab-case`. This can help you to keep your codebase consistent and easier to navigate.
+
+To enforce this, you can use ESLint:
+
+```js
+'check-file/filename-naming-convention': [
+  'error',
+  {
+      '**/*.{ts,tsx}': 'KEBAB_CASE',
+  },
+  {
+      // ignore the middle extensions of the filename to support filename like bable.config.js or smoke.spec.ts
+      ignoreMiddleExtensions: true,
+  },
+],
+'check-file/folder-naming-convention': [
+  'error',
+  {
+    // all folders within src (except __tests__)should be named in kebab-case
+    'src/**/!(__tests__)': 'KEBAB_CASE',
+  },
+],
+```

@@ -4886,6 +4886,14 @@ eslint-module-utils@^2.7.4, eslint-module-utils@^2.8.0:
   dependencies:
     debug "^3.2.7"
 
+eslint-plugin-check-file@^2.8.0:
+  version "2.8.0"
+  resolved "https://registry.npmmirror.com/eslint-plugin-check-file/-/eslint-plugin-check-file-2.8.0.tgz#6f93f28b25376ca9a7b0d741ca56a726d59f8db7"
+  integrity sha512-FvvafMTam2WJYH9uj+FuMxQ1y+7jY3Z6P9T4j2214cH0FBxNzTcmeCiGTj1Lxp3mI6kbbgsXvmgewvf+llKYyw==
+  dependencies:
+    is-glob "^4.0.3"
+    micromatch "^4.0.5"
+
 eslint-plugin-import@^2.29.1:
   version "2.29.1"
   resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.29.1.tgz#d45b37b5ef5901d639c15270d74d46d161150643"
