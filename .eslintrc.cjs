@@ -135,10 +135,16 @@ module.exports = {
             ignoreMiddleExtensions: true,
           },
         ],
+      },
+    },
+    {
+      plugins: ['check-file'],
+      files: ['src/**/!(__tests__)/*'],
+      rules: {
         'check-file/folder-naming-convention': [
           'error',
           {
-            'src/**/!(__tests__)': 'KEBAB_CASE',
+            '**/*': 'KEBAB_CASE',
           },
         ],
       },
