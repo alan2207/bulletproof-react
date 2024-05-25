@@ -1,9 +1,17 @@
-# Bulletproof React 🛡️ ⚛️
+<div align="center">
+  <img src="docs/assets/logo.png" width="300" alt="Bulletproof React Logo" />
+</div>
 
-[![MIT License](https://img.shields.io/github/license/alan2207/bulletproof-react)](https://github.com/alan2207/bulletproof-react/blob/master/LICENSE)
-[![CI](https://github.com/alan2207/bulletproof-react/actions/workflows/ci.yml/badge.svg)](https://github.com/alan2207/bulletproof-react/actions/workflows/ci.yml)
+<h1 align="center">Bulletproof React 🛡️ ⚛️</h1>
+<p align="center">A simple, scalable, and powerful architecture for building production ready React applications.</p>
 
-A simple, scalable, and powerful architecture for building production ready React applications.
+<p align="center">
+<a href="https://github.com/alan2207/bulletproof-react/blob/master/LICENSE">
+    <img alt="MIT License" src="https://img.shields.io/github/license/alan2207/bulletproof-react">
+</a>
+<a href="https://github.com/alan2207/bulletproof-react/actions/workflows/ci.yml">
+    <img alt="MIT License" src="https://github.com/alan2207/bulletproof-react/actions/workflows/ci.yml/badge.svg">
+</a>
 
 ## Introduction
 
