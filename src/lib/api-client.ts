@@ -7,6 +7,8 @@ function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   if (config.headers) {
     config.headers.Accept = 'application/json';
   }
+
+  config.withCredentials = true;
   return config;
 }
 
@@ -26,6 +28,12 @@ api.interceptors.response.use(
       title: 'Error',
       message,
     });
+
+    if (error.response?.status === 401) {
+      const searchParams = new URLSearchParams();
+      const redirectTo = searchParams.get('redirectTo');
+      window.location.href = `/auth/login?redirectTo=${redirectTo}`;
+    }
 
     return Promise.reject(error);
   },

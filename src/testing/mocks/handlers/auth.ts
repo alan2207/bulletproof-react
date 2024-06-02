@@ -54,7 +54,7 @@ export const authHandlers = [
         const team = db.team.create({
           name: userObject.teamName ?? `${userObject.firstName} Team`,
         });
-        persistDb('team');
+        await persistDb('team');
         teamId = team.id;
         role = 'ADMIN';
       } else {
@@ -85,7 +85,7 @@ export const authHandlers = [
         teamId,
       });
 
-      persistDb('user');
+      await persistDb('user');
 
       const result = authenticate({
         email: userObject.email,
@@ -153,7 +153,7 @@ export const authHandlers = [
     await networkDelay();
 
     try {
-      const user = requireAuth(cookies, false);
+      const { user } = requireAuth(cookies);
       return HttpResponse.json(user);
     } catch (error: any) {
       return HttpResponse.json(

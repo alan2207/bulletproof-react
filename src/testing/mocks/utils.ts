@@ -2,9 +2,22 @@ import Cookies from 'js-cookie';
 import { delay } from 'msw';
 
 import { db } from './db';
-export const encode = (obj: any) => window.btoa(JSON.stringify(obj));
 
-export const decode = (str: string) => JSON.parse(window.atob(str));
+export const encode = (obj: any) => {
+  const btoa =
+    typeof window === 'undefined'
+      ? (str: string) => Buffer.from(str, 'binary').toString('base64')
+      : window.btoa;
+  return btoa(JSON.stringify(obj));
+};
+
+export const decode = (str: string) => {
+  const atob =
+    typeof window === 'undefined'
+      ? (str: string) => Buffer.from(str, 'base64').toString('binary')
+      : window.atob;
+  return JSON.parse(atob(str));
+};
 
 export const hash = (str: string) => {
   let hash = 5381,
@@ -64,20 +77,11 @@ export function authenticate({
 
 export const AUTH_COOKIE = `bulletproof_react_app_token`;
 
-export function requireAuth(
-  cookies: Record<string, string>,
-  shouldThrow = true,
-) {
+export function requireAuth(cookies: Record<string, string>) {
   try {
-    // todo: fix once tests in Github Actions are fixed
-    // const encodedToken = cookies[AUTH_COOKIE];
-    const encodedToken = Cookies.get(AUTH_COOKIE);
+    const encodedToken = cookies[AUTH_COOKIE] || Cookies.get(AUTH_COOKIE);
     if (!encodedToken) {
-      if (shouldThrow) {
-        throw new Error('No authorization token provided!');
-      }
-
-      return null;
+      return { error: 'Unauthorized', user: null };
     }
     const decodedToken = decode(encodedToken) as { id: string };
 
@@ -90,15 +94,12 @@ export function requireAuth(
     });
 
     if (!user) {
-      if (shouldThrow) {
-        throw Error('Unauthorized');
-      }
-      return null;
+      return { error: 'Unauthorized', user: null };
     }
 
-    return sanitizeUser(user);
+    return { user: sanitizeUser(user) };
   } catch (err: any) {
-    throw new Error(err);
+    return { error: 'Unauthorized', user: null };
   }
 }
 
