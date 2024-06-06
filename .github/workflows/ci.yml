@@ -39,16 +39,18 @@ jobs:
         with:
           node-version: lts/*
       - name: Set environment variables
-        run: mv .env.example .env
+        run: mv .env.example-e2e .env
       - name: Install dependencies
         run: npm install -g yarn && yarn
       - name: Install Playwright Browsers
         run: yarn playwright install --with-deps
       - name: Run Playwright tests
-        run: yarn playwright test
+        run: yarn test-e2e
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-report
-          path: playwright-report/
+          path: |
+            playwright-report/
+            mocked-db.json
           retention-days: 30

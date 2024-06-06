@@ -66,7 +66,7 @@ export const loadDb = async () => {
   );
 };
 
-export const storeDb = async (key: string, data: string) => {
+export const storeDb = async (data: string) => {
   // If we are running in a Node.js environment
   if (typeof window === 'undefined') {
     const { writeFile } = await import('fs/promises');
@@ -81,7 +81,7 @@ export const persistDb = async (model: Model) => {
   if (process.env.NODE_ENV === 'test') return;
   const data = await loadDb();
   data[model] = db[model].getAll();
-  await storeDb('msw-db', JSON.stringify(data));
+  await storeDb(JSON.stringify(data));
 };
 
 export const initializeDb = async () => {

@@ -20,8 +20,6 @@ Integration testing checks how different parts of your application work together
 
 End-to-End Testing is a method that evaluates an application as a whole. These tests involve automating the complete application, including both the frontend and backend, to confirm that the entire system functions correctly. End-to-End tests simulate how a user would interact with the application.
 
-NOTE: In the sample app, the tests are ran against the mocked API server, so they are technically not fully e2e, but they are written in the same way as they would be if they were ran against the real API.
-
 [E2E Example Code](../e2e/tests/smoke.spec.ts)
 
 ## Recommended Tooling:
