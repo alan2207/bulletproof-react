@@ -15,7 +15,10 @@ export const commentsHandlers = [
     await networkDelay();
 
     try {
-      requireAuth(cookies);
+      const { error } = requireAuth(cookies);
+      if (error) {
+        return HttpResponse.json({ message: error }, { status: 401 });
+      }
       const url = new URL(request.url);
       const discussionId = url.searchParams.get('discussionId') || '';
       const comments = db.comment
@@ -52,13 +55,16 @@ export const commentsHandlers = [
     await networkDelay();
 
     try {
-      const user = requireAuth(cookies);
+      const { user, error } = requireAuth(cookies);
+      if (error) {
+        return HttpResponse.json({ message: error }, { status: 401 });
+      }
       const data = (await request.json()) as CreateCommentBody;
       const result = db.comment.create({
         authorId: user?.id,
         ...data,
       });
-      persistDb('comment');
+      await persistDb('comment');
       return HttpResponse.json(result);
     } catch (error: any) {
       return HttpResponse.json(
@@ -74,7 +80,10 @@ export const commentsHandlers = [
       await networkDelay();
 
       try {
-        const user = requireAuth(cookies);
+        const { user, error } = requireAuth(cookies);
+        if (error) {
+          return HttpResponse.json({ message: error }, { status: 401 });
+        }
         const commentId = params.commentId as string;
         const result = db.comment.delete({
           where: {
@@ -88,7 +97,7 @@ export const commentsHandlers = [
             }),
           },
         });
-        persistDb('comment');
+        await persistDb('comment');
         return HttpResponse.json(result);
       } catch (error: any) {
         return HttpResponse.json(

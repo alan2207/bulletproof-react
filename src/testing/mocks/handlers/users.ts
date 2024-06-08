@@ -22,7 +22,10 @@ export const usersHandlers = [
     await networkDelay();
 
     try {
-      const user = requireAuth(cookies);
+      const { user, error } = requireAuth(cookies);
+      if (error) {
+        return HttpResponse.json({ message: error }, { status: 401 });
+      }
       const result = db.user
         .findMany({
           where: {
@@ -46,7 +49,10 @@ export const usersHandlers = [
     await networkDelay();
 
     try {
-      const user = requireAuth(cookies);
+      const { user, error } = requireAuth(cookies);
+      if (error) {
+        return HttpResponse.json({ message: error }, { status: 401 });
+      }
       const data = (await request.json()) as ProfileBody;
       const result = db.user.update({
         where: {
@@ -56,7 +62,7 @@ export const usersHandlers = [
         },
         data,
       });
-      persistDb('user');
+      await persistDb('user');
       return HttpResponse.json(result);
     } catch (error: any) {
       return HttpResponse.json(
@@ -70,7 +76,10 @@ export const usersHandlers = [
     await networkDelay();
 
     try {
-      const user = requireAuth(cookies);
+      const { user, error } = requireAuth(cookies);
+      if (error) {
+        return HttpResponse.json({ message: error }, { status: 401 });
+      }
       const userId = params.userId as string;
       requireAdmin(user);
       const result = db.user.delete({
@@ -83,7 +92,7 @@ export const usersHandlers = [
           },
         },
       });
-      persistDb('user');
+      await persistDb('user');
       return HttpResponse.json(result);
     } catch (error: any) {
       return HttpResponse.json(

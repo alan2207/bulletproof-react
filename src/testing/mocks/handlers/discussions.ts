@@ -20,7 +20,10 @@ export const discussionsHandlers = [
     await networkDelay();
 
     try {
-      const user = requireAuth(cookies);
+      const { user, error } = requireAuth(cookies);
+      if (error) {
+        return HttpResponse.json({ message: error }, { status: 401 });
+      }
       const result = db.discussion
         .findMany({
           where: {
@@ -57,7 +60,10 @@ export const discussionsHandlers = [
       await networkDelay();
 
       try {
-        const user = requireAuth(cookies);
+        const { user, error } = requireAuth(cookies);
+        if (error) {
+          return HttpResponse.json({ message: error }, { status: 401 });
+        }
         const discussionId = params.discussionId as string;
         const discussion = db.discussion.findFirst({
           where: {
@@ -106,7 +112,10 @@ export const discussionsHandlers = [
     await networkDelay();
 
     try {
-      const user = requireAuth(cookies);
+      const { user, error } = requireAuth(cookies);
+      if (error) {
+        return HttpResponse.json({ message: error }, { status: 401 });
+      }
       const data = (await request.json()) as DiscussionBody;
       requireAdmin(user);
       const result = db.discussion.create({
@@ -114,7 +123,7 @@ export const discussionsHandlers = [
         authorId: user?.id,
         ...data,
       });
-      persistDb('discussion');
+      await persistDb('discussion');
       return HttpResponse.json(result);
     } catch (error: any) {
       return HttpResponse.json(
@@ -130,7 +139,10 @@ export const discussionsHandlers = [
       await networkDelay();
 
       try {
-        const user = requireAuth(cookies);
+        const { user, error } = requireAuth(cookies);
+        if (error) {
+          return HttpResponse.json({ message: error }, { status: 401 });
+        }
         const data = (await request.json()) as DiscussionBody;
         const discussionId = params.discussionId as string;
         requireAdmin(user);
@@ -145,7 +157,7 @@ export const discussionsHandlers = [
           },
           data,
         });
-        persistDb('discussion');
+        await persistDb('discussion');
         return HttpResponse.json(result);
       } catch (error: any) {
         return HttpResponse.json(
@@ -162,7 +174,10 @@ export const discussionsHandlers = [
       await networkDelay();
 
       try {
-        const user = requireAuth(cookies);
+        const { user, error } = requireAuth(cookies);
+        if (error) {
+          return HttpResponse.json({ message: error }, { status: 401 });
+        }
         const discussionId = params.discussionId as string;
         requireAdmin(user);
         const result = db.discussion.delete({
@@ -172,7 +187,7 @@ export const discussionsHandlers = [
             },
           },
         });
-        persistDb('discussion');
+        await persistDb('discussion');
         return HttpResponse.json(result);
       } catch (error: any) {
         return HttpResponse.json(
