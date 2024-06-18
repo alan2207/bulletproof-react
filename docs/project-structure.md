@@ -57,7 +57,7 @@ NOTE: You don't need all of these folders for every feature. Only include the on
 
 In the past, it was recommended to use barrel files to export all the files from a feature. However, it can cause issues for Vite to do tree shaking and can lead to performance issues. Therefore, it is recommended to import the files directly.
 
-It might be not be a good idea to import across the features. Instead, compose different features at the application level. This way, you can ensure that each feature is independent which makes the codebase less convoluted.
+It might not be a good idea to import across the features. Instead, compose different features at the application level. This way, you can ensure that each feature is independent which makes the codebase less convoluted.
 
 To forbid cross-feature imports, you can use ESLint:
 
