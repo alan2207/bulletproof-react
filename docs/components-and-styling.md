@@ -41,17 +41,17 @@ Keep your code style consistent. For example, if you name your components using 
 
 If your component is accepting too many props you might consider splitting it into multiple components or use the composition technique via children or slots.
 
-[Composition Example Code](../src/components/ui/dialog/confirmation-dialog/confirmation-dialog.tsx)
+[Composition Example Code](../apps/react-vite/src/components/ui/dialog/confirmation-dialog/confirmation-dialog.tsx)
 
 #### Abstract shared components into a component library
 
 For larger projects, it is a good idea to build abstractions around all the shared components. It makes the application more consistent and easier to maintain. Identify repetitions before creating the components to avoid wrong abstractions.
 
-[Component Library Example Code](../src/components/ui/button/button.tsx)
+[Component Library Example Code](../apps/react-vite/src/components/ui/button/button.tsx)
 
 It is a good idea to wrap 3rd party components as well in order to adapt them to the application's needs. It might be easier to make the underlying changes in the future without affecting the application's functionality.
 
-[3rd Party Component Example Code](../src/components/ui/link/link.tsx)
+[3rd Party Component Example Code](../apps/react-vite/src/components/ui/link/link.tsx)
 
 ## Component libraries
 
@@ -101,4 +101,4 @@ With the rise of headless component libraries, there is another tier of componen
 
 [Storybook](https://storybook.js.org/) is a great tool for developing and testing components in isolation. Think of it as a catalogue of all the components your application is using. Very useful for developing and discoverability of components.
 
-[Storybook Story Example Code](../src/components/ui/button/button.stories.tsx)
+[Storybook Story Example Code](../apps/react-vite/src/components/ui/button/button.stories.tsx)

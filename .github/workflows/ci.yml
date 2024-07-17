@@ -1,15 +1,15 @@
 name: CI
 on:
   push:
-    branches: ['*']
+    branches: ["*"]
     paths-ignore:
-      - 'README.md'
-      - 'docs/**'
+      - "README.md"
+      - "docs/**"
   pull_request:
     branches: [master]
     paths-ignore:
-      - 'README.md'
-      - 'docs/**'
+      - "README.md"
+      - "docs/**"
 jobs:
   all-cli-check:
     runs-on: ubuntu-latest
@@ -18,6 +18,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
+      - name: Go to the project directory
+        run: cd apps/vite-react
       - name: Set environment variables
         run: mv .env.example .env
       - name: Install dependencies
@@ -38,6 +40,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
+      - name: Go to the project directory
+        run: cd apps/vite-react
       - name: Set environment variables
         run: mv .env.example-e2e .env
       - name: Install dependencies

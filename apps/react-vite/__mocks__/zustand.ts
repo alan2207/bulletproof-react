@@ -21,7 +21,9 @@ export const create = (<T>(stateCreator: zustand.StateCreator<T>) => {
   console.log('zustand create mock');
 
   // to support curried version of create
-  return typeof stateCreator === 'function' ? createUncurried(stateCreator) : createUncurried;
+  return typeof stateCreator === 'function'
+    ? createUncurried(stateCreator)
+    : createUncurried;
 }) as typeof zustand.create;
 
 const createStoreUncurried = <T>(stateCreator: zustand.StateCreator<T>) => {
