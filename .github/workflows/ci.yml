@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: lts/*
       - name: Go to the project directory
-        run: cd apps/vite-react
+        run: cd ./apps/vite-react
       - name: Set environment variables
         run: mv .env.example .env
       - name: Install dependencies
@@ -41,7 +41,7 @@ jobs:
         with:
           node-version: lts/*
       - name: Go to the project directory
-        run: cd apps/vite-react
+        run: cd ./apps/vite-react
       - name: Set environment variables
         run: mv .env.example-e2e .env
       - name: Install dependencies
