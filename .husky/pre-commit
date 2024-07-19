@@ -1,1 +1,1 @@
-cd apps/react-vite && yarn lint-staged
+yarn --cwd apps/react-vite lint-staged
