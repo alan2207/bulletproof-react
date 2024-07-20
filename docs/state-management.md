@@ -9,7 +9,7 @@ Component state is specific to individual components and should not be shared gl
 - [useState](https://react.dev/reference/react/useState) - for simpler states that are independent
 - [useReducer](https://react.dev/reference/react/useReducer) - for more complex states where on a single action you want to update several pieces of state
 
-[Component State Example Code](../src/components/layouts/dashboard-layout.tsx)
+[Component State Example Code](../apps/react-vite/src/components/layouts/dashboard-layout.tsx)
 
 ## Application State
 
@@ -24,7 +24,7 @@ Good Application State Solutions:
 - [jotai](https://github.com/pmndrs/jotai)
 - [xstate](https://xstate.js.org/)
 
-[Global State Example Code](../src/components/ui/notifications/notifications-store.ts)
+[Global State Example Code](../apps/react-vite/src/components/ui/notifications/notifications-store.ts)
 
 ## Server Cache State
 
@@ -38,7 +38,7 @@ Good Server Cache Libraries:
 - [urql](https://formidable.com/open-source/urql/) - GraphQl
 - [RTK](https://redux-toolkit.js.org/rtk-query)
 
-[Server Cache State Example Code](../src/features/discussions/api/get-discussions.ts)
+[Server Cache State Example Code](../apps/react-vite/src/features/discussions/api/get-discussions.ts)
 
 ## Form State
 
@@ -56,19 +56,19 @@ Although it is possible to build any form using only React primitives, there are
 
 Create abstracted `Form` component and all the input field components that wrap the library functionality and are adapted to the application needs.
 
-[Form Example Code](../src/components/ui/form/form.tsx)
+[Form Example Code](../apps/react-vite/src/components/ui/form/form.tsx)
 
-[Input Field Example Code](../src/components/ui/form/input.tsx)
+[Input Field Example Code](../apps/react-vite/src/components/ui/form/input.tsx)
 
 You can also integrate validation libraries with the mentioned solutions to validate inputs on the client. Some good options are:
 
 - [zod](https://github.com/colinhacks/zod)
 - [yup](https://github.com/jquense/yup)
 
-[Validation Example Code](../src/features/auth/components/register-form.tsx)
+[Validation Example Code](../apps/react-vite/src/features/auth/components/register-form.tsx)
 
 ## URL State
 
 URL state refers to the data stored and manipulated within the address bar of the browser. This state is commonly managed through URL parameters (e.g., /app/${dynamicParam}) or query parameters (e.g., /app?dynamicParam=1). By incorporating routing solutions like react-router-dom, you can effectively access and control the URL state, enabling dynamic manipulation of application parameters directly from the browser's address bar.
 
-[URL State Example Code](../src/features/discussions/components/discussion-view.tsx)
+[URL State Example Code](../apps/react-vite/src/features/discussions/components/discussion-view.tsx)

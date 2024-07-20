@@ -6,7 +6,7 @@ Code splitting involves splitting production JavaScript into smaller files to op
 
 Ideally, code splitting should be implemented at the routes level, ensuring that only essential code is loaded initially, with additional parts fetched lazily as needed. It's important to avoid excessive code splitting, as this can lead to a performance decline due to the increased number of requests required to fetch all the code chunks. Strategic code splitting, focusing on critical parts of the application, helps balance performance optimization with efficient resource loading.
 
-[Code Splitting Example Code](../src/app/routes/index.tsx)
+[Code Splitting Example Code](../apps/react-vite/src/app/routes/index.tsx)
 
 ### Component and state optimizations
 

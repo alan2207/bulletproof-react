@@ -8,19 +8,19 @@ As highlighted in this [tweet](https://twitter.com/rauchg/status/807626710350839
 
 Unit tests are the smallest tests you can write. They test individual parts of your application in isolation. They are useful for testing shared components and functions that are used throughout the entire application. They are also useful for testing complex logic in a single component. They are fast to run and easy to write.
 
-[Unit Test Example Code](../src/components/ui/dialog/confirmation-dialog/__tests__/confirmation-dialog.test.tsx)
+[Unit Test Example Code](../apps/react-vite/src/components/ui/dialog/confirmation-dialog/__tests__/confirmation-dialog.test.tsx)
 
 ### Integration Tests
 
 Integration testing checks how different parts of your application work together. It's crucial to focus on integration tests for most of your testing, as they provide significant benefits and boost confidence in your application's reliability. While unit tests are helpful for individual parts, passing them doesn't guarantee your app will function correctly if the connections between parts are flawed. Testing various features with integration tests is vital to ensure that your application works smoothly and consistently.
 
-[Integration Test Example Code](../src/app/routes/app/discussions/__tests__/discussion.test.tsx)
+[Integration Test Example Code](../apps/react-vite/src/app/routes/app/discussions/__tests__/discussion.test.tsx)
 
 ### E2E
 
 End-to-End Testing is a method that evaluates an application as a whole. These tests involve automating the complete application, including both the frontend and backend, to confirm that the entire system functions correctly. End-to-End tests simulate how a user would interact with the application.
 
-[E2E Example Code](../e2e/tests/smoke.spec.ts)
+[E2E Example Code](../apps/react-vite/e2e/tests/smoke.spec.ts)
 
 ## Recommended Tooling:
 
@@ -46,8 +46,8 @@ For prototyping the API use msw, which is a great tool for quickly creating fron
 
 It can be used for designing API endpoints. The business logic of the mocked API can be created in its handlers.
 
-[API Handlers Example Code](../src/testing/mocks/handlers/auth.ts)
+[API Handlers Example Code](../apps/react-vite/src/testing/mocks/handlers/auth.ts)
 
-[Data Models Example Code](../src/testing/mocks/db.ts)
+[Data Models Example Code](../apps/react-vite/src/testing/mocks/db.ts)
 
 Having a fully functional mocked API server is also handy when it comes to testing, you don't have to mock fetch, but make requests to the mocked server instead with the data your application would expect.

@@ -6,13 +6,13 @@ Enforcing project standards is crucial for maintaining code quality, consistency
 
 ESLint serves as a valuable linting tool for JavaScript, helping developers in maintaining code quality and adhering to coding standards. By configuring rules in the `.eslintrc.js` file, ESLint helps identify and prevent common errors, ensuring code correctness and promoting consistency throughout the codebase. This approach not only helps in catching mistakes early but also enforces uniformity in coding practices, thereby enhancing the overall quality and readability of the code.
 
-[ESLint Configuration Example Code](../.eslintrc.cjs)
+[ESLint Configuration Example Code](../apps/react-vite/.eslintrc.cjs)
 
 #### Prettier
 
 Prettier is a useful tool for maintaining consistent code formatting in your project. By enabling the "format on save" feature in your IDE, code is automatically formatted according to the rules set in the `.prettierrc` configuration file. This practice ensures a uniform code style across your codebase and provides helpful feedback on code issues. If the auto-formatting fails, it signals potential syntax error. Furthermore, Prettier can be integrated with ESLint to handle code formatting tasks alongside enforcing coding standards effectively throughout the development process.
 
-[Prettier Configuration Example Code](../.prettierrc)
+[Prettier Configuration Example Code](../apps/react-vite/.prettierrc)
 
 #### TypeScript
 
