@@ -87,3 +87,9 @@ Use `srcset` to load the most optimal image for the clients screen size.
 ### Web vitals
 
 Since Google started taking web vitals in account when indexing websites, you should keep an eye on web vitals scores from [Lighthouse](https://web.dev/measure/) and [Pagespeed Insights](https://pagespeed.web.dev/).
+
+### Data prefetching
+
+It is possible to prefetch data before the user navigates to a page. This can be done by using the `queryClient.prefetchQuery` method from the `@tanstack/react-query` library. This method allows you to prefetch data for a specific query. This can be useful when you know that the user will navigate to a specific page and you want to prefetch the data before the user navigates to the page. This can help to improve the performance of the application by reducing the time it takes to load the data when the user navigates to the page.
+
+[Data Prefetching Example Code](../apps/react-vite/src/features/discussions/components/discussions-list.tsx)

@@ -1,14 +1,18 @@
+import { useQueryClient } from '@tanstack/react-query';
+
 import { Link } from '@/components/ui/link';
 import { Spinner } from '@/components/ui/spinner';
 import { Table } from '@/components/ui/table';
 import { formatDate } from '@/utils/format';
 
+import { getDiscussionQueryOptions } from '../api/get-discussion';
 import { useDiscussions } from '../api/get-discussions';
 
 import { DeleteDiscussion } from './delete-discussion';
 
 export const DiscussionsList = () => {
   const discussionsQuery = useDiscussions();
+  const queryClient = useQueryClient();
 
   if (discussionsQuery.isLoading) {
     return (
@@ -39,7 +43,17 @@ export const DiscussionsList = () => {
           title: '',
           field: 'id',
           Cell({ entry: { id } }) {
-            return <Link to={`./${id}`}>View</Link>;
+            return (
+              <Link
+                onMouseEnter={() => {
+                  // Prefetch the discussion data when the user hovers over the link
+                  queryClient.prefetchQuery(getDiscussionQueryOptions(id));
+                }}
+                to={`./${id}`}
+              >
+                View
+              </Link>
+            );
           },
         },
         {
