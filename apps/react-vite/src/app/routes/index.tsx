@@ -1,12 +1,12 @@
 import { QueryClient } from '@tanstack/react-query';
 import { createBrowserRouter } from 'react-router-dom';
 
-import { ProtectedRoute } from '@/lib/auth';
-
-import { discussionLoader } from './app/discussions/discussion';
-import { discussionsLoader } from './app/discussions/discussions';
+import { discussionLoader } from './app/discussions/loaders/discussion-loader';
+import { discussionsLoader } from './app/discussions/loaders/discussions-loader';
 import { AppRoot } from './app/root';
-import { usersLoader } from './app/users';
+import { usersLoader } from './app/users/loaders/users-loader';
+
+import { ProtectedRoute } from '@/lib/auth';
 
 export const createRouter = (queryClient: QueryClient) =>
   createBrowserRouter([
@@ -62,7 +62,7 @@ export const createRouter = (queryClient: QueryClient) =>
         {
           path: 'users',
           lazy: async () => {
-            const { UsersRoute } = await import('./app/users');
+            const { UsersRoute } = await import('./app/users/users');
             return { Component: UsersRoute };
           },
           loader: usersLoader(queryClient),
