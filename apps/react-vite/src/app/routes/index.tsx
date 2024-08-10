@@ -1,12 +1,9 @@
 import { QueryClient } from '@tanstack/react-query';
-import { createBrowserRouter } from 'react-router-dom';
-
-import { discussionLoader } from './app/discussions/loaders/discussion-loader';
-import { discussionsLoader } from './app/discussions/loaders/discussions-loader';
-import { AppRoot } from './app/root';
-import { usersLoader } from './app/users/loaders/users-loader';
+import { LoaderFunctionArgs, createBrowserRouter } from 'react-router-dom';
 
 import { ProtectedRoute } from '@/lib/auth';
+
+import { AppRoot } from './app/root';
 
 export const createRouter = (queryClient: QueryClient) =>
   createBrowserRouter([
@@ -47,7 +44,12 @@ export const createRouter = (queryClient: QueryClient) =>
             );
             return { Component: DiscussionsRoute };
           },
-          loader: discussionsLoader(queryClient),
+          loader: async () => {
+            const { discussionsLoader } = await import(
+              './app/discussions/discussions'
+            );
+            return discussionsLoader(queryClient)();
+          },
         },
         {
           path: 'discussions/:discussionId',
@@ -57,15 +59,25 @@ export const createRouter = (queryClient: QueryClient) =>
             );
             return { Component: DiscussionRoute };
           },
-          loader: discussionLoader(queryClient),
+
+          loader: async (args: LoaderFunctionArgs) => {
+            const { discussionLoader } = await import(
+              './app/discussions/discussion'
+            );
+            return discussionLoader(queryClient)(args);
+          },
         },
         {
           path: 'users',
           lazy: async () => {
-            const { UsersRoute } = await import('./app/users/users');
+            const { UsersRoute } = await import('./app/users');
             return { Component: UsersRoute };
           },
-          loader: usersLoader(queryClient),
+
+          loader: async () => {
+            const { usersLoader } = await import('./app/users');
+            return usersLoader(queryClient)();
+          },
         },
         {
           path: 'profile',
