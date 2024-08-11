@@ -24,4 +24,12 @@ export default defineConfig({
     },
   },
   optimizeDeps: { exclude: ['fsevents'] },
+  build: {
+    rollupOptions: {
+      external: ['fs/promises'],
+      output: {
+        experimentalMinChunkSize: 3500,
+      },
+    },
+  },
 });

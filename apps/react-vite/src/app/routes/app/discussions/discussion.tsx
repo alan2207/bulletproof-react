@@ -1,6 +1,6 @@
 import { QueryClient } from '@tanstack/react-query';
 import { ErrorBoundary } from 'react-error-boundary';
-import { LoaderFunctionArgs, useParams } from 'react-router-dom';
+import { useParams, LoaderFunctionArgs } from 'react-router-dom';
 
 import { ContentLayout } from '@/components/layouts';
 import { Spinner } from '@/components/ui/spinner';

@@ -1,12 +1,9 @@
 import { QueryClient } from '@tanstack/react-query';
-import { createBrowserRouter } from 'react-router-dom';
+import { LoaderFunctionArgs, createBrowserRouter } from 'react-router-dom';
 
 import { ProtectedRoute } from '@/lib/auth';
 
-import { discussionLoader } from './app/discussions/discussion';
-import { discussionsLoader } from './app/discussions/discussions';
 import { AppRoot } from './app/root';
-import { usersLoader } from './app/users';
 
 export const createRouter = (queryClient: QueryClient) =>
   createBrowserRouter([
@@ -47,7 +44,12 @@ export const createRouter = (queryClient: QueryClient) =>
             );
             return { Component: DiscussionsRoute };
           },
-          loader: discussionsLoader(queryClient),
+          loader: async () => {
+            const { discussionsLoader } = await import(
+              './app/discussions/discussions'
+            );
+            return discussionsLoader(queryClient)();
+          },
         },
         {
           path: 'discussions/:discussionId',
@@ -57,7 +59,13 @@ export const createRouter = (queryClient: QueryClient) =>
             );
             return { Component: DiscussionRoute };
           },
-          loader: discussionLoader(queryClient),
+
+          loader: async (args: LoaderFunctionArgs) => {
+            const { discussionLoader } = await import(
+              './app/discussions/discussion'
+            );
+            return discussionLoader(queryClient)(args);
+          },
         },
         {
           path: 'users',
@@ -65,7 +73,11 @@ export const createRouter = (queryClient: QueryClient) =>
             const { UsersRoute } = await import('./app/users');
             return { Component: UsersRoute };
           },
-          loader: usersLoader(queryClient),
+
+          loader: async () => {
+            const { usersLoader } = await import('./app/users');
+            return usersLoader(queryClient)();
+          },
         },
         {
           path: 'profile',
