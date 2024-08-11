@@ -56,7 +56,7 @@ src/features/awesome-feature
 
 NOTE: You don't need all of these folders for every feature. Only include the ones that are necessary for the feature.
 
-In some cases it might be more practical to keep all api calls outside of the feature folders in a dedicated `api` folder where all API calls are defined. This can be useful if you have a lot of shared api calls between features.
+In some cases it might be more practical to keep all API calls outside of the features folders in a dedicated `api` folder where all API calls are defined. This can be useful if you have a lot of shared API calls between features.
 
 ````sh
 
