@@ -27,6 +27,9 @@ export default defineConfig({
   build: {
     rollupOptions: {
       external: ['fs/promises'],
+      output: {
+        experimentalMinChunkSize: 3500,
+      },
     },
   },
 });
