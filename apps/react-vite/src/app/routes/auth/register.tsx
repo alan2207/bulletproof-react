@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { Layout } from '@/components/layouts/auth-layout';
+import { AuthLayout } from '@/components/layouts/auth-layout';
 import { RegisterForm } from '@/features/auth/components/register-form';
 import { useTeams } from '@/features/teams/api/get-teams';
 
@@ -18,7 +18,7 @@ export const RegisterRoute = () => {
   });
 
   return (
-    <Layout title="Register your account">
+    <AuthLayout title="Register your account">
       <RegisterForm
         onSuccess={() =>
           navigate(`${redirectTo ? `${redirectTo}` : '/app'}`, {
@@ -29,6 +29,6 @@ export const RegisterRoute = () => {
         setChooseTeam={() => setChooseTeam(!chooseTeam)}
         teams={teamsQuery.data}
       />
-    </Layout>
+    </AuthLayout>
   );
 };

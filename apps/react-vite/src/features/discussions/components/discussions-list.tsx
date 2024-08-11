@@ -10,7 +10,13 @@ import { useDiscussions } from '../api/get-discussions';
 
 import { DeleteDiscussion } from './delete-discussion';
 
-export const DiscussionsList = () => {
+export type DiscussionsListProps = {
+  onDiscussionPrefetch?: (id: string) => void;
+};
+
+export const DiscussionsList = ({
+  onDiscussionPrefetch,
+}: DiscussionsListProps) => {
   const discussionsQuery = useDiscussions();
   const queryClient = useQueryClient();
 
@@ -48,6 +54,7 @@ export const DiscussionsList = () => {
                 onMouseEnter={() => {
                   // Prefetch the discussion data when the user hovers over the link
                   queryClient.prefetchQuery(getDiscussionQueryOptions(id));
+                  onDiscussionPrefetch?.(id);
                 }}
                 to={`./${id}`}
               >

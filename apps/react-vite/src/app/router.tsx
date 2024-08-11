@@ -1,30 +1,35 @@
-import { QueryClient } from '@tanstack/react-query';
-import { LoaderFunctionArgs, createBrowserRouter } from 'react-router-dom';
+import { QueryClient, useQueryClient } from '@tanstack/react-query';
+import { useMemo } from 'react';
+import {
+  LoaderFunctionArgs,
+  RouterProvider,
+  createBrowserRouter,
+} from 'react-router-dom';
 
 import { ProtectedRoute } from '@/lib/auth';
 
-import { AppRoot } from './app/root';
+import { AppRoot } from './routes/app/root';
 
-export const createRouter = (queryClient: QueryClient) =>
+export const createAppRouter = (queryClient: QueryClient) =>
   createBrowserRouter([
     {
       path: '/',
       lazy: async () => {
-        const { LandingRoute } = await import('./landing');
+        const { LandingRoute } = await import('./routes/landing');
         return { Component: LandingRoute };
       },
     },
     {
       path: '/auth/register',
       lazy: async () => {
-        const { RegisterRoute } = await import('./auth/register');
+        const { RegisterRoute } = await import('./routes/auth/register');
         return { Component: RegisterRoute };
       },
     },
     {
       path: '/auth/login',
       lazy: async () => {
-        const { LoginRoute } = await import('./auth/login');
+        const { LoginRoute } = await import('./routes/auth/login');
         return { Component: LoginRoute };
       },
     },
@@ -40,13 +45,13 @@ export const createRouter = (queryClient: QueryClient) =>
           path: 'discussions',
           lazy: async () => {
             const { DiscussionsRoute } = await import(
-              './app/discussions/discussions'
+              './routes/app/discussions/discussions'
             );
             return { Component: DiscussionsRoute };
           },
           loader: async () => {
             const { discussionsLoader } = await import(
-              './app/discussions/discussions'
+              './routes/app/discussions/discussions'
             );
             return discussionsLoader(queryClient)();
           },
@@ -55,14 +60,14 @@ export const createRouter = (queryClient: QueryClient) =>
           path: 'discussions/:discussionId',
           lazy: async () => {
             const { DiscussionRoute } = await import(
-              './app/discussions/discussion'
+              './routes/app/discussions/discussion'
             );
             return { Component: DiscussionRoute };
           },
 
           loader: async (args: LoaderFunctionArgs) => {
             const { discussionLoader } = await import(
-              './app/discussions/discussion'
+              './routes/app/discussions/discussion'
             );
             return discussionLoader(queryClient)(args);
           },
@@ -70,26 +75,26 @@ export const createRouter = (queryClient: QueryClient) =>
         {
           path: 'users',
           lazy: async () => {
-            const { UsersRoute } = await import('./app/users');
+            const { UsersRoute } = await import('./routes/app/users');
             return { Component: UsersRoute };
           },
 
           loader: async () => {
-            const { usersLoader } = await import('./app/users');
+            const { usersLoader } = await import('./routes/app/users');
             return usersLoader(queryClient)();
           },
         },
         {
           path: 'profile',
           lazy: async () => {
-            const { ProfileRoute } = await import('./app/profile');
+            const { ProfileRoute } = await import('./routes/app/profile');
             return { Component: ProfileRoute };
           },
         },
         {
           path: '',
           lazy: async () => {
-            const { DashboardRoute } = await import('./app/dashboard');
+            const { DashboardRoute } = await import('./routes/app/dashboard');
             return { Component: DashboardRoute };
           },
         },
@@ -98,8 +103,16 @@ export const createRouter = (queryClient: QueryClient) =>
     {
       path: '*',
       lazy: async () => {
-        const { NotFoundRoute } = await import('./not-found');
+        const { NotFoundRoute } = await import('./routes/not-found');
         return { Component: NotFoundRoute };
       },
     },
   ]);
+
+export const AppRouter = () => {
+  const queryClient = useQueryClient();
+
+  const router = useMemo(() => createAppRouter(queryClient), [queryClient]);
+
+  return <RouterProvider router={router} />;
+};
