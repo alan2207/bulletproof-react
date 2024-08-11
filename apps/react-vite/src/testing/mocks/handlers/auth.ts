@@ -154,7 +154,7 @@ export const authHandlers = [
 
     try {
       const { user } = requireAuth(cookies);
-      return HttpResponse.json(user);
+      return HttpResponse.json({ data: user });
     } catch (error: any) {
       return HttpResponse.json(
         { message: error?.message || 'Server Error' },

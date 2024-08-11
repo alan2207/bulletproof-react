@@ -11,7 +11,7 @@ export const teamsHandlers = [
 
     try {
       const result = db.team.getAll();
-      return HttpResponse.json(result);
+      return HttpResponse.json({ data: result });
     } catch (error: any) {
       return HttpResponse.json(
         { message: error?.message || 'Server Error' },

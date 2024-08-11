@@ -1,39 +1,47 @@
-import { queryOptions, useQuery } from '@tanstack/react-query';
+import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query';
 
 import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
-import { Comment } from '@/types/api';
+import { Comment, Meta } from '@/types/api';
 
 export const getComments = ({
   discussionId,
+  page = 1,
 }: {
   discussionId: string;
-}): Promise<Comment[]> => {
+  page?: number;
+}): Promise<{ data: Comment[]; meta: Meta }> => {
   return api.get(`/comments`, {
     params: {
       discussionId,
+      page,
     },
   });
 };
 
-export const getCommentsQueryOptions = (discussionId: string) => {
-  return queryOptions({
+export const getInfiniteCommentsQueryOptions = (discussionId: string) => {
+  return infiniteQueryOptions({
     queryKey: ['comments', discussionId],
-    queryFn: () => getComments({ discussionId }),
+    queryFn: ({ pageParam = 1 }) => {
+      return getComments({ discussionId, page: pageParam as number });
+    },
+    getNextPageParam: (lastPage) => {
+      if (lastPage?.meta?.page === lastPage?.meta?.totalPages) return undefined;
+      const nextPage = lastPage.meta.page + 1;
+      return nextPage;
+    },
+    initialPageParam: 1,
   });
 };
 
 type UseCommentsOptions = {
   discussionId: string;
+  page?: number;
   queryConfig?: QueryConfig<typeof getComments>;
 };
 
-export const useComments = ({
-  discussionId,
-  queryConfig,
-}: UseCommentsOptions) => {
-  return useQuery({
-    ...getCommentsQueryOptions(discussionId),
-    ...queryConfig,
+export const useInfiniteComments = ({ discussionId }: UseCommentsOptions) => {
+  return useInfiniteQuery({
+    ...getInfiniteCommentsQueryOptions(discussionId),
   });
 };

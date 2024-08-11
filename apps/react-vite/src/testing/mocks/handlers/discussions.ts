@@ -16,7 +16,7 @@ type DiscussionBody = {
 };
 
 export const discussionsHandlers = [
-  http.get(`${env.API_URL}/discussions`, async ({ cookies }) => {
+  http.get(`${env.API_URL}/discussions`, async ({ cookies, request }) => {
     await networkDelay();
 
     try {
@@ -24,6 +24,21 @@ export const discussionsHandlers = [
       if (error) {
         return HttpResponse.json({ message: error }, { status: 401 });
       }
+
+      const url = new URL(request.url);
+
+      const page = Number(url.searchParams.get('page') || 1);
+
+      const total = db.discussion.count({
+        where: {
+          teamId: {
+            equals: user?.teamId,
+          },
+        },
+      });
+
+      const totalPages = Math.ceil(total / 10);
+
       const result = db.discussion
         .findMany({
           where: {
@@ -31,6 +46,8 @@ export const discussionsHandlers = [
               equals: user?.teamId,
             },
           },
+          take: 10,
+          skip: 10 * (page - 1),
         })
         .map(({ authorId, ...discussion }) => {
           const author = db.user.findFirst({
@@ -45,7 +62,14 @@ export const discussionsHandlers = [
             author: author ? sanitizeUser(author) : {},
           };
         });
-      return HttpResponse.json(result);
+      return HttpResponse.json({
+        data: result,
+        meta: {
+          page,
+          total,
+          totalPages,
+        },
+      });
     } catch (error: any) {
       return HttpResponse.json(
         { message: error?.message || 'Server Error' },
@@ -91,14 +115,12 @@ export const discussionsHandlers = [
           },
         });
 
-        // delete discussion.authorId;
-
         const result = {
           ...discussion,
           author: author ? sanitizeUser(author) : {},
         };
 
-        return HttpResponse.json(result);
+        return HttpResponse.json({ data: result });
       } catch (error: any) {
         return HttpResponse.json(
           { message: error?.message || 'Server Error' },

@@ -21,6 +21,18 @@ export const commentsHandlers = [
       }
       const url = new URL(request.url);
       const discussionId = url.searchParams.get('discussionId') || '';
+      const page = Number(url.searchParams.get('page') || 1);
+
+      const total = db.comment.count({
+        where: {
+          discussionId: {
+            equals: discussionId,
+          },
+        },
+      });
+
+      const totalPages = Math.ceil(total / 10);
+
       const comments = db.comment
         .findMany({
           where: {
@@ -28,6 +40,8 @@ export const commentsHandlers = [
               equals: discussionId,
             },
           },
+          take: 10,
+          skip: 10 * (page - 1),
         })
         .map(({ authorId, ...comment }) => {
           const author = db.user.findFirst({
@@ -42,7 +56,14 @@ export const commentsHandlers = [
             author: author ? sanitizeUser(author) : {},
           };
         });
-      return HttpResponse.json(comments);
+      return HttpResponse.json({
+        data: comments,
+        meta: {
+          page,
+          total,
+          totalPages,
+        },
+      });
     } catch (error: any) {
       return HttpResponse.json(
         { message: error?.message || 'Server Error' },
