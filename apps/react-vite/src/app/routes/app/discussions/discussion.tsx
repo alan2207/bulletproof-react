@@ -4,7 +4,7 @@ import { useParams, LoaderFunctionArgs } from 'react-router-dom';
 
 import { ContentLayout } from '@/components/layouts';
 import { Spinner } from '@/components/ui/spinner';
-import { getCommentsQueryOptions } from '@/features/comments/api/get-comments';
+import { getInfiniteCommentsQueryOptions } from '@/features/comments/api/get-comments';
 import { Comments } from '@/features/comments/components/comments';
 import {
   useDiscussion,
@@ -18,13 +18,13 @@ export const discussionLoader =
     const discussionId = params.discussionId as string;
 
     const discussionQuery = getDiscussionQueryOptions(discussionId);
-    const commentsQuery = getCommentsQueryOptions(discussionId);
+    const commentsQuery = getInfiniteCommentsQueryOptions(discussionId);
 
     const promises = [
       queryClient.getQueryData(discussionQuery.queryKey) ??
         (await queryClient.fetchQuery(discussionQuery)),
       queryClient.getQueryData(commentsQuery.queryKey) ??
-        (await queryClient.fetchQuery(commentsQuery)),
+        (await queryClient.fetchInfiniteQuery(commentsQuery)),
     ] as const;
 
     const [discussion, comments] = await Promise.all(promises);
@@ -50,11 +50,13 @@ export const DiscussionRoute = () => {
     );
   }
 
-  if (!discussionQuery.data) return null;
+  const discussion = discussionQuery.data?.data;
+
+  if (!discussion) return null;
 
   return (
     <>
-      <ContentLayout title={discussionQuery.data.title}>
+      <ContentLayout title={discussion.title}>
         <DiscussionView discussionId={discussionId} />
         <div className="mt-8">
           <ErrorBoundary

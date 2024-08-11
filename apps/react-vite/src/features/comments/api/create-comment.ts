@@ -5,7 +5,7 @@ import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 import { Comment } from '@/types/api';
 
-import { getCommentsQueryOptions } from './get-comments';
+import { getInfiniteCommentsQueryOptions } from './get-comments';
 
 export const createCommentInputSchema = z.object({
   discussionId: z.string().min(1, 'Required'),
@@ -38,7 +38,7 @@ export const useCreateComment = ({
   return useMutation({
     onSuccess: (...args) => {
       queryClient.invalidateQueries({
-        queryKey: getCommentsQueryOptions(discussionId).queryKey,
+        queryKey: getInfiniteCommentsQueryOptions(discussionId).queryKey,
       });
       onSuccess?.(...args);
     },

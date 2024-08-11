@@ -49,11 +49,11 @@ export const createAppRouter = (queryClient: QueryClient) =>
             );
             return { Component: DiscussionsRoute };
           },
-          loader: async () => {
+          loader: async (args: LoaderFunctionArgs) => {
             const { discussionsLoader } = await import(
               './routes/app/discussions/discussions'
             );
-            return discussionsLoader(queryClient)();
+            return discussionsLoader(queryClient)(args);
           },
         },
         {

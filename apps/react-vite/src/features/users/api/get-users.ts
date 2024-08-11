@@ -4,7 +4,7 @@ import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
 import { User } from '@/types/api';
 
-export const getUsers = (): Promise<User[]> => {
+export const getUsers = (): Promise<{ data: User[] }> => {
   return api.get(`/users`);
 };
 

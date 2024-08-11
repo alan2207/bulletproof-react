@@ -1,5 +1,6 @@
 import { ArchiveX } from 'lucide-react';
 
+import { Button } from '@/components/ui/button';
 import { MDPreview } from '@/components/ui/md-preview';
 import { Spinner } from '@/components/ui/spinner';
 import { useUser } from '@/lib/auth';
@@ -7,7 +8,7 @@ import { POLICIES, Authorization } from '@/lib/authorization';
 import { User } from '@/types/api';
 import { formatDate } from '@/utils/format';
 
-import { useComments } from '../api/get-comments';
+import { useInfiniteComments } from '../api/get-comments';
 
 import { DeleteComment } from './delete-comment';
 
@@ -17,7 +18,7 @@ type CommentsListProps = {
 
 export const CommentsList = ({ discussionId }: CommentsListProps) => {
   const user = useUser();
-  const commentsQuery = useComments({ discussionId });
+  const commentsQuery = useInfiniteComments({ discussionId });
 
   if (commentsQuery.isLoading) {
     return (
@@ -27,7 +28,9 @@ export const CommentsList = ({ discussionId }: CommentsListProps) => {
     );
   }
 
-  if (!commentsQuery?.data?.length)
+  const comments = commentsQuery.data?.pages.flatMap((page) => page.data);
+
+  if (!comments?.length)
     return (
       <div
         role="list"
@@ -40,35 +43,51 @@ export const CommentsList = ({ discussionId }: CommentsListProps) => {
     );
 
   return (
-    <ul aria-label="comments" className="flex flex-col space-y-3">
-      {commentsQuery.data.map((comment, index) => (
-        <li
-          aria-label={`comment-${comment.body}-${index}`}
-          key={comment.id || index}
-          className="w-full bg-white p-4 shadow-sm"
-        >
-          <Authorization
-            policyCheck={POLICIES['comment:delete'](user.data as User, comment)}
+    <>
+      <ul aria-label="comments" className="flex flex-col space-y-3">
+        {comments.map((comment, index) => (
+          <li
+            aria-label={`comment-${comment.body}-${index}`}
+            key={comment.id || index}
+            className="w-full bg-white p-4 shadow-sm"
           >
-            <div className="flex justify-between">
-              <div>
-                <span className="text-xs font-semibold">
-                  {formatDate(comment.createdAt)}
-                </span>
-                {comment.author && (
-                  <span className="text-xs font-bold">
-                    {' '}
-                    by {comment.author.firstName} {comment.author.lastName}
+            <Authorization
+              policyCheck={POLICIES['comment:delete'](
+                user.data as User,
+                comment,
+              )}
+            >
+              <div className="flex justify-between">
+                <div>
+                  <span className="text-xs font-semibold">
+                    {formatDate(comment.createdAt)}
                   </span>
-                )}
+                  {comment.author && (
+                    <span className="text-xs font-bold">
+                      {' '}
+                      by {comment.author.firstName} {comment.author.lastName}
+                    </span>
+                  )}
+                </div>
+                <DeleteComment discussionId={discussionId} id={comment.id} />
               </div>
-              <DeleteComment discussionId={discussionId} id={comment.id} />
-            </div>
-          </Authorization>
+            </Authorization>
 
-          <MDPreview value={comment.body} />
-        </li>
-      ))}
-    </ul>
+            <MDPreview value={comment.body} />
+          </li>
+        ))}
+      </ul>
+      {commentsQuery.hasNextPage && (
+        <div className="flex items-center justify-center py-4">
+          <Button onClick={() => commentsQuery.fetchNextPage()}>
+            {commentsQuery.isFetchingNextPage ? (
+              <Spinner />
+            ) : (
+              'Load More Comments'
+            )}
+          </Button>
+        </div>
+      )}
+    </>
   );
 };
