@@ -8,7 +8,7 @@ export const getDiscussion = ({
   discussionId,
 }: {
   discussionId: string;
-}): Promise<Discussion> => {
+}): Promise<{ data: Discussion }> => {
   return api.get(`/discussions/${discussionId}`);
 };
 

@@ -4,7 +4,7 @@ import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
 import { Team } from '@/types/api';
 
-export const getTeams = (): Promise<Team[]> => {
+export const getTeams = (): Promise<{ data: Team[] }> => {
   return api.get('/teams');
 };
 

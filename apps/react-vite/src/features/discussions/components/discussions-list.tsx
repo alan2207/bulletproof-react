@@ -1,4 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
+import { useSearchParams } from 'react-router-dom';
 
 import { Link } from '@/components/ui/link';
 import { Spinner } from '@/components/ui/spinner';
@@ -17,7 +18,11 @@ export type DiscussionsListProps = {
 export const DiscussionsList = ({
   onDiscussionPrefetch,
 }: DiscussionsListProps) => {
-  const discussionsQuery = useDiscussions();
+  const [searchParams] = useSearchParams();
+
+  const discussionsQuery = useDiscussions({
+    page: +(searchParams.get('page') || 1),
+  });
   const queryClient = useQueryClient();
 
   if (discussionsQuery.isLoading) {
@@ -28,11 +33,14 @@ export const DiscussionsList = ({
     );
   }
 
-  if (!discussionsQuery.data) return null;
+  const discussions = discussionsQuery.data?.data;
+  const meta = discussionsQuery.data?.meta;
+
+  if (!discussions) return null;
 
   return (
     <Table
-      data={discussionsQuery.data}
+      data={discussions}
       columns={[
         {
           title: 'Title',
@@ -71,6 +79,13 @@ export const DiscussionsList = ({
           },
         },
       ]}
+      pagination={
+        meta && {
+          totalPages: meta.totalPages,
+          currentPage: meta.page,
+          rootUrl: '',
+        }
+      }
     />
   );
 };

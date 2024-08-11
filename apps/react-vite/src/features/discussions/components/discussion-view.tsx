@@ -18,17 +18,18 @@ export const DiscussionView = ({ discussionId }: { discussionId: string }) => {
     );
   }
 
-  if (!discussionQuery.data) return null;
+  const discussion = discussionQuery?.data?.data;
+
+  if (!discussion) return null;
 
   return (
     <div>
       <span className="text-xs font-bold">
-        {formatDate(discussionQuery.data.createdAt)}
+        {formatDate(discussion.createdAt)}
       </span>
-      {discussionQuery.data.author && (
+      {discussion.author && (
         <span className="ml-2 text-sm font-bold">
-          by {discussionQuery.data.author.firstName}{' '}
-          {discussionQuery.data.author.lastName}
+          by {discussion.author.firstName} {discussion.author.lastName}
         </span>
       )}
       <div className="mt-6 flex flex-col space-y-16">
@@ -39,7 +40,7 @@ export const DiscussionView = ({ discussionId }: { discussionId: string }) => {
           <div className="overflow-hidden bg-white shadow sm:rounded-lg">
             <div className="px-4 py-5 sm:px-6">
               <div className="mt-1 max-w-2xl text-sm text-gray-500">
-                <MDPreview value={discussionQuery.data.body} />
+                <MDPreview value={discussion.body} />
               </div>
             </div>
           </div>

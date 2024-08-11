@@ -17,11 +17,13 @@ export const UsersList = () => {
     );
   }
 
-  if (!usersQuery.data) return null;
+  const users = usersQuery.data?.data;
+
+  if (!users) return null;
 
   return (
     <Table
-      data={usersQuery.data}
+      data={users}
       columns={[
         {
           title: 'First Name',

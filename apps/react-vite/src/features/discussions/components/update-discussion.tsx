@@ -29,6 +29,8 @@ export const UpdateDiscussion = ({ discussionId }: UpdateDiscussionProps) => {
     },
   });
 
+  const discussion = discussionQuery.data?.data;
+
   return (
     <Authorization allowedRoles={[ROLES.ADMIN]}>
       <FormDrawer
@@ -60,8 +62,8 @@ export const UpdateDiscussion = ({ discussionId }: UpdateDiscussionProps) => {
           }}
           options={{
             defaultValues: {
-              title: discussionQuery.data?.title ?? '',
-              body: discussionQuery.data?.body ?? '',
+              title: discussion?.title ?? '',
+              body: discussion?.body ?? '',
             },
           }}
           schema={updateDiscussionInputSchema}

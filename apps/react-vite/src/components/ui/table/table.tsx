@@ -4,6 +4,8 @@ import * as React from 'react';
 import { BaseEntity } from '@/types/api';
 import { cn } from '@/utils/cn';
 
+import { TablePagination, TablePaginationProps } from './pagination';
+
 const TableElement = React.forwardRef<
   HTMLTableElement,
   React.HTMLAttributes<HTMLTableElement>
@@ -130,11 +132,13 @@ type TableColumn<Entry> = {
 export type TableProps<Entry> = {
   data: Entry[];
   columns: TableColumn<Entry>[];
+  pagination?: TablePaginationProps;
 };
 
 export const Table = <Entry extends BaseEntity>({
   data,
   columns,
+  pagination,
 }: TableProps<Entry>) => {
   if (!data?.length) {
     return (
@@ -145,25 +149,29 @@ export const Table = <Entry extends BaseEntity>({
     );
   }
   return (
-    <TableElement>
-      <TableHeader>
-        <TableRow>
-          {columns.map((column, index) => (
-            <TableHead key={column.title + index}>{column.title}</TableHead>
-          ))}
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {data.map((entry, entryIndex) => (
-          <TableRow key={entry?.id || entryIndex}>
-            {columns.map(({ Cell, field, title }, columnIndex) => (
-              <TableCell key={title + columnIndex}>
-                {Cell ? <Cell entry={entry} /> : `${entry[field]}`}
-              </TableCell>
+    <>
+      <TableElement>
+        <TableHeader>
+          <TableRow>
+            {columns.map((column, index) => (
+              <TableHead key={column.title + index}>{column.title}</TableHead>
             ))}
           </TableRow>
-        ))}
-      </TableBody>
-    </TableElement>
+        </TableHeader>
+        <TableBody>
+          {data.map((entry, entryIndex) => (
+            <TableRow key={entry?.id || entryIndex}>
+              {columns.map(({ Cell, field, title }, columnIndex) => (
+                <TableCell key={title + columnIndex}>
+                  {Cell ? <Cell entry={entry} /> : `${entry[field]}`}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </TableElement>
+
+      {pagination && <TablePagination {...pagination} />}
+    </>
   );
 };

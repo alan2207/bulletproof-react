@@ -27,7 +27,7 @@ export const RegisterRoute = () => {
         }
         chooseTeam={chooseTeam}
         setChooseTeam={() => setChooseTeam(!chooseTeam)}
-        teams={teamsQuery.data}
+        teams={teamsQuery.data?.data}
       />
     </AuthLayout>
   );
