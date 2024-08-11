@@ -1,15 +1,30 @@
 import * as React from 'react';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import logo from '@/assets/logo.svg';
 import { Head } from '@/components/seo';
 import { Link } from '@/components/ui/link';
+import { useUser } from '@/lib/auth';
 
 type LayoutProps = {
   children: React.ReactNode;
   title: string;
 };
 
-export const Layout = ({ children, title }: LayoutProps) => {
+export const AuthLayout = ({ children, title }: LayoutProps) => {
+  const user = useUser();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user.data) {
+      navigate('/app', {
+        replace: true,
+      });
+    }
+  }, [user.data, navigate]);
+
   return (
     <>
       <Head title={title} />
