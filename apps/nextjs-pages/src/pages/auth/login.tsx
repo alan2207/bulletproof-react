@@ -1,1 +1,1 @@
-export { default } from '@/application/routes/auth/login';
+export { default } from '@/application/pages/auth/login';

@@ -1,2 +1,2 @@
-export { default } from '@/application/routes/app/discussions/discussions';
-export { getServerSideProps } from '@/application/routes/app/discussions/discussions';
+export { default } from '@/application/pages/app/discussions/discussions';
+export { getServerSideProps } from '@/application/pages/app/discussions/discussions';

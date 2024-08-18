@@ -1,1 +1,1 @@
-export { default } from '@/application/routes/app/users';
+export { default } from '@/application/pages/app/users';
