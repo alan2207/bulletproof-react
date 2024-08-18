@@ -1,4 +1,4 @@
-name: CI
+name: React Vite CI
 on:
   push:
     branches: ["*"]
@@ -11,7 +11,7 @@ on:
       - "README.md"
       - "docs/**"
 jobs:
-  all-cli-check:
+  all-cli-checks:
     runs-on: ubuntu-latest
     defaults:
       run:
