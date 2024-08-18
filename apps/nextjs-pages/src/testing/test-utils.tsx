@@ -1,4 +1,8 @@
-import { render as rtlRender } from '@testing-library/react';
+import {
+  render as rtlRender,
+  waitForElementToBeRemoved,
+  screen,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Cookies from 'js-cookie';
 
@@ -10,6 +14,15 @@ import {
 } from './data-generators';
 import { db } from './mocks/db';
 import { AUTH_COOKIE, authenticate, hash } from './mocks/utils';
+
+export const waitForLoadingToFinish = () =>
+  waitForElementToBeRemoved(
+    () => [
+      ...screen.queryAllByTestId(/loading/i),
+      ...screen.queryAllByText(/loading/i),
+    ],
+    { timeout: 4000 },
+  );
 
 export const createUser = async (userProperties?: any) => {
   const user = generateUser(userProperties) as any;

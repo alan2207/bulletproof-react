@@ -33,7 +33,11 @@ api.interceptors.response.use(
       if (typeof window !== 'undefined') {
         const searchParams = new URLSearchParams();
         const redirectTo = searchParams.get('redirectTo');
-        window.location.href = `/auth/login?redirectTo=${redirectTo}`;
+        if (redirectTo) {
+          window.location.href = `/auth/login?redirectTo=${redirectTo}`;
+        } else {
+          window.location.href = '/auth/login';
+        }
       }
     }
 

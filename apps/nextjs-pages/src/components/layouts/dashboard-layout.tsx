@@ -7,7 +7,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { Button } from '@/components/ui/button';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
 import { Spinner } from '@/components/ui/spinner';
-import { useLogout } from '@/lib/auth';
+import { AuthLoader, useLogout } from '@/lib/auth';
 import { ROLES, useAuthorization } from '@/lib/authorization';
 import { cn } from '@/utils/cn';
 
@@ -235,7 +235,15 @@ export const DashboardLayout = ({
           key={router.pathname}
           fallback={<div>Something went wrong!</div>}
         >
-          {children}
+          <AuthLoader
+            renderLoading={() => (
+              <div className="flex size-full items-center justify-center">
+                <Spinner size="xl" />
+              </div>
+            )}
+          >
+            {children}
+          </AuthLoader>
         </ErrorBoundary>
       </Suspense>
     </Layout>

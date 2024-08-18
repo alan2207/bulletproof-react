@@ -1,7 +1,14 @@
 import { Pen } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { Form, FormDrawer, Input, Textarea } from '@/components/ui/form';
+import {
+  Form,
+  FormDrawer,
+  Input,
+  Label,
+  Switch,
+  Textarea,
+} from '@/components/ui/form';
 import { useNotifications } from '@/components/ui/notifications';
 import { Authorization, ROLES } from '@/lib/authorization';
 
@@ -64,11 +71,12 @@ export const UpdateDiscussion = ({ discussionId }: UpdateDiscussionProps) => {
             defaultValues: {
               title: discussion?.title ?? '',
               body: discussion?.body ?? '',
+              public: discussion?.public ?? false,
             },
           }}
           schema={updateDiscussionInputSchema}
         >
-          {({ register, formState }) => (
+          {({ register, formState, setValue, watch }) => (
             <>
               <Input
                 label="Title"
@@ -80,6 +88,17 @@ export const UpdateDiscussion = ({ discussionId }: UpdateDiscussionProps) => {
                 error={formState.errors['body']}
                 registration={register('body')}
               />
+
+              <div className="flex items-center space-x-2">
+                <Switch
+                  name="public"
+                  onCheckedChange={(value) => setValue('public', value)}
+                  checked={watch('public')}
+                  className={` relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2`}
+                  id="public"
+                />
+                <Label htmlFor="airplane-mode">Public</Label>
+              </div>
             </>
           )}
         </Form>

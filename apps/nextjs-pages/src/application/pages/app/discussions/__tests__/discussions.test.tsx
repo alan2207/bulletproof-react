@@ -6,6 +6,7 @@ import {
   screen,
   userEvent,
   waitFor,
+  waitForLoadingToFinish,
   within,
 } from '@/testing/test-utils';
 import { formatDate } from '@/utils/format';
@@ -24,14 +25,9 @@ test(
   'should create, render and delete discussions',
   { timeout: 10000 },
   async () => {
-    await renderApp(
-      <DiscussionsPage
-        dehydratedState={{
-          mutations: [],
-          queries: [],
-        }}
-      />,
-    );
+    await renderApp(<DiscussionsPage />);
+
+    await waitForLoadingToFinish();
 
     const newDiscussion = createDiscussion();
 

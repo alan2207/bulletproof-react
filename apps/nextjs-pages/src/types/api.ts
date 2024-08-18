@@ -41,6 +41,7 @@ export type Discussion = Entity<{
   body: string;
   teamId: string;
   author: User;
+  public: boolean;
 }>;
 
 export type Comment = Entity<{

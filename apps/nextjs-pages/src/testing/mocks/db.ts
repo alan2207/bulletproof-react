@@ -26,6 +26,7 @@ const models = {
     authorId: String,
     teamId: String,
     createdAt: Date.now,
+    public: Boolean,
   },
   comment: {
     id: primaryKey(nanoid),

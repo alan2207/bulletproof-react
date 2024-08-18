@@ -15,13 +15,24 @@ export const commentsHandlers = [
     await networkDelay();
 
     try {
-      const { error } = requireAuth(cookies);
-      if (error) {
-        return HttpResponse.json({ message: error }, { status: 401 });
-      }
       const url = new URL(request.url);
       const discussionId = url.searchParams.get('discussionId') || '';
       const page = Number(url.searchParams.get('page') || 1);
+
+      const discussion = db.discussion.findFirst({
+        where: {
+          id: {
+            equals: discussionId,
+          },
+        },
+      });
+
+      if (!discussion?.public) {
+        const { error } = requireAuth(cookies);
+        if (error) {
+          return HttpResponse.json({ message: error }, { status: 401 });
+        }
+      }
 
       const total = db.comment.count({
         where: {

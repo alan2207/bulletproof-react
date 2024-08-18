@@ -41,7 +41,7 @@ export const getServerSideProps = (async ({ query, req }) => {
   };
 }) satisfies GetServerSideProps<DiscussionPageProps>;
 
-export const Discussion = () => {
+export const DiscussionPage = () => {
   const router = useRouter();
   const discussionId = router.query.discussionId as string;
 
@@ -77,18 +77,18 @@ export const Discussion = () => {
   );
 };
 
-const DiscussionPage = ({
-  dehydratedState,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  return (
-    <HydrationBoundary state={dehydratedState}>
-      <Discussion />
-    </HydrationBoundary>
-  );
-};
-
 DiscussionPage.getLayout = (page: ReactElement) => {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
 
 export default DiscussionPage;
+
+export const PublicDiscussionPage = ({
+  dehydratedState,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  return (
+    <HydrationBoundary state={dehydratedState}>
+      <DiscussionPage />
+    </HydrationBoundary>
+  );
+};

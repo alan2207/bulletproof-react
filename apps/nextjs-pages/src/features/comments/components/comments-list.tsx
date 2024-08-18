@@ -1,4 +1,5 @@
 import { ArchiveX } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 import { MDPreview } from '@/components/ui/md-preview';
@@ -19,6 +20,8 @@ type CommentsListProps = {
 export const CommentsList = ({ discussionId }: CommentsListProps) => {
   const user = useUser();
   const commentsQuery = useInfiniteComments({ discussionId });
+  const pathname = usePathname();
+  const isPublicView = pathname?.startsWith?.('/public/');
 
   if (commentsQuery.isLoading) {
     return (
@@ -51,28 +54,29 @@ export const CommentsList = ({ discussionId }: CommentsListProps) => {
             key={comment.id || index}
             className="w-full bg-white p-4 shadow-sm"
           >
-            <Authorization
-              policyCheck={POLICIES['comment:delete'](
-                user.data as User,
-                comment,
-              )}
-            >
-              <div className="flex justify-between">
-                <div>
-                  <span className="text-xs font-semibold">
-                    {formatDate(comment.createdAt)}
+            <div className="flex justify-between">
+              <div>
+                <span className="text-xs font-semibold">
+                  {formatDate(comment.createdAt)}
+                </span>
+                {comment.author && (
+                  <span className="text-xs font-bold">
+                    {' '}
+                    by {comment.author.firstName} {comment.author.lastName}
                   </span>
-                  {comment.author && (
-                    <span className="text-xs font-bold">
-                      {' '}
-                      by {comment.author.firstName} {comment.author.lastName}
-                    </span>
-                  )}
-                </div>
-                <DeleteComment discussionId={discussionId} id={comment.id} />
+                )}
               </div>
-            </Authorization>
-
+              {!isPublicView && (
+                <Authorization
+                  policyCheck={POLICIES['comment:delete'](
+                    user.data as User,
+                    comment,
+                  )}
+                >
+                  <DeleteComment discussionId={discussionId} id={comment.id} />
+                </Authorization>
+              )}
+            </div>
             <MDPreview value={comment.body} />
           </li>
         ))}

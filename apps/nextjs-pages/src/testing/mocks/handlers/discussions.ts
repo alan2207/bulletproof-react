@@ -13,6 +13,7 @@ import {
 type DiscussionBody = {
   title: string;
   body: string;
+  public: boolean;
 };
 
 export const discussionsHandlers = [
@@ -83,12 +84,38 @@ export const discussionsHandlers = [
     async ({ params, cookies }) => {
       await networkDelay();
 
+      const discussionId = params.discussionId as string;
+
+      const discussion = db.discussion.findFirst({
+        where: {
+          id: {
+            equals: discussionId,
+          },
+        },
+      });
+
+      if (discussion?.public) {
+        const author = db.user.findFirst({
+          where: {
+            id: {
+              equals: discussion.authorId,
+            },
+          },
+        });
+
+        const result = {
+          ...discussion,
+          author: author ? sanitizeUser(author) : {},
+        };
+
+        return HttpResponse.json({ data: result });
+      }
+
       try {
         const { user, error } = requireAuth(cookies);
         if (error) {
           return HttpResponse.json({ message: error }, { status: 401 });
         }
-        const discussionId = params.discussionId as string;
         const discussion = db.discussion.findFirst({
           where: {
             id: {

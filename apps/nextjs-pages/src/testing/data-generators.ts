@@ -45,6 +45,7 @@ const generateDiscussion = () => ({
   title: randCatchPhrase(),
   body: randParagraph(),
   createdAt: Date.now(),
+  public: true,
 });
 
 export const createDiscussion = <

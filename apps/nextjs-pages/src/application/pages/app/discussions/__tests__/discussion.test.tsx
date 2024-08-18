@@ -8,9 +8,10 @@ import {
   createDiscussion,
   createUser,
   within,
+  waitForLoadingToFinish,
 } from '@/testing/test-utils';
 
-import { Discussion } from '../discussion';
+import { DiscussionPage } from '../discussion';
 
 const renderDiscussion = async () => {
   const fakeUser = await createUser();
@@ -18,11 +19,13 @@ const renderDiscussion = async () => {
 
   mockRouter.query = { discussionId: fakeDiscussion.id };
 
-  const utils = await renderApp(<Discussion />, {
+  const utils = await renderApp(<DiscussionPage />, {
     user: fakeUser,
     path: `/app/discussions/:discussionId`,
     url: `/app/discussions/${fakeDiscussion.id}`,
   });
+
+  await waitForLoadingToFinish();
 
   await screen.findByText(fakeDiscussion.title);
 
