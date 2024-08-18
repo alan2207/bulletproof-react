@@ -81,8 +81,6 @@ DiscussionPage.getLayout = (page: ReactElement) => {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
 
-export default DiscussionPage;
-
 export const PublicDiscussionPage = ({
   dehydratedState,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {

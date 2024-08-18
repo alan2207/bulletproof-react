@@ -6,7 +6,7 @@ import { getInfiniteCommentsQueryOptions } from '@/features/comments/api/get-com
 import { CreateDiscussion } from '@/features/discussions/components/create-discussion';
 import { DiscussionsList } from '@/features/discussions/components/discussions-list';
 
-const DiscussionsPage = () => {
+export const DiscussionsPage = () => {
   const queryClient = useQueryClient();
 
   return (
@@ -35,5 +35,3 @@ DiscussionsPage.getLayout = (page: ReactElement) => {
     </DashboardLayout>
   );
 };
-
-export default DiscussionsPage;

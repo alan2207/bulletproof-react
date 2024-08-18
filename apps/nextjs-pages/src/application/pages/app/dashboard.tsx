@@ -4,7 +4,7 @@ import { ContentLayout, DashboardLayout } from '@/components/layouts';
 import { useUser } from '@/lib/auth';
 import { ROLES } from '@/lib/authorization';
 
-const DashboardPage = () => {
+export const DashboardPage = () => {
   const user = useUser();
   if (!user.data) return null;
 
@@ -43,5 +43,3 @@ DashboardPage.getLayout = (page: ReactElement) => {
     </DashboardLayout>
   );
 };
-
-export default DashboardPage;

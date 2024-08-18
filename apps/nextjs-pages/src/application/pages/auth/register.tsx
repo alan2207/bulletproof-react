@@ -5,7 +5,7 @@ import { AuthLayout } from '@/components/layouts/auth-layout';
 import { RegisterForm } from '@/features/auth/components/register-form';
 import { useTeams } from '@/features/teams/api/get-teams';
 
-const RegisterPage = () => {
+export const RegisterPage = () => {
   const router = useRouter();
 
   const { redirectTo } = router.query;
@@ -33,5 +33,3 @@ const RegisterPage = () => {
 RegisterPage.getLayout = (page: ReactElement) => {
   return <AuthLayout title="Register your account">{page}</AuthLayout>;
 };
-
-export default RegisterPage;

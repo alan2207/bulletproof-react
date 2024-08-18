@@ -17,7 +17,7 @@ const Entry = ({ label, value }: EntryProps) => (
   </div>
 );
 
-const ProfilePage = () => {
+export const ProfilePage = () => {
   const user = useUser();
 
   if (!user.data) return null;
@@ -55,5 +55,3 @@ ProfilePage.getLayout = (page: ReactElement) => {
     </DashboardLayout>
   );
 };
-
-export default ProfilePage;

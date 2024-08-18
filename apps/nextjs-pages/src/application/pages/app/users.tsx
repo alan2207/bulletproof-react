@@ -4,7 +4,7 @@ import { ContentLayout, DashboardLayout } from '@/components/layouts';
 import { UsersList } from '@/features/users/components/users-list';
 import { Authorization, ROLES } from '@/lib/authorization';
 
-const UsersPage = () => {
+export const UsersPage = () => {
   return (
     <ContentLayout title="Users">
       <Authorization
@@ -24,5 +24,3 @@ UsersPage.getLayout = (page: ReactElement) => {
     </DashboardLayout>
   );
 };
-
-export default UsersPage;
