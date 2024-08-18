@@ -39,6 +39,8 @@ test('should not view protected resource if user role does not match and show fa
     { user },
   );
 
+  await screen.findByText(forbiddenMessage);
+
   expect(screen.queryByText(protectedResource)).not.toBeInTheDocument();
 
   expect(screen.getByText(forbiddenMessage)).toBeInTheDocument();

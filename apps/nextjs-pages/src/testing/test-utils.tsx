@@ -1,8 +1,4 @@
-import {
-  render as rtlRender,
-  screen,
-  waitForElementToBeRemoved,
-} from '@testing-library/react';
+import { render as rtlRender } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Cookies from 'js-cookie';
 
@@ -33,15 +29,6 @@ export const loginAsUser = async (user: any) => {
   return authUser;
 };
 
-export const waitForLoadingToFinish = () =>
-  waitForElementToBeRemoved(
-    () => [
-      ...screen.queryAllByTestId(/loading/i),
-      ...screen.queryAllByText(/loading/i),
-    ],
-    { timeout: 4000 },
-  );
-
 const initializeUser = async (user: any) => {
   if (typeof user === 'undefined') {
     const newUser = await createUser();
@@ -67,8 +54,6 @@ export const renderApp = async (
     }),
     user: initializedUser,
   };
-
-  await waitForLoadingToFinish();
 
   return returnValue;
 };
