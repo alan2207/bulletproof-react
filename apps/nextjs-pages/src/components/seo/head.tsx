@@ -1,20 +1,15 @@
-import { Helmet, HelmetData } from 'react-helmet-async';
+import NextHead from 'next/head';
 
 type HeadProps = {
   title?: string;
   description?: string;
 };
 
-const helmetData = new HelmetData({});
-
 export const Head = ({ title = '', description = '' }: HeadProps = {}) => {
   return (
-    <Helmet
-      helmetData={helmetData}
-      title={title ? `${title} | Bulletproof React` : undefined}
-      defaultTitle="Bulletproof React"
-    >
+    <NextHead>
+      <title>{title}</title>
       <meta name="description" content={description} />
-    </Helmet>
+    </NextHead>
   );
 };
