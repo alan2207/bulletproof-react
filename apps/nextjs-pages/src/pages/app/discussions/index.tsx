@@ -1,1 +1,1 @@
-export { DiscussionsPage as default } from '@/application/pages/app/discussions/discussions';
+export { DiscussionsPage as default } from '@/app/pages/app/discussions/discussions';

@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import { ReactElement, ReactNode } from 'react';
 
-import { AppProvider } from '@/application/provider';
+import { AppProvider } from '@/app/provider';
 
 import '@/styles/globals.css';
 

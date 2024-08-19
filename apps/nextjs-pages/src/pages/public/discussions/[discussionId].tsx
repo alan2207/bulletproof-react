@@ -1,4 +1,4 @@
 export {
   getServerSideProps,
   PublicDiscussionPage as default,
-} from '@/application/pages/app/discussions/discussion';
+} from '@/app/pages/app/discussions/discussion';

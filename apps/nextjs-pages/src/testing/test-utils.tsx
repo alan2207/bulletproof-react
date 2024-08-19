@@ -6,7 +6,7 @@ import {
 import userEvent from '@testing-library/user-event';
 import Cookies from 'js-cookie';
 
-import { AppProvider } from '@/application/provider';
+import { AppProvider } from '@/app/provider';
 
 import {
   createDiscussion as generateDiscussion,
