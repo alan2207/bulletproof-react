@@ -4,7 +4,7 @@
 
 NOTE: While managing authentication on the client side is crucial, it is equally vital to implement robust security measures on the server to protect resources. Client-side authentication enhances user experience and complements server-side security measures.
 
-Protetcting resources comprises two key components:
+Protecting resources comprises two key components:
 
 ### Authentication
 
