@@ -130,7 +130,7 @@ module.exports = {
         'check-file/filename-naming-convention': [
           'error',
           {
-            'src/!(pages)/**': 'KEBAB_CASE',
+            'src/!(pages)/*.{ts,tsx}': 'KEBAB_CASE',
           },
           {
             ignoreMiddleExtensions: true,
