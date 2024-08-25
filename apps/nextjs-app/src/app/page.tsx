@@ -9,7 +9,7 @@ import { useUser } from '@/lib/auth';
 //   description: 'Welcome to bulletproof react',
 // };
 
-export const HomePage = () => {
+const HomePage = () => {
   const router = useRouter();
   const user = useUser();
 
