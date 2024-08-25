@@ -3,12 +3,11 @@ import {
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query';
-
-import { getInfiniteCommentsQueryOptions } from '@/features/comments/api/get-comments';
-import { getDiscussionQueryOptions } from '@/features/discussions/api/get-discussion';
+import { cookies } from 'next/headers';
 
 import DiscussionPage from '@/app/app/discussions/[discussionId]/page';
-import { cookies } from 'next/headers';
+import { getInfiniteCommentsQueryOptions } from '@/features/comments/api/get-comments';
+import { getDiscussionQueryOptions } from '@/features/discussions/api/get-discussion';
 
 const preloadData = async (discussionId: string) => {
   const queryClient = new QueryClient();

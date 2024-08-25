@@ -5,7 +5,6 @@ import { ErrorBoundary } from 'react-error-boundary';
 
 import { ContentLayout } from '@/components/layouts';
 import { Spinner } from '@/components/ui/spinner';
-
 import { Comments } from '@/features/comments/components/comments';
 import { useDiscussion } from '@/features/discussions/api/get-discussion';
 import { DiscussionView } from '@/features/discussions/components/discussion-view';

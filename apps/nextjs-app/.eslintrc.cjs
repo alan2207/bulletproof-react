@@ -11,7 +11,6 @@ module.exports = {
     'generators/*',
   ],
   extends: ['eslint:recommended', 'next/core-web-vitals'],
-  plugins: ['check-file'],
   overrides: [
     {
       files: ['**/*.ts', '**/*.tsx'],
@@ -127,26 +126,26 @@ module.exports = {
         '@typescript-eslint/no-empty-function': ['off'],
         '@typescript-eslint/no-explicit-any': ['off'],
         'prettier/prettier': ['error', {}, { usePrettierrc: true }],
-        'check-file/filename-naming-convention': [
-          'error',
-          {
-            'src/!(pages)/*.{ts,tsx}': 'KEBAB_CASE',
-          },
-          {
-            ignoreMiddleExtensions: true,
-          },
-        ],
       },
     },
     {
       plugins: ['check-file'],
       files: ['src/**/*'],
-      ignorePatterns: ['**/__tests__/**/*', 'src/app/**/*'],
       rules: {
+        'check-file/filename-naming-convention': [
+          'error',
+          {
+            '**/*.{ts,tsx}': 'KEBAB_CASE',
+          },
+          {
+            ignoreMiddleExtensions: true,
+          },
+        ],
         'check-file/folder-naming-convention': [
           'error',
           {
-            '**/*': 'KEBAB_CASE',
+            '!(src/app)/**/*': 'KEBAB_CASE',
+            '!(**/__tests__)/**/*': 'KEBAB_CASE',
           },
         ],
       },
