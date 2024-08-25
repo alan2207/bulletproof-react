@@ -179,13 +179,17 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             <DropdownMenuContent align="end">
               <DropdownMenuItem
                 onClick={() => navigate('./profile')}
-                className={cn('block px-4 py-2 text-sm text-gray-700')}
+                className={cn(
+                  'block px-4 py-2 text-sm text-gray-700 dark:text-slate-100',
+                )}
               >
                 Your Profile
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
-                className={cn('block px-4 py-2 text-sm text-gray-700 w-full')}
+                className={cn(
+                  'block px-4 py-2 text-sm text-gray-700 w-full dark:text-slate-100',
+                )}
                 onClick={() => logout.mutate({})}
               >
                 Sign Out

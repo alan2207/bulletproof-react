@@ -9,7 +9,7 @@ type EntryProps = {
 const Entry = ({ label, value }: EntryProps) => (
   <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 sm:py-5">
     <dt className="text-sm font-medium text-gray-500">{label}</dt>
-    <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+    <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0 dark:text-gray-100">
       {value}
     </dd>
   </div>

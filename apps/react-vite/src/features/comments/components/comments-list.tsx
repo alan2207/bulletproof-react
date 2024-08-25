@@ -35,7 +35,7 @@ export const CommentsList = ({ discussionId }: CommentsListProps) => {
       <div
         role="list"
         aria-label="comments"
-        className="flex h-40 flex-col items-center justify-center bg-white text-gray-500"
+        className="flex h-40 flex-col items-center justify-center bg-white text-gray-500 dark:bg-slate-700 dark:text-slate-100"
       >
         <ArchiveX className="size-10" />
         <h4>No Comments Found</h4>
@@ -49,7 +49,7 @@ export const CommentsList = ({ discussionId }: CommentsListProps) => {
           <li
             aria-label={`comment-${comment.body}-${index}`}
             key={comment.id || index}
-            className="w-full bg-white p-4 shadow-sm"
+            className="w-full bg-white p-4 shadow-sm dark:bg-slate-600"
           >
             <Authorization
               policyCheck={POLICIES['comment:delete'](

@@ -160,7 +160,7 @@ export const TablePagination = ({
             </PaginationLink>
           </PaginationItem>
         )}
-        <PaginationItem className="rounded-sm bg-gray-200">
+        <PaginationItem className="rounded-sm bg-gray-200 dark:bg-slate-800 dark:text-white">
           <PaginationLink href={createHref(currentPage)}>
             {currentPage}
           </PaginationLink>
