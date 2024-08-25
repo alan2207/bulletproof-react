@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation';
 
 import { Link } from '@/components/ui/link';
 import { Spinner } from '@/components/ui/spinner';
@@ -18,8 +18,8 @@ export type DiscussionsListProps = {
 export const DiscussionsList = ({
   onDiscussionPrefetch,
 }: DiscussionsListProps) => {
-  const router = useRouter();
-  const page = router.query.page ? Number(router.query.page) : 1;
+  const searchParams = useSearchParams();
+  const page = searchParams?.get('page') ? Number(searchParams.get('page')) : 1;
 
   const discussionsQuery = useDiscussions({
     page: page,

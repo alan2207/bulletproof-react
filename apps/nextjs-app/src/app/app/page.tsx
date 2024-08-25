@@ -1,12 +1,10 @@
-import { ReactElement } from 'react';
+'use client';
 
-import { ContentLayout, DashboardLayout } from '@/components/layouts';
 import { useUser } from '@/lib/auth';
 import { ROLES } from '@/lib/authorization';
 
-export const DashboardPage = () => {
+const DashboardPage = () => {
   const user = useUser();
-  if (!user.data) return null;
 
   return (
     <>
@@ -36,10 +34,4 @@ export const DashboardPage = () => {
   );
 };
 
-DashboardPage.getLayout = (page: ReactElement) => {
-  return (
-    <DashboardLayout>
-      <ContentLayout title="Dashboard">{page}</ContentLayout>
-    </DashboardLayout>
-  );
-};
+export default DashboardPage;

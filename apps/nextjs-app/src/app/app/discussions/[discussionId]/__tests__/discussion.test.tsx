@@ -1,4 +1,4 @@
-import mockRouter from 'next-router-mock';
+import { useParams } from 'next/navigation';
 
 import {
   renderApp,
@@ -11,13 +11,27 @@ import {
   waitForLoadingToFinish,
 } from '@/testing/test-utils';
 
-import { DiscussionPage } from '../discussion';
+import DiscussionPage from '../page';
+
+vi.mock('next/navigation', async () => {
+  const actual = await vi.importActual('next/navigation');
+  return {
+    ...actual,
+    useRouter: () => {
+      return {
+        push: vi.fn(),
+        replace: vi.fn(),
+      };
+    },
+    useParams: vi.fn(),
+  };
+});
 
 const renderDiscussion = async () => {
   const fakeUser = await createUser();
   const fakeDiscussion = await createDiscussion({ teamId: fakeUser.teamId });
 
-  mockRouter.query = { discussionId: fakeDiscussion.id };
+  vi.mocked(useParams).mockReturnValue({ discussionId: fakeDiscussion.id });
 
   const utils = await renderApp(<DiscussionPage />, {
     user: fakeUser,

@@ -140,7 +140,8 @@ module.exports = {
     },
     {
       plugins: ['check-file'],
-      files: ['src/**/!(__tests__)/*'],
+      files: ['src/**/*'],
+      ignorePatterns: ['**/__tests__/**/*', 'src/app/**/*'],
       rules: {
         'check-file/folder-naming-convention': [
           'error',

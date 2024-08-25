@@ -1,10 +1,10 @@
-import { ReactElement } from 'react';
+'use client';
 
-import { ContentLayout, DashboardLayout } from '@/components/layouts';
+import { ContentLayout } from '@/components/layouts';
 import { UsersList } from '@/features/users/components/users-list';
 import { Authorization, ROLES } from '@/lib/authorization';
 
-export const UsersPage = () => {
+const UsersPage = () => {
   return (
     <ContentLayout title="Users">
       <Authorization
@@ -17,10 +17,4 @@ export const UsersPage = () => {
   );
 };
 
-UsersPage.getLayout = (page: ReactElement) => {
-  return (
-    <DashboardLayout>
-      <ContentLayout title="Users">{page}</ContentLayout>
-    </DashboardLayout>
-  );
-};
+export default UsersPage;

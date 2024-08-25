@@ -1,14 +1,21 @@
-import { useRouter } from 'next/router';
-import { ReactElement, useState } from 'react';
+'use client';
 
-import { AuthLayout } from '@/components/layouts/auth-layout';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useState } from 'react';
+
 import { RegisterForm } from '@/features/auth/components/register-form';
 import { useTeams } from '@/features/teams/api/get-teams';
 
-export const RegisterPage = () => {
+// export const metadata = {
+//   title: 'Register your account',
+//   description: 'Register your account',
+// };
+
+const RegisterPage = () => {
   const router = useRouter();
 
-  const { redirectTo } = router.query;
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams?.get('redirectTo');
 
   const [chooseTeam, setChooseTeam] = useState(false);
 
@@ -30,6 +37,4 @@ export const RegisterPage = () => {
   );
 };
 
-RegisterPage.getLayout = (page: ReactElement) => {
-  return <AuthLayout title="Register your account">{page}</AuthLayout>;
-};
+export default RegisterPage;

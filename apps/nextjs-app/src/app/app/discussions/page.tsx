@@ -1,16 +1,17 @@
-import { useQueryClient } from '@tanstack/react-query';
-import { ReactElement } from 'react';
+'use client';
 
-import { ContentLayout, DashboardLayout } from '@/components/layouts';
+import { useQueryClient } from '@tanstack/react-query';
+
+import { ContentLayout } from '@/components/layouts';
 import { getInfiniteCommentsQueryOptions } from '@/features/comments/api/get-comments';
 import { CreateDiscussion } from '@/features/discussions/components/create-discussion';
 import { DiscussionsList } from '@/features/discussions/components/discussions-list';
 
-export const DiscussionsPage = () => {
+const DiscussionsPage = () => {
   const queryClient = useQueryClient();
 
   return (
-    <>
+    <ContentLayout title="Discussions">
       <div className="flex justify-end">
         <CreateDiscussion />
       </div>
@@ -24,14 +25,8 @@ export const DiscussionsPage = () => {
           }}
         />
       </div>
-    </>
+    </ContentLayout>
   );
 };
 
-DiscussionsPage.getLayout = (page: ReactElement) => {
-  return (
-    <DashboardLayout>
-      <ContentLayout title="Discussions">{page}</ContentLayout>
-    </DashboardLayout>
-  );
-};
+export default DiscussionsPage;

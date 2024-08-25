@@ -1,5 +1,7 @@
+'use client';
+
 import NextLink from 'next/link';
-import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation';
 import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -21,8 +23,8 @@ export const RegisterForm = ({
   teams,
 }: RegisterFormProps) => {
   const registering = useRegister({ onSuccess });
-  const router = useRouter();
-  const redirectTo = router.query.redirectTo as string | undefined;
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams?.get('redirectTo');
 
   return (
     <div>

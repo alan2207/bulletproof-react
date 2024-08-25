@@ -7,7 +7,22 @@ vi.mock('zustand');
 
 beforeAll(() => {
   server.listen({ onUnhandledRequest: 'error' });
-  vi.mock('next/router', () => require('next-router-mock'));
+  vi.mock('next/navigation', async () => {
+    const actual = await vi.importActual('next/navigation');
+    return {
+      ...actual,
+      useRouter: () => {
+        return {
+          push: vi.fn(),
+          replace: vi.fn(),
+        };
+      },
+      usePathname: () => '/app',
+      useSearchParams: () => ({
+        get: vi.fn(),
+      }),
+    };
+  });
 });
 afterAll(() => server.close());
 beforeEach(() => {

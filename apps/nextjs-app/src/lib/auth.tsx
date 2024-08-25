@@ -1,4 +1,6 @@
-import { useRouter } from 'next/router';
+'use client';
+
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { configureAuth } from 'react-query-auth';
 import { z } from 'zod';
@@ -78,14 +80,19 @@ export const { useUser, useLogin, useLogout, useRegister, AuthLoader } =
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const user = useUser();
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     if (!user.data) {
-      router.replace(
-        `/auth/login?redirectTo=${encodeURIComponent(router.pathname)}`,
-      );
+      if (pathname) {
+        router.replace(
+          `/auth/login?redirectTo=${encodeURIComponent(pathname)}`,
+        );
+      } else {
+        router.replace('/auth/login');
+      }
     }
-  }, [user.data, router]);
+  }, [user.data, router, pathname]);
 
   return children;
 };

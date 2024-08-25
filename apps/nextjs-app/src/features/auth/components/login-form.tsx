@@ -1,5 +1,7 @@
+'use client';
+
 import NextLink from 'next/link';
-import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 import { Form, Input } from '@/components/ui/form';
@@ -13,9 +15,9 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
   const login = useLogin({
     onSuccess,
   });
-  const router = useRouter();
-  const redirectTo = router.query.redirectTo as string | undefined;
 
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams?.get('redirectTo');
   return (
     <div>
       <Form

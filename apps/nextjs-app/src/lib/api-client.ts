@@ -29,18 +29,6 @@ api.interceptors.response.use(
       message,
     });
 
-    if (error.response?.status === 401) {
-      if (typeof window !== 'undefined') {
-        const searchParams = new URLSearchParams();
-        const redirectTo = searchParams.get('redirectTo');
-        if (redirectTo) {
-          window.location.href = `/auth/login?redirectTo=${redirectTo}`;
-        } else {
-          window.location.href = '/auth/login';
-        }
-      }
-    }
-
     return Promise.reject(error);
   },
 );

@@ -11,7 +11,7 @@ import {
 } from '@/testing/test-utils';
 import { formatDate } from '@/utils/format';
 
-import { DiscussionsPage } from '../discussions';
+import DiscussionsPage from '../page';
 
 beforeAll(() => {
   vi.spyOn(console, 'error').mockImplementation(() => {});

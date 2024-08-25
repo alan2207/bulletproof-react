@@ -1,6 +1,5 @@
-import { ReactElement } from 'react';
+'use client';
 
-import { ContentLayout, DashboardLayout } from '@/components/layouts';
 import { UpdateProfile } from '@/features/users/components/update-profile';
 import { useUser } from '@/lib/auth';
 
@@ -17,7 +16,7 @@ const Entry = ({ label, value }: EntryProps) => (
   </div>
 );
 
-export const ProfilePage = () => {
+const ProfilePage = () => {
   const user = useUser();
 
   if (!user.data) return null;
@@ -48,10 +47,4 @@ export const ProfilePage = () => {
   );
 };
 
-ProfilePage.getLayout = (page: ReactElement) => {
-  return (
-    <DashboardLayout>
-      <ContentLayout title="Profile">{page}</ContentLayout>
-    </DashboardLayout>
-  );
-};
+export default ProfilePage;

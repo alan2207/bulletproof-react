@@ -99,7 +99,6 @@
     "jsdom": "^24.0.0",
     "lint-staged": "^15.2.2",
     "msw": "^2.2.14",
-    "next-router-mock": "^0.9.13",
     "pino-http": "^10.1.0",
     "pino-pretty": "^11.1.0",
     "plop": "^4.0.1",

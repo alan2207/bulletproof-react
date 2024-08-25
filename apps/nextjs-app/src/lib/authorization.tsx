@@ -1,4 +1,6 @@
-import { useRouter } from 'next/router';
+'use client';
+
+import { usePathname, useRouter } from 'next/navigation';
 import * as React from 'react';
 
 import { Comment, User } from '@/types/api';
@@ -29,10 +31,11 @@ export const POLICIES = {
 export const useAuthorization = () => {
   const user = useUser();
   const router = useRouter();
+  const pathname = usePathname();
 
   if (!user.data && !user.isLoading) {
-    const redirectTo = encodeURIComponent(router.pathname);
-    window.location.href = `/auth/login?redirectTo=${redirectTo}`;
+    const redirectTo = encodeURIComponent(pathname);
+    router.push(`/auth/login?redirectTo=${redirectTo}`);
   }
 
   const checkAccess = React.useCallback(
