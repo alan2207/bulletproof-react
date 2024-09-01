@@ -24,9 +24,9 @@ This repo doesn't aim to be a silver bullet for all React applications as there 
 - Uses the right tools for the job
 - Clean boundaries between different parts of the application
 - Everyone on the team is on the same page when it comes to how things are done
-- Security
-- Performance
-- Scalability in terms of codebase and team size
+- Secure
+- Performant
+- Scalable in terms of codebase and team size
 - Issues detectable as early as possible
 
 #### Disclaimer:
