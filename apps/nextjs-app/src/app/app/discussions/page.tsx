@@ -2,7 +2,7 @@
 
 import { useQueryClient } from '@tanstack/react-query';
 
-import { ContentLayout } from '@/components/layouts';
+import { ContentLayout } from '@/components/layouts/content-layout';
 import { getInfiniteCommentsQueryOptions } from '@/features/comments/api/get-comments';
 import { CreateDiscussion } from '@/features/discussions/components/create-discussion';
 import { DiscussionsList } from '@/features/discussions/components/discussions-list';

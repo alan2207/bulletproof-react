@@ -1,3 +1,5 @@
+'use client';
+
 import { Link as LinkIcon } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 

@@ -33,6 +33,8 @@ api.interceptors.response.use(
   },
 );
 
+// if the endpoint requires the visiting user to be authenticated,
+// attaching cookies is required for requests made on the server side
 export const attachCookie = (
   cookie?: string,
   headers?: Record<string, string>,

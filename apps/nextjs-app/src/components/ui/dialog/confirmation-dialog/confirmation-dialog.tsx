@@ -1,3 +1,5 @@
+'use client';
+
 import { CircleAlert, Info } from 'lucide-react';
 import * as React from 'react';
 import { useEffect } from 'react';

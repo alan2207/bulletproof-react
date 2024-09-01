@@ -1,8 +1,7 @@
 'use client';
 
 import { useRouter, usePathname } from 'next/navigation';
-import * as React from 'react';
-import { useEffect } from 'react';
+import { ReactNode, useEffect, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import { Link } from '@/components/ui/link';
@@ -10,20 +9,17 @@ import { Spinner } from '@/components/ui/spinner';
 import { useUser } from '@/lib/auth';
 
 type LayoutProps = {
-  children: React.ReactNode;
-  title: string;
+  children: ReactNode;
 };
 
-// export const metadata = {
-//   title: 'Bulletproof React',
-//   description: 'Welcome to bulletproof react',
-// };
-
-export const AuthLayout = ({ children, title }: LayoutProps) => {
+export const AuthLayout = ({ children }: LayoutProps) => {
   const user = useUser();
-
   const router = useRouter();
   const pathname = usePathname();
+  const isLoginPage = pathname === '/auth/login';
+  const title = isLoginPage
+    ? 'Log in to your account'
+    : 'Register your account';
 
   useEffect(() => {
     if (user.data) {
@@ -32,7 +28,7 @@ export const AuthLayout = ({ children, title }: LayoutProps) => {
   }, [user.data, router]);
 
   return (
-    <React.Suspense
+    <Suspense
       fallback={
         <div className="flex size-full items-center justify-center">
           <Spinner size="xl" />
@@ -60,6 +56,6 @@ export const AuthLayout = ({ children, title }: LayoutProps) => {
           </div>
         </div>
       </ErrorBoundary>
-    </React.Suspense>
+    </Suspense>
   );
 };

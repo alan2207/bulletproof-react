@@ -3,7 +3,7 @@
 import { useParams } from 'next/navigation';
 import { ErrorBoundary } from 'react-error-boundary';
 
-import { ContentLayout } from '@/components/layouts';
+import { ContentLayout } from '@/components/layouts/content-layout';
 import { Spinner } from '@/components/ui/spinner';
 import { Comments } from '@/features/comments/components/comments';
 import { useDiscussion } from '@/features/discussions/api/get-discussion';

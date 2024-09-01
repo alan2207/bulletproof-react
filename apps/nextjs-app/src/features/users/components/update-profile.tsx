@@ -1,3 +1,5 @@
+'use client';
+
 import { Pen } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
