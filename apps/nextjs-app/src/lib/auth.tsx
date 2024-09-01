@@ -13,7 +13,7 @@ import { api } from './api-client';
 // these are not part of features as this is a module shared across features
 
 const getUser = async (): Promise<User> => {
-  const response = await api.get('/auth/me');
+  const response = (await api.get('/auth/me')) as { data: User };
 
   return response.data;
 };

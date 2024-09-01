@@ -1,6 +1,6 @@
 import { queryOptions, useQuery } from '@tanstack/react-query';
 
-import { api, attachCookie } from '@/lib/api-client';
+import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
 import { Discussion, Meta } from '@/types/api';
 
@@ -14,7 +14,7 @@ export const getDiscussions = (
     params: {
       page,
     },
-    headers: attachCookie(cookie).headers,
+    cookie,
   });
 };
 

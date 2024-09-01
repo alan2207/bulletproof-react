@@ -1,6 +1,6 @@
 import { useQuery, queryOptions } from '@tanstack/react-query';
 
-import { api, attachCookie } from '@/lib/api-client';
+import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
 import { Discussion } from '@/types/api';
 
@@ -12,7 +12,7 @@ export const getDiscussion = ({
   cookie?: string;
 }): Promise<{ data: Discussion }> => {
   return api.get(`/discussions/${discussionId}`, {
-    headers: attachCookie(cookie).headers,
+    cookie,
   });
 };
 
