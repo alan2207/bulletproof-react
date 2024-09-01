@@ -56,7 +56,7 @@ Contributions are always welcome! If you have any ideas, suggestions, fixes, fee
 
 1. Clone this repo
 2. Create a branch: `git checkout -b your-feature`
-3. Make sure all dependencies are installed. If not, run the `yarn prepare` script.
+3. Execute the `yarn prepare` script.
 4. Make some changes
 5. Test your changes
 6. Push your branch and open a Pull Request
