@@ -97,7 +97,10 @@ module.exports = {
           },
         ],
         'import/no-cycle': 'error',
-        'linebreak-style': ['error', 'unix'],
+        'linebreak-style': [
+          'error',
+          process.platform === 'win32' ? 'windows' : 'unix',
+        ],
         'react/prop-types': 'off',
         'import/order': [
           'error',

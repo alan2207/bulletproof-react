@@ -98,7 +98,10 @@ module.exports = {
           },
         ],
         'import/no-cycle': 'error',
-        'linebreak-style': ['error', 'unix'],
+        'linebreak-style': [
+          'error',
+          process.platform === 'win32' ? 'windows' : 'unix',
+        ],
         'react/prop-types': 'off',
         'import/order': [
           'error',
@@ -126,7 +129,12 @@ module.exports = {
         '@typescript-eslint/explicit-module-boundary-types': ['off'],
         '@typescript-eslint/no-empty-function': ['off'],
         '@typescript-eslint/no-explicit-any': ['off'],
-        'prettier/prettier': ['error', {}, { usePrettierrc: true }],
+        'prettier/prettier': [
+          'error',
+          {
+            endOfLine: 'auto',
+          },
+        ],
         'check-file/filename-naming-convention': [
           'error',
           {
