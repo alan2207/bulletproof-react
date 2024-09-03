@@ -11,7 +11,15 @@
     "build:react-vite": "yarn --cwd ./apps/react-vite build", 
     "build:nextjs-pages": "yarn --cwd ./apps/nextjs-pages build", 
     "build:nextjs-app": "yarn --cwd ./apps/nextjs-app build", 
-    "build:all": "yarn build:react-vite && yarn build:nextjs-pages && yarn build:nextjs-app"
+    "build:all": "yarn build:react-vite && yarn build:nextjs-pages && yarn build:nextjs-app", 
+    "test:react-vite": "yarn --cwd ./apps/react-vite test", 
+    "test:nextjs-pages": "yarn --cwd ./apps/nextjs-pages test", 
+    "test:nextjs-app": "yarn --cwd ./apps/nextjs-app test", 
+    "test:all": "yarn test:react-vite && yarn test:nextjs-pages && yarn test:nextjs-app", 
+    "lint:react-vite": "yarn --cwd ./apps/react-vite lint", 
+    "lint:nextjs-pages": "yarn --cwd ./apps/nextjs-pages lint", 
+    "lint:nextjs-app": "yarn --cwd ./apps/nextjs-app lint", 
+    "lint:all": "yarn lint:react-vite && yarn lint:nextjs-pages && yarn lint:nextjs-app"
   },
   "author": "alan2207",
   "license": "MIT"

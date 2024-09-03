@@ -18,7 +18,7 @@ jobs:
       - name: Setup Yarn
         uses: threeal/setup-yarn-action@latest
         with:
-            cache: false
+          cache: false
 
       # Install dependencies
       - name: Install dependencies
@@ -26,6 +26,11 @@ jobs:
 
       # Run next build in app/nextjs-pages directory
       - name: Build static files
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:8081/api
+          NEXT_PUBLIC_ENABLE_API_MOCKING: false
+          NEXT_PUBLIC_MOCK_API_PORT: 8081
+          NEXT_PUBLIC_URL: http://localhost:3001
         run: yarn build:nextjs-pages
 
   test:
@@ -40,7 +45,7 @@ jobs:
       - name: Setup Yarn
         uses: threeal/setup-yarn-action@latest
         with:
-            cache: false
+          cache: false
 
       # Install dependencies
       - name: Install dependencies
@@ -48,6 +53,11 @@ jobs:
 
       # Run next test in app/nextjs-pages directory
       - name: Running test
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:8081/api
+          NEXT_PUBLIC_ENABLE_API_MOCKING: false
+          NEXT_PUBLIC_MOCK_API_PORT: 8081
+          NEXT_PUBLIC_URL: http://localhost:3001
         run: yarn test:nextjs-pages
 
   lint:
@@ -62,8 +72,13 @@ jobs:
       - name: Setup Yarn
         uses: threeal/setup-yarn-action@latest
         with:
-            cache: false
+          cache: false
 
       # Run next test in app/nextjs-pages directory
       - name: Running code quality check
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:8081/api
+          NEXT_PUBLIC_ENABLE_API_MOCKING: false
+          NEXT_PUBLIC_MOCK_API_PORT: 8081
+          NEXT_PUBLIC_URL: http://localhost:3001
         run: yarn lint:nextjs-pages

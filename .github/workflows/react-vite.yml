@@ -26,6 +26,9 @@ jobs:
 
       # Run next build in app/react-vite directory
       - name: Build static files
+        env:
+          VITE_APP_API_URL: https://api.bulletproofapp.com
+          VITE_APP_ENABLE_API_MOCKING: true
         run: yarn build:react-vite
 
   test:
@@ -48,6 +51,9 @@ jobs:
 
       # Run next test in app/react-vite directory
       - name: Running test
+        env:
+          VITE_APP_API_URL: https://api.bulletproofapp.com
+          VITE_APP_ENABLE_API_MOCKING: true
         run: yarn test:react-vite
 
   lint:
@@ -66,4 +72,7 @@ jobs:
 
       # Run next test in app/react-vite directory
       - name: Running code quality check
+        env:
+          VITE_APP_API_URL: https://api.bulletproofapp.com
+          VITE_APP_ENABLE_API_MOCKING: true
         run: yarn lint:react-vite
