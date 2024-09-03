@@ -3,7 +3,7 @@ name: Next.js App Directory Test, Build and Deployment
 on:
   pull_request:
     branches: [master]
-    paths: [apps/react-vite]
+    paths: [apps/react-vite/**]
 
 jobs:
   build:
