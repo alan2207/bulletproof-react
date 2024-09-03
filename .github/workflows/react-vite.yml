@@ -17,6 +17,8 @@ jobs:
         # Install yarn as package manager
       - name: Setup Yarn
         uses: threeal/setup-yarn-action@latest
+        with:
+          cache: false
 
       # Install dependencies
       - name: Install dependencies
@@ -37,6 +39,8 @@ jobs:
         # Install yarn as package manager
       - name: Setup Yarn
         uses: threeal/setup-yarn-action@latest
+        with:
+          cache: false
 
       # Install dependencies
       - name: Install dependencies
@@ -57,6 +61,8 @@ jobs:
         # Install yarn as package manager
       - name: Setup Yarn
         uses: threeal/setup-yarn-action@latest
+        with:
+          cache: false
 
       # Run next test in app/react-vite directory
       - name: Running code quality check
