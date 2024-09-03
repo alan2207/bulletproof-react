@@ -56,7 +56,7 @@ jobs:
 
         # Install yarn as package manager
       - name: Setup Yarn
-        uses: actions/checkout@v3
+        uses: threeal/setup-yarn-action@v2.0.0
 
       # Run next test in app/nextjs-pages directory
       - name: Running code quality check
