@@ -4,7 +4,10 @@ module.exports = {
     node: true,
     es6: true,
   },
-  parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+  },
   ignorePatterns: [
     'node_modules/*',
     'public/mockServiceWorker.js',
@@ -97,7 +100,7 @@ module.exports = {
           },
         ],
         'import/no-cycle': 'error',
-        'linebreak-style': ['error', 'unix'],
+        'linebreak-style': ['error', 'windows'],
         'react/prop-types': 'off',
         'import/order': [
           'error',
