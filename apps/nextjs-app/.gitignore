@@ -41,3 +41,5 @@ mocked-db.json
 /.next
 /.vite
 tsconfig.tsbuildinfo
+
+test-reports

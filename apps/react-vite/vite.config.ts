@@ -15,12 +15,16 @@ export default defineConfig({
     port: 3000,
   },
   test: {
+    reporters: ['default', 'json'],
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/testing/setup-tests.ts',
     exclude: ['**/node_modules/**', '**/e2e/**'],
     coverage: {
       include: ['src/**'],
+    },
+    outputFile: {
+      json: './test-reports/results.json',
     },
   },
   optimizeDeps: { exclude: ['fsevents'] },

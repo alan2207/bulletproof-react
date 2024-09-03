@@ -60,6 +60,12 @@ jobs:
           NEXT_PUBLIC_URL: http://localhost:3001
         run: yarn test:nextjs-pages
 
+      - name: Upload test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: vitest-reports
+          path: apps/nextjs-pages/test-reports/
+
   lint:
     runs-on: ubuntu-latest
 

@@ -56,6 +56,12 @@ jobs:
           VITE_APP_ENABLE_API_MOCKING: true
         run: yarn test:react-vite
 
+      - name: Upload test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: vitest-reports
+          path: apps/react-vite/test-reports/
+
   lint:
     runs-on: ubuntu-latest
 

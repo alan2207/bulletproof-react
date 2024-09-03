@@ -59,7 +59,13 @@ jobs:
           NEXT_PUBLIC_MOCK_API_PORT: 8080
           NEXT_PUBLIC_URL: http://localhost:3000
         run: yarn test:nextjs-app
-
+      
+      - name: Upload test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: vitest-reports
+          path: apps/nextjs-app/test-reports/
+  
   lint:
     runs-on: ubuntu-latest
 
