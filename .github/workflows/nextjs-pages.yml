@@ -1,4 +1,4 @@
-name: Next.js App Directory Test, Build and Deployment
+name: Next.js Pages Directory Test, Build and Deployment
 
 on:
   pull_request:

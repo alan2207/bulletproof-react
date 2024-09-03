@@ -14,7 +14,7 @@ const DashboardPage = () => {
       <h4 className="my-3">
         Your role is : <b>{user.data?.role}</b>
       </h4>
-      <p className="font-medium">In this application you can change</p>
+      <p className="font-medium">In this application you can change this</p>
       {user.data?.role === ROLES.USER && (
         <ul className="my-4 list-inside list-disc">
           <li>Create comments in discussions</li>
