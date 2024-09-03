@@ -74,6 +74,10 @@ jobs:
         with:
           cache: false
 
+        # Install dependencies
+      - name: Install dependencies
+        run: yarn install:nextjs-pages
+
       # Run next test in app/nextjs-pages directory
       - name: Running code quality check
         env:

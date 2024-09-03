@@ -73,7 +73,9 @@ jobs:
         uses: threeal/setup-yarn-action@latest
         with:
           cache: false
-
+      # Install dependencies
+      - name: Install dependencies
+        run: yarn install:nextjs-app
       # Run next test in app/nextjs-app directory
       - name: Running code quality check
         env:

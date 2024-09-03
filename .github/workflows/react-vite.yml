@@ -70,7 +70,11 @@ jobs:
         with:
           cache: false
 
-      # Run next test in app/react-vite directory
+      # Install dependencies
+      - name: Install dependencies
+        run: yarn install:react-vite
+
+        # Run next test in app/react-vite directory
       - name: Running code quality check
         env:
           VITE_APP_API_URL: https://api.bulletproofapp.com
