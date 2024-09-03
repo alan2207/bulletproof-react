@@ -1,1 +1,1 @@
-yarn --cwd apps/react-vite lint-staged
+yarn --cwd apps/nextjs-app lint-staged && yarn --cwd apps/nextjs-pages lint-staged && yarn --cwd apps/react-vite lint-staged
