@@ -27,7 +27,7 @@ export const ProfilePage = () => {
       <div className="px-4 py-5 sm:px-6">
         <div className="flex justify-between">
           <h3 className="text-lg font-medium leading-6 text-gray-900">
-            User Information
+            User Profile
           </h3>
           <UpdateProfile />
         </div>

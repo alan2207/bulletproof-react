@@ -21,7 +21,7 @@ export const DashboardRoute = () => {
       )}
       {user.data?.role === ROLES.ADMIN && (
         <ul className="my-4 list-inside list-disc">
-          <li>Create discussions</li>
+          <li>Create discuss</li>
           <li>Edit discussions</li>
           <li>Delete discussions</li>
           <li>Comment on discussions</li>

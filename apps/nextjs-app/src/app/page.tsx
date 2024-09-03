@@ -12,7 +12,7 @@ const HomePage = () => {
           <span className="block">Bulletproof React</span>
         </h2>
         <img src="/logo.svg" alt="react" />
-        <p>Showcasing Best Practices For Building React Applications</p>
+        <p>Showcasing Best Practices For Building NEXT APP Applications</p>
         <div className="mt-8 flex justify-center">
           <div className="inline-flex rounded-md shadow">
             <Link href={isLoggedIn ? '/app' : '/auth/login'}>
