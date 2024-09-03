@@ -1,0 +1,63 @@
+name: Next.js App Directory Test, Build and Deployment
+
+on:
+  pull_request:
+    branches: [master]
+    paths: [apps/nextjs-pages]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Copy the repository to the virtual machine
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+        # Install yarn as package manager
+      - name: Setup Yarn
+        uses: actions/checkout@v3
+
+      # Install dependencies
+      - name: Install dependencies
+        run: yarn install:nextjs-pages
+
+      # Run next build in app/nextjs-pages directory
+      - name: Build static files
+        run: yarn build:nextjs-pages
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Copy the repository to the virtual machine
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+        # Install yarn as package manager
+      - name: Setup Yarn
+        uses: actions/checkout@v3
+
+      # Install dependencies
+      - name: Install dependencies
+        run: yarn install:nextjs-pages
+
+      # Run next test in app/nextjs-pages directory
+      - name: Running test
+        run: yarn test:nextjs-pages
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Copy the repository to the virtual machine
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+        # Install yarn as package manager
+      - name: Setup Yarn
+        uses: actions/checkout@v3
+
+      # Run next test in app/nextjs-pages directory
+      - name: Running code quality check
+        run: yarn lint:nextjs-pages

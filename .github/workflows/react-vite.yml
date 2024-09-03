@@ -1,0 +1,63 @@
+name: Next.js App Directory Test, Build and Deployment
+
+on:
+  pull_request:
+    branches: [master]
+    paths: [apps/react-vite]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Copy the repository to the virtual machine
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+        # Install yarn as package manager
+      - name: Setup Yarn
+        uses: actions/checkout@v3
+
+      # Install dependencies
+      - name: Install dependencies
+        run: yarn install:react-vite
+
+      # Run next build in app/react-vite directory
+      - name: Build static files
+        run: yarn build:react-vite
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Copy the repository to the virtual machine
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+        # Install yarn as package manager
+      - name: Setup Yarn
+        uses: actions/checkout@v3
+
+      # Install dependencies
+      - name: Install dependencies
+        run: yarn install:react-vite
+
+      # Run next test in app/react-vite directory
+      - name: Running test
+        run: yarn test:react-vite
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Copy the repository to the virtual machine
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+        # Install yarn as package manager
+      - name: Setup Yarn
+        uses: actions/checkout@v3
+
+      # Run next test in app/react-vite directory
+      - name: Running code quality check
+        run: yarn lint:react-vite
