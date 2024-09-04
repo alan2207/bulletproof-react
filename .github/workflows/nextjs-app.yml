@@ -90,3 +90,28 @@ jobs:
           NEXT_PUBLIC_MOCK_API_PORT: 8080
           NEXT_PUBLIC_URL: http://localhost:3000
         run: yarn lint:nextjs-app
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Copy the repository to the virtual machine
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+        # Install yarn as package manager
+      - name: Setup Yarn
+        uses: threeal/setup-yarn-action@latest
+        with:
+          cache: false
+      # Install dependencies
+      - name: Install dependencies
+        run: yarn install:nextjs-app
+      # Run next test in app/nextjs-app directory
+      - name: Running code quality check
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:8080/api
+          NEXT_PUBLIC_ENABLE_API_MOCKING: false
+          NEXT_PUBLIC_MOCK_API_PORT: 8080
+          NEXT_PUBLIC_URL: http://localhost:3000
+        run: yarn lint:nextjs-app
