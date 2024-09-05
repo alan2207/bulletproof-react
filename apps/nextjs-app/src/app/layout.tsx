@@ -5,7 +5,7 @@ import { AppProvider } from '@/app/provider';
 import '@/styles/globals.css';
 
 export const metadata = {
-  title: 'Bulletproof React',
+  title: 'Bulletproof Nextjs App',
   description: 'Showcasing Best Practices For Building React Applications',
 };
 

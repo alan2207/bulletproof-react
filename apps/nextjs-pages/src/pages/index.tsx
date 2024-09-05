@@ -19,7 +19,7 @@ export const HomePage = () => {
   return (
     <>
       <Head
-        title={'Bulletproof React'}
+        title={'Bulletproof Next-js pages'}
         description="Welcome to bulletproof react"
       />
       <div className="flex h-screen items-center bg-white">
