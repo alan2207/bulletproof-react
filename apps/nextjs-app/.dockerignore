@@ -25,6 +25,7 @@ storybook-static
 # misc
 .DS_Store
 .env
+.env.example
 .env.local
 .env.development.local
 .env.test.local
@@ -37,8 +38,9 @@ yarn-error.log*
 
 # local
 mocked-db.json
-
+.vscode
 /.next
 /.vite
 tsconfig.tsbuildinfo
+
 test-reports
