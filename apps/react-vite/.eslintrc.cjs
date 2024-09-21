@@ -4,14 +4,16 @@ module.exports = {
     node: true,
     es6: true,
   },
-  parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+  },
   ignorePatterns: [
     'node_modules/*',
     'public/mockServiceWorker.js',
     'generators/*',
   ],
   extends: ['eslint:recommended'],
-  plugins: ['check-file'],
   overrides: [
     {
       files: ['**/*.ts', '**/*.tsx'],
@@ -97,7 +99,10 @@ module.exports = {
           },
         ],
         'import/no-cycle': 'error',
-        'linebreak-style': ['error', 'unix'],
+        'linebreak-style': [
+          'error',
+          process.platform === 'win32' ? 'windows' : 'unix',
+        ],
         'react/prop-types': 'off',
         'import/order': [
           'error',
@@ -125,7 +130,12 @@ module.exports = {
         '@typescript-eslint/explicit-module-boundary-types': ['off'],
         '@typescript-eslint/no-empty-function': ['off'],
         '@typescript-eslint/no-explicit-any': ['off'],
-        'prettier/prettier': ['error', {}, { usePrettierrc: true }],
+        'prettier/prettier': [
+          'error',
+          {
+            endOfLine: 'auto',
+          },
+        ],
         'check-file/filename-naming-convention': [
           'error',
           {
