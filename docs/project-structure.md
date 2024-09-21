@@ -58,8 +58,6 @@ NOTE: You don't need all of these folders for every feature. Only include the on
 
 In some cases it might be more practical to keep all API calls outside of the features folders in a dedicated `api` folder where all API calls are defined. This can be useful if you have a lot of shared API calls between features.
 
-````sh
-
 In the past, it was recommended to use barrel files to export all the files from a feature. However, it can cause issues for Vite to do tree shaking and can lead to performance issues. Therefore, it is recommended to import the files directly.
 
 It might not be a good idea to import across the features. Instead, compose different features at the application level. This way, you can ensure that each feature is independent which makes the codebase less convoluted.
@@ -103,7 +101,7 @@ To forbid cross-feature imports, you can use ESLint:
         ],
     },
 ],
-````
+```
 
 You might also want to enforce unidirectional codebase architecture. This means that the code should flow in one direction, from shared parts of the code to the application (shared -> features -> app). This is a good practice to follow as it makes the codebase more predictable and easier to understand.
 
