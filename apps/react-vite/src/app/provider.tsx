@@ -9,6 +9,7 @@ import { Notifications } from '@/components/ui/notifications';
 import { Spinner } from '@/components/ui/spinner';
 import { AuthLoader } from '@/lib/auth';
 import { queryConfig } from '@/lib/react-query';
+import { ThemeController } from '@/themes/theme-controller';
 
 type AppProviderProps = {
   children: React.ReactNode;
@@ -35,6 +36,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
           <QueryClientProvider client={queryClient}>
             {import.meta.env.DEV && <ReactQueryDevtools />}
             <Notifications />
+            <ThemeController />
             <AuthLoader
               renderLoading={() => (
                 <div className="flex h-screen w-screen items-center justify-center">
