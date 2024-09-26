@@ -51,6 +51,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.0.2",
+    "@julr/vite-plugin-validate-env": "^1.1.1",
     "@mswjs/data": "^0.16.1",
     "@mswjs/http-middleware": "^0.10.1",
     "@playwright/test": "^1.43.1",
