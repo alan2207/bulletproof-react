@@ -8,10 +8,14 @@ import { Schema, ValidateEnv } from '@julr/vite-plugin-validate-env';
 
 export default defineConfig({
   base: './',
-  plugins: [react(), viteTsconfigPaths(), ValidateEnv({
-    VITE_APP_API_URL: Schema.string(),
-    VITE_APP_ENABLE_API_MOCKING: Schema.boolean(),
-  }),],
+  plugins: [
+    react(),
+    viteTsconfigPaths(),
+    ValidateEnv({
+      VITE_APP_API_URL: Schema.string(),
+      VITE_APP_ENABLE_API_MOCKING: Schema.boolean(),
+    }),
+  ],
   server: {
     port: 3000,
   },
