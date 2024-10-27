@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { configureAuth } from 'react-query-auth';
 import { z } from 'zod';
 
+import { paths } from '@/config/paths';
 import { AuthResponse, User } from '@/types/api';
 
 import { api } from './api-client';
@@ -81,9 +82,7 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (!user.data) {
-      router.replace(
-        `/auth/login?redirectTo=${encodeURIComponent(router.pathname)}`,
-      );
+      router.replace(paths.auth.login.getHref(router.pathname));
     }
   }, [user.data, router]);
 

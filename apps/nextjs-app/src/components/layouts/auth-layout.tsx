@@ -1,11 +1,12 @@
 'use client';
 
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { ReactNode, useEffect, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import { Link } from '@/components/ui/link';
 import { Spinner } from '@/components/ui/spinner';
+import { paths } from '@/config/paths';
 import { useUser } from '@/lib/auth';
 
 type LayoutProps = {
@@ -16,16 +17,23 @@ export const AuthLayout = ({ children }: LayoutProps) => {
   const user = useUser();
   const router = useRouter();
   const pathname = usePathname();
-  const isLoginPage = pathname === '/auth/login';
+  const isLoginPage = pathname === paths.auth.login.getHref();
   const title = isLoginPage
     ? 'Log in to your account'
     : 'Register your account';
 
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams?.get('redirectTo');
+
+  console.log('redirectTo', redirectTo);
+
   useEffect(() => {
     if (user.data) {
-      router.replace('/app');
+      router.replace(
+        `${redirectTo ? `${decodeURIComponent(redirectTo)}` : paths.app.dashboard.getHref()}`,
+      );
     }
-  }, [user.data, router]);
+  }, [user.data, router, redirectTo]);
 
   return (
     <Suspense
@@ -39,7 +47,10 @@ export const AuthLayout = ({ children }: LayoutProps) => {
         <div className="flex min-h-screen flex-col justify-center bg-gray-50 py-12 sm:px-6 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-md">
             <div className="flex justify-center">
-              <Link className="flex items-center text-white" href="/">
+              <Link
+                className="flex items-center text-white"
+                href={paths.home.getHref()}
+              >
                 <img className="h-24 w-auto" src="/logo.svg" alt="Workflow" />
               </Link>
             </div>

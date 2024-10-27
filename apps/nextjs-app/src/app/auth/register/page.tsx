@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
+import { paths } from '@/config/paths';
 import { RegisterForm } from '@/features/auth/components/register-form';
 import { useTeams } from '@/features/teams/api/get-teams';
 
@@ -28,7 +29,9 @@ const RegisterPage = () => {
   return (
     <RegisterForm
       onSuccess={() =>
-        router.replace(`${redirectTo ? `${redirectTo}` : '/app'}`)
+        router.replace(
+          `${redirectTo ? `${decodeURIComponent(redirectTo)}` : paths.app.dashboard.getHref()}`,
+        )
       }
       chooseTeam={chooseTeam}
       setChooseTeam={() => setChooseTeam(!chooseTeam)}

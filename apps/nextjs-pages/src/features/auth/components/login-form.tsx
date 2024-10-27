@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 
 import { Button } from '@/components/ui/button';
 import { Form, Input } from '@/components/ui/form';
+import { paths } from '@/config/paths';
 import { useLogin, loginInputSchema } from '@/lib/auth';
 
 type LoginFormProps = {
@@ -53,7 +54,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
       <div className="mt-2 flex items-center justify-end">
         <div className="text-sm">
           <NextLink
-            href={`/auth/register${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ''}`}
+            href={paths.auth.register.getHref(redirectTo)}
             className="font-medium text-blue-600 hover:text-blue-500"
           >
             Register

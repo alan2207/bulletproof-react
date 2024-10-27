@@ -5,6 +5,7 @@ import { NavLink, useNavigate, useNavigation } from 'react-router-dom';
 import logo from '@/assets/logo.svg';
 import { Button } from '@/components/ui/button';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
+import { paths } from '@/config/paths';
 import { useLogout } from '@/lib/auth';
 import { ROLES, useAuthorization } from '@/lib/authorization';
 import { cn } from '@/utils/cn';
@@ -26,7 +27,7 @@ type SideNavigationItem = {
 
 const Logo = () => {
   return (
-    <Link className="flex items-center text-white" to="/">
+    <Link className="flex items-center text-white" to={paths.home.getHref()}>
       <img className="h-8 w-auto" src={logo} alt="Workflow" />
       <span className="text-sm font-semibold text-white">
         Bulletproof React
@@ -80,11 +81,11 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { checkAccess } = useAuthorization();
   const navigate = useNavigate();
   const navigation = [
-    { name: 'Dashboard', to: '.', icon: Home },
-    { name: 'Discussions', to: './discussions', icon: Folder },
+    { name: 'Dashboard', to: paths.app.dashboard.getHref(), icon: Home },
+    { name: 'Discussions', to: paths.app.discussions.getHref(), icon: Folder },
     checkAccess({ allowedRoles: [ROLES.ADMIN] }) && {
       name: 'Users',
-      to: './users',
+      to: paths.app.users.getHref(),
       icon: Users,
     },
   ].filter(Boolean) as SideNavigationItem[];
@@ -178,7 +179,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem
-                onClick={() => navigate('./profile')}
+                onClick={() => navigate(paths.app.profile.getHref())}
                 className={cn('block px-4 py-2 text-sm text-gray-700')}
               >
                 Your Profile

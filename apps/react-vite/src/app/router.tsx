@@ -2,6 +2,7 @@ import { QueryClient, useQueryClient } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
+import { paths } from '@/config/paths';
 import { ProtectedRoute } from '@/lib/auth';
 
 import { AppRoot, AppRootErrorBoundary } from './routes/app/root';
@@ -9,28 +10,28 @@ import { AppRoot, AppRootErrorBoundary } from './routes/app/root';
 export const createAppRouter = (queryClient: QueryClient) =>
   createBrowserRouter([
     {
-      path: '/',
+      path: paths.home.path,
       lazy: async () => {
         const { LandingRoute } = await import('./routes/landing');
         return { Component: LandingRoute };
       },
     },
     {
-      path: '/auth/register',
+      path: paths.auth.register.path,
       lazy: async () => {
         const { RegisterRoute } = await import('./routes/auth/register');
         return { Component: RegisterRoute };
       },
     },
     {
-      path: '/auth/login',
+      path: paths.auth.login.path,
       lazy: async () => {
         const { LoginRoute } = await import('./routes/auth/login');
         return { Component: LoginRoute };
       },
     },
     {
-      path: '/app',
+      path: paths.app.root.path,
       element: (
         <ProtectedRoute>
           <AppRoot />
@@ -39,7 +40,7 @@ export const createAppRouter = (queryClient: QueryClient) =>
       ErrorBoundary: AppRootErrorBoundary,
       children: [
         {
-          path: 'discussions',
+          path: paths.app.discussions.path,
           lazy: async () => {
             const { DiscussionsRoute, discussionsLoader } = await import(
               './routes/app/discussions/discussions'
@@ -52,7 +53,7 @@ export const createAppRouter = (queryClient: QueryClient) =>
           ErrorBoundary: AppRootErrorBoundary,
         },
         {
-          path: 'discussions/:discussionId',
+          path: paths.app.discussion.path,
           lazy: async () => {
             const { DiscussionRoute, discussionLoader } = await import(
               './routes/app/discussions/discussion'
@@ -65,7 +66,7 @@ export const createAppRouter = (queryClient: QueryClient) =>
           ErrorBoundary: AppRootErrorBoundary,
         },
         {
-          path: 'users',
+          path: paths.app.users.path,
           lazy: async () => {
             const { UsersRoute, usersLoader } = await import(
               './routes/app/users'
@@ -78,7 +79,7 @@ export const createAppRouter = (queryClient: QueryClient) =>
           ErrorBoundary: AppRootErrorBoundary,
         },
         {
-          path: 'profile',
+          path: paths.app.profile.path,
           lazy: async () => {
             const { ProfileRoute } = await import('./routes/app/profile');
             return {
@@ -88,7 +89,7 @@ export const createAppRouter = (queryClient: QueryClient) =>
           ErrorBoundary: AppRootErrorBoundary,
         },
         {
-          path: '',
+          path: paths.app.dashboard.path,
           lazy: async () => {
             const { DashboardRoute } = await import('./routes/app/dashboard');
             return {

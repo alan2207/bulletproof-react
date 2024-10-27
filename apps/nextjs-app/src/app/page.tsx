@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Link } from '@/components/ui/link';
+import { paths } from '@/config/paths';
 import { checkLoggedIn } from '@/utils/auth';
 
 const HomePage = () => {
@@ -15,7 +16,13 @@ const HomePage = () => {
         <p>Showcasing Best Practices For Building React Applications</p>
         <div className="mt-8 flex justify-center">
           <div className="inline-flex rounded-md shadow">
-            <Link href={isLoggedIn ? '/app' : '/auth/login'}>
+            <Link
+              href={
+                isLoggedIn
+                  ? paths.app.root.getHref()
+                  : paths.auth.login.getHref()
+              }
+            >
               <Button
                 icon={
                   <svg

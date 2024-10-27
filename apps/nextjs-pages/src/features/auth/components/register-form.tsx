@@ -4,6 +4,7 @@ import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Form, Input, Select, Label, Switch } from '@/components/ui/form';
+import { paths } from '@/config/paths';
 import { useRegister, registerInputSchema } from '@/lib/auth';
 import { Team } from '@/types/api';
 
@@ -107,7 +108,7 @@ export const RegisterForm = ({
       <div className="mt-2 flex items-center justify-end">
         <div className="text-sm">
           <NextLink
-            href={`/auth/login${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ''}`}
+            href={paths.auth.login.getHref(redirectTo)}
             className="font-medium text-blue-600 hover:text-blue-500"
           >
             Log In

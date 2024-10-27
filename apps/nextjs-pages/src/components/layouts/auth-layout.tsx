@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 
 import { Head } from '@/components/seo';
 import { Link } from '@/components/ui/link';
+import { paths } from '@/config/paths';
 import { useUser } from '@/lib/auth';
 
 type LayoutProps = {
@@ -18,7 +19,7 @@ export const AuthLayout = ({ children, title }: LayoutProps) => {
 
   useEffect(() => {
     if (user.data) {
-      router.replace('/app');
+      router.replace(paths.app.dashboard.getHref());
     }
   }, [user.data, router]);
 
@@ -28,7 +29,10 @@ export const AuthLayout = ({ children, title }: LayoutProps) => {
       <div className="flex min-h-screen flex-col justify-center bg-gray-50 py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <div className="flex justify-center">
-            <Link className="flex items-center text-white" href="/">
+            <Link
+              className="flex items-center text-white"
+              href={paths.home.getHref()}
+            >
               <img className="h-24 w-auto" src="/logo.svg" alt="Workflow" />
             </Link>
           </div>

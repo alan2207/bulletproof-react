@@ -7,6 +7,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { Button } from '@/components/ui/button';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
 import { Spinner } from '@/components/ui/spinner';
+import { paths } from '@/config/paths';
 import { AuthLoader, useLogout } from '@/lib/auth';
 import { ROLES, useAuthorization } from '@/lib/authorization';
 import { cn } from '@/utils/cn';
@@ -28,7 +29,7 @@ type SideNavigationItem = {
 
 const Logo = () => {
   return (
-    <Link className="flex items-center text-white" href="/">
+    <Link className="flex items-center text-white" href={paths.home.getHref()}>
       <img className="h-8 w-auto" src="/logo.svg" alt="Workflow" />
       <span className="text-sm font-semibold text-white">
         Bulletproof React
@@ -95,11 +96,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const { checkAccess } = useAuthorization();
   const router = useRouter();
   const navigation = [
-    { name: 'Dashboard', to: '/app', icon: Home },
-    { name: 'Discussions', to: '/app/discussions', icon: Folder },
+    { name: 'Dashboard', to: paths.app.dashboard.getHref(), icon: Home },
+    { name: 'Discussions', to: paths.app.discussions.getHref(), icon: Folder },
     checkAccess({ allowedRoles: [ROLES.ADMIN] }) && {
       name: 'Users',
-      to: '/app/users',
+      to: paths.app.users.getHref(),
       icon: Users,
     },
   ].filter(Boolean) as SideNavigationItem[];
@@ -193,7 +194,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem
-                onClick={() => router.push('/app/profile')}
+                onClick={() => router.push(paths.app.profile.getHref())}
                 className={cn('block px-4 py-2 text-sm text-gray-700')}
               >
                 Your Profile

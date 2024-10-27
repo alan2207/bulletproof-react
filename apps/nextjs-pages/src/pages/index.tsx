@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 
 import { Head } from '@/components/seo';
 import { Button } from '@/components/ui/button';
+import { paths } from '@/config/paths';
 import { useUser } from '@/lib/auth';
 
 export const HomePage = () => {
@@ -10,9 +11,9 @@ export const HomePage = () => {
 
   const handleStart = () => {
     if (user.data) {
-      router.push('/app');
+      router.push(paths.app.dashboard.getHref());
     } else {
-      router.push('/auth/login');
+      router.push(paths.auth.login.getHref());
     }
   };
 
