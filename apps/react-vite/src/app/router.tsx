@@ -1,14 +1,10 @@
 import { QueryClient, useQueryClient } from '@tanstack/react-query';
 import { useMemo } from 'react';
-import {
-  LoaderFunctionArgs,
-  RouterProvider,
-  createBrowserRouter,
-} from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import { ProtectedRoute } from '@/lib/auth';
 
-import { AppRoot } from './routes/app/root';
+import { AppRoot, AppRootErrorBoundary } from './routes/app/root';
 
 export const createAppRouter = (queryClient: QueryClient) =>
   createBrowserRouter([
@@ -40,63 +36,66 @@ export const createAppRouter = (queryClient: QueryClient) =>
           <AppRoot />
         </ProtectedRoute>
       ),
+      ErrorBoundary: AppRootErrorBoundary,
       children: [
         {
           path: 'discussions',
           lazy: async () => {
-            const { DiscussionsRoute } = await import(
+            const { DiscussionsRoute, discussionsLoader } = await import(
               './routes/app/discussions/discussions'
             );
-            return { Component: DiscussionsRoute };
+            return {
+              Component: DiscussionsRoute,
+              loader: discussionsLoader(queryClient),
+            };
           },
-          loader: async (args: LoaderFunctionArgs) => {
-            const { discussionsLoader } = await import(
-              './routes/app/discussions/discussions'
-            );
-            return discussionsLoader(queryClient)(args);
-          },
+          ErrorBoundary: AppRootErrorBoundary,
         },
         {
           path: 'discussions/:discussionId',
           lazy: async () => {
-            const { DiscussionRoute } = await import(
+            const { DiscussionRoute, discussionLoader } = await import(
               './routes/app/discussions/discussion'
             );
-            return { Component: DiscussionRoute };
+            return {
+              Component: DiscussionRoute,
+              loader: discussionLoader(queryClient),
+            };
           },
-
-          loader: async (args: LoaderFunctionArgs) => {
-            const { discussionLoader } = await import(
-              './routes/app/discussions/discussion'
-            );
-            return discussionLoader(queryClient)(args);
-          },
+          ErrorBoundary: AppRootErrorBoundary,
         },
         {
           path: 'users',
           lazy: async () => {
-            const { UsersRoute } = await import('./routes/app/users');
-            return { Component: UsersRoute };
+            const { UsersRoute, usersLoader } = await import(
+              './routes/app/users'
+            );
+            return {
+              Component: UsersRoute,
+              loader: usersLoader(queryClient),
+            };
           },
-
-          loader: async () => {
-            const { usersLoader } = await import('./routes/app/users');
-            return usersLoader(queryClient)();
-          },
+          ErrorBoundary: AppRootErrorBoundary,
         },
         {
           path: 'profile',
           lazy: async () => {
             const { ProfileRoute } = await import('./routes/app/profile');
-            return { Component: ProfileRoute };
+            return {
+              Component: ProfileRoute,
+            };
           },
+          ErrorBoundary: AppRootErrorBoundary,
         },
         {
           path: '',
           lazy: async () => {
             const { DashboardRoute } = await import('./routes/app/dashboard');
-            return { Component: DashboardRoute };
+            return {
+              Component: DashboardRoute,
+            };
           },
+          ErrorBoundary: AppRootErrorBoundary,
         },
       ],
     },
@@ -104,8 +103,11 @@ export const createAppRouter = (queryClient: QueryClient) =>
       path: '*',
       lazy: async () => {
         const { NotFoundRoute } = await import('./routes/not-found');
-        return { Component: NotFoundRoute };
+        return {
+          Component: NotFoundRoute,
+        };
       },
+      ErrorBoundary: AppRootErrorBoundary,
     },
   ]);
 
