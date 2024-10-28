@@ -85,7 +85,6 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (!user.data) {
-      console.log('pathname', pathname);
       router.replace(paths.auth.login.getHref(pathname));
     }
   }, [user.data, router, pathname]);

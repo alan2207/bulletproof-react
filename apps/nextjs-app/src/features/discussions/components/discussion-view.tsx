@@ -48,7 +48,7 @@ export const DiscussionView = ({ discussionId }: { discussionId: string }) => {
         {!isPublicView && discussion.public && (
           <Link
             className="ml-2 flex items-center gap-2 text-sm font-bold"
-            href={paths.app.publicDiscussion.getHref(discussionId)}
+            href={paths.public.discussion.getHref(discussionId)}
             target="_blank"
           >
             View Public Version <LinkIcon size={16} />
