@@ -28,7 +28,7 @@ setup('authenticate', async ({ page }) => {
   // log out:
   await page.getByRole('button', { name: 'Open user menu' }).click();
   await page.getByRole('menuitem', { name: 'Sign Out' }).click();
-  await page.waitForURL('/auth/login?redirectTo=%2Fapp');
+  await page.waitForURL('/auth/login?redirectTo=%252Fapp');
 
   // log in:
   await page.getByLabel('Email Address').click();

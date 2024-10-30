@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import logo from '@/assets/logo.svg';
 import { Head } from '@/components/seo';
 import { Button } from '@/components/ui/button';
+import { paths } from '@/config/paths';
 import { useUser } from '@/lib/auth';
 
 export const LandingRoute = () => {
@@ -11,9 +12,9 @@ export const LandingRoute = () => {
 
   const handleStart = () => {
     if (user.data) {
-      navigate('/app');
+      navigate(paths.app.dashboard.getHref());
     } else {
-      navigate('/auth/login');
+      navigate(paths.auth.login.getHref());
     }
   };
 

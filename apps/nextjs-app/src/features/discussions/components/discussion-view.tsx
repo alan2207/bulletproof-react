@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { Link } from '@/components/ui/link';
 import { MDPreview } from '@/components/ui/md-preview';
 import { Spinner } from '@/components/ui/spinner';
+import { paths } from '@/config/paths';
 import { formatDate } from '@/utils/format';
 
 import { useDiscussion } from '../api/get-discussion';
@@ -47,7 +48,7 @@ export const DiscussionView = ({ discussionId }: { discussionId: string }) => {
         {!isPublicView && discussion.public && (
           <Link
             className="ml-2 flex items-center gap-2 text-sm font-bold"
-            href={`/public/discussions/${discussionId}`}
+            href={paths.public.discussion.getHref(discussionId)}
             target="_blank"
           >
             View Public Version <LinkIcon size={16} />

@@ -2,6 +2,7 @@ import Axios, { InternalAxiosRequestConfig } from 'axios';
 
 import { useNotifications } from '@/components/ui/notifications';
 import { env } from '@/config/env';
+import { paths } from '@/config/paths';
 
 function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   if (config.headers) {
@@ -31,8 +32,9 @@ api.interceptors.response.use(
 
     if (error.response?.status === 401) {
       const searchParams = new URLSearchParams();
-      const redirectTo = searchParams.get('redirectTo');
-      window.location.href = `/auth/login?redirectTo=${redirectTo}`;
+      const redirectTo =
+        searchParams.get('redirectTo') || window.location.pathname;
+      window.location.href = paths.auth.login.getHref(redirectTo);
     }
 
     return Promise.reject(error);

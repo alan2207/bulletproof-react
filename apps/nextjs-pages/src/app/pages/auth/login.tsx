@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { ReactElement } from 'react';
 
 import { AuthLayout } from '@/components/layouts/auth-layout';
+import { paths } from '@/config/paths';
 import { LoginForm } from '@/features/auth/components/login-form';
 
 export const LoginPage = () => {
@@ -11,7 +12,9 @@ export const LoginPage = () => {
   return (
     <LoginForm
       onSuccess={() =>
-        router.replace(`${redirectTo ? `${redirectTo}` : '/app'}`)
+        router.replace(
+          `${redirectTo ? `${redirectTo}` : paths.app.dashboard.getHref()}`,
+        )
       }
     />
   );

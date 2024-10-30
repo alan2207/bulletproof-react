@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from 'next/navigation';
 import * as React from 'react';
 
+import { paths } from '@/config/paths';
 import { Comment, User } from '@/types/api';
 
 import { useUser } from './auth';
@@ -35,7 +36,7 @@ export const useAuthorization = () => {
 
   if (!user.data && !user.isLoading) {
     const redirectTo = encodeURIComponent(pathname);
-    router.push(`/auth/login?redirectTo=${redirectTo}`);
+    router.push(paths.auth.login.getHref(redirectTo));
   }
 
   const checkAccess = React.useCallback(

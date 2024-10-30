@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 
+import { paths } from '@/config/paths';
 import { LoginForm } from '@/features/auth/components/login-form';
 
 // export const metadata = {
@@ -17,7 +18,9 @@ const LoginPage = () => {
   return (
     <LoginForm
       onSuccess={() =>
-        router.replace(`${redirectTo ? `${redirectTo}` : '/app'}`)
+        router.replace(
+          `${redirectTo ? `${decodeURIComponent(redirectTo)}` : paths.app.dashboard.getHref()}`,
+        )
       }
     />
   );

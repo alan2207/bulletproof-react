@@ -6,6 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import { Link } from '@/components/ui/link';
 import { Spinner } from '@/components/ui/spinner';
 import { Table } from '@/components/ui/table';
+import { paths } from '@/config/paths';
 import { formatDate } from '@/utils/format';
 
 import { getDiscussionQueryOptions } from '../api/get-discussion';
@@ -67,7 +68,7 @@ export const DiscussionsList = ({
                   queryClient.prefetchQuery(getDiscussionQueryOptions(id));
                   onDiscussionPrefetch?.(id);
                 }}
-                href={`/app/discussions/${id}`}
+                href={paths.app.discussion.getHref(id)}
               >
                 View
               </Link>
