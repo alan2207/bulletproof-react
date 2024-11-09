@@ -4,8 +4,8 @@ import express from 'express';
 import logger from 'pino-http';
 
 import { env } from './src/config/env';
-import { initializeDb } from './src/testing/mocks/db';
-import { handlers } from './src/testing/mocks/handlers';
+import { initializeDb } from './src/test/mocks/db';
+import { handlers } from './src/test/mocks/handlers';
 
 const app = express();
 

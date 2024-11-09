@@ -1,13 +1,13 @@
 import type { Mock } from 'vitest';
 
-import { createDiscussion } from '@/testing/data-generators';
+import { createDiscussion } from '@/test/data-generators';
 import {
   renderApp,
   screen,
   userEvent,
   waitFor,
   within,
-} from '@/testing/test-utils';
+} from '@/test/test-utils';
 import { formatDate } from '@/utils/format';
 
 import { DiscussionsRoute } from '../discussions';

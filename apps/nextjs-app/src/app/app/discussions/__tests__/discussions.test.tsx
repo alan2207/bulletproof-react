@@ -1,6 +1,6 @@
 import type { Mock } from 'vitest';
 
-import { createDiscussion } from '@/testing/data-generators';
+import { createDiscussion } from '@/test/data-generators';
 import {
   renderApp,
   screen,
@@ -8,7 +8,7 @@ import {
   waitFor,
   waitForLoadingToFinish,
   within,
-} from '@/testing/test-utils';
+} from '@/test/test-utils';
 import { formatDate } from '@/utils/format';
 
 import DiscussionsPage from '../page';

@@ -6,7 +6,7 @@ import {
   createDiscussion,
   createUser,
   within,
-} from '@/testing/test-utils';
+} from '@/test/test-utils';
 
 import { DiscussionRoute } from '../discussion';
 

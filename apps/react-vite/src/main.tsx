@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 
 import './index.css';
 import { App } from './app';
-import { enableMocking } from './testing/mocks';
+import { enableMocking } from './test/mocks';
 
 const root = document.getElementById('root');
 if (!root) throw new Error('No root element found');

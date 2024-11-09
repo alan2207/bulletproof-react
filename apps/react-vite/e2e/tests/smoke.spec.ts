@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 import {
   createDiscussion,
   createComment,
-} from '../../src/testing/data-generators';
+} from '../../src/test/data-generators';
 test('smoke', async ({ page }) => {
   const discussion = createDiscussion();
   const comment = createComment();

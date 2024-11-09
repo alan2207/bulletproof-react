@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom/vitest';
 
-import { initializeDb, resetDb } from '@/testing/mocks/db';
-import { server } from '@/testing/mocks/server';
+import { initializeDb, resetDb } from '@/test/mocks/db';
+import { server } from '@/test/mocks/server';
 
 vi.mock('zustand');
 

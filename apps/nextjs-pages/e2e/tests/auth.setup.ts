@@ -1,5 +1,5 @@
 import { test as setup, expect } from '@playwright/test';
-import { createUser } from '../../src/testing/data-generators';
+import { createUser } from '../../src/test/data-generators';
 
 const authFile = 'e2e/.auth/user.json';
 
