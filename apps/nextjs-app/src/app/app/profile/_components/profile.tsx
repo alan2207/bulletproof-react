@@ -1,3 +1,5 @@
+'use client';
+
 import { UpdateProfile } from '@/features/users/components/update-profile';
 import { useUser } from '@/lib/auth';
 
