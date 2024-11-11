@@ -11,7 +11,7 @@ import {
   waitForLoadingToFinish,
 } from '@/testing/test-utils';
 
-import DiscussionPage from '../page';
+import { Discussion } from '../_components/discussion';
 
 vi.mock('next/navigation', async () => {
   const actual = await vi.importActual('next/navigation');
@@ -33,11 +33,14 @@ const renderDiscussion = async () => {
 
   vi.mocked(useParams).mockReturnValue({ discussionId: fakeDiscussion.id });
 
-  const utils = await renderApp(<DiscussionPage />, {
-    user: fakeUser,
-    path: `/app/discussions/:discussionId`,
-    url: `/app/discussions/${fakeDiscussion.id}`,
-  });
+  const utils = await renderApp(
+    <Discussion discussionId={fakeDiscussion.id} />,
+    {
+      user: fakeUser,
+      path: `/app/discussions/:discussionId`,
+      url: `/app/discussions/${fakeDiscussion.id}`,
+    },
+  );
 
   await waitForLoadingToFinish();
 

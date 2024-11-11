@@ -7,8 +7,7 @@ import { Button } from '@/components/ui/button';
 import { MDPreview } from '@/components/ui/md-preview';
 import { Spinner } from '@/components/ui/spinner';
 import { useUser } from '@/lib/auth';
-import { POLICIES, Authorization } from '@/lib/authorization';
-import { User } from '@/types/api';
+import { canDeleteComment } from '@/lib/authorization';
 import { formatDate } from '@/utils/format';
 
 import { useInfiniteComments } from '../api/get-comments';
@@ -68,15 +67,8 @@ export const CommentsList = ({ discussionId }: CommentsListProps) => {
                   </span>
                 )}
               </div>
-              {!isPublicView && (
-                <Authorization
-                  policyCheck={POLICIES['comment:delete'](
-                    user.data as User,
-                    comment,
-                  )}
-                >
-                  <DeleteComment discussionId={discussionId} id={comment.id} />
-                </Authorization>
+              {!isPublicView && canDeleteComment(user.data, comment) && (
+                <DeleteComment discussionId={discussionId} id={comment.id} />
               )}
             </div>
             <MDPreview value={comment.body} />

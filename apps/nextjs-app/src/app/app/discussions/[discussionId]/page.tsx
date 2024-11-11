@@ -1,47 +1,71 @@
-'use client';
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from '@tanstack/react-query';
 
-import { useParams } from 'next/navigation';
-import { ErrorBoundary } from 'react-error-boundary';
+import { getInfiniteCommentsQueryOptions } from '@/features/comments/api/get-comments';
+import {
+  getDiscussion,
+  getDiscussionQueryOptions,
+} from '@/features/discussions/api/get-discussion';
 
-import { ContentLayout } from '@/components/layouts/content-layout';
-import { Spinner } from '@/components/ui/spinner';
-import { Comments } from '@/features/comments/components/comments';
-import { useDiscussion } from '@/features/discussions/api/get-discussion';
-import { DiscussionView } from '@/features/discussions/components/discussion-view';
+import { Discussion } from './_components/discussion';
 
-const DiscussionPage = () => {
-  const params = useParams();
-  const discussionId = params?.discussionId as string;
+export const generateMetadata = async ({
+  params,
+}: {
+  params: Promise<{ discussionId: string }>;
+}) => {
+  const discussionId = (await params).discussionId;
 
-  const discussionQuery = useDiscussion({
-    discussionId,
-  });
+  const discussion = await getDiscussion({ discussionId });
 
-  if (discussionQuery.isLoading) {
-    return (
-      <div className="flex h-48 w-full items-center justify-center">
-        <Spinner size="lg" />
-      </div>
-    );
-  }
+  return {
+    title: discussion.data?.title,
+    description: discussion.data?.title,
+  };
+};
 
-  const discussion = discussionQuery.data?.data;
+const preloadData = async (discussionId: string) => {
+  const queryClient = new QueryClient();
 
-  if (!discussion) return null;
+  await Promise.all([
+    queryClient.prefetchQuery(getDiscussionQueryOptions(discussionId)),
+    queryClient.prefetchInfiniteQuery(
+      getInfiniteCommentsQueryOptions(discussionId),
+    ),
+  ]);
+
+  const dehydratedState = dehydrate(queryClient);
+
+  return {
+    dehydratedState,
+    queryClient,
+  };
+};
+
+const DiscussionPage = async ({
+  params,
+}: {
+  params: Promise<{
+    discussionId: string;
+  }>;
+}) => {
+  const discussionId = (await params).discussionId;
+
+  const { dehydratedState, queryClient } = await preloadData(discussionId);
+
+  const discussion = queryClient.getQueryData(
+    getDiscussionQueryOptions(discussionId).queryKey,
+  );
+
+  if (!discussion?.data) return <div>Discussion not found</div>;
 
   return (
-    <ContentLayout title={discussion.title}>
-      <DiscussionView discussionId={discussionId} />
-      <div className="mt-8">
-        <ErrorBoundary
-          fallback={
-            <div>Failed to load comments. Try to refresh the page.</div>
-          }
-        >
-          <Comments discussionId={discussionId} />
-        </ErrorBoundary>
-      </div>
-    </ContentLayout>
+    <HydrationBoundary state={dehydratedState}>
+      <Discussion discussionId={discussionId} />
+    </HydrationBoundary>
   );
 };
 

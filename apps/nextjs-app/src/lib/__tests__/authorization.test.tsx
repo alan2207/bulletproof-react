@@ -1,85 +1,103 @@
-import { createUser, renderApp, screen } from '@/testing/test-utils';
+import { Comment, User } from '@/types/api';
 
-import { Authorization, ROLES } from '../authorization';
+import {
+  canCreateDiscussion,
+  canDeleteDiscussion,
+  canUpdateDiscussion,
+  canViewUsers,
+  canDeleteComment,
+} from '../authorization';
 
-test('should view protected resource if user role is matching', async () => {
-  const user = await createUser({
-    role: ROLES.ADMIN,
+describe('Discussion Authorization', () => {
+  const adminUser: User = {
+    id: '1',
+    role: 'ADMIN',
+  } as User;
+
+  const regularUser: User = {
+    id: '2',
+    role: 'USER',
+  } as User;
+
+  test('should allow admin to create discussions', () => {
+    expect(canCreateDiscussion(adminUser)).toBe(true);
+    expect(canCreateDiscussion(regularUser)).toBe(false);
+    expect(canCreateDiscussion(null)).toBe(false);
+    expect(canCreateDiscussion(undefined)).toBe(false);
   });
 
-  const protectedResource = 'This is very confidential data';
+  test('should allow admin to delete discussions', () => {
+    expect(canDeleteDiscussion(adminUser)).toBe(true);
+    expect(canDeleteDiscussion(regularUser)).toBe(false);
+    expect(canDeleteDiscussion(null)).toBe(false);
+    expect(canDeleteDiscussion(undefined)).toBe(false);
+  });
 
-  await renderApp(
-    <Authorization allowedRoles={[ROLES.ADMIN]}>
-      {protectedResource}
-    </Authorization>,
-    {
-      user,
-    },
-  );
+  test('should allow admin to update discussions', () => {
+    expect(canUpdateDiscussion(adminUser)).toBe(true);
+    expect(canUpdateDiscussion(regularUser)).toBe(false);
+    expect(canUpdateDiscussion(null)).toBe(false);
+    expect(canUpdateDiscussion(undefined)).toBe(false);
+  });
 
-  expect(screen.getByText(protectedResource)).toBeInTheDocument();
+  test('should allow admin to view users', () => {
+    expect(canViewUsers(adminUser)).toBe(true);
+    expect(canViewUsers(regularUser)).toBe(false);
+    expect(canViewUsers(null)).toBe(false);
+    expect(canViewUsers(undefined)).toBe(false);
+  });
 });
 
-test('should not view protected resource if user role does not match and show fallback message instead', async () => {
-  const user = await createUser({
-    role: ROLES.USER,
+describe('Comment Authorization', () => {
+  const adminUser: User = {
+    id: '1',
+    role: 'ADMIN',
+  } as User;
+
+  const regularUser: User = {
+    id: '2',
+    role: 'USER',
+  } as User;
+
+  const anotherUser: User = {
+    id: '3',
+    role: 'USER',
+  } as User;
+
+  test('should allow admin to delete any comment', () => {
+    const comment: Comment = {
+      id: '1',
+      author: anotherUser,
+    } as Comment;
+
+    expect(canDeleteComment(adminUser, comment)).toBe(true);
   });
 
-  const protectedResource = 'This is very confidential data';
+  test('should allow users to delete their own comments', () => {
+    const comment: Comment = {
+      id: '1',
+      author: regularUser,
+    } as Comment;
 
-  const forbiddenMessage = 'You are unauthorized to view this resource';
-  await renderApp(
-    <Authorization
-      forbiddenFallback={<div>{forbiddenMessage}</div>}
-      allowedRoles={[ROLES.ADMIN]}
-    >
-      {protectedResource}
-    </Authorization>,
-    { user },
-  );
-
-  await screen.findByText(forbiddenMessage);
-
-  expect(screen.queryByText(protectedResource)).not.toBeInTheDocument();
-
-  expect(screen.getByText(forbiddenMessage)).toBeInTheDocument();
-});
-
-test('should view protected resource if policy check passes', async () => {
-  const user = await createUser({
-    role: ROLES.ADMIN,
+    expect(canDeleteComment(regularUser, comment)).toBe(true);
   });
 
-  const protectedResource = 'This is very confidential data';
+  test('should not allow users to delete others comments', () => {
+    const comment: Comment = {
+      id: '1',
+      author: anotherUser,
+    } as Comment;
 
-  await renderApp(
-    <Authorization policyCheck={true}>{protectedResource}</Authorization>,
-    { user },
-  );
-
-  expect(screen.getByText(protectedResource)).toBeInTheDocument();
-});
-
-test('should not view protected resource if policy check fails and show fallback message instead', async () => {
-  const user = await createUser({
-    role: ROLES.USER,
+    expect(canDeleteComment(regularUser, comment)).toBe(false);
   });
 
-  const protectedResource = 'This is very confidential data';
+  test('should not allow unauthorized users to delete comments', () => {
+    const comment: Comment = {
+      id: '1',
+      author: regularUser,
+    } as Comment;
 
-  const forbiddenMessage = 'You are unauthorized to view this resource';
-  await renderApp(
-    <Authorization
-      forbiddenFallback={<div>{forbiddenMessage}</div>}
-      policyCheck={false}
-    >
-      {protectedResource}
-    </Authorization>,
-    { user },
-  );
-
-  expect(screen.queryByText(protectedResource)).not.toBeInTheDocument();
-
-  expect(screen.getByText(forbiddenMessage)).toBeInTheDocument();
+    expect(canDeleteComment(null, comment)).toBe(false);
+    expect(canDeleteComment(undefined, comment)).toBe(false);
+  });
 });

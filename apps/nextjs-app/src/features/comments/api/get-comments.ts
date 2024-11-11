@@ -7,29 +7,23 @@ import { Comment, Meta } from '@/types/api';
 export const getComments = ({
   discussionId,
   page = 1,
-  cookie,
 }: {
   discussionId: string;
   page?: number;
-  cookie?: string;
 }): Promise<{ data: Comment[]; meta: Meta }> => {
   return api.get(`/comments`, {
     params: {
       discussionId,
       page,
     },
-    cookie,
   });
 };
 
-export const getInfiniteCommentsQueryOptions = (
-  discussionId: string,
-  cookie?: string,
-) => {
+export const getInfiniteCommentsQueryOptions = (discussionId: string) => {
   return infiniteQueryOptions({
     queryKey: ['comments', discussionId],
     queryFn: ({ pageParam = 1 }) => {
-      return getComments({ discussionId, page: pageParam as number, cookie });
+      return getComments({ discussionId, page: pageParam as number });
     },
     getNextPageParam: (lastPage) => {
       if (lastPage?.meta?.page === lastPage?.meta?.totalPages) return undefined;

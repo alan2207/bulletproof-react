@@ -16,7 +16,19 @@ app.use(
 );
 
 app.use(express.json());
-app.use(logger({ level: 'silent' }));
+app.use(
+  logger({
+    level: 'info',
+    redact: ['req.headers', 'res.headers'],
+    transport: {
+      target: 'pino-pretty',
+      options: {
+        colorize: true,
+        translateTime: true,
+      },
+    },
+  }),
+);
 app.use(createMiddleware(...handlers));
 
 initializeDb().then(() => {

@@ -28,6 +28,25 @@ function buildUrlWithParams(
   return `${url}?${queryString}`;
 }
 
+// Create a separate function for getting server-side cookies that can be imported where needed
+export function getServerCookies() {
+  if (typeof window !== 'undefined') return '';
+
+  // Dynamic import next/headers only on server-side
+  return import('next/headers').then(({ cookies }) => {
+    try {
+      const cookieStore = cookies();
+      return cookieStore
+        .getAll()
+        .map((c) => `${c.name}=${c.value}`)
+        .join('; ');
+    } catch (error) {
+      console.error('Failed to access cookies:', error);
+      return '';
+    }
+  });
+}
+
 async function fetchApi<T>(
   url: string,
   options: RequestOptions = {},
@@ -41,6 +60,13 @@ async function fetchApi<T>(
     cache = 'no-store',
     next,
   } = options;
+
+  // Get cookies from the request when running on server
+  let cookieHeader = cookie;
+  if (typeof window === 'undefined' && !cookie) {
+    cookieHeader = await getServerCookies();
+  }
+
   const fullUrl = buildUrlWithParams(`${env.API_URL}${url}`, params);
 
   const response = await fetch(fullUrl, {
@@ -49,7 +75,7 @@ async function fetchApi<T>(
       'Content-Type': 'application/json',
       Accept: 'application/json',
       ...headers,
-      ...(cookie ? { Cookie: cookie } : {}),
+      ...(cookieHeader ? { Cookie: cookieHeader } : {}),
     },
     body: body ? JSON.stringify(body) : undefined,
     credentials: 'include',

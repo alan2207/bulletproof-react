@@ -7,11 +7,6 @@ import { paths } from '@/config/paths';
 import { RegisterForm } from '@/features/auth/components/register-form';
 import { useTeams } from '@/features/teams/api/get-teams';
 
-// export const metadata = {
-//   title: 'Register your account',
-//   description: 'Register your account',
-// };
-
 const RegisterPage = () => {
   const router = useRouter();
 

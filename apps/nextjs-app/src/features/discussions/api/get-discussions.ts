@@ -5,7 +5,7 @@ import { QueryConfig } from '@/lib/react-query';
 import { Discussion, Meta } from '@/types/api';
 
 export const getDiscussions = (
-  { page, cookie }: { page?: number; cookie?: string } = { page: 1 },
+  { page }: { page?: number } = { page: 1 },
 ): Promise<{
   data: Discussion[];
   meta: Meta;
@@ -14,17 +14,15 @@ export const getDiscussions = (
     params: {
       page,
     },
-    cookie,
   });
 };
 
 export const getDiscussionsQueryOptions = ({
-  page,
-  cookie,
-}: { page?: number; cookie?: string } = {}) => {
+  page = 1,
+}: { page?: number } = {}) => {
   return queryOptions({
-    queryKey: page ? ['discussions', { page }] : ['discussions'],
-    queryFn: () => getDiscussions({ page, cookie }),
+    queryKey: ['discussions', { page }],
+    queryFn: () => getDiscussions({ page }),
   });
 };
 

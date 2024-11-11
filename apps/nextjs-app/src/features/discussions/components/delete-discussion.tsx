@@ -5,7 +5,8 @@ import { Trash } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ConfirmationDialog } from '@/components/ui/dialog';
 import { useNotifications } from '@/components/ui/notifications';
-import { Authorization, ROLES } from '@/lib/authorization';
+import { useUser } from '@/lib/auth';
+import { canDeleteDiscussion } from '@/lib/authorization';
 
 import { useDeleteDiscussion } from '../api/delete-discussion';
 
@@ -14,6 +15,7 @@ type DeleteDiscussionProps = {
 };
 
 export const DeleteDiscussion = ({ id }: DeleteDiscussionProps) => {
+  const user = useUser();
   const { addNotification } = useNotifications();
   const deleteDiscussionMutation = useDeleteDiscussion({
     mutationConfig: {
@@ -26,30 +28,30 @@ export const DeleteDiscussion = ({ id }: DeleteDiscussionProps) => {
     },
   });
 
+  if (!canDeleteDiscussion(user?.data)) {
+    return null;
+  }
+
   return (
-    <Authorization allowedRoles={[ROLES.ADMIN]}>
-      <ConfirmationDialog
-        icon="danger"
-        title="Delete Discussion"
-        body="Are you sure you want to delete this discussion?"
-        triggerButton={
-          <Button variant="destructive" icon={<Trash className="size-4" />}>
-            Delete Discussion
-          </Button>
-        }
-        confirmButton={
-          <Button
-            isLoading={deleteDiscussionMutation.isPending}
-            type="button"
-            variant="destructive"
-            onClick={() =>
-              deleteDiscussionMutation.mutate({ discussionId: id })
-            }
-          >
-            Delete Discussion
-          </Button>
-        }
-      />
-    </Authorization>
+    <ConfirmationDialog
+      icon="danger"
+      title="Delete Discussion"
+      body="Are you sure you want to delete this discussion?"
+      triggerButton={
+        <Button variant="destructive" icon={<Trash className="size-4" />}>
+          Delete Discussion
+        </Button>
+      }
+      confirmButton={
+        <Button
+          isLoading={deleteDiscussionMutation.isPending}
+          type="button"
+          variant="destructive"
+          onClick={() => deleteDiscussionMutation.mutate({ discussionId: id })}
+        >
+          Delete Discussion
+        </Button>
+      }
+    />
   );
 };

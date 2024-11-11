@@ -9762,11 +9762,6 @@ react-is@^18.0.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.3.1.tgz#e83557dc12eae63a99e003a46388b1dcbb44db7e"
   integrity sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==
 
-react-query-auth@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/react-query-auth/-/react-query-auth-2.3.0.tgz#2c03e4cd3c75a01bde0cfa97168b857906315449"
-  integrity sha512-42IvqDxnQMOCdPmf+H8hMscO+1EgDPMuNnJrYEJwe8Itsd2z96obtlm85PvBk8BgvOQrKGEGx1VDsAIzk6y7yw==
-
 react-refresh@^0.14.0, react-refresh@^0.14.2:
   version "0.14.2"
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.14.2.tgz#3833da01ce32da470f1f936b9d477da5c7028bf9"
