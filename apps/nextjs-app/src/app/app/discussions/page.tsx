@@ -36,3 +36,5 @@ const DiscussionsPage = async ({
 };
 
 export default DiscussionsPage;
+
+export const dynamic = 'force-dynamic';

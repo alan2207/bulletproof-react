@@ -57,3 +57,5 @@ const PublicDiscussionPage = async ({
 };
 
 export default PublicDiscussionPage;
+
+export const dynamic = 'force-dynamic';

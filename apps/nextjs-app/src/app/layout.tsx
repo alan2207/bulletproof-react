@@ -36,3 +36,5 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
 };
 
 export default RootLayout;
+
+export const dynamic = 'force-dynamic';

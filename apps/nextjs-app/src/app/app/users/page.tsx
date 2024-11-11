@@ -16,3 +16,5 @@ const UsersPage = () => {
 };
 
 export default UsersPage;
+
+export const dynamic = 'force-dynamic';
