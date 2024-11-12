@@ -1,5 +1,6 @@
 import { ContentLayout } from '@/components/layouts/content-layout';
 
+import { AdminGuard } from './_components/admin-guard';
 import { Users } from './_components/users';
 
 export const metadata = {
@@ -10,7 +11,9 @@ export const metadata = {
 const UsersPage = () => {
   return (
     <ContentLayout title="Users">
-      <Users />
+      <AdminGuard>
+        <Users />
+      </AdminGuard>
     </ContentLayout>
   );
 };
