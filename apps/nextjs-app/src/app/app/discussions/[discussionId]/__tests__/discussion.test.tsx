@@ -9,7 +9,7 @@ import {
   createUser,
   within,
   waitForLoadingToFinish,
-} from '@/test/test-utils';
+} from '@/testing/test-utils';
 
 import DiscussionPage from '../page';
 

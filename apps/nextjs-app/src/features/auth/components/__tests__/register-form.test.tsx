@@ -1,5 +1,5 @@
-import { createUser } from '@/test/data-generators';
-import { renderApp, screen, userEvent, waitFor } from '@/test/test-utils';
+import { createUser } from '@/testing/data-generators';
+import { renderApp, screen, userEvent, waitFor } from '@/testing/test-utils';
 
 import { RegisterForm } from '../register-form';
 

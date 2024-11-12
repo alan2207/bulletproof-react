@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { rtlRender, screen, userEvent, waitFor } from '@/test/test-utils';
+import { rtlRender, screen, userEvent, waitFor } from '@/testing/test-utils';
 
 import { ConfirmationDialog } from '../confirmation-dialog';
 

@@ -1,4 +1,4 @@
-import { render, waitFor } from '@/test/test-utils';
+import { render, waitFor } from '@/testing/test-utils';
 
 import { Head } from '../head';
 

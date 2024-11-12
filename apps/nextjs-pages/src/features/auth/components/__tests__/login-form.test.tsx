@@ -4,7 +4,7 @@ import {
   screen,
   userEvent,
   waitFor,
-} from '@/test/test-utils';
+} from '@/testing/test-utils';
 
 import { LoginForm } from '../login-form';
 
