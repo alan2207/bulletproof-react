@@ -11,7 +11,7 @@ import {
 } from '@/testing/test-utils';
 import { formatDate } from '@/utils/format';
 
-import DiscussionsPage from '../page';
+import { Discussions } from '../_components/discussions';
 
 beforeAll(() => {
   vi.spyOn(console, 'error').mockImplementation(() => {});
@@ -25,7 +25,7 @@ test(
   'should create, render and delete discussions',
   { timeout: 10000 },
   async () => {
-    await renderApp(<DiscussionsPage />);
+    await renderApp(<Discussions />);
 
     await waitForLoadingToFinish();
 

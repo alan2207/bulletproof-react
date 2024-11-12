@@ -6,23 +6,16 @@ import { Discussion } from '@/types/api';
 
 export const getDiscussion = ({
   discussionId,
-  cookie,
 }: {
   discussionId: string;
-  cookie?: string;
 }): Promise<{ data: Discussion }> => {
-  return api.get(`/discussions/${discussionId}`, {
-    cookie,
-  });
+  return api.get(`/discussions/${discussionId}`);
 };
 
-export const getDiscussionQueryOptions = (
-  discussionId: string,
-  cookie?: string,
-) => {
+export const getDiscussionQueryOptions = (discussionId: string) => {
   return queryOptions({
     queryKey: ['discussions', discussionId],
-    queryFn: () => getDiscussion({ discussionId, cookie }),
+    queryFn: () => getDiscussion({ discussionId }),
   });
 };
 

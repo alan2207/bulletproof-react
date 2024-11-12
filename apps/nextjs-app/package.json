@@ -42,7 +42,6 @@
     "react-dom": "^18.3.1",
     "react-error-boundary": "^4.0.13",
     "react-hook-form": "^7.51.3",
-    "react-query-auth": "^2.3.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.23.4",
@@ -109,7 +108,7 @@
     "tsx": "^4.17.0",
     "typescript": "^5.4.5",
     "vite-tsconfig-paths": "^4.3.2",
-    "vitest": "^1.5.2"
+    "vitest": "^2.1.4"
   },
   "msw": {
     "workerDirectory": "public"

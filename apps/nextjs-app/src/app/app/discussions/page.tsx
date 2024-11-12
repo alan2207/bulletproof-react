@@ -1,31 +1,37 @@
-'use client';
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from '@tanstack/react-query';
 
-import { useQueryClient } from '@tanstack/react-query';
+import { getDiscussionsQueryOptions } from '@/features/discussions/api/get-discussions';
 
-import { ContentLayout } from '@/components/layouts/content-layout';
-import { getInfiniteCommentsQueryOptions } from '@/features/comments/api/get-comments';
-import { CreateDiscussion } from '@/features/discussions/components/create-discussion';
-import { DiscussionsList } from '@/features/discussions/components/discussions-list';
+import { Discussions } from './_components/discussions';
 
-const DiscussionsPage = () => {
-  const queryClient = useQueryClient();
+export const metadata = {
+  title: 'Discussions',
+  description: 'Discussions',
+};
+
+const DiscussionsPage = async ({
+  searchParams,
+}: {
+  searchParams: { page: string | null };
+}) => {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery(
+    getDiscussionsQueryOptions({
+      page: searchParams.page ? Number(searchParams.page) : 1,
+    }),
+  );
+
+  const dehydratedState = dehydrate(queryClient);
 
   return (
-    <ContentLayout title="Discussions">
-      <div className="flex justify-end">
-        <CreateDiscussion />
-      </div>
-      <div className="mt-4">
-        <DiscussionsList
-          onDiscussionPrefetch={(id) => {
-            // Prefetch the comments data when the user hovers over the link in the list
-            queryClient.prefetchInfiniteQuery(
-              getInfiniteCommentsQueryOptions(id),
-            );
-          }}
-        />
-      </div>
-    </ContentLayout>
+    <HydrationBoundary state={dehydratedState}>
+      <Discussions />
+    </HydrationBoundary>
   );
 };
 

@@ -3,25 +3,21 @@
 import { Home, PanelLeft, Folder, Users, User2 } from 'lucide-react';
 import NextLink from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
-import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import { Button } from '@/components/ui/button';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
-import { Spinner } from '@/components/ui/spinner';
-import { paths } from '@/config/paths';
-import { AuthLoader, useLogout } from '@/lib/auth';
-import { ROLES, useAuthorization } from '@/lib/authorization';
-import { cn } from '@/utils/cn';
-
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '../ui/dropdown';
-import { Link } from '../ui/link';
+} from '@/components/ui/dropdown';
+import { Link } from '@/components/ui/link';
+import { paths } from '@/config/paths';
+import { useLogout, useUser } from '@/lib/auth';
+import { cn } from '@/utils/cn';
 
 type SideNavigationItem = {
   name: string;
@@ -41,14 +37,16 @@ const Logo = () => {
 };
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  const logout = useLogout();
-  const { checkAccess } = useAuthorization();
+  const user = useUser();
   const pathname = usePathname();
   const router = useRouter();
+  const logout = useLogout({
+    onSuccess: () => router.push(paths.auth.login.getHref(pathname)),
+  });
   const navigation = [
     { name: 'Dashboard', to: paths.app.root.getHref(), icon: Home },
     { name: 'Discussions', to: paths.app.discussions.getHref(), icon: Folder },
-    checkAccess({ allowedRoles: [ROLES.ADMIN] }) && {
+    user.data?.role === 'ADMIN' && {
       name: 'Users',
       to: paths.app.users.getHref(),
       icon: Users,
@@ -152,7 +150,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 className={cn('block px-4 py-2 text-sm text-gray-700 w-full')}
-                onClick={() => logout.mutate({})}
+                onClick={() => logout.mutate()}
               >
                 Sign Out
               </DropdownMenuItem>
@@ -167,6 +165,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
+function Fallback({ error }: { error: Error }) {
+  return <p>Error: {error.message ?? 'Something went wrong!'}</p>;
+}
+
 export const DashboardLayout = ({
   children,
 }: {
@@ -175,28 +177,9 @@ export const DashboardLayout = ({
   const pathname = usePathname();
   return (
     <Layout>
-      <Suspense
-        fallback={
-          <div className="flex size-full items-center justify-center">
-            <Spinner size="xl" />
-          </div>
-        }
-      >
-        <ErrorBoundary
-          key={pathname}
-          fallback={<div>Something went wrong!</div>}
-        >
-          <AuthLoader
-            renderLoading={() => (
-              <div className="flex size-full items-center justify-center">
-                <Spinner size="xl" />
-              </div>
-            )}
-          >
-            {children}
-          </AuthLoader>
-        </ErrorBoundary>
-      </Suspense>
+      <ErrorBoundary key={pathname} FallbackComponent={Fallback}>
+        {children}
+      </ErrorBoundary>
     </Layout>
   );
 };
