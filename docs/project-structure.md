@@ -25,7 +25,7 @@ src
 |
 +-- stores            # global state stores
 |
-+-- testing              # test utilities and mocks
++-- testing           # test utilities and mocks
 |
 +-- types             # shared types used across the application
 |
