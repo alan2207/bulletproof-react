@@ -1,8 +1,9 @@
 import { ReactNode, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
-import { AuthLayout as AuthLayoutComponent } from '@/components/layouts/auth-layout';
 import { Spinner } from '@/components/ui/spinner';
+
+import { AuthLayout as AuthLayoutComponent } from './_components/auth-layout';
 
 export const metadata = {
   title: 'Bulletproof React',

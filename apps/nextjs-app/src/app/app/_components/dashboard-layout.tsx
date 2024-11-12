@@ -7,18 +7,17 @@ import { ErrorBoundary } from 'react-error-boundary';
 
 import { Button } from '@/components/ui/button';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
-import { paths } from '@/config/paths';
-import { useLogout, useUser } from '@/lib/auth';
-import { cn } from '@/utils/cn';
-
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '../ui/dropdown';
-import { Link } from '../ui/link';
+} from '@/components/ui/dropdown';
+import { Link } from '@/components/ui/link';
+import { paths } from '@/config/paths';
+import { useLogout, useUser } from '@/lib/auth';
+import { cn } from '@/utils/cn';
 
 type SideNavigationItem = {
   name: string;

@@ -10,5 +10,3 @@ const DashboardPage = async () => {
 };
 
 export default DashboardPage;
-
-export const dynamic = 'force-dynamic';
