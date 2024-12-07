@@ -1,10 +1,10 @@
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router';
 
 import { AuthLayout } from '@/components/layouts/auth-layout';
 import { paths } from '@/config/paths';
 import { LoginForm } from '@/features/auth/components/login-form';
 
-export const LoginRoute = () => {
+const LoginRoute = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo');
@@ -24,3 +24,5 @@ export const LoginRoute = () => {
     </AuthLayout>
   );
 };
+
+export default LoginRoute;

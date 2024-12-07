@@ -1,6 +1,6 @@
 import { Home, PanelLeft, Folder, Users, User2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { NavLink, useNavigate, useNavigation } from 'react-router-dom';
+import { NavLink, useNavigate, useNavigation } from 'react-router';
 
 import logo from '@/assets/logo.svg';
 import { Button } from '@/components/ui/button';
@@ -187,7 +187,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 className={cn('block px-4 py-2 text-sm text-gray-700 w-full')}
-                onClick={() => logout.mutate({})}
+                onClick={() => logout.mutate()}
               >
                 Sign Out
               </DropdownMenuItem>

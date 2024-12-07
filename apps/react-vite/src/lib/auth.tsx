@@ -1,7 +1,13 @@
-import { configureAuth } from 'react-query-auth';
-import { Navigate, useLocation } from 'react-router-dom';
+import {
+  queryOptions,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
+import { Navigate, useLocation } from 'react-router';
 import { z } from 'zod';
 
+import { Spinner } from '@/components/ui/spinner';
 import { paths } from '@/config/paths';
 import { AuthResponse, User } from '@/types/api';
 
@@ -10,10 +16,54 @@ import { api } from './api-client';
 // api call definitions for auth (types, schemas, requests):
 // these are not part of features as this is a module shared across features
 
-const getUser = async (): Promise<User> => {
-  const response = await api.get('/auth/me');
+export const getUser = async (): Promise<User> => {
+  const response = (await api.get('/auth/me')) as { data: User };
 
   return response.data;
+};
+
+const userQueryKey = ['user'];
+
+export const getUserQueryOptions = () => {
+  return queryOptions({
+    queryKey: userQueryKey,
+    queryFn: getUser,
+  });
+};
+
+export const useUser = () => useQuery(getUserQueryOptions());
+
+export const useLogin = ({ onSuccess }: { onSuccess?: () => void } = {}) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: loginWithEmailAndPassword,
+    onSuccess: (data) => {
+      queryClient.setQueryData(userQueryKey, data.user);
+      onSuccess?.();
+    },
+  });
+};
+
+export const useRegister = ({ onSuccess }: { onSuccess?: () => void } = {}) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: registerWithEmailAndPassword,
+    onSuccess: (data) => {
+      queryClient.setQueryData(userQueryKey, data.user);
+      onSuccess?.();
+    },
+  });
+};
+
+export const useLogout = ({ onSuccess }: { onSuccess?: () => void } = {}) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: logout,
+    onSuccess: () => {
+      queryClient.removeQueries({ queryKey: userQueryKey });
+      onSuccess?.();
+    },
+  });
 };
 
 const logout = (): Promise<void> => {
@@ -59,33 +109,26 @@ const registerWithEmailAndPassword = (
   return api.post('/auth/register', data);
 };
 
-const authConfig = {
-  userFn: getUser,
-  loginFn: async (data: LoginInput) => {
-    const response = await loginWithEmailAndPassword(data);
-    return response.user;
-  },
-  registerFn: async (data: RegisterInput) => {
-    const response = await registerWithEmailAndPassword(data);
-    return response.user;
-  },
-  logoutFn: logout,
-};
-
-export const { useUser, useLogin, useLogout, useRegister, AuthLoader } =
-  configureAuth(authConfig);
-
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const user = useUser();
   const location = useLocation();
 
   if (!user.data) {
-    console.log({
-      pathname: location.pathname,
-      redirectTo: paths.auth.login.getHref(location.pathname),
-    });
     return (
       <Navigate to={paths.auth.login.getHref(location.pathname)} replace />
+    );
+  }
+
+  return children;
+};
+
+export const AuthLoader = ({ children }: { children: React.ReactNode }) => {
+  const user = useUser();
+  if (!user.isFetched) {
+    return (
+      <div className="flex h-screen w-screen items-center justify-center">
+        <Spinner size="xl" />
+      </div>
     );
   }
 

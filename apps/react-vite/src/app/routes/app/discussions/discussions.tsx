@@ -1,5 +1,5 @@
 import { QueryClient, useQueryClient } from '@tanstack/react-query';
-import { LoaderFunctionArgs } from 'react-router-dom';
+import { LoaderFunctionArgs } from 'react-router';
 
 import { ContentLayout } from '@/components/layouts';
 import { getInfiniteCommentsQueryOptions } from '@/features/comments/api/get-comments';
@@ -7,7 +7,7 @@ import { getDiscussionsQueryOptions } from '@/features/discussions/api/get-discu
 import { CreateDiscussion } from '@/features/discussions/components/create-discussion';
 import { DiscussionsList } from '@/features/discussions/components/discussions-list';
 
-export const discussionsLoader =
+export const clientLoader =
   (queryClient: QueryClient) =>
   async ({ request }: LoaderFunctionArgs) => {
     const url = new URL(request.url);
@@ -22,7 +22,7 @@ export const discussionsLoader =
     );
   };
 
-export const DiscussionsRoute = () => {
+const DiscussionsRoute = () => {
   const queryClient = useQueryClient();
   return (
     <ContentLayout title="Discussions">
@@ -42,3 +42,5 @@ export const DiscussionsRoute = () => {
     </ContentLayout>
   );
 };
+
+export default DiscussionsRoute;

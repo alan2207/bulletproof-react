@@ -2,7 +2,7 @@ import { ContentLayout } from '@/components/layouts';
 import { useUser } from '@/lib/auth';
 import { ROLES } from '@/lib/authorization';
 
-export const DashboardRoute = () => {
+const DashboardRoute = () => {
   const user = useUser();
   return (
     <ContentLayout title="Dashboard">
@@ -31,3 +31,5 @@ export const DashboardRoute = () => {
     </ContentLayout>
   );
 };
+
+export default DashboardRoute;

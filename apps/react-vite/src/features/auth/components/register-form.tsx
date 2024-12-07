@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router';
 
 import { Button } from '@/components/ui/button';
 import { Form, Input, Select, Label, Switch } from '@/components/ui/form';

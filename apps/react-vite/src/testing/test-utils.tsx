@@ -5,7 +5,7 @@ import {
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Cookies from 'js-cookie';
-import { RouterProvider, createMemoryRouter } from 'react-router-dom';
+import { RouterProvider, createMemoryRouter } from 'react-router';
 
 import { AppProvider } from '@/app/provider';
 

@@ -5,7 +5,7 @@ import { getUsersQueryOptions } from '@/features/users/api/get-users';
 import { UsersList } from '@/features/users/components/users-list';
 import { Authorization, ROLES } from '@/lib/authorization';
 
-export const usersLoader = (queryClient: QueryClient) => async () => {
+export const clientLoader = (queryClient: QueryClient) => async () => {
   const query = getUsersQueryOptions();
 
   return (
@@ -14,7 +14,7 @@ export const usersLoader = (queryClient: QueryClient) => async () => {
   );
 };
 
-export const UsersRoute = () => {
+const UsersRoute = () => {
   return (
     <ContentLayout title="Users">
       <Authorization
@@ -26,3 +26,5 @@ export const UsersRoute = () => {
     </ContentLayout>
   );
 };
+
+export default UsersRoute;

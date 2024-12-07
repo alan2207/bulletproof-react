@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import logo from '@/assets/logo.svg';
 import { Head } from '@/components/seo';
@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { paths } from '@/config/paths';
 import { useUser } from '@/lib/auth';
 
-export const LandingRoute = () => {
+const LandingRoute = () => {
   const navigate = useNavigate();
   const user = useUser();
 
@@ -84,3 +84,5 @@ export const LandingRoute = () => {
     </>
   );
 };
+
+export default LandingRoute;
