@@ -77,9 +77,11 @@ const Progress = () => {
 };
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const logout = useLogout();
-  const { checkAccess } = useAuthorization();
   const navigate = useNavigate();
+  const logout = useLogout({
+    onSuccess: () => navigate(paths.auth.login.getHref(location.pathname)),
+  });
+  const { checkAccess } = useAuthorization();
   const navigation = [
     { name: 'Dashboard', to: paths.app.dashboard.getHref(), icon: Home },
     { name: 'Discussions', to: paths.app.discussions.getHref(), icon: Folder },
