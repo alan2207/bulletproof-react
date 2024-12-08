@@ -12,7 +12,7 @@ Authentication is the process of verifying the identity of a user. In single-pag
 
 The most secure practice is to store the token in the application state. However, it's important to note that if the user refreshes the application, the token will be reset. That can lead to the loss of the user's authentication status.
 
-That is why tokens need to be are stored in a cookie or `localStorage/sessionStorage`.
+That is why tokens need to be stored in a cookie or `localStorage/sessionStorage`.
 
 #### `localStorage` vs cookie for storing tokens
 
