@@ -1,6 +1,6 @@
 import { Home, PanelLeft, Folder, Users, User2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { NavLink, useNavigate, useNavigation } from 'react-router-dom';
+import { NavLink, useNavigate, useNavigation } from 'react-router';
 
 import logo from '@/assets/logo.svg';
 import { Button } from '@/components/ui/button';
@@ -77,9 +77,11 @@ const Progress = () => {
 };
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const logout = useLogout();
-  const { checkAccess } = useAuthorization();
   const navigate = useNavigate();
+  const logout = useLogout({
+    onSuccess: () => navigate(paths.auth.login.getHref(location.pathname)),
+  });
+  const { checkAccess } = useAuthorization();
   const navigation = [
     { name: 'Dashboard', to: paths.app.dashboard.getHref(), icon: Home },
     { name: 'Discussions', to: paths.app.discussions.getHref(), icon: Folder },

@@ -15,7 +15,7 @@ const Entry = ({ label, value }: EntryProps) => (
   </div>
 );
 
-export const ProfileRoute = () => {
+const ProfileRoute = () => {
   const user = useUser();
 
   if (!user.data) return null;
@@ -47,3 +47,5 @@ export const ProfileRoute = () => {
     </ContentLayout>
   );
 };
+
+export default ProfileRoute;

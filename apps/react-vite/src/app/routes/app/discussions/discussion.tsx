@@ -1,6 +1,6 @@
 import { QueryClient } from '@tanstack/react-query';
 import { ErrorBoundary } from 'react-error-boundary';
-import { useParams, LoaderFunctionArgs } from 'react-router-dom';
+import { useParams, LoaderFunctionArgs } from 'react-router';
 
 import { ContentLayout } from '@/components/layouts';
 import { Spinner } from '@/components/ui/spinner';
@@ -12,7 +12,7 @@ import {
 } from '@/features/discussions/api/get-discussion';
 import { DiscussionView } from '@/features/discussions/components/discussion-view';
 
-export const discussionLoader =
+export const clientLoader =
   (queryClient: QueryClient) =>
   async ({ params }: LoaderFunctionArgs) => {
     const discussionId = params.discussionId as string;
@@ -35,7 +35,7 @@ export const discussionLoader =
     };
   };
 
-export const DiscussionRoute = () => {
+const DiscussionRoute = () => {
   const params = useParams();
   const discussionId = params.discussionId as string;
   const discussionQuery = useDiscussion({
@@ -71,3 +71,5 @@ export const DiscussionRoute = () => {
     </>
   );
 };
+
+export default DiscussionRoute;

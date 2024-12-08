@@ -10,7 +10,7 @@ import {
 } from '@/testing/test-utils';
 import { formatDate } from '@/utils/format';
 
-import { DiscussionsRoute } from '../discussions';
+import { default as DiscussionsRoute } from '../discussions';
 
 beforeAll(() => {
   vi.spyOn(console, 'error').mockImplementation(() => {});

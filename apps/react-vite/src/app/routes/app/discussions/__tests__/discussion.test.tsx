@@ -8,7 +8,7 @@ import {
   within,
 } from '@/testing/test-utils';
 
-import { DiscussionRoute } from '../discussion';
+import { default as DiscussionRoute } from '../discussion';
 
 const renderDiscussion = async () => {
   const fakeUser = await createUser();
