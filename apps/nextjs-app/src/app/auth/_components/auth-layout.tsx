@@ -34,16 +34,7 @@ export const AuthLayout = ({ children }: LayoutProps) => {
   return (
     <div className="flex min-h-screen flex-col justify-center bg-gray-50 py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="flex justify-center">
-          <Link
-            className="flex items-center text-white"
-            href={paths.home.getHref()}
-          >
-            <img className="h-24 w-auto" src="/logo.svg" alt="Workflow" />
-          </Link>
-        </div>
-
-        <h2 className="mt-3 text-center text-3xl font-extrabold text-gray-900">
+        <h2 className="text-center text-3xl font-extrabold text-gray-900">
           {title}
         </h2>
       </div>

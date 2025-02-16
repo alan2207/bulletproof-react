@@ -3,10 +3,12 @@ import {
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query';
+import Image from 'next/image';
 import { ReactNode } from 'react';
 
 import { AppProvider } from '@/app/provider';
 import { getUserQueryOptions } from '@/lib/auth';
+import { paths } from '@/config/paths';
 
 import '@/styles/globals.css';
 
@@ -26,9 +28,64 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
     <html lang="en">
       <body>
         <AppProvider>
-          <HydrationBoundary state={dehydratedState}>
-            {children}
-          </HydrationBoundary>
+          <nav className="bg-white shadow-sm border-b">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex justify-between h-16 items-center">
+                <div className="flex items-center">
+                  <div className="flex-shrink-0">
+                    <Image
+                      src="/images/logo.svg"
+                      alt="Company Logo"
+                      width={32}
+                      height={32}
+                      priority
+                    />
+                  </div>
+                  <div className="ml-6">
+                    <ul className="flex items-center space-x-8">
+                      <li>
+                        <a
+                          href={paths.home.getHref()}
+                          className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                        >
+                          Home
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href={paths.app.projects.getHref()}
+                          className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                        >
+                          Projects
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="/services"
+                          className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                        >
+                          Services
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="/contact"
+                          className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                        >
+                          Contact
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </nav>
+          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <HydrationBoundary state={dehydratedState}>
+              {children}
+            </HydrationBoundary>
+          </main>
         </AppProvider>
       </body>
     </html>

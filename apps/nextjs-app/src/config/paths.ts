@@ -33,6 +33,12 @@ export const paths = {
     profile: {
       getHref: () => '/app/profile',
     },
+    projects: {
+      getHref: () => '/projects',
+    },
+    project: {
+      getHref: (id: string) => `/projects/${id}`,
+    },
   },
   public: {
     discussion: {
