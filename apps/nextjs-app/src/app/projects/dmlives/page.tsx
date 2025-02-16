@@ -1,68 +1,65 @@
-export default function FiredogProjectPage() {
+export default function DMLivesProjectPage() {
   return (
     <div className="bg-white shadow rounded-lg p-6">
-      <h1 className="text-2xl font-bold text-gray-900 mb-4">Firedog Fireproofing</h1>
+      <h1 className="text-2xl font-bold text-gray-900 mb-4">DM Lives</h1>
       
       <div className="space-y-8">
         <section>
-          <h2 className="text-xl font-semibold text-gray-800 mb-2">Client Overview</h2>
+          <h2 className="text-xl font-semibold text-gray-800 mb-2">Project Overview</h2>
           <p className="text-gray-600">
-            At Snowy River Technologies, I partnered with Firedog Fireproofing to revolutionize their data infrastructure
-            and security systems, ensuring their business operations remain protected and efficient in the digital age.
+            At Snowy River Technologies, I built DM Lives as a technology-enhanced wellness brand, 
+            integrating smart solutions to create a seamless and personalized customer experience. 
+            The platform combines innovative technology with a wellness-focused mission to deliver 
+            an enriching shopping experience for organic tea enthusiasts.
           </p>
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold text-gray-800 mb-2">Technical Solution</h2>
-          <p className="text-gray-600 mb-4">
-            Engineered a high-performance NAS infrastructure and implemented a comprehensive backup solution
-            using Synology NAS and Hyper Backup technologies. This system provides enterprise-grade data protection
-            while maintaining optimal operational efficiency.
-          </p>
+          <h2 className="text-xl font-semibold text-gray-800 mb-2">Technical Solutions</h2>
           <div className="grid gap-4 md:grid-cols-2 mt-4">
             <div className="bg-indigo-50 p-4 rounded-lg">
-              <h3 className="font-semibold text-gray-900 mb-2">Infrastructure Components</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">Smart Features</h3>
               <ul className="text-gray-600 space-y-2">
                 <li className="flex items-center">
                   <svg className="w-5 h-5 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                   </svg>
-                  Synology NAS Implementation
+                  Intelligent Recommendation System
                 </li>
                 <li className="flex items-center">
                   <svg className="w-5 h-5 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                   </svg>
-                  Hyper Backup Integration
+                  Data-Driven Insights
                 </li>
                 <li className="flex items-center">
                   <svg className="w-5 h-5 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                   </svg>
-                  Automated Backup Systems
+                  Personalized Experience Engine
                 </li>
               </ul>
             </div>
             <div className="bg-indigo-50 p-4 rounded-lg">
-              <h3 className="font-semibold text-gray-900 mb-2">Security Features</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">Operations</h3>
               <ul className="text-gray-600 space-y-2">
                 <li className="flex items-center">
                   <svg className="w-5 h-5 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                   </svg>
-                  Real-time Backup Protocols
+                  Automated Inventory Management
                 </li>
                 <li className="flex items-center">
                   <svg className="w-5 h-5 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                   </svg>
-                  Offsite Data Replication
+                  Streamlined Order Processing
                 </li>
                 <li className="flex items-center">
                   <svg className="w-5 h-5 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                   </svg>
-                  Encrypted Data Protection
+                  Real-time Analytics
                 </li>
               </ul>
             </div>
@@ -70,31 +67,31 @@ export default function FiredogProjectPage() {
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold text-gray-800 mb-2">Key Achievements</h2>
+          <h2 className="text-xl font-semibold text-gray-800 mb-2">Key Features</h2>
           <ul className="space-y-3">
             <li className="flex items-start">
               <svg className="w-5 h-5 text-indigo-600 mr-2 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
               </svg>
-              <span className="text-gray-600">Enterprise-level data protection with real-time backups and offsite replication</span>
+              <span className="text-gray-600">Intelligent recommendation system for personalized tea selection</span>
             </li>
             <li className="flex items-start">
               <svg className="w-5 h-5 text-indigo-600 mr-2 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
               </svg>
-              <span className="text-gray-600">Optimized storage architecture to enhance operational efficiency</span>
+              <span className="text-gray-600">Data-driven insights for customer preferences and wellness goals</span>
             </li>
             <li className="flex items-start">
               <svg className="w-5 h-5 text-indigo-600 mr-2 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
               </svg>
-              <span className="text-gray-600">Rapid data recovery protocols to minimize downtime and ensure business continuity</span>
+              <span className="text-gray-600">Automated operations for enhanced efficiency and quality control</span>
             </li>
             <li className="flex items-start">
               <svg className="w-5 h-5 text-indigo-600 mr-2 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
               </svg>
-              <span className="text-gray-600">Encrypted and scheduled backups for airtight security and compliance</span>
+              <span className="text-gray-600">Seamless integration of technology with wellness-focused mission</span>
             </li>
           </ul>
         </section>
@@ -103,12 +100,13 @@ export default function FiredogProjectPage() {
           <h2 className="text-xl font-semibold text-gray-800 mb-2">Technologies Used</h2>
           <div className="flex flex-wrap gap-2">
             {[
-              'Synology NAS',
-              'Hyper Backup',
-              'Data Encryption',
-              'Automated Backup',
-              'Disaster Recovery',
-              'Network Infrastructure'
+              'Recommendation Systems',
+              'Data Analytics',
+              'Inventory Automation',
+              'E-commerce Integration',
+              'Customer Insights',
+              'Process Automation',
+              'Real-time Processing'
             ].map((tech) => (
               <span key={tech} className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
                 {tech}
