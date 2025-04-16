@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 import { Form, Input } from '@/components/ui/form';
+import { Error } from '@/components/ui/form/error';
 import { paths } from '@/config/paths';
 import { useLogin, loginInputSchema } from '@/lib/auth';
 
@@ -13,17 +14,17 @@ type LoginFormProps = {
 };
 
 export const LoginForm = ({ onSuccess }: LoginFormProps) => {
-  const login = useLogin({
+  const { mutate, isPending, error } = useLogin({
     onSuccess,
   });
-
   const searchParams = useSearchParams();
   const redirectTo = searchParams?.get('redirectTo');
+
   return (
     <div>
       <Form
         onSubmit={(values) => {
-          login.mutate(values);
+          mutate(values);
         }}
         schema={loginInputSchema}
       >
@@ -42,11 +43,8 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
               registration={register('password')}
             />
             <div>
-              <Button
-                isLoading={login.isPending}
-                type="submit"
-                className="w-full"
-              >
+              {error && <Error className="mb-2" errorMessage={error.message} />}
+              <Button isLoading={isPending} type="submit" className="w-full">
                 Log in
               </Button>
             </div>
