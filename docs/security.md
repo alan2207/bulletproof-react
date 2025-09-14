@@ -28,10 +28,7 @@ For a full list of security risks, check [OWASP](https://owasp.org/www-project-t
 
 #### Handling user data
 
-User info should be considered a global piece of state which should be available from anywhere in the application.
-If you are already using `react-query`, you can use [react-query-auth](https://github.com/alan2207/react-query-auth) library for handling user state which will handle all the things for you after you provide it some configuration. Otherwise, you can use react context + hooks, or some 3rd party state management library.
-
-User information should be treated as a central piece of data accessible throughout the application. If you are already using `react-query`, consider using it for storing user data as well. Alternatively, you can leverage React context with hooks or opt for a third-party state management library to efficiently manage user state across your application.
+User info should be considered a global piece of state which should be available from anywhere in the application. If you are already using `react-query`, you can use [react-query-auth](https://github.com/alan2207/react-query-auth) library for handling user state which will handle all the things for you after you provide it some configuration. Otherwise, you can use react context + hooks, or some 3rd party state management library.
 
 [Auth Configuration Example Code](../apps/react-vite/src/lib/auth.tsx)
 
@@ -45,14 +42,14 @@ Authorization is the process of verifying whether a user has permission to acces
 
 [Authorization Configuration Example Code](../apps/react-vite/src/lib/authorization.tsx)
 
-In a role-based authorization model, access to resources is determined by defining specific roles and associating them with permissions. For example, roles such as `USER` and `ADMIN` can be assigned different levels of access rights within the application. Users are then granted access based on their roles; for instance, restricting certain functionalities to regular users while permitting administrators to access all features and functionalities.
+In a role-based authorization model, access to resources is determined by defining specific roles and associating them with permissions. For example, roles such as USER and ADMIN can be assigned different levels of access rights within the application. Users are then granted access based on their roles; for instance, restricting certain functionalities to regular users while permitting administrators to access all features and functionalities.
 
-[RBAC Example Code](../apps/react-vite/src/features/discussions/components/create-discussion.tsx)
+[RBAC Example Code](../apps/react-vite/src/features/discussions/components/delete-discussion.tsx)
 
 #### PBAC (Permission based access control)
 
 While Role-Based Access Control (RBAC) provides a structured methodology for authorization, there are instances where a more granular approach is necessary. Permission-Based Access Control (PBAC) offers a more flexible solution, particularly in scenarios where access permissions need to be finely tuned based on specific criteria, such as allowing only the owner of a resource to perform certain operations. For example, in the case of a user's comment, PBAC ensures that only the author of the comment has the privilege to delete it, adding a layer of precision and customization to access control mechanisms.
 
-For RBAC protection, you can use the `RBAC` component by passing allowed roles to it. On the other hand, if you need more strict protection, you can pass policies check to it.
+For RBAC protection, you can use the RBAC component by passing allowed roles to it. On the other hand, if you need more strict protection, you can pass policies check to it.
 
 [PBAC Example Code](../apps/react-vite/src/features/comments/components/comments-list.tsx)
