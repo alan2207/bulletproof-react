@@ -17,6 +17,8 @@ The goal here is to serve as a collection of resources and best practices when d
 
 Feel free to explore the sample app codebase to get the most value out of the repo.
 
+> 🤝 **Looking for help implementing these patterns at your company?** [Get in touch](mailto:alan2207@live.com)
+
 ## What makes a React application "bulletproof"?
 
 This repo doesn't aim to be a silver bullet for all React applications as there are many different use cases, but it tries to provide a solid foundation for building applications based on the following principles:
