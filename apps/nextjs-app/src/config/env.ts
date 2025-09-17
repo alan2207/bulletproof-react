@@ -1,5 +1,4 @@
 import * as z from 'zod';
-import 'dotenv/config';
 
 const createEnv = () => {
   const EnvSchema = z.object({
@@ -8,7 +7,8 @@ const createEnv = () => {
       .string()
       .refine((s) => s === 'true' || s === 'false')
       .transform((s) => s === 'true')
-      .optional(),
+      .optional()
+      .default('false'),
     APP_URL: z.string().optional().default('http://localhost:3000'),
     APP_MOCK_API_PORT: z.string().optional().default('8080'),
   });

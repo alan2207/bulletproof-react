@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -H 0.0.0.0 -p 5000",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -H 0.0.0.0 -p 5000",
     "lint": "next lint",
     "test": "vitest",
     "test-e2e": "pm2 start \"yarn run-mock-server\" --name server && yarn playwright test",
