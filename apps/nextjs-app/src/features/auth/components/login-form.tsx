@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Form, Input } from '@/components/ui/form';
 import { paths } from '@/config/paths';
-import { useLogin, loginInputSchema } from '@/lib/auth';
+import { useLogin, loginInputSchema, useDevLogin, isDevEnvironment } from '@/lib/auth';
 
 type LoginFormProps = {
   onSuccess: () => void;
@@ -16,6 +16,12 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
   const login = useLogin({
     onSuccess,
   });
+  
+  const devLogin = useDevLogin({
+    onSuccess,
+  });
+  
+  const showDevLogin = isDevEnvironment();
 
   const searchParams = useSearchParams();
   const redirectTo = searchParams?.get('redirectTo');
@@ -50,6 +56,19 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
                 Log in
               </Button>
             </div>
+            {showDevLogin && (
+              <div className="mt-3">
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full"
+                  isLoading={devLogin.isPending}
+                  onClick={() => devLogin.mutate()}
+                >
+                  🚀 Dev Login (Skip Auth)
+                </Button>
+              </div>
+            )}
           </>
         )}
       </Form>
