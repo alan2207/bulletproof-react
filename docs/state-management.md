@@ -36,7 +36,7 @@ Good Server Cache Libraries:
 - [swr](https://swr.vercel.app/) - REST + GraphQL
 - [apollo client](https://www.apollographql.com/) - GraphQL
 - [urql](https://formidable.com/open-source/urql/) - GraphQl
-- [RTK](https://redux-toolkit.js.org/rtk-query)
+- [RTK](https://redux-toolkit.js.org/rtk-query/overview)
 
 [Server Cache State Example Code](../apps/react-vite/src/features/discussions/api/get-discussions.ts)
 
