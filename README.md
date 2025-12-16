@@ -39,6 +39,8 @@ This is not supposed to be a template, boilerplate or a framework. It is an opin
 
 To get most out of it, do not get limited by the technologies used in this sample app, but rather focus on the principles and the concepts that are being presented here. The tools and libraries used here are just a suggestion, you can always replace them with something that fits your needs better. Sometimes, your project might require a slightly different approach, and that's totally fine.
 
+> Tip: Always handle API errors consistently at a single layer to avoid duplicated logic across components.
+
 ## Table Of Contents:
 
 - [💻 Application Overview](docs/application-overview.md)
