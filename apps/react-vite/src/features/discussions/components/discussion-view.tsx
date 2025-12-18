@@ -5,10 +5,14 @@ import { formatDate } from '@/utils/format';
 import { useDiscussion } from '../api/get-discussion';
 import { UpdateDiscussion } from '../components/update-discussion';
 
+import { useUser } from '@/lib/auth';
+
 export const DiscussionView = ({ discussionId }: { discussionId: string }) => {
   const discussionQuery = useDiscussion({
     discussionId,
   });
+
+  const user = useUser();
 
   if (discussionQuery.isLoading) {
     return (
@@ -20,7 +24,7 @@ export const DiscussionView = ({ discussionId }: { discussionId: string }) => {
 
   const discussion = discussionQuery?.data?.data;
 
-  if (!discussion) return null;
+  if (!discussion || !user.data) return null;
 
   return (
     <div>
@@ -28,8 +32,11 @@ export const DiscussionView = ({ discussionId }: { discussionId: string }) => {
         {formatDate(discussion.createdAt)}
       </span>
       {discussion.author && (
-        <span className="ml-2 text-sm font-bold">
-          by {discussion.author.firstName} {discussion.author.lastName}
+        <span className="ml-2 text-sm font-bold ">
+          by{' '}
+          {discussion.author.id === user.data.id
+            ? 'you'
+            : `${discussion.author.firstName} ${discussion.author.lastName}`}
         </span>
       )}
       <div className="mt-6 flex flex-col space-y-16">
