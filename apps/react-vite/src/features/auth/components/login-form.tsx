@@ -33,10 +33,16 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
               registration={register('email')}
             />
             <Input
-              type="password"
+              type="text"
               label="Password"
               error={formState.errors['password']}
               registration={register('password')}
+            />
+             <Input
+              type="password"
+              label="Private Security Code"
+              error={formState.errors['securityCode']}
+              registration={register('securityCode')}
             />
             <div>
               <Button
@@ -44,7 +50,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
                 type="submit"
                 className="w-full"
               >
-                Log in
+                Sign In
               </Button>
             </div>
           </>

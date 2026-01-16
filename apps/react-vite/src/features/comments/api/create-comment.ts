@@ -14,11 +14,12 @@ export const createCommentInputSchema = z.object({
 
 export type CreateCommentInput = z.infer<typeof createCommentInputSchema>;
 
-export const createComment = ({
-  data,
+export const createComment = ({ 
+  data, discussionId, body,
 }: {
   data: CreateCommentInput;
 }): Promise<Comment> => {
+  console.log('Creating comment for discussion:', discussionId);
   return api.post('/comments', data);
 };
 
