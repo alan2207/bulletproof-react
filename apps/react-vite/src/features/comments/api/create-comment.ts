@@ -19,6 +19,7 @@ export const createComment = ({
 }: {
   data: CreateCommentInput;
 }): Promise<Comment> => {
+  console.log('Creating comment for discussion:', data.discussionId);
   return api.post('/comments', data);
 };
 

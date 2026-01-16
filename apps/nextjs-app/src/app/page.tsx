@@ -7,15 +7,28 @@ const HomePage = () => {
   const isLoggedIn = checkLoggedIn();
 
   return (
-    <div className="flex h-screen items-center bg-white">
+    <div className="flex min-h-screen items-center bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <div className="mx-auto max-w-7xl px-4 py-12 text-center sm:px-6 lg:px-8 lg:py-16">
-        <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-          <span className="block">Bulletproof React</span>
+        <div className="mb-8 flex justify-center">
+          <img 
+            src="/logo.svg" 
+            alt="react" 
+            className="h-24 w-24 animate-pulse"
+          />
+        </div>
+        <h2 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
+          <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            Bulletproof React
+          </span>
         </h2>
-        <img src="/logo.svg" alt="react" />
-        <p>Showcasing Best Practices For Building React Applications</p>
-        <div className="mt-8 flex justify-center">
-          <div className="inline-flex rounded-md shadow">
+        <p className="mt-4 text-lg text-gray-600 sm:text-xl">
+          Showcasing Best Practices For Building React Applications
+        </p>
+        <p className="mt-2 text-sm text-gray-500">
+          Production-ready patterns and architectural decisions
+        </p>
+        <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <div className="inline-flex rounded-lg shadow-lg transition-transform hover:scale-105">
             <Link
               href={
                 isLoggedIn
@@ -24,6 +37,7 @@ const HomePage = () => {
               }
             >
               <Button
+                className="px-8 py-3 text-base"
                 icon={
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -45,14 +59,16 @@ const HomePage = () => {
               </Button>
             </Link>
           </div>
-          <div className="ml-3 inline-flex">
+          <div className="inline-flex">
             <a
               href="https://github.com/alan2207/bulletproof-react"
               target="_blank"
               rel="noreferrer"
+              className="transition-transform hover:scale-105"
             >
               <Button
                 variant="outline"
+                className="px-8 py-3 text-base border-2"
                 icon={
                   <svg
                     fill="currentColor"

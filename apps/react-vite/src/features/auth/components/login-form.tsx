@@ -44,7 +44,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
                 type="submit"
                 className="w-full"
               >
-                Log in
+                Sign In
               </Button>
             </div>
           </>
