@@ -74,6 +74,7 @@ These component libraries come with their components fully styled.
 These component libraries come with their components unstyled. If you have a specific design system to implement, it might be easier and better solution to go with headless components that come unstyled than to adapt a fully featured component library such as Material UI to your needs. Some good options are:
 
 - [Radix UI](https://www.radix-ui.com/)
+- [Base UI](https://base-ui.com/)
 - [Headless UI](https://headlessui.dev/)
 - [react-aria](https://react-spectrum.adobe.com/react-aria/)
 - [Ark UI](https://ark-ui.com/)
