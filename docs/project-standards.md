@@ -6,13 +6,13 @@ Enforcing project standards is crucial for maintaining code quality, consistency
 
 ESLint serves as a valuable linting tool for JavaScript, helping developers in maintaining code quality and adhering to coding standards. By configuring rules in the `.eslintrc.js` file, ESLint helps identify and prevent common errors, ensuring code correctness and promoting consistency throughout the codebase. This approach not only helps in catching mistakes early but also enforces uniformity in coding practices, thereby enhancing the overall quality and readability of the code.
 
-[ESLint Configuration Example Code](../.eslintrc.cjs)
+[ESLint Configuration Example Code](../apps/react-vite/.eslintrc.cjs)
 
 #### Prettier
 
 Prettier is a useful tool for maintaining consistent code formatting in your project. By enabling the "format on save" feature in your IDE, code is automatically formatted according to the rules set in the `.prettierrc` configuration file. This practice ensures a uniform code style across your codebase and provides helpful feedback on code issues. If the auto-formatting fails, it signals potential syntax error. Furthermore, Prettier can be integrated with ESLint to handle code formatting tasks alongside enforcing coding standards effectively throughout the development process.
 
-[Prettier Configuration Example Code](../.prettierrc)
+[Prettier Configuration Example Code](../apps/react-vite/.prettierrc)
 
 #### TypeScript
 
@@ -49,3 +49,29 @@ For TypeScript (`tsconfig.json`) projects:
 ```
 
 It is also possible to define multiple paths for various folders(such as `@components`, `@hooks`, etc.), but using `@/*` works very well because it is short enough so there is no need to configure multiple paths and it differs from other dependency modules so there is no confusion in what comes from `node_modules` and what is our source folder. That means that anything in the `src` folder can be accessed via `@`, e.g some file that lives in `src/components/my-component` can be accessed using `@/components/my-component` instead of `../../../components/my-component`.
+
+#### File naming conventions
+
+We can also enforce the file naming conventions and folder naming conventions in the project. For example, you can enforce that all files should be named in `kebab-case`. This can help you to keep your codebase consistent and easier to navigate.
+
+To enforce this, you can use ESLint:
+
+```js
+'check-file/filename-naming-convention': [
+  'error',
+  {
+      '**/*.{ts,tsx}': 'KEBAB_CASE',
+  },
+  {
+      // ignore the middle extensions of the filename to support filename like bable.config.js or smoke.spec.ts
+      ignoreMiddleExtensions: true,
+  },
+],
+'check-file/folder-naming-convention': [
+  'error',
+  {
+    // all folders within src (except __tests__)should be named in kebab-case
+    'src/**/!(__tests__)': 'KEBAB_CASE',
+  },
+],
+```

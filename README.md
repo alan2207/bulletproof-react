@@ -1,17 +1,16 @@
+
 <div align="center">
-  <img src="docs/assets/logo.png" width="300" alt="Bulletproof React Logo" />
+  <img src="docs/assets/logo.svg" width="100%" alt="Bulletproof React Logo" />
 </div>
 
-<h1 align="center">Bulletproof React 🛡️ ⚛️</h1>
-<p align="center">A simple, scalable, and powerful architecture for building production ready React applications.</p>
+# Bulletproof React 🛡️ ⚛️
 
-<p align="center">
-<a href="https://github.com/alan2207/bulletproof-react/blob/master/LICENSE">
-    <img alt="MIT License" src="https://img.shields.io/github/license/alan2207/bulletproof-react">
-</a>
-<a href="https://github.com/alan2207/bulletproof-react/actions/workflows/ci.yml">
-    <img alt="MIT License" src="https://github.com/alan2207/bulletproof-react/actions/workflows/ci.yml/badge.svg">
-</a>
+[![MIT License](https://img.shields.io/github/license/alan2207/bulletproof-react)](https://github.com/alan2207/bulletproof-react/blob/master/LICENSE)
+[![Next.js App CI](https://github.com/alan2207/bulletproof-react/actions/workflows/nextjs-app-ci.yml/badge.svg)](https://github.com/alan2207/bulletproof-react/actions/workflows/nextjs-app-ci.yml)
+[![Next.js Pages CI](https://github.com/alan2207/bulletproof-react/actions/workflows/nextjs-pages-ci.yml/badge.svg)](https://github.com/alan2207/bulletproof-react/actions/workflows/nextjs-pages-ci.yml)
+[![React Vite CI](https://github.com/alan2207/bulletproof-react/actions/workflows/react-vite-ci.yml/badge.svg)](https://github.com/alan2207/bulletproof-react/actions/workflows/react-vite-ci.yml)
+
+A simple, scalable, and powerful architecture for building production ready React applications.
 
 ## Introduction
 
@@ -23,6 +22,8 @@ The goal here is to serve as a collection of resources and best practices when d
 
 Feel free to explore the sample app codebase to get the most value out of the repo.
 
+> 🤝 **Looking for help implementing these patterns at your company?** [Get in touch](mailto:alan2207@live.com)
+
 ## What makes a React application "bulletproof"?
 
 This repo doesn't aim to be a silver bullet for all React applications as there are many different use cases, but it tries to provide a solid foundation for building applications based on the following principles:
@@ -32,9 +33,9 @@ This repo doesn't aim to be a silver bullet for all React applications as there 
 - Uses the right tools for the job
 - Clean boundaries between different parts of the application
 - Everyone on the team is on the same page when it comes to how things are done
-- Security
-- Performance
-- Scalability in terms of codebase and team size
+- Secure
+- Performant
+- Scalable in terms of codebase and team size
 - Issues detectable as early as possible
 
 #### Disclaimer:
@@ -64,9 +65,10 @@ Contributions are always welcome! If you have any ideas, suggestions, fixes, fee
 
 1. Clone this repo
 2. Create a branch: `git checkout -b your-feature`
-3. Make some changes
-4. Test your changes
-5. Push your branch and open a Pull Request
+3. Execute the `yarn prepare` script.
+4. Make some changes
+5. Test your changes
+6. Push your branch and open a Pull Request
 
 ## License
 

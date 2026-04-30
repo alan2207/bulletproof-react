@@ -6,10 +6,11 @@ Most of the code lives in the `src` folder and looks something like this:
 src
 |
 +-- app               # application layer containing:
-|   |
-|   +-- routes        # application routes / can also be called pages
-    +-- app.tsx       # main application component
-    +-- app-provider  # application provider that wraps the entire application with global providers
+|   |                 # this folder might differ based on the meta framework used
+|   +-- routes        # application routes / can also be pages
+|   +-- app.tsx       # main application component
+|   +-- provider.tsx  # application provider that wraps the entire application with different global providers - this might also differ based on meta framework used
+|   +-- router.tsx    # application router configuration
 +-- assets            # assets folder can contain all the static files such as images, fonts, etc.
 |
 +-- components        # shared components used across the entire application
@@ -24,7 +25,7 @@ src
 |
 +-- stores            # global state stores
 |
-+-- test              # test utilities and mocks
++-- testing           # test utilities and mocks
 |
 +-- types             # shared types used across the application
 |
@@ -55,9 +56,11 @@ src/features/awesome-feature
 
 NOTE: You don't need all of these folders for every feature. Only include the ones that are necessary for the feature.
 
+In some cases it might be more practical to keep all API calls outside of the features folders in a dedicated `api` folder where all API calls are defined. This can be useful if you have a lot of shared API calls between features.
+
 In the past, it was recommended to use barrel files to export all the files from a feature. However, it can cause issues for Vite to do tree shaking and can lead to performance issues. Therefore, it is recommended to import the files directly.
 
-It might be not be a good idea to import across the features. Instead, compose different features at the application level. This way, you can ensure that each feature is independent which makes the codebase less convoluted.
+It might not be a good idea to import across the features. Instead, compose different features at the application level. This way, you can ensure that each feature is independent which makes the codebase less convoluted.
 
 To forbid cross-feature imports, you can use ESLint:
 
