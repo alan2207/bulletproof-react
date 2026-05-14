@@ -8,6 +8,7 @@
 - [React Philosophies](https://github.com/mithi/react-philosophies)
 - [React Patterns](https://reactpatterns.com/)
 - [React Typescript Cheatsheet](https://react-typescript-cheatsheet.netlify.app/)
+- [Building Bulletproof React Components](https://shud.in/thoughts/build-bulletproof-react-components)
 
 ## JavaScript
 
