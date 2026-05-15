@@ -6,6 +6,7 @@ import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Form, Input, Select, Label, Switch } from '@/components/ui/form';
+import { Error } from '@/components/ui/form/error';
 import { paths } from '@/config/paths';
 import { useRegister, registerInputSchema } from '@/lib/auth';
 import { Team } from '@/types/api';
@@ -24,6 +25,7 @@ export const RegisterForm = ({
   teams,
 }: RegisterFormProps) => {
   const registering = useRegister({ onSuccess });
+  const { mutate, isPending, error } = useRegister({ onSuccess });
   const searchParams = useSearchParams();
   const redirectTo = searchParams?.get('redirectTo');
 
@@ -31,7 +33,7 @@ export const RegisterForm = ({
     <div>
       <Form
         onSubmit={(values) => {
-          registering.mutate(values);
+          mutate(values);
         }}
         schema={registerInputSchema}
         options={{
@@ -96,11 +98,8 @@ export const RegisterForm = ({
               />
             )}
             <div>
-              <Button
-                isLoading={registering.isPending}
-                type="submit"
-                className="w-full"
-              >
+              {error && <Error className="mb-2" errorMessage={error.message} />}
+              <Button isLoading={isPending} type="submit" className="w-full">
                 Register
               </Button>
             </div>
