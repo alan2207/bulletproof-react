@@ -1,0 +1,15 @@
+{
+  "eval_id": 0,
+  "eval_name": "scaffold-feature-bare-app",
+  "prompt": "I've got a fresh Vite + React + TypeScript app (deps already installed: @tanstack/react-query, axios, zod, react-router). I need a 'tasks' feature: a page that lists tasks from GET /tasks and lets you create one with POST /tasks (fields: title, description). Please structure the code the way you'd structure a production app that's going to grow to many features — set up whatever folder structure and conventions you think are right, don't just dump it all in App.tsx.",
+  "assertions": [
+    "Feature code lives in a dedicated feature module (src/features/tasks/...), not in flat top-level folders or App.tsx",
+    "One API file per endpoint under the feature's api/ folder, each exporting a typed fetcher function that uses a shared API client instance",
+    "The list query exports a queryOptions factory and a hook that accepts a queryConfig override parameter (configurable hook)",
+    "The create mutation validates input with an exported zod schema and its hook accepts a mutationConfig override parameter",
+    "The query key is defined in exactly one place; mutation invalidation reuses the factory's queryKey instead of retyping a string-literal key",
+    "No barrel index.ts re-export files in the feature module — feature code is imported directly from defining files (shared ui component barrels are acceptable, matching the reference app)",
+    "All new files and folders are kebab-case",
+    "ESLint import/no-restricted-paths boundary zones are configured, including a zone entry protecting the tasks feature"
+  ]
+}

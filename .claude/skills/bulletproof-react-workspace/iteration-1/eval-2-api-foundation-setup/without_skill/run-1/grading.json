@@ -1,0 +1,77 @@
+{
+  "expectations": [
+    {
+      "text": "A single shared API client instance lives in src/lib/api-client.ts (or equivalent lib path) — created once, imported everywhere",
+      "passed": true,
+      "evidence": "src/lib/api-client.ts:46 `export const apiClient = Axios.create({ baseURL: env.API_URL, timeout: env.API_TIMEOUT_MS, withCredentials: true, ... })`. A grep for `Axios.create|axios.create` across the whole src tree returns exactly this one hit, so no second instance exists. The module also exports a typed facade (`export const api = { get, post, put, patch, delete }`, lines 183-198) that wraps the same instance, which is what feature code is meant to import. Caveat: the task is foundation-only, so there is no feature code yet to demonstrate the 'imported everywhere' half — but the two consumers that do exist (src/app/provider.tsx via react-query, src/config/paths.ts via the 401 handler) route through the single module, and nothing bypasses it."
+    },
+    {
+      "text": "Request interceptor sets Accept header and withCredentials (cookie-based auth)",
+      "passed": true,
+      "evidence": "src/lib/api-client.ts:41-44 `const authRequestInterceptor = (config: InternalAxiosRequestConfig) => { config.headers.Accept = 'application/json'; return config; };` registered at line 65 `apiClient.interceptors.request.use(authRequestInterceptor);`. Cookie credentials are set one level up, on the instance itself, rather than inside the interceptor: line 53 `withCredentials: true,` with the comment 'Auth is cookie based: the browser must send the session cookie on every call, including cross-origin ones.' That is functionally equivalent for every request through this client (and it additionally wires double-submit CSRF at lines 60-62: `withXSRFToken: true, xsrfCookieName: 'XSRF-TOKEN', xsrfHeaderName: 'X-XSRF-TOKEN'`). The outcome the assertion targets — every request carries `Accept: application/json` and sends cookies — holds; only the placement of `withCredentials` differs from the literal wording."
+    },
+    {
+      "text": "Response interceptor unwraps response.data, surfaces a user-facing error notification on failure, and handles 401 (redirect/logout hook point)",
+      "passed": true,
+      "evidence": "All three, in src/lib/api-client.ts:141-173. Unwrap: line 144 `(response) => response.data,` with the `api` facade at 183-198 re-typing the methods (`apiClient.get<TData, TData>`) so the signatures match the unwrapped shape. Notification: lines 163-169 `if (!flags.skipErrorNotification) { showNotification({ type: 'error', title: 'Request failed', message: getErrorMessage(error) }); }` where `getErrorMessage` (102-130) converts timeouts, network failures, HTML proxy pages, and field-level validation errors into one user-readable sentence rather than a raw dump. 401: lines 156-161 `if (status === 401) { if (!flags.skipAuthRedirect) redirectToLogin(); return Promise.reject(error); }` with `redirectToLogin` (132-139) preserving the current location as `redirectTo` and guarding against a login-page redirect loop. Also correctly excludes react-query's cancellations from notifications (149-151)."
+    },
+    {
+      "text": "react-query defaults (staleTime, retry, refetchOnWindowFocus) exported from a dedicated module (e.g. src/lib/react-query.ts)",
+      "passed": true,
+      "evidence": "src/lib/react-query.ts:37-59 `export const queryConfig = { queries: { throwOnError: false, refetchOnWindowFocus: false, refetchOnReconnect: true, staleTime: 60 * 1000, gcTime: 5 * 60 * 1000, retry: shouldRetry }, mutations: { retry: false } } satisfies DefaultOptions;`. All three named keys are present with deliberate values, and `retry` is a real policy rather than a number: `shouldRetry` (22-35) caps at 2 attempts and skips retrying 4xx except 408/429. The config is actually applied, not merely exported — line 61 `export const queryClient = new QueryClient({ defaultOptions: queryConfig });`."
+    },
+    {
+      "text": "Reusable QueryConfig/MutationConfig helper types are exported so future endpoint hooks are configurable without hand-written generics",
+      "passed": true,
+      "evidence": "src/lib/react-query.ts:84-97 exports all three of the usual helpers: `export type ApiFnReturnType<TFn extends (...args: never[]) => Promise<unknown>> = Awaited<ReturnType<TFn>>;`, `export type QueryConfig<TFn extends (...args: never[]) => unknown> = Omit<ReturnType<TFn>, 'queryKey' | 'queryFn'>;`, and `export type MutationConfig<TFn extends (...args: never[]) => Promise<unknown>> = UseMutationOptions<ApiFnReturnType<TFn>, Error, Parameters<TFn>[0]>;`. The doc block at 63-81 shows the intended call site (`queryConfig?: QueryConfig<typeof getUserQueryOptions>`), so the types are usable as-is by a future endpoint hook."
+    },
+    {
+      "text": "Env is validated with zod in src/config/env.ts and produces a readable aggregate error listing missing/invalid variables",
+      "passed": true,
+      "evidence": "src/config/env.ts:23-35 `const EnvSchema = z.object({ API_URL: z.string().url(...), API_TIMEOUT_MS: z.coerce.number().int(...).positive(...).default(15_000) });` parsed once at module load (line 84 `export const env = parseEnv();`). Aggregate: `safeParse` collects every issue and line 76 renders them all — `parsed.error.issues.map(formatIssue).join('\\n')` — inside a multi-line message headed 'Invalid environment configuration:' plus remediation text ('Copy .env.example to .env, fill in the values above, and restart the dev server'). `formatIssue` (60-65) re-attaches the `VITE_` prefix to the variable name and distinguishes missing from invalid: `is required but was not set` vs the zod message. Blank values are normalized to absent (52) so `VITE_API_URL=` reports as missing rather than as a malformed URL. The failure is also surfaced to the user rather than as a blank page: src/main.tsx:27-38 imports the app dynamically and renders `<StartupError error={error} />` on rejection."
+    },
+    {
+      "text": "QueryClient is created exactly once (module singleton or useState initializer) and wired through an app provider component",
+      "passed": true,
+      "evidence": "Grep for `new QueryClient` across src returns exactly one hit: src/lib/react-query.ts:61 `export const queryClient = new QueryClient({ defaultOptions: queryConfig });` — a module singleton. It is consumed in src/app/provider.tsx:7 `import { queryClient } from '@/lib/react-query';` and line 25 `<QueryClientProvider client={queryClient}>`, which wraps `children` inside an `ErrorBoundary`/`Suspense`; `AppProvider` is composed into the tree at src/app/index.tsx:5-7 and mounted from src/main.tsx."
+    },
+    {
+      "text": "No barrel index.ts files; new files are kebab-case",
+      "passed": true,
+      "evidence": "facts.json flags `src/app/index.tsx` under `new_barrel_index_files`, but that is a filename-based false positive — I read the file and it is a component module, not a re-export barrel: `import { AppProvider } from './provider'; import { AppRouter } from './router'; export const App = () => (<AppProvider><AppRouter /></AppProvider>);`. It contains zero `export * from` / `export { x } from` re-exports and matches bulletproof-react's own src/app/index.tsx (verified against apps/react-vite/src/app/index.tsx in this repo, which is the same file). No other index.ts/index.tsx was created. Kebab-case: facts.json `non_kebab_new_files` is empty, and every new file confirms it — api-client.ts, react-query.ts, notifications-store.ts, error-boundary.tsx, main-error-fallback.tsx, startup-error.tsx, not-found.tsx, vite-env.d.ts, paths.ts, env.ts."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Request interceptor sets Accept header and withCredentials (cookie-based auth)",
+        "reason": "The assertion specifies a mechanism (inside the request interceptor) rather than an outcome. This run set `withCredentials: true` on `Axios.create` instead, which is equivalent-or-better and also added `withXSRFToken`/xsrf cookie+header names — a strict-wording grader would fail a strictly better implementation. Reword to the outcome: 'every request carries Accept: application/json and sends cookies (withCredentials), configured once on the shared client'."
+      },
+      {
+        "assertion": "No barrel index.ts files; new files are kebab-case",
+        "reason": "The fact-extractor's `new_barrel_index_files` check keys off the filename alone, so it flags `src/app/index.tsx` — which is bulletproof-react's own canonical composition module, not a barrel. Any run that follows the reference architecture will trip this flag and a grader trusting facts.json blindly would fail it. Detect re-export-only files instead (a file whose exports are all `export * from` / `export { … } from` forms), or exempt `src/app/index.tsx` explicitly."
+      },
+      {
+        "reason": "Nothing asserts the result compiles. Both arms of this eval generate ~20 new files of TypeScript with path aliases, zod v3 issue-code narrowing (`issue.received === 'undefined'`), and a hand-rolled axios facade using `apiClient.get<TData, TData>` — all places where a plausible-looking file silently fails `tsc --noEmit`. A build/typecheck gate would be the single most discriminating assertion you could add here, and it is cheap because the fixture already has `\"build\": \"tsc -b && vite build\"`."
+      },
+      {
+        "reason": "The prompt's phrase 'env config that doesn't blow up mysteriously when a variable is missing' has no assertion covering the second half — surfacing the failure. Validating with zod (assertion 6) is satisfied by any module that throws at import time, which in a Vite app means a blank white page with the reason in the console: exactly the mysterious blow-up the prompt is trying to avoid. This run solved it (src/main.tsx dynamically imports the app and renders a StartupError screen; src/components/errors/startup-error.tsx deliberately imports nothing but React), and that real design decision went entirely uncredited. Add an assertion like 'a missing/invalid env variable renders a readable configuration screen rather than a blank page'."
+      },
+      {
+        "assertion": "A single shared API client instance lives in src/lib/api-client.ts (or equivalent lib path) — created once, imported everywhere",
+        "reason": "The 'imported everywhere' clause is not verifiable in a foundation-only eval — the prompt explicitly says 'before we build any features', so there are no endpoint modules to import it. Either drop the clause or replace it with something checkable now, e.g. 'exactly one axios instance exists in src/ and no module calls axios directly'."
+      },
+      {
+        "assertion": "react-query defaults (staleTime, retry, refetchOnWindowFocus) exported from a dedicated module (e.g. src/lib/react-query.ts)",
+        "reason": "As written this passes for a module that exports the three keys and never connects them to anything. Tighten it to require the defaults actually reach the client (`new QueryClient({ defaultOptions: … })`) — this run does that on react-query.ts:61, but a run that merely exported a loose object would score identically."
+      }
+    ],
+    "overall": "8/8 pass, and the substance is genuinely there rather than surface-level — the response interceptor distinguishes cancellations from failures, the retry policy skips 4xx except 408/429, env errors are aggregated with missing-vs-invalid wording, and blank env values are normalized to missing. The main weaknesses in the eval are (a) no compile/typecheck gate, so structurally-correct-but-broken TypeScript would pass everything, (b) assertion 2 over-specifies a mechanism, and (c) the prompt's 'doesn't blow up mysteriously' requirement is only half-covered. Note also that these assertions are all structural presence checks: this without_skill run satisfies every one of them unaided, so as written they will not discriminate between the with_skill and without_skill arms."
+  }
+}

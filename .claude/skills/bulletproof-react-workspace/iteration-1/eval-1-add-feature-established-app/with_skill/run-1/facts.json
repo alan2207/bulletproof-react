@@ -1,0 +1,111 @@
+{
+  "run": "eval-1-add-feature-established-app/with_skill",
+  "new_files": [
+    "src/app/routes/app/projects/projects.tsx",
+    "src/features/projects/api/create-project.ts",
+    "src/features/projects/api/get-projects.ts",
+    "src/features/projects/components/create-project.tsx",
+    "src/features/projects/components/projects-list.tsx",
+    "src/testing/mocks/handlers/projects.ts"
+  ],
+  "modified_files": [
+    ".eslintrc.cjs",
+    "src/app/router.tsx",
+    "src/components/layouts/dashboard-layout.tsx",
+    "src/config/paths.ts",
+    "src/testing/mocks/db.ts",
+    "src/testing/mocks/handlers/index.ts",
+    "src/types/api.ts"
+  ],
+  "deleted_files": [],
+  "new_barrel_index_files": [],
+  "non_kebab_new_files": [],
+  "eslint_has_no_restricted_paths": true,
+  "eslint_zone_mentions": [
+    "features/discussions",
+    "features/comments",
+    "features/auth",
+    "features/comments",
+    "features/discussions",
+    "features/projects",
+    "features/teams",
+    "features/users"
+  ],
+  "greps": {
+    "queryOptions_factory": {
+      "src/features/projects/api/get-projects.ts": [
+        "return queryOptions({"
+      ]
+    },
+    "queryConfig_param": {
+      "src/features/projects/api/get-projects.ts": [
+        "queryConfig?: QueryConfig<typeof getProjectsQueryOptions>;",
+        "export const useProjects = ({ queryConfig, page }: UseProjectsOptions) => {",
+        "...queryConfig,"
+      ]
+    },
+    "mutationConfig_param": {
+      "src/features/projects/api/create-project.ts": [
+        "mutationConfig?: MutationConfig<typeof createProject>;",
+        "mutationConfig,",
+        "const { onSuccess, ...restConfig } = mutationConfig || {};"
+      ],
+      "src/features/projects/components/create-project.tsx": [
+        "mutationConfig: {"
+      ]
+    },
+    "zod_schema": {
+      "src/features/projects/api/create-project.ts": [
+        "export const createProjectInputSchema = z.object({"
+      ]
+    },
+    "invalidateQueries": {
+      "src/features/projects/api/create-project.ts": [
+        "queryClient.invalidateQueries({"
+      ]
+    },
+    "string_literal_querykey": {},
+    "interceptors": {},
+    "withCredentials": {},
+    "response_unwrap": {},
+    "status_401": {
+      "src/testing/mocks/handlers/projects.ts": [
+        "return HttpResponse.json({ message: error }, { status: 401 });",
+        "return HttpResponse.json({ message: error }, { status: 401 });"
+      ]
+    },
+    "staleTime": {},
+    "QueryConfig_type": {},
+    "env_zod": {},
+    "queryclient_once": {},
+    "lazy_routes": {
+      "src/app/router.tsx": [
+        "lazy: () => import('./routes/landing').then(convert(queryClient)),",
+        "lazy: () => import('./routes/auth/register').then(convert(queryClient)),",
+        "lazy: () => import('./routes/auth/login').then(convert(queryClient)),",
+        "lazy: () => import('./routes/app/users').then(convert(queryClient)),",
+        "lazy: () => import('./routes/app/profile').then(convert(queryClient)),",
+        "lazy: () => import('./routes/not-found').then(convert(queryClient)),"
+      ]
+    },
+    "paths_registry": {
+      "src/components/layouts/dashboard-layout.tsx": [
+        "<Link className=\"flex items-center text-white\" to={paths.home.getHref()}>",
+        "onSuccess: () => navigate(paths.auth.login.getHref(location.pathname)),",
+        "{ name: 'Dashboard', to: paths.app.dashboard.getHref(), icon: Home },",
+        "{ name: 'Discussions', to: paths.app.discussions.getHref(), icon: Folder },",
+        "{ name: 'Projects', to: paths.app.projects.getHref(), icon: Briefcase },",
+        "to: paths.app.users.getHref(),"
+      ],
+      "src/config/paths.ts": [
+        "getHref: () => '/',",
+        "getHref: (redirectTo?: string | null | undefined) =>",
+        "getHref: (redirectTo?: string | null | undefined) =>",
+        "getHref: () => '/app',",
+        "getHref: () => '/app',",
+        "getHref: () => '/app/discussions',"
+      ]
+    },
+    "relative_parent_imports": {}
+  }
+}

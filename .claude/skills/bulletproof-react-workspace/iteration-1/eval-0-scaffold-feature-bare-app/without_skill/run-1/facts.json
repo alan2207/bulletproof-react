@@ -1,0 +1,162 @@
+{
+  "run": "eval-0-scaffold-feature-bare-app/without_skill",
+  "new_files": [
+    ".env.development",
+    ".env.example",
+    ".gitignore",
+    "src/app/app.tsx",
+    "src/app/provider.tsx",
+    "src/app/router.tsx",
+    "src/app/routes/not-found.tsx",
+    "src/app/routes/tasks.tsx",
+    "src/components/errors/error-boundary.tsx",
+    "src/components/errors/main-error-fallback.tsx",
+    "src/components/errors/route-error.tsx",
+    "src/components/layouts/main-layout.tsx",
+    "src/components/ui/button/button.tsx",
+    "src/components/ui/form/field-wrapper.tsx",
+    "src/components/ui/form/input.tsx",
+    "src/components/ui/form/textarea.tsx",
+    "src/components/ui/spinner/spinner.tsx",
+    "src/config/env.ts",
+    "src/config/paths.ts",
+    "src/features/tasks/api/create-task.ts",
+    "src/features/tasks/api/get-tasks.ts",
+    "src/features/tasks/components/create-task-form.tsx",
+    "src/features/tasks/components/tasks-list.tsx",
+    "src/features/tasks/types/task.ts",
+    "src/hooks/use-zod-form.ts",
+    "src/lib/api-client.ts",
+    "src/lib/react-query.ts",
+    "src/styles/index.css",
+    "src/types/api.ts",
+    "src/utils/cn.ts",
+    "src/vite-env.d.ts"
+  ],
+  "modified_files": [
+    ".eslintrc.cjs",
+    "index.html",
+    "package.json",
+    "src/main.tsx",
+    "tsconfig.json",
+    "vite.config.ts"
+  ],
+  "deleted_files": [
+    "src/App.tsx"
+  ],
+  "new_barrel_index_files": [],
+  "non_kebab_new_files": [],
+  "eslint_has_no_restricted_paths": false,
+  "eslint_zone_mentions": [],
+  "greps": {
+    "queryOptions_factory": {
+      "src/features/tasks/api/get-tasks.ts": [
+        "queryOptions({"
+      ]
+    },
+    "queryConfig_param": {
+      "src/app/provider.tsx": [
+        "import { queryConfig } from '@/lib/react-query';",
+        "() => new QueryClient({ defaultOptions: queryConfig }),"
+      ],
+      "src/features/tasks/api/get-tasks.ts": [
+        "queryConfig?: QueryConfig<typeof getTasksQueryOptions>;",
+        "export const useTasks = ({ queryConfig }: UseTasksOptions = {}) =>",
+        "...queryConfig,"
+      ],
+      "src/lib/react-query.ts": [
+        "export const queryConfig = {",
+        "* Usage: `type Options = { queryConfig?: QueryConfig<typeof getTasksQueryOptions> }`"
+      ]
+    },
+    "mutationConfig_param": {
+      "src/features/tasks/api/create-task.ts": [
+        "mutationConfig?: MutationConfig<typeof createTask>;",
+        "mutationConfig,",
+        "const { onSuccess, ...restConfig } = mutationConfig ?? {};"
+      ]
+    },
+    "zod_schema": {
+      "src/config/env.ts": [
+        "const EnvSchema = z.object({"
+      ],
+      "src/features/tasks/api/create-task.ts": [
+        "export const createTaskInputSchema = z.object({"
+      ],
+      "src/types/api.ts": [
+        "export const entitySchema = z.object({",
+        "export const metaSchema = z.object({"
+      ]
+    },
+    "invalidateQueries": {
+      "src/features/tasks/api/create-task.ts": [
+        "queryClient.invalidateQueries({"
+      ]
+    },
+    "string_literal_querykey": {
+      "src/features/tasks/api/get-tasks.ts": [
+        "queryKey: ['tasks'] as const,"
+      ]
+    },
+    "interceptors": {
+      "src/lib/api-client.ts": [
+        "axiosInstance.interceptors.request.use(requestInterceptor);",
+        "axiosInstance.interceptors.response.use("
+      ]
+    },
+    "withCredentials": {
+      "src/lib/api-client.ts": [
+        "config.withCredentials = true;"
+      ]
+    },
+    "response_unwrap": {},
+    "status_401": {},
+    "staleTime": {
+      "src/lib/react-query.ts": [
+        "staleTime: 1000 * 60,"
+      ]
+    },
+    "QueryConfig_type": {
+      "src/lib/react-query.ts": [
+        "export type ApiFnReturnType<TFn extends (...args: never[]) => Promise<unknown>> =",
+        "export type QueryConfig<TOptionsFn extends (...args: never[]) => unknown> = Omit<",
+        "export type MutationConfig<"
+      ]
+    },
+    "env_zod": {
+      "src/config/env.ts": [
+        "const EnvSchema = z.object({",
+        "const createEnv = () => {",
+        "const parsed = EnvSchema.safeParse(envVars);",
+        "export const env = createEnv();"
+      ],
+      "src/hooks/use-zod-form.ts": [
+        "const result = schema.safeParse(values);"
+      ]
+    },
+    "queryclient_once": {
+      "src/app/provider.tsx": [
+        "() => new QueryClient({ defaultOptions: queryConfig }),"
+      ]
+    },
+    "lazy_routes": {},
+    "paths_registry": {
+      "src/app/router.tsx": [
+        "element: <Navigate to={paths.tasks.getHref()} replace />,"
+      ],
+      "src/app/routes/not-found.tsx": [
+        "<Link className=\"link\" to={paths.home.getHref()}>"
+      ],
+      "src/components/layouts/main-layout.tsx": [
+        "const navigation = [{ name: 'Tasks', to: paths.tasks.getHref() }];"
+      ],
+      "src/config/paths.ts": [
+        "* Components link with `paths.tasks.getHref()` rather than a hand-written",
+        "getHref: () => '/',",
+        "getHref: () => '/tasks',",
+        "getHref: () => '/404',"
+      ]
+    },
+    "relative_parent_imports": {}
+  }
+}

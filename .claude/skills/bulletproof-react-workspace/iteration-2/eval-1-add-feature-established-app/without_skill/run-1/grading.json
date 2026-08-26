@@ -1,0 +1,73 @@
+{
+  "expectations": [
+    {
+      "text": "src/features/projects/api/get-projects.ts exists and mirrors the discussions query pattern: fetcher + exported queryOptions factory + hook accepting QueryConfig-typed queryConfig",
+      "passed": true,
+      "evidence": "outputs/app/src/features/projects/api/get-projects.ts is a line-for-line structural mirror of fixtures/established-app/src/features/discussions/api/get-discussions.ts: `getProjects(page = 1): Promise<{data: Project[]; meta: Meta}>` via `api.get('/projects', {params: {page}})`; exported factory `getProjectsQueryOptions({page} = {})` returning `queryOptions({queryKey: page ? ['projects', {page}] : ['projects'], queryFn: () => getProjects(page)})`; hook `useProjects({queryConfig, page}: UseProjectsOptions)` with `queryConfig?: QueryConfig<typeof getProjectsQueryOptions>` spread after the options. Imports resolve to real modules (@/lib/api-client, @/lib/react-query, @/types/api) and `Project` was added to src/types/api.ts."
+    },
+    {
+      "text": "src/features/projects/api/create-project.ts exports a zod input schema (name and description required) and a hook accepting MutationConfig-typed mutationConfig",
+      "passed": true,
+      "evidence": "create-project.ts lines 10-13: `export const createProjectInputSchema = z.object({ name: z.string().min(1, 'Required'), description: z.string().min(1, 'Required') })`, plus `export type CreateProjectInput = z.infer<...>`. Hook at lines 25-31: `type UseCreateProjectOptions = { mutationConfig?: MutationConfig<typeof createProject> }` and `useCreateProject({ mutationConfig }: UseCreateProjectOptions = {})`. The schema is genuinely consumed: components/create-project.tsx passes `schema={createProjectInputSchema}` to the shared `Form`."
+    },
+    {
+      "text": "The create-project mutation's default onSuccess invalidates using getProjectsQueryOptions().queryKey and still forwards the caller's onSuccess",
+      "passed": true,
+      "evidence": "create-project.ts lines 34-45: `const { onSuccess, ...restConfig } = mutationConfig || {};` then `useMutation({ onSuccess: (...args) => { queryClient.invalidateQueries({ queryKey: getProjectsQueryOptions().queryKey }); onSuccess?.(...args); }, ...restConfig, mutationFn: createProject })`. Uses the typed queryKey from the factory (not a string literal), and destructuring onSuccess out of restConfig means the spread cannot clobber the default handler — same ordering as the discussions original."
+    },
+    {
+      "text": "A projects route is registered in src/app/router.tsx using the lazy + convert(queryClient) pattern",
+      "passed": true,
+      "evidence": "src/app/router.tsx lines 61-65, inside the protected `paths.app.root` children array: `{ path: paths.app.projects.path, lazy: () => import('./routes/app/projects').then(convert(queryClient)) }`. The target src/app/routes/app/projects.tsx exists and exports both `clientLoader = (queryClient) => async ({request}) => ...` (prefetch/read of getProjectsQueryOptions) and a default `ProjectsRoute` component, which is exactly what `convert` destructures."
+    },
+    {
+      "text": "src/config/paths.ts gains a projects entry with path and getHref()",
+      "passed": true,
+      "evidence": "Diff vs fixture shows a new entry in `paths.app`: `projects: { path: 'projects', getHref: () => '/app/projects' }` (paths.ts lines 37-40), matching the relative-`path` + absolute-`getHref` convention of the sibling `discussions` entry. It is actually used: router.tsx uses `paths.app.projects.path` and dashboard-layout.tsx uses `paths.app.projects.getHref()`."
+    },
+    {
+      "text": "A new zone entry for ./src/features/projects is added to import/no-restricted-paths in .eslintrc.cjs (the lint-clean trap)",
+      "passed": true,
+      "evidence": "Diff of outputs/app/.eslintrc.cjs against fixtures/established-app/.eslintrc.cjs shows the only change is a new zone at lines 67-71: `{ target: './src/features/projects', from: './src/features', except: ['./projects'] }`, inserted in alphabetical position between the discussions and teams zones. facts.json corroborates: eslint_zone_mentions now includes 'features/projects'. The trap was hit deliberately, not by accident."
+    },
+    {
+      "text": "No cross-feature imports and no new feature-level barrel index.ts files",
+      "passed": true,
+      "evidence": "`find src/features -name 'index.ts*'` returns nothing anywhere in the app (facts.json: new_barrel_index_files: [], new_feature_barrels: []). The projects feature contains exactly 4 files (api/get-projects.ts, api/create-project.ts, components/create-project.tsx, components/projects-list.tsx). Grep for '@/features/' inside src/features/projects returns zero hits; the only @/features imports are from src/app/routes/app/projects.tsx (app -> feature, the allowed direction) and they are deep paths into api/ and components/, not a barrel. Within-feature imports are relative siblings ('../api/get-projects', '../api/create-project'), matching discussions-list.tsx in the fixture."
+    },
+    {
+      "text": "All new files/folders are kebab-case and imports use the @/ alias",
+      "passed": true,
+      "evidence": "All new paths are kebab-case: features/projects/{api,components}/{get-projects.ts,create-project.ts,create-project.tsx,projects-list.tsx}, app/routes/app/projects.tsx, app/routes/app/__tests__/projects.test.tsx (the __tests__ folder is explicitly exempted by the config's `files: ['src/**/!(__tests__)/*']` override), testing/mocks/handlers/projects.ts. facts.json non_kebab_new_files: []. Every cross-layer import uses the alias (@/components/ui/*, @/config/paths, @/lib/api-client, @/lib/react-query, @/types/api, @/utils/format, @/features/projects/...); facts.json relative_parent_imports is empty, i.e. no '../../' escapes out of a module."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "reason": "This without_skill baseline scored 8/8, including the 'lint-clean trap'. On an established-app fixture that already contains a near-identical discussions feature, every assertion is satisfiable by pattern-matching the neighbouring folder — which a competent agent will do with or without the skill. As written this eval cannot discriminate skill vs. no-skill; it measures whether the model copies an adjacent example. Consider either moving the discriminating assertions to the greenfield eval, or removing/weakening the in-repo exemplar (e.g. a fixture whose only existing feature does NOT use queryOptions factories, so the correct pattern must come from the skill rather than from copy-paste)."
+      },
+      {
+        "assertion": "A new zone entry for ./src/features/projects is added to import/no-restricted-paths in .eslintrc.cjs (the lint-clean trap)",
+        "reason": "The 'trap' framing implies the run should be lint-clean, but nothing verifies that. outputs/app has no node_modules, so `eslint`/`tsc` cannot be run at grading time and the assertion degrades to a text-presence check — a zone entry with a typo'd target or a wrong `except` would still pass. Either have the runner execute `npm run lint`/`tsc --noEmit` and record exit codes into facts.json, or add an assertion on the exact zone shape (target ./src/features/projects, from ./src/features, except ['./projects'])."
+      },
+      {
+        "assertion": "src/config/paths.ts gains a projects entry with path and getHref()",
+        "reason": "Checks existence of the keys but not their values, so `path: '/projects'` or `getHref: () => '/projects'` would pass while the prompt's stated requirement (the list lives at /app/projects) is broken. Assert the resolved href equals '/app/projects' and that the router entry is nested under the paths.app.root children."
+      },
+      {
+        "reason": "No assertion covers whether the feature actually works end-to-end. The executor also added MSW handlers (src/testing/mocks/handlers/projects.ts, registered in handlers/index.ts), a `project` model in mocks/db.ts, a `createProject` data generator, a `Project` type in src/types/api.ts, and a route test — substantial, correct work that the assertions are blind to. An assertion like 'GET/POST /projects mock handlers exist and are registered' or 'the added route test passes' would reward wiring the vertical slice rather than just producing well-shaped files."
+      },
+      {
+        "assertion": "All new files/folders are kebab-case and imports use the @/ alias",
+        "reason": "Literally read, this conflicts with the codebase's real convention: within-feature imports are relative siblings ('../api/get-projects' in discussions-list.tsx), not aliased. I passed it on the intended reading (cross-layer imports use @/, no '../../' escapes), but the wording would punish an output that correctly follows the fixture. Reword to 'cross-layer imports use the @/ alias; no imports reach outside a module with ../..'."
+      }
+    ],
+    "overall": "All 8 assertions pass on genuine substance, not surface compliance — the new feature is a faithful, wired-up mirror of the discussions vertical slice, and the eslint zone trap was handled. The concern is not the output but the eval's discriminating power: a no-skill baseline achieving a perfect score on the 'established app' scenario suggests the in-repo exemplar does the teaching, so this eval will show little skill lift. Tighten by asserting values rather than key presence, by executing lint/typecheck, and by covering the mock/API wiring."
+  }
+}

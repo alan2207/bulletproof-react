@@ -1,0 +1,9 @@
+node_modules
+dist
+dist-ssr
+*.local
+
+# Real env values stay out of git; `.env.example` documents the shape.
+.env
+.env.*
+!.env.example

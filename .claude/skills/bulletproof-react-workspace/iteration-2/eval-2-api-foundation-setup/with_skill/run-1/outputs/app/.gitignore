@@ -1,0 +1,12 @@
+node_modules
+dist
+dist-ssr
+*.local
+
+# Local env — commit .env.example instead
+.env
+.env.*
+!.env.example
+
+.DS_Store
+*.log

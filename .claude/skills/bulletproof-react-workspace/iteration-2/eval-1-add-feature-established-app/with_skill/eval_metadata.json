@@ -1,0 +1,15 @@
+{
+  "eval_id": 1,
+  "eval_name": "add-feature-established-app",
+  "prompt": "Add a 'projects' feature to this app: users should be able to see a list of projects at /app/projects (GET /projects, paginated like discussions) and create a new project (POST /projects, fields: name, description — both required). Follow the existing conventions of the codebase.",
+  "assertions": [
+    "src/features/projects/api/get-projects.ts exists and mirrors the discussions query pattern: fetcher + exported queryOptions factory + hook accepting QueryConfig-typed queryConfig",
+    "src/features/projects/api/create-project.ts exports a zod input schema (name and description required) and a hook accepting MutationConfig-typed mutationConfig",
+    "The create-project mutation's default onSuccess invalidates using getProjectsQueryOptions().queryKey and still forwards the caller's onSuccess",
+    "A projects route is registered in src/app/router.tsx using the lazy + convert(queryClient) pattern",
+    "src/config/paths.ts gains a projects entry with path and getHref()",
+    "A new zone entry for ./src/features/projects is added to import/no-restricted-paths in .eslintrc.cjs (the lint-clean trap)",
+    "No cross-feature imports and no new feature-level barrel index.ts files",
+    "All new files/folders are kebab-case and imports use the @/ alias"
+  ]
+}

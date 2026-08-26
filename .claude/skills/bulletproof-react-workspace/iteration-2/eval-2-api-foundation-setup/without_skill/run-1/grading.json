@@ -1,0 +1,72 @@
+{
+  "expectations": [
+    {
+      "text": "A single shared API client instance lives in src/lib/api-client.ts (or equivalent lib path) — created once, imported everywhere",
+      "passed": true,
+      "evidence": "src/lib/api-client.ts:30 `export const apiClient = axios.create({ baseURL: env.VITE_API_URL, withCredentials: true, timeout: 30_000, headers: {'Content-Type': 'application/json'} })`. A repo-wide grep for `axios.create` returns exactly one hit (that line), so there is no second client. The module also exports a typed `api` facade (get/post/put/patch/delete) built on that one instance, which is the surface future feature code imports. No feature consumers exist yet — expected, since the task was foundation-only."
+    },
+    {
+      "text": "Request interceptor sets Accept header and withCredentials (cookie-based auth)",
+      "passed": true,
+      "evidence": "src/lib/api-client.ts:39-42 `apiClient.interceptors.request.use((config: InternalAxiosRequestConfig) => { config.headers.Accept = 'application/json'; return config; })`. `withCredentials: true` is set on the instance at creation (line 32) rather than inside the interceptor — same effect on every outgoing request, and the file documents the cookie rationale ('The browser sends the session cookie because `withCredentials` is on ... the backend must answer with Access-Control-Allow-Credentials: true'). Outcome (every request carries Accept: application/json and credentials) is fully met."
+    },
+    {
+      "text": "Response interceptor unwraps response.data, surfaces a user-facing error notification on failure, and handles 401 (redirect/logout hook point)",
+      "passed": true,
+      "evidence": "Error path is in the interceptor: api-client.ts:62-81 normalises via `toApiError(error)`, raises `notify.error({ title: 'Request failed', message: apiError.message })` (honouring a per-request `skipErrorNotification` opt-out), and calls `redirectToLogin()` when `apiError.isUnauthorized` (api-error.ts:32 `return this.status === 401`). `redirectToLogin` (lines 44-55) guards against re-redirecting from the login route and preserves the return path via `paths.auth.login.getHref(`${pathname}${search}`)`. Unwrapping of `response.data` is done one layer out, in the exported `api` facade (lines 96-109, `.then((response) => response.data)`) rather than in the success handler (`(response) => response`); callers still never touch AxiosResponse, so the outcome holds, but the literal mechanism differs from the assertion's wording. Flagged in eval_feedback."
+    },
+    {
+      "text": "react-query defaults (staleTime, retry, refetchOnWindowFocus) exported from a dedicated module (e.g. src/lib/react-query.ts)",
+      "passed": true,
+      "evidence": "src/lib/react-query.ts:13-40 `export const queryConfig = { queries: { throwOnError: false, refetchOnWindowFocus: false, retry: (failureCount, error) => { if (error instanceof ApiError && error.isClientError) return false; return failureCount < 2; }, retryDelay: ..., staleTime: 60 * 1000, gcTime: 5 * 60 * 1000 }, mutations: { retry: false } } satisfies DefaultOptions`. All three named defaults present, plus a reasoned 4xx-no-retry policy and mutations retry: false."
+    },
+    {
+      "text": "Reusable QueryConfig/MutationConfig helper types are exported so future endpoint hooks are configurable without hand-written generics",
+      "passed": true,
+      "evidence": "src/lib/react-query.ts:49-75 exports `ApiFnReturnType<FnType>`, `QueryConfig<T> = Omit<ReturnType<T>, 'queryKey' | 'queryFn'>`, and `MutationConfig<MutationFnType> = UseMutationOptions<ApiFnReturnType<MutationFnType>, ApiError, Parameters<MutationFnType>[0]>`. Doc comment shows the intended call site: `type UseUserOptions = { userId: string; queryConfig?: QueryConfig<typeof getUserQueryOptions> }`. Error channel is typed to the normalised `ApiError`, so hooks get typed errors for free."
+    },
+    {
+      "text": "Env is validated with zod in src/config/env.ts and produces a readable aggregate error listing missing/invalid variables",
+      "passed": true,
+      "evidence": "src/config/env.ts:42-45 `const EnvSchema = z.object({ VITE_API_URL: apiUrlSchema, VITE_APP_NAME: z.string().min(1,...).default('My App') })`, parsed at module load via `safeParse` (line 66) and exported as `export const env = parseEnv()` (line 89). On failure it throws a multi-line message: 'Invalid environment configuration.' + 'The following variables are missing or invalid:' + `formatIssues` (lines 60-63), which maps over `error.flatten().fieldErrors` so ALL failing variables are listed as `  - NAME: reason`, plus a fix hint ('copy .env.example to .env ... restart the dev server') and a note that only VITE_-prefixed vars are exposed. `required_error` is valid for the pinned zod ^3.23.8. src/main.tsx:44-65 additionally awaits `import('@/config/env')` inside a try/catch and renders the message into the DOM, so the failure is visible rather than a blank screen. .env.example documents required vs optional."
+    },
+    {
+      "text": "QueryClient is created exactly once (module singleton or useState initializer) and wired through an app provider component",
+      "passed": true,
+      "evidence": "Grep shows exactly one `new QueryClient` in the tree: src/lib/react-query.ts:46 `export const createQueryClient = () => new QueryClient({ defaultOptions: queryConfig })`. src/app/provider.tsx:16 consumes it as a lazy useState initializer — `const [queryClient] = useState(createQueryClient)` (function reference, not `useState(createQueryClient())`, so no per-render construction) — and wraps children in `<QueryClientProvider client={queryClient}>` alongside `<Notifications />`. main.tsx renders `<AppProvider><AppRouter /></AppProvider>`."
+    },
+    {
+      "text": "No feature-level or lib-level barrel re-export files; new files are kebab-case (a composition-root index.tsx like src/app/index.tsx, or a shared ui component barrel, is acceptable — both match the reference app)",
+      "passed": true,
+      "evidence": "facts.json `new_barrel_index_files` lists exactly one file: src/components/ui/notifications/index.ts, which is a shared ui component barrel (`export { Notifications } from './notifications'; export { notify, useNotifications } from './notifications-store';` plus type re-exports) — explicitly allowed by the assertion. `new_feature_barrels` is empty and `non_kebab_new_files` is empty; all 18 new files (api-client.ts, api-error.ts, react-query.ts, notifications-store.ts, not-found.tsx, etc.) are kebab-case. No lib-level index.ts exists. api-client.ts contains a `export { ApiError, toApiError } from './api-error'` line, but it is a substantive module, not a barrel file."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Response interceptor unwraps response.data, surfaces a user-facing error notification on failure, and handles 401 (redirect/logout hook point)",
+        "reason": "This assertion prescribes a mechanism (unwrap inside the interceptor) rather than an outcome. This run unwraps in an exported `api` facade instead, achieving the same caller-facing result, which forces a judgment call at grade time and makes with/without-skill comparisons noisy. Reword the first clause to something outcome-based and mechanically checkable, e.g. 'API functions return the parsed body (Promise<TData>), not AxiosResponse — callers never write `.data`'."
+      },
+      {
+        "reason": "No assertion verifies the foundation actually compiles. The whole deliverable is types-heavy (generic QueryConfig/MutationConfig helpers, a custom RequestConfig widening AxiosRequestConfig, an `@/*` path alias that must be mirrored in both tsconfig.json and vite.config.ts). A run could satisfy all 8 assertions and still not typecheck. Add a `tsc --noEmit` (and ideally `vite build`) result to facts.json and assert on it."
+      },
+      {
+        "reason": "Nothing checks that the API client consumes the *validated* env rather than raw `import.meta.env.VITE_API_URL`. That is the single line that makes assertion 6 worth anything — validation you bypass at the call site is decoration. Add: 'api-client baseURL reads from the validated config module (env.VITE_API_URL), and no file outside src/config/env.ts references import.meta.env.VITE_*'. Easy to grep, hard to fake."
+      },
+      {
+        "reason": "Assertion 3's notification clause passes on the mere presence of a notify/toast call. A run could invoke a notifier that no component ever renders and still pass. Consider asserting that the notification UI is mounted in the app provider tree (this run does mount `<Notifications />` in provider.tsx, and built a `useSyncExternalStore` store specifically so the non-React interceptor can push toasts — a genuinely good outcome that no assertion currently credits)."
+      },
+      {
+        "assertion": "A single shared API client instance lives in src/lib/api-client.ts (or equivalent lib path) — created once, imported everywhere",
+        "reason": "The 'imported everywhere' half is unverifiable in a foundation-only eval — there are no feature consumers yet, so it passes vacuously. Either drop that clause or replace it with the check that actually discriminates: exactly one `axios.create` call in src/."
+      }
+    ],
+    "overall": "Assertions are well-targeted for a foundation-setup task and mostly resistant to surface compliance — the QueryConfig/MutationConfig and aggregate-env-error assertions in particular are hard to pass without doing the real work. Two gaps worth closing: nothing checks the code compiles, and nothing checks the validated env is actually the source of the API base URL. One assertion (response interceptor) over-specifies mechanism and should be restated as an outcome."
+  }
+}

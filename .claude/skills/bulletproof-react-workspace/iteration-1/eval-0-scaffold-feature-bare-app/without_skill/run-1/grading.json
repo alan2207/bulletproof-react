@@ -1,0 +1,73 @@
+{
+  "expectations": [
+    {
+      "text": "Feature code lives in a dedicated feature module (src/features/tasks/...), not in flat top-level folders or App.tsx",
+      "passed": true,
+      "evidence": "facts.json new_files show src/features/tasks/api/get-tasks.ts, src/features/tasks/api/create-task.ts, src/features/tasks/components/create-task-form.tsx, src/features/tasks/components/tasks-list.tsx, src/features/tasks/types/task.ts. The original src/App.tsx is in deleted_files, replaced by an app shell at src/app/app.tsx + src/app/router.tsx. The route module src/app/routes/tasks.tsx holds no task logic - it only composes feature components: 'import { CreateTaskForm } from \"@/features/tasks/components/create-task-form\";' / 'import { TasksList } from \"@/features/tasks/components/tasks-list\";' and its own comment states 'Routes stay thin: they compose feature components and own nothing else.' Shared layers (components/ui, lib, hooks, config, utils, types) contain no tasks-specific code."
+    },
+    {
+      "text": "One API file per endpoint under the feature's api/ folder, each exporting a typed fetcher function that uses a shared API client instance",
+      "passed": true,
+      "evidence": "Exactly two files in src/features/tasks/api/, one per endpoint. get-tasks.ts: 'export const getTasks = async (): Promise<Task[]> => { const data = await api.get<unknown>(\"/tasks\"); return z.array(taskSchema).parse(data); };' create-task.ts: 'export const createTask = async ({ data }: { data: CreateTaskInput }): Promise<Task> => { const response = await api.post<unknown>(\"/tasks\", data); return taskSchema.parse(response); };' Both import the shared client via 'import { api } from \"@/lib/api-client\";'. src/lib/api-client.ts creates a single instance ('const axiosInstance = Axios.create({ baseURL: env.API_URL });') with request/response interceptors, and .eslintrc.cjs bans direct axios use everywhere except that file ('name: \"axios\", message: \"Use the shared client from @/lib/api-client ...\"')."
+    },
+    {
+      "text": "The list query exports a queryOptions factory and a hook that accepts a queryConfig override parameter (configurable hook)",
+      "passed": true,
+      "evidence": "src/features/tasks/api/get-tasks.ts lines 17-31: 'export const getTasksQueryOptions = () => queryOptions({ queryKey: [\"tasks\"] as const, queryFn: getTasks, });' and 'type UseTasksOptions = { queryConfig?: QueryConfig<typeof getTasksQueryOptions> };' / 'export const useTasks = ({ queryConfig }: UseTasksOptions = {}) => useQuery({ ...getTasksQueryOptions(), ...queryConfig, });'. The QueryConfig helper in src/lib/react-query.ts is genuinely typed, not a stub: 'export type QueryConfig<TOptionsFn extends (...args: never[]) => unknown> = Omit<ReturnType<TOptionsFn>, \"queryKey\" | \"queryFn\">;' - so callers can override options but not the key/fn. The factory is also reused by src/app/routes/tasks.tsx's loader, proving it is a real shared factory."
+    },
+    {
+      "text": "The create mutation validates input with an exported zod schema and its hook accepts a mutationConfig override parameter",
+      "passed": true,
+      "evidence": "src/features/tasks/api/create-task.ts line 13: 'export const createTaskInputSchema = z.object({ title: z.string().trim().min(1, \"Title is required\").max(100, ...), description: z.string().trim().min(1, \"Description is required\").max(500, ...) });' with 'export type CreateTaskInput = z.infer<typeof createTaskInputSchema>;' typing the POST body. The schema is genuinely exercised at runtime, not just exported: create-task-form.tsx passes it to useZodForm ('schema: createTaskInputSchema') and src/hooks/use-zod-form.ts runs 'const result = schema.safeParse(values);', blocking submit and surfacing field errors on failure. Hook override: 'type UseCreateTaskOptions = { mutationConfig?: MutationConfig<typeof createTask> };' / 'export const useCreateTask = ({ mutationConfig }: UseCreateTaskOptions = {}) => { ... const { onSuccess, ...restConfig } = mutationConfig ?? {}; return useMutation({ ...restConfig, onSuccess: (...args) => { queryClient.invalidateQueries(...); onSuccess?.(...args); }, mutationFn: createTask, }); }' - note the caller's onSuccess is composed with, not allowed to clobber, the invalidation."
+    },
+    {
+      "text": "The query key is defined in exactly one place; mutation invalidation reuses the factory's queryKey instead of retyping a string-literal key",
+      "passed": true,
+      "evidence": "A repo-wide grep for queryKey / 'tasks' across src returns only: src/features/tasks/api/get-tasks.ts:19 'queryKey: [\"tasks\"] as const,' (the sole literal definition); src/features/tasks/api/create-task.ts:51 'queryKey: getTasksQueryOptions().queryKey,'; src/app/routes/tasks.tsx:15 'queryClient.getQueryData(query.queryKey)' where 'const query = getTasksQueryOptions();'. Both the invalidation and the route loader derive the key from the factory - no second string literal anywhere."
+    },
+    {
+      "text": "No barrel index.ts re-export files anywhere in the new code",
+      "passed": true,
+      "evidence": "facts.json 'new_barrel_index_files': []. A full recursive file listing of outputs/app (37 files, node_modules excluded) contains no index.ts or index.tsx at any level; the only 'index' filenames are index.html (Vite entry, pre-existing) and src/styles/index.css (a stylesheet, not a re-export). Cross-module imports are deep and explicit, e.g. '@/features/tasks/components/create-task-form', '@/components/ui/button/button', '@/components/ui/spinner/spinner'."
+    },
+    {
+      "text": "All new files and folders are kebab-case",
+      "passed": true,
+      "evidence": "facts.json 'non_kebab_new_files': []. Verified against the file listing: get-tasks.ts, create-task.ts, create-task-form.tsx, tasks-list.tsx, api-client.ts, react-query.ts, use-zod-form.ts, main-layout.tsx, error-boundary.tsx, main-error-fallback.tsx, route-error.tsx, field-wrapper.tsx, not-found.tsx, paths.ts, env.ts, task.ts, cn.ts. Directories are all lowercase/kebab: app, app/routes, components/errors, components/layouts, components/ui/button, components/ui/form, components/ui/spinner, config, features/tasks/api, features/tasks/components, features/tasks/types, hooks, lib, styles, types, utils. Component identifiers stay PascalCase inside the files (CreateTaskForm, TasksList), which is the expected convention."
+    },
+    {
+      "text": "ESLint import/no-restricted-paths boundary zones are configured, including a zone entry protecting the tasks feature",
+      "passed": false,
+      "evidence": "facts.json 'eslint_has_no_restricted_paths': false, 'eslint_zone_mentions': []. Confirmed by reading outputs/app/.eslintrc.cjs: the string 'no-restricted-paths' does not appear, there is no 'zones' array, 'eslint-plugin-import' is not listed in the 'plugins' array, and package.json devDependencies contain no eslint-plugin-import (only @typescript-eslint/*, eslint-plugin-react-hooks, eslint-plugin-react-refresh). ALTERNATIVE MECHANISM USED (recorded faithfully): boundaries are enforced with the core 'no-restricted-imports' rule via file-glob overrides. Base rule: \"'no-restricted-imports': ['error', { paths: [noDirectAxios] }]\". Override for files ['src/features/**']: patterns group ['@/features/*', '@/features/*/**'] with message 'Features must not import from other features...', plus group ['@/app/*', '@/app/*/**'] with 'Features must not depend on the app shell. Dependencies point downwards: app -> features -> shared.' Override for ['src/components/**','src/hooks/**','src/lib/**','src/utils/**','src/types/**','src/config/**'] blocks '@/features/*' and '@/app/*' ('Shared code must stay feature-agnostic...'). A header comment states the intent: 'app -> features -> shared ... Nothing points back up, and features never reach into each other.' This is directionally the same architecture guard and is arguably stronger on the shared layer, but it is cross-feature/layer-wide rather than a named per-feature zone: there is no zone entry whose target is the tasks feature specifically, and the rule/plugin the assertion names is absent. Note also a real gap versus zones - the feature override forbids '@/features/*' from inside src/features/**, but relative escapes such as '../../other-feature/api/x' are not caught by these patterns, whereas import/no-restricted-paths resolves paths and would catch them."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 1,
+    "total": 8,
+    "pass_rate": 0.88
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "ESLint import/no-restricted-paths boundary zones are configured, including a zone entry protecting the tasks feature",
+        "reason": "This assertion conflates an architectural outcome (import boundaries are lint-enforced) with a specific skill fingerprint (the import/no-restricted-paths rule with zones). This run produced a thoughtful equivalent using core no-restricted-imports overrides and still failed. Consider splitting into two assertions: an outcome assertion ('lint config mechanically forbids shared/app layers from importing feature internals AND forbids cross-feature imports, including via relative paths') and a separate fingerprint assertion naming import/no-restricted-paths zones. As written, a FAIL here does not distinguish 'did not think about boundaries at all' from 'enforced boundaries a different way', which is exactly the signal a with-skill/without-skill comparison needs."
+      },
+      {
+        "reason": "No assertion checks that the app actually builds, typechecks, or lints clean, nor that the tasks feature is reachable from a route. An output could satisfy all eight assertions with files that never compile or never render. facts.json shows package.json gained a 'typecheck' script ('tsc --noEmit') and the fixture's lint script is intact - running 'npm run typecheck' and 'npm run lint' in the grading harness and asserting exit 0 would be cheap and highly discriminating. (Worth noting: this run's .eslintrc.cjs is currently the risky spot - it references no plugin it did not install, so it should pass, but nothing in the eval verifies that.)"
+      },
+      {
+        "assertion": "No barrel index.ts re-export files anywhere in the new code",
+        "reason": "Trivially satisfiable and non-discriminating on its own - a run that dumps everything into App.tsx also creates no index.ts. It only becomes meaningful paired with evidence that modules are consumed by deep, explicit paths. Consider strengthening to something like 'consumers import feature components by full path (e.g. @/features/tasks/components/tasks-list), with no index.ts re-export layer'."
+      },
+      {
+        "assertion": "The create mutation validates input with an exported zod schema and its hook accepts a mutationConfig override parameter",
+        "reason": "Ambiguous about where validation happens. In this run the exported schema is defined next to the mutation but safeParse runs in the form layer (src/hooks/use-zod-form.ts), not inside createTask/useCreateTask. That is the bulletproof-react convention and I passed it, but a stricter grader could read the assertion as requiring parsing inside the mutation. Reword to something like 'an exported zod input schema lives beside the create mutation, types its payload, and is the schema the create form validates against'."
+      },
+      {
+        "reason": "An important quality behavior no assertion covers: whether a caller-supplied onSuccess clobbers the cache invalidation. This run got it right ('const { onSuccess, ...restConfig } = mutationConfig ?? {};' then composes both), which is a subtle correctness point the mutationConfig assertion would pass either way. Worth its own assertion - it separates a genuinely idiomatic configurable hook from a spread-and-hope one."
+      }
+    ],
+    "overall": "7/8. The assertions cover feature-module structure, API-layer shape, and query/mutation conventions well, and the one failure is real and precisely located. Two weaknesses: assertion 8 mixes outcome with implementation fingerprint (this run enforced equivalent boundaries via no-restricted-imports overrides and still failed), and nothing verifies the app compiles/lints or that the feature is actually wired to a route - all eight could pass on code that never runs."
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "expectations": [
+    {
+      "text": "A single shared API client instance lives in src/lib/api-client.ts (or equivalent lib path) — created once, imported everywhere",
+      "passed": true,
+      "evidence": "outputs/app/src/lib/api-client.ts:20-23 creates one module-scope instance: \"export const api = Axios.create({ baseURL: env.API_URL, withCredentials: true });\". It is the only Axios.create() in the tree (grep over src/ finds no second instantiation) and its baseURL comes from the validated env module (import { env } from '@/config/env'). Caveat noted for eval feedback: because the task is foundation-only, no module currently imports `api` (grep -rn \"api-client\" src/ returns nothing), so the \"imported everywhere\" clause has nothing to bind to — the verifiable substance (single instance, created once, configured from validated env) is present."
+    },
+    {
+      "text": "Request interceptor sets Accept header and withCredentials (cookie-based auth)",
+      "passed": true,
+      "evidence": "outputs/app/src/lib/api-client.ts:12-18 defines authRequestInterceptor with \"config.headers.Accept = 'application/json';\" and \"config.withCredentials = true;\", registered at line 25: \"api.interceptors.request.use(authRequestInterceptor);\". withCredentials is also set on the instance defaults (line 22), and the comment at lines 7-11 correctly explains the HttpOnly cookie rationale rather than reaching for a token in localStorage."
+    },
+    {
+      "text": "Response interceptor unwraps response.data, surfaces a user-facing error notification on failure, and handles 401 (redirect/logout hook point)",
+      "passed": true,
+      "evidence": "outputs/app/src/lib/api-client.ts:27-56. Unwrap: \"(response) => response.data,\" (line 30). Notification: lines 32-40 read \"const message = error.response?.data?.message || error.message;\" then \"useNotifications.getState().addNotification({ type: 'error', title: 'Error', message });\" — and the store is real, not a stub: src/components/ui/notifications/notifications-store.ts:46-67 exposes getState/subscribe on the hook via Object.assign so non-React code can push, and <Notifications /> is actually mounted in src/app/provider.tsx:38. 401: lines 42-52 compute a redirectTo from the current location, build paths.auth.login.getHref(redirectTo), and guard the redirect loop (\"if (window.location.pathname !== paths.auth.login.path)\"). Error is re-thrown with \"return Promise.reject(error);\"."
+    },
+    {
+      "text": "react-query defaults (staleTime, retry, refetchOnWindowFocus) exported from a dedicated module (e.g. src/lib/react-query.ts)",
+      "passed": true,
+      "evidence": "outputs/app/src/lib/react-query.ts:15-21: \"export const queryConfig = { queries: { refetchOnWindowFocus: false, retry: false, staleTime: 1000 * 60 } } satisfies DefaultOptions;\" — all three keys present, typed against DefaultOptions, in a dedicated lib module. It is consumed rather than duplicated: src/app/provider.tsx:8,17 imports queryConfig and passes it as defaultOptions."
+    },
+    {
+      "text": "Reusable QueryConfig/MutationConfig helper types are exported so future endpoint hooks are configurable without hand-written generics",
+      "passed": true,
+      "evidence": "outputs/app/src/lib/react-query.ts:23-45 exports three helpers: \"export type ApiFnReturnType<FnType extends (...args: any) => Promise<any>> = Awaited<ReturnType<FnType>>;\", \"export type QueryConfig<T extends (...args: any[]) => any> = Omit<ReturnType<T>, 'queryKey' | 'queryFn'>;\", and \"export type MutationConfig<MutationFnType extends (...args: any) => Promise<any>> = UseMutationOptions<ApiFnReturnType<MutationFnType>, Error, Parameters<MutationFnType>[0]>;\". These infer data/variables from the fetcher signature, which is exactly the 'no hand-written generics' property the assertion asks for."
+    },
+    {
+      "text": "Env is validated with zod in src/config/env.ts and produces a readable aggregate error listing missing/invalid variables",
+      "passed": true,
+      "evidence": "outputs/app/src/config/env.ts:13-49. Zod schema at line 14 (\"const EnvSchema = z.object({ API_URL: z.string().min(1, 'Required — the REST API base URL') })\"), VITE_APP_ prefix stripped at lines 18-26, safeParse at line 28. The failure branch aggregates every field error rather than throwing on the first: \"Object.entries(parsedEnv.error.flatten().fieldErrors).map(([key, errors]) => `  - VITE_APP_${key}: ${errors?.join(', ')}`).join('\\n')\" (lines 31-33), assembled into a multi-line throw with the header 'The following variables are missing or invalid:' plus the remediation line 'Copy `.env.example` to `.env`...'. It throws at module load (\"export const env = createEnv();\", line 49), so a missing var fails loudly at startup instead of surfacing as an undefined baseURL. Supporting files: .env.example documents VITE_APP_API_URL, src/vite-env.d.ts types it."
+    },
+    {
+      "text": "QueryClient is created exactly once (module singleton or useState initializer) and wired through an app provider component",
+      "passed": true,
+      "evidence": "outputs/app/src/app/provider.tsx:16-18: \"const [queryClient] = React.useState(() => new QueryClient({ defaultOptions: queryConfig }));\" — the lazy-initializer form, and the only `new QueryClient(` in the tree (facts.json queryclient_once lists provider.tsx alone). It is wired through a real provider chain: Suspense > ErrorBoundary > QueryClientProvider (line 37) with <Notifications /> mounted alongside; src/app/app.tsx:18-24 wraps AppRouter in <AppProvider>, and src/main.tsx:12-16 renders <App /> at the root. AppRouter reads the client via useQueryClient() rather than constructing a second one."
+    },
+    {
+      "text": "No barrel index.ts files; new files are kebab-case",
+      "passed": true,
+      "evidence": "find over outputs/app returns zero index.ts/index.tsx files, matching facts.json \"new_barrel_index_files\": []. All 18 source files are kebab-case — api-client.ts, react-query.ts, notifications-store.ts, error-boundary.tsx, not-found.tsx, etc. — and folders too (components/ui/notifications, app/routes); facts.json \"non_kebab_new_files\": []. The convention is also enforced rather than merely followed: .eslintrc.cjs:81-89 adds check-file/filename-naming-convention KEBAB_CASE for **/*.{ts,tsx} and folder-naming-convention for src/**, with eslint-plugin-check-file added to devDependencies."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "A single shared API client instance lives in src/lib/api-client.ts (or equivalent lib path) — created once, imported everywhere",
+        "reason": "The 'imported everywhere' half is unverifiable in a foundation-only task — nothing imports `api` yet, so the clause can never fail. What actually matters here and is checkable is the wiring: assert that the client's baseURL is read from the zod-validated env module (e.g. `baseURL: env.API_URL`) rather than from `import.meta.env` directly. Right now assertion 1 (client exists) and assertion 6 (env is validated) both pass even if the client bypasses the validated config entirely, which would defeat the point of the prompt's 'base URL comes from an env var'."
+      },
+      {
+        "assertion": "Env is validated with zod in src/config/env.ts and produces a readable aggregate error listing missing/invalid variables",
+        "reason": "This passes for a module that validates and merely console.warns. Consider requiring fail-fast: the module throws (or process/app halts) at import time on invalid env. The graded output does throw at module scope, but an implementation that logs and returns a partially-undefined object would satisfy the assertion as written."
+      },
+      {
+        "reason": "No assertion — and no fact in facts.json — checks that the result actually compiles or builds. A foundation eval is exactly where plausible-looking-but-broken output is likely (path aliases, axios interceptor typing, zod version drift between v3 `.flatten()` and v4 `z.flattenError`). Adding an objective `npm ci && npx tsc --noEmit && npm run lint` gate to the fact collection would turn several of these judgment calls into mechanical ones. I could not run it here — outputs/app has no node_modules."
+      },
+      {
+        "reason": "The error-notification path is only asserted at the interceptor end. Nothing checks the other end — that a notification store/UI actually exists and is mounted in the provider tree. An implementation that calls a non-existent or never-rendered notifier would still pass assertion 3. Suggest asserting the notifications component is rendered inside the app provider, and that the interceptor reaches the store from non-React code (e.g. a `getState()`-style escape hatch) rather than illegally calling a hook."
+      },
+      {
+        "reason": "Observed but uncovered: the run also produced a route registry (src/config/paths.ts with path + getHref per route), lazy route splitting, an ErrorBoundary with a root fallback, and eslint import/no-restricted-paths module-boundary zones. These are strong signals the skill's architecture guidance was applied, and none of them are graded. If they are in scope for this skill, one assertion on enforced module boundaries (import/no-restricted-paths present with real zones) would be discriminating and is trivially machine-checkable — facts.json already collects it."
+      }
+    ],
+    "overall": "All eight assertions pass on genuine substance, not surface compliance — files contain working implementations, are cross-wired (queryConfig consumed by the provider, env consumed by the client, notifications store consumed by the interceptor and mounted in the tree), and conventions are enforced in eslint rather than just followed. The assertion set is well-targeted but has two soft spots: it never links the API client to the validated env, and it never checks the code builds. Adding a typecheck/lint gate would be the single highest-value change."
+  }
+}

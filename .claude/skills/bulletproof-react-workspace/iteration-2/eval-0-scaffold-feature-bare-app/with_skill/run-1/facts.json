@@ -1,0 +1,206 @@
+{
+  "run": "eval-0-scaffold-feature-bare-app/with_skill",
+  "new_files": [
+    ".env",
+    ".env.example",
+    ".prettierrc",
+    "src/app/app.tsx",
+    "src/app/provider.tsx",
+    "src/app/router.tsx",
+    "src/app/routes/app/root.tsx",
+    "src/app/routes/app/tasks/tasks.tsx",
+    "src/app/routes/landing.tsx",
+    "src/app/routes/not-found.tsx",
+    "src/components/errors/error-boundary.tsx",
+    "src/components/errors/main.tsx",
+    "src/components/layouts/dashboard-layout.module.css",
+    "src/components/layouts/dashboard-layout.tsx",
+    "src/components/ui/button/button.module.css",
+    "src/components/ui/button/button.tsx",
+    "src/components/ui/button/index.ts",
+    "src/components/ui/form/field-wrapper.tsx",
+    "src/components/ui/form/form.module.css",
+    "src/components/ui/form/index.ts",
+    "src/components/ui/form/input.tsx",
+    "src/components/ui/form/textarea.tsx",
+    "src/components/ui/link/index.ts",
+    "src/components/ui/link/link.tsx",
+    "src/components/ui/notifications/index.ts",
+    "src/components/ui/notifications/notification.tsx",
+    "src/components/ui/notifications/notifications-store.ts",
+    "src/components/ui/notifications/notifications.module.css",
+    "src/components/ui/notifications/notifications.tsx",
+    "src/components/ui/spinner/index.ts",
+    "src/components/ui/spinner/spinner.module.css",
+    "src/components/ui/spinner/spinner.tsx",
+    "src/config/env.ts",
+    "src/config/paths.ts",
+    "src/features/tasks/api/create-task.ts",
+    "src/features/tasks/api/get-tasks.ts",
+    "src/features/tasks/components/create-task.tsx",
+    "src/features/tasks/components/task-item.tsx",
+    "src/features/tasks/components/tasks-list.tsx",
+    "src/features/tasks/components/tasks.module.css",
+    "src/index.css",
+    "src/lib/api-client.ts",
+    "src/lib/react-query.ts",
+    "src/types/api.ts",
+    "src/utils/format.ts"
+  ],
+  "modified_files": [
+    ".eslintrc.cjs",
+    "package.json",
+    "src/main.tsx",
+    "tsconfig.json",
+    "vite.config.ts"
+  ],
+  "deleted_files": [
+    "src/App.tsx"
+  ],
+  "new_barrel_index_files": [
+    "src/components/ui/button/index.ts",
+    "src/components/ui/form/index.ts",
+    "src/components/ui/link/index.ts",
+    "src/components/ui/notifications/index.ts",
+    "src/components/ui/spinner/index.ts"
+  ],
+  "new_feature_barrels": [],
+  "non_kebab_new_files": [],
+  "eslint_has_no_restricted_paths": true,
+  "eslint_zone_mentions": [
+    "features/tasks",
+    "features/tasks"
+  ],
+  "greps": {
+    "queryOptions_factory": {
+      "src/features/tasks/api/get-tasks.ts": [
+        "return queryOptions({"
+      ]
+    },
+    "queryConfig_param": {
+      "src/app/provider.tsx": [
+        "import { queryConfig } from '@/lib/react-query';",
+        "() => new QueryClient({ defaultOptions: queryConfig }),"
+      ],
+      "src/features/tasks/api/get-tasks.ts": [
+        "queryConfig?: QueryConfig<typeof getTasksQueryOptions>;",
+        "export const useTasks = ({ queryConfig }: UseTasksOptions = {}) => {",
+        "...queryConfig,"
+      ],
+      "src/lib/react-query.ts": [
+        "export const queryConfig = {"
+      ]
+    },
+    "mutationConfig_param": {
+      "src/features/tasks/api/create-task.ts": [
+        "mutationConfig?: MutationConfig<typeof createTask>;",
+        "mutationConfig,",
+        "const { onSuccess, ...restConfig } = mutationConfig || {};"
+      ],
+      "src/features/tasks/components/create-task.tsx": [
+        "mutationConfig: {"
+      ]
+    },
+    "zod_schema": {
+      "src/config/env.ts": [
+        "const EnvSchema = z.object({"
+      ],
+      "src/features/tasks/api/create-task.ts": [
+        "export const createTaskInputSchema = z.object({"
+      ]
+    },
+    "invalidateQueries": {
+      "src/features/tasks/api/create-task.ts": [
+        "queryClient.invalidateQueries({"
+      ]
+    },
+    "string_literal_querykey": {
+      "src/features/tasks/api/get-tasks.ts": [
+        "queryKey: ['tasks'],"
+      ]
+    },
+    "interceptors": {
+      "src/lib/api-client.ts": [
+        "api.interceptors.request.use(authRequestInterceptor);",
+        "api.interceptors.response.use("
+      ]
+    },
+    "withCredentials": {
+      "src/lib/api-client.ts": [
+        "config.withCredentials = true;"
+      ]
+    },
+    "response_unwrap": {
+      "src/lib/api-client.ts": [
+        "(response) => response.data,"
+      ]
+    },
+    "status_401": {
+      "src/lib/api-client.ts": [
+        "if (error.response?.status === 401) {"
+      ]
+    },
+    "staleTime": {
+      "src/lib/react-query.ts": [
+        "staleTime: 1000 * 60,"
+      ]
+    },
+    "QueryConfig_type": {
+      "src/lib/react-query.ts": [
+        "export type ApiFnReturnType<FnType extends (...args: any) => Promise<any>> =",
+        "export type QueryConfig<T extends (...args: any[]) => any> = Omit<",
+        "export type MutationConfig<"
+      ]
+    },
+    "env_zod": {
+      "src/config/env.ts": [
+        "const createEnv = () => {",
+        "const EnvSchema = z.object({",
+        "const parsedEnv = EnvSchema.safeParse(envVars);",
+        "export const env = createEnv();"
+      ],
+      "src/features/tasks/components/create-task.tsx": [
+        "const result = createTaskInputSchema.safeParse(values);"
+      ]
+    },
+    "queryclient_once": {
+      "src/app/provider.tsx": [
+        "() => new QueryClient({ defaultOptions: queryConfig }),"
+      ]
+    },
+    "lazy_routes": {
+      "src/app/router.tsx": [
+        "lazy: () => import('./routes/landing').then(convert(queryClient)),",
+        "lazy: () => import('./routes/app/root').then(convert(queryClient)),",
+        "lazy: () => import('./routes/not-found').then(convert(queryClient)),"
+      ]
+    },
+    "paths_registry": {
+      "src/app/router.tsx": [
+        "element: <Navigate to={paths.app.tasks.getHref()} replace />,"
+      ],
+      "src/app/routes/landing.tsx": [
+        "<Link to={paths.app.tasks.getHref()}>Go to tasks</Link>"
+      ],
+      "src/app/routes/not-found.tsx": [
+        "<Link to={paths.home.getHref()}>Go home</Link>"
+      ],
+      "src/components/layouts/dashboard-layout.tsx": [
+        "const navigation = [{ name: 'Tasks', to: paths.app.tasks.getHref() }] as const;",
+        "<Link className={styles.brand} to={paths.home.getHref()}>"
+      ],
+      "src/config/paths.ts": [
+        "* `path` is what the router registers, `getHref()` is what links use \u2014 so no",
+        "getHref: () => '/',",
+        "getHref: () => '/app',",
+        "getHref: () => '/app/tasks',"
+      ],
+      "src/lib/api-client.ts": [
+        "// Point this at `paths.auth.login.getHref(redirectTo)` once auth exists.",
+        "if (redirectTo !== paths.home.getHref()) {",
+        "window.location.href = paths.home.getHref();"
+      ]
+    },
+    "relative_parent_imports": {}
+  }
+}

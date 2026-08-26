@@ -1,0 +1,133 @@
+{
+  "run": "eval-2-api-foundation-setup/with_skill",
+  "new_files": [
+    ".env.example",
+    ".gitignore",
+    "src/app/app.tsx",
+    "src/app/provider.tsx",
+    "src/app/router.tsx",
+    "src/app/routes/landing.tsx",
+    "src/app/routes/not-found.tsx",
+    "src/components/errors/error-boundary.tsx",
+    "src/components/errors/main.tsx",
+    "src/components/ui/notifications/notification.tsx",
+    "src/components/ui/notifications/notifications-store.ts",
+    "src/components/ui/notifications/notifications.tsx",
+    "src/components/ui/spinner/spinner.tsx",
+    "src/config/env.ts",
+    "src/config/paths.ts",
+    "src/lib/api-client.ts",
+    "src/lib/react-query.ts",
+    "src/types/api.ts",
+    "src/vite-env.d.ts"
+  ],
+  "modified_files": [
+    ".eslintrc.cjs",
+    "package.json",
+    "src/main.tsx",
+    "tsconfig.json",
+    "vite.config.ts"
+  ],
+  "deleted_files": [
+    "src/App.tsx"
+  ],
+  "new_barrel_index_files": [],
+  "non_kebab_new_files": [],
+  "eslint_has_no_restricted_paths": true,
+  "eslint_zone_mentions": [
+    "features/discussions"
+  ],
+  "greps": {
+    "queryOptions_factory": {},
+    "queryConfig_param": {
+      "src/app/provider.tsx": [
+        "import { queryConfig } from '@/lib/react-query';",
+        "() => new QueryClient({ defaultOptions: queryConfig }),"
+      ],
+      "src/lib/react-query.ts": [
+        "*   only delay the feedback. Opt back in per query via `queryConfig`.",
+        "export const queryConfig = {"
+      ]
+    },
+    "mutationConfig_param": {},
+    "zod_schema": {
+      "src/config/env.ts": [
+        "const EnvSchema = z.object({"
+      ]
+    },
+    "invalidateQueries": {},
+    "string_literal_querykey": {},
+    "interceptors": {
+      "src/lib/api-client.ts": [
+        "api.interceptors.request.use(authRequestInterceptor);",
+        "api.interceptors.response.use("
+      ]
+    },
+    "withCredentials": {
+      "src/lib/api-client.ts": [
+        "config.withCredentials = true;",
+        "withCredentials: true,"
+      ]
+    },
+    "response_unwrap": {
+      "src/lib/api-client.ts": [
+        "(response) => response.data,"
+      ]
+    },
+    "status_401": {
+      "src/lib/api-client.ts": [
+        "if (error.response?.status === 401) {",
+        "// Guard against a redirect loop when the login request itself 401s."
+      ]
+    },
+    "staleTime": {
+      "src/lib/react-query.ts": [
+        "* - `staleTime: 60s` \u2014 avoids a refetch storm when several components mount",
+        "staleTime: 1000 * 60,"
+      ]
+    },
+    "QueryConfig_type": {
+      "src/lib/react-query.ts": [
+        "export type ApiFnReturnType<FnType extends (...args: any) => Promise<any>> =",
+        "export type QueryConfig<T extends (...args: any[]) => any> = Omit<",
+        "export type MutationConfig<"
+      ]
+    },
+    "env_zod": {
+      "src/config/env.ts": [
+        "const createEnv = () => {",
+        "const EnvSchema = z.object({",
+        "const parsedEnv = EnvSchema.safeParse(envVars);",
+        "export const env = createEnv();"
+      ]
+    },
+    "queryclient_once": {
+      "src/app/provider.tsx": [
+        "() => new QueryClient({ defaultOptions: queryConfig }),"
+      ]
+    },
+    "lazy_routes": {
+      "src/app/router.tsx": [
+        "lazy: () => import('./routes/landing').then(convert(queryClient)),",
+        "lazy: () => import('./routes/not-found').then(convert(queryClient)),"
+      ]
+    },
+    "paths_registry": {
+      "src/app/routes/not-found.tsx": [
+        "<Link to={paths.home.getHref()}>Go home</Link>"
+      ],
+      "src/config/paths.ts": [
+        "* Each entry declares a `path` (consumed by the router) and a `getHref()`",
+        "getHref: () => '/',",
+        "getHref: (redirectTo?: string | null | undefined) =>",
+        "getHref: (redirectTo?: string | null | undefined) =>",
+        "getHref: () => '/app',",
+        "// discussions: { path: 'discussions', getHref: () => '/app/discussions' },"
+      ],
+      "src/lib/api-client.ts": [
+        "const loginHref = paths.auth.login.getHref(redirectTo);"
+      ]
+    },
+    "relative_parent_imports": {}
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "eval_id": 2,
+  "eval_name": "api-foundation-setup",
+  "prompt": "This fresh Vite React TS app is going to talk to our REST backend (base URL comes from an env var). Before we build any features, set up the foundation properly: an API layer with auth'd requests (cookie based) and error notifications on failed calls, react-query with sensible defaults, and env config that doesn't blow up mysteriously when a variable is missing. Deps are already in package.json: @tanstack/react-query, axios, zod, react-router.",
+  "assertions": [
+    "A single shared API client instance lives in src/lib/api-client.ts (or equivalent lib path) — created once, imported everywhere",
+    "Request interceptor sets Accept header and withCredentials (cookie-based auth)",
+    "Response interceptor unwraps response.data, surfaces a user-facing error notification on failure, and handles 401 (redirect/logout hook point)",
+    "react-query defaults (staleTime, retry, refetchOnWindowFocus) exported from a dedicated module (e.g. src/lib/react-query.ts)",
+    "Reusable QueryConfig/MutationConfig helper types are exported so future endpoint hooks are configurable without hand-written generics",
+    "Env is validated with zod in src/config/env.ts and produces a readable aggregate error listing missing/invalid variables",
+    "QueryClient is created exactly once (module singleton or useState initializer) and wired through an app provider component",
+    "No feature-level or lib-level barrel re-export files; new files are kebab-case (a composition-root index.tsx like src/app/index.tsx, or a shared ui component barrel, is acceptable — both match the reference app)"
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "expectations": [
+    {
+      "text": "Feature code lives in a dedicated feature module (src/features/tasks/...), not in flat top-level folders or App.tsx",
+      "passed": true,
+      "evidence": "src/features/tasks/{api,components} contains get-tasks.ts, create-task.ts, create-task.tsx, tasks-list.tsx, task-item.tsx. facts.json deleted_files lists 'src/App.tsx'. The route src/app/routes/app/tasks/tasks.tsx is a thin composition: \"import { CreateTask } from '@/features/tasks/components/create-task';\" / \"import { TasksList } from '@/features/tasks/components/tasks-list';\" and renders <CreateTask /> + <TasksList />, so the feature is genuinely wired in and not dead code."
+    },
+    {
+      "text": "One API file per endpoint under the feature's api/ folder, each exporting a typed fetcher function that uses a shared API client instance",
+      "passed": true,
+      "evidence": "Exactly two endpoint files for two endpoints: src/features/tasks/api/get-tasks.ts exports \"export const getTasks = (): Promise<Task[]> => { return api.get('/tasks'); };\" and src/features/tasks/api/create-task.ts exports \"export const createTask = ({ data }: { data: CreateTaskInput }): Promise<Task> => { return api.post('/tasks', data); };\". Both import the single instance \"import { api } from '@/lib/api-client';\", which is created once in src/lib/api-client.ts (\"export const api = Axios.create({ baseURL: env.API_URL });\") with request/response interceptors that unwrap \"(response) => response.data\" — which is what makes the Promise<Task[]> typing honest rather than a lie about AxiosResponse."
+    },
+    {
+      "text": "The list query exports a queryOptions factory and a hook that accepts a queryConfig override parameter (configurable hook)",
+      "passed": true,
+      "evidence": "src/features/tasks/api/get-tasks.ts:15-31 — \"export const getTasksQueryOptions = () => { return queryOptions({ queryKey: ['tasks'], queryFn: () => getTasks() }); };\" and \"export const useTasks = ({ queryConfig }: UseTasksOptions = {}) => { return useQuery({ ...getTasksQueryOptions(), ...queryConfig }); };\" with \"queryConfig?: QueryConfig<typeof getTasksQueryOptions>;\". The override type is real, not any: src/lib/react-query.ts defines \"export type QueryConfig<T extends (...args: any[]) => any> = Omit<ReturnType<T>, 'queryKey' | 'queryFn'>;\". The factory is actually consumed by a second caller (route loader in src/app/routes/app/tasks/tasks.tsx uses queryClient.fetchQuery(query))."
+    },
+    {
+      "text": "The create mutation validates input with an exported zod schema and its hook accepts a mutationConfig override parameter",
+      "passed": true,
+      "evidence": "src/features/tasks/api/create-task.ts:14-19 — \"export const createTaskInputSchema = z.object({ title: z.string().min(1, 'Required'), description: z.string().min(1, 'Required') });\" plus \"export type CreateTaskInput = z.infer<typeof createTaskInputSchema>;\" so the request payload type is derived from the schema. The hook takes \"mutationConfig?: MutationConfig<typeof createTask>\" and spreads it (\"const { onSuccess, ...restConfig } = mutationConfig || {};\"). The schema is not decorative — src/features/tasks/components/create-task.tsx:47 runs \"const result = createTaskInputSchema.safeParse(values);\", surfaces field errors, and only then calls mutate({ data: result.data }); the same file exercises the override via \"useCreateTask({ mutationConfig: { onSuccess: ... } })\"."
+    },
+    {
+      "text": "The query key is defined in exactly one place; mutation invalidation reuses the factory's queryKey instead of retyping a string-literal key",
+      "passed": true,
+      "evidence": "Repo-wide, the literal ['tasks'] appears only at src/features/tasks/api/get-tasks.ts:17 (facts.json string_literal_querykey lists that single hit). create-task.ts:41-43 invalidates via the factory: \"queryClient.invalidateQueries({ queryKey: getTasksQueryOptions().queryKey });\" (imported at line 8), and the route loader also goes through the factory (\"queryClient.getQueryData(query.queryKey)\"). No hand-retyped key anywhere."
+    },
+    {
+      "text": "No barrel index.ts re-export files in the feature module — feature code is imported directly from defining files (shared ui component barrels are acceptable, matching the reference app)",
+      "passed": true,
+      "evidence": "facts.json new_feature_barrels is []; find src -name 'index.ts*' returns only src/components/ui/{button,form,link,notifications,spinner}/index.ts — the shared-ui kind the assertion allows, matching the reference app (e.g. form/index.ts is \"export * from './field-wrapper'; export * from './input'; export * from './textarea';\"). Every feature import addresses the defining file: '@/features/tasks/api/get-tasks', '@/features/tasks/components/create-task', '@/features/tasks/components/tasks-list' from the route, and '../api/get-tasks' / './task-item' inside the feature."
+    },
+    {
+      "text": "All new files and folders are kebab-case",
+      "passed": true,
+      "evidence": "facts.json non_kebab_new_files is []. Manual check of every new path confirms it, including the multi-word cases that could have gone PascalCase: task-item.tsx, tasks-list.tsx, create-task.tsx, get-tasks.ts, api-client.ts, react-query.ts, notifications-store.ts, field-wrapper.tsx, dashboard-layout.tsx, error-boundary.tsx. Folders: app/routes/app/tasks, features/tasks/{api,components}, components/{errors,layouts,ui/{button,form,link,notifications,spinner}}, config, lib, types, utils. The convention is also machine-enforced in .eslintrc.cjs via check-file/filename-naming-convention and check-file/folder-naming-convention set to 'KEBAB_CASE'."
+    },
+    {
+      "text": "ESLint import/no-restricted-paths boundary zones are configured, including a zone entry protecting the tasks feature",
+      "passed": true,
+      "evidence": ".eslintrc.cjs:28-60 configures 'import/no-restricted-paths': ['error', { zones: [...] }] with three real zones: (a) the tasks-specific entry \"{ target: './src/features/tasks', from: './src/features', except: ['./tasks'] }\" blocking cross-feature imports, (b) \"{ target: './src/features', from: './src/app' }\" enforcing the unidirectional app -> features direction, and (c) shared modules (./src/components, ./src/hooks, ./src/lib, ./src/types, ./src/utils) blocked from importing './src/features' and './src/app'. The fixture's .eslintrc.cjs had no such rule (it extended only eslint:recommended, @typescript-eslint/recommended, react-hooks/recommended). 'import/no-cycle': 'error' is set too, and package.json gained eslint-plugin-import, eslint-import-resolver-typescript, and eslint-plugin-check-file to back the config."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "reason": "Nothing in this eval checks that the delivered app typechecks, builds, or lints. That matters here specifically: the run added eslint-plugin-import, eslint-plugin-check-file, eslint-plugin-jsx-a11y, eslint-plugin-prettier, eslint-config-prettier, eslint-import-resolver-typescript, @types/node and prettier to package.json devDependencies, but the fixture ships with deps pre-installed and no install step is implied — so the boundary rules that assertion 8 grades may not be runnable as delivered. An assertion like 'npm run check-types passes and npm run lint reports no errors (installing any newly declared devDeps)' would be the single most discriminating check to add, and would catch a config that is well-shaped on paper but broken in practice."
+      },
+      {
+        "assertion": "ESLint import/no-restricted-paths boundary zones are configured, including a zone entry protecting the tasks feature",
+        "reason": "This grades config presence, not config effect. A zone list with wrong target/from paths (or one that never fires because the resolver is unconfigured) would still pass. Consider asserting behaviorally: plant a deliberate violation (e.g. a temp file under src/components importing from '@/features/tasks') and require ESLint to flag it."
+      },
+      {
+        "assertion": "All new files and folders are kebab-case",
+        "reason": "Weak on its own — most of the names in a tasks scaffold are single words that are kebab-case by accident (api, lib, tasks, config). It only discriminates if multi-word names exist. Consider tightening to 'the kebab-case convention is machine-enforced (check-file rules in ESLint), not just coincidentally followed', which is what a genuinely bulletproof scaffold does and what this run actually did."
+      },
+      {
+        "reason": "No assertion covers whether the feature is reachable from the app. A run could satisfy assertions 1-8 with a perfectly structured but never-rendered src/features/tasks (nothing forces a route or a render). This run does wire it up (src/app/routes/app/tasks/tasks.tsx renders <CreateTask /> and <TasksList />, registered in src/app/router.tsx under paths.app.tasks), but that was luck from the grader's perspective, not a graded outcome. Add an assertion that a route renders both the list and the create form."
+      },
+      {
+        "reason": "No assertion covers the app-layer conventions the skill also produces and that distinguish it most from a naive scaffold: a single QueryClient created once behind a provider (src/app/provider.tsx uses a useState lazy initializer), a validated env module (src/config/env.ts parses import.meta.env through a zod schema), and a paths registry instead of hand-assembled URL strings (src/config/paths.ts). These are strong, hard-to-fake signals currently going ungraded."
+      }
+    ],
+    "overall": "All 8 assertions pass on genuine substance, not surface compliance — the query key really does exist in one place, the zod schema really is consumed by the form, the queryOptions factory really is reused by both the mutation's invalidation and the route loader, and the feature is actually rendered. The main gap in the eval is that everything is graded statically: nothing verifies the app typechecks/lints, and the ESLint boundary assertion checks config text rather than config effect — notably the run declared new devDependencies that may not be installed. Adding one build/lint assertion and one behavioral boundary check would meaningfully raise the bar."
+  }
+}

@@ -1,0 +1,421 @@
+{
+  "metadata": {
+    "skill_name": "bulletproof-react",
+    "skill_path": "C:/Users/106-2925/Downloads/code/bulletproof-react/.claude/skills/bulletproof-react",
+    "executor_model": "<model-name>",
+    "analyzer_model": "<model-name>",
+    "timestamp": "2026-08-26T00:31:09Z",
+    "evals_run": [
+      0,
+      1,
+      2
+    ],
+    "runs_per_configuration": 3
+  },
+  "runs": [
+    {
+      "eval_id": 0,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 8,
+        "failed": 0,
+        "total": 8,
+        "time_seconds": 487.5,
+        "tokens": 114589,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Feature code lives in a dedicated feature module (src/features/tasks/...), not in flat top-level folders or App.tsx",
+          "passed": true,
+          "evidence": "src/features/tasks/{api,components} contains get-tasks.ts, create-task.ts, create-task.tsx, tasks-list.tsx, task-item.tsx. facts.json deleted_files lists 'src/App.tsx'. The route src/app/routes/app/tasks/tasks.tsx is a thin composition: \"import { CreateTask } from '@/features/tasks/components/create-task';\" / \"import { TasksList } from '@/features/tasks/components/tasks-list';\" and renders <CreateTask /> + <TasksList />, so the feature is genuinely wired in and not dead code."
+        },
+        {
+          "text": "One API file per endpoint under the feature's api/ folder, each exporting a typed fetcher function that uses a shared API client instance",
+          "passed": true,
+          "evidence": "Exactly two endpoint files for two endpoints: src/features/tasks/api/get-tasks.ts exports \"export const getTasks = (): Promise<Task[]> => { return api.get('/tasks'); };\" and src/features/tasks/api/create-task.ts exports \"export const createTask = ({ data }: { data: CreateTaskInput }): Promise<Task> => { return api.post('/tasks', data); };\". Both import the single instance \"import { api } from '@/lib/api-client';\", which is created once in src/lib/api-client.ts (\"export const api = Axios.create({ baseURL: env.API_URL });\") with request/response interceptors that unwrap \"(response) => response.data\" \u2014 which is what makes the Promise<Task[]> typing honest rather than a lie about AxiosResponse."
+        },
+        {
+          "text": "The list query exports a queryOptions factory and a hook that accepts a queryConfig override parameter (configurable hook)",
+          "passed": true,
+          "evidence": "src/features/tasks/api/get-tasks.ts:15-31 \u2014 \"export const getTasksQueryOptions = () => { return queryOptions({ queryKey: ['tasks'], queryFn: () => getTasks() }); };\" and \"export const useTasks = ({ queryConfig }: UseTasksOptions = {}) => { return useQuery({ ...getTasksQueryOptions(), ...queryConfig }); };\" with \"queryConfig?: QueryConfig<typeof getTasksQueryOptions>;\". The override type is real, not any: src/lib/react-query.ts defines \"export type QueryConfig<T extends (...args: any[]) => any> = Omit<ReturnType<T>, 'queryKey' | 'queryFn'>;\". The factory is actually consumed by a second caller (route loader in src/app/routes/app/tasks/tasks.tsx uses queryClient.fetchQuery(query))."
+        },
+        {
+          "text": "The create mutation validates input with an exported zod schema and its hook accepts a mutationConfig override parameter",
+          "passed": true,
+          "evidence": "src/features/tasks/api/create-task.ts:14-19 \u2014 \"export const createTaskInputSchema = z.object({ title: z.string().min(1, 'Required'), description: z.string().min(1, 'Required') });\" plus \"export type CreateTaskInput = z.infer<typeof createTaskInputSchema>;\" so the request payload type is derived from the schema. The hook takes \"mutationConfig?: MutationConfig<typeof createTask>\" and spreads it (\"const { onSuccess, ...restConfig } = mutationConfig || {};\"). The schema is not decorative \u2014 src/features/tasks/components/create-task.tsx:47 runs \"const result = createTaskInputSchema.safeParse(values);\", surfaces field errors, and only then calls mutate({ data: result.data }); the same file exercises the override via \"useCreateTask({ mutationConfig: { onSuccess: ... } })\"."
+        },
+        {
+          "text": "The query key is defined in exactly one place; mutation invalidation reuses the factory's queryKey instead of retyping a string-literal key",
+          "passed": true,
+          "evidence": "Repo-wide, the literal ['tasks'] appears only at src/features/tasks/api/get-tasks.ts:17 (facts.json string_literal_querykey lists that single hit). create-task.ts:41-43 invalidates via the factory: \"queryClient.invalidateQueries({ queryKey: getTasksQueryOptions().queryKey });\" (imported at line 8), and the route loader also goes through the factory (\"queryClient.getQueryData(query.queryKey)\"). No hand-retyped key anywhere."
+        },
+        {
+          "text": "No barrel index.ts re-export files in the feature module \u2014 feature code is imported directly from defining files (shared ui component barrels are acceptable, matching the reference app)",
+          "passed": true,
+          "evidence": "facts.json new_feature_barrels is []; find src -name 'index.ts*' returns only src/components/ui/{button,form,link,notifications,spinner}/index.ts \u2014 the shared-ui kind the assertion allows, matching the reference app (e.g. form/index.ts is \"export * from './field-wrapper'; export * from './input'; export * from './textarea';\"). Every feature import addresses the defining file: '@/features/tasks/api/get-tasks', '@/features/tasks/components/create-task', '@/features/tasks/components/tasks-list' from the route, and '../api/get-tasks' / './task-item' inside the feature."
+        },
+        {
+          "text": "All new files and folders are kebab-case",
+          "passed": true,
+          "evidence": "facts.json non_kebab_new_files is []. Manual check of every new path confirms it, including the multi-word cases that could have gone PascalCase: task-item.tsx, tasks-list.tsx, create-task.tsx, get-tasks.ts, api-client.ts, react-query.ts, notifications-store.ts, field-wrapper.tsx, dashboard-layout.tsx, error-boundary.tsx. Folders: app/routes/app/tasks, features/tasks/{api,components}, components/{errors,layouts,ui/{button,form,link,notifications,spinner}}, config, lib, types, utils. The convention is also machine-enforced in .eslintrc.cjs via check-file/filename-naming-convention and check-file/folder-naming-convention set to 'KEBAB_CASE'."
+        },
+        {
+          "text": "ESLint import/no-restricted-paths boundary zones are configured, including a zone entry protecting the tasks feature",
+          "passed": true,
+          "evidence": ".eslintrc.cjs:28-60 configures 'import/no-restricted-paths': ['error', { zones: [...] }] with three real zones: (a) the tasks-specific entry \"{ target: './src/features/tasks', from: './src/features', except: ['./tasks'] }\" blocking cross-feature imports, (b) \"{ target: './src/features', from: './src/app' }\" enforcing the unidirectional app -> features direction, and (c) shared modules (./src/components, ./src/hooks, ./src/lib, ./src/types, ./src/utils) blocked from importing './src/features' and './src/app'. The fixture's .eslintrc.cjs had no such rule (it extended only eslint:recommended, @typescript-eslint/recommended, react-hooks/recommended). 'import/no-cycle': 'error' is set too, and package.json gained eslint-plugin-import, eslint-import-resolver-typescript, and eslint-plugin-check-file to back the config."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 8,
+        "failed": 0,
+        "total": 8,
+        "time_seconds": 287.5,
+        "tokens": 100346,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "src/features/projects/api/get-projects.ts exists and mirrors the discussions query pattern: fetcher + exported queryOptions factory + hook accepting QueryConfig-typed queryConfig",
+          "passed": true,
+          "evidence": "outputs/app/src/features/projects/api/get-projects.ts is a line-for-line structural mirror of the fixture's get-discussions.ts: fetcher `export const getProjects = (page = 1): Promise<{ data: Project[]; meta: Meta }> => api.get('/projects', { params: { page } })`, exported factory `export const getProjectsQueryOptions = ({ page }: { page?: number } = {}) => queryOptions({ queryKey: page ? ['projects', { page }] : ['projects'], queryFn: () => getProjects(page) })`, and hook `export const useProjects = ({ queryConfig, page }: UseProjectsOptions)` where `queryConfig?: QueryConfig<typeof getProjectsQueryOptions>` and the hook spreads `...getProjectsQueryOptions({ page }), ...queryConfig`. QueryConfig is imported from '@/lib/react-query'."
+        },
+        {
+          "text": "src/features/projects/api/create-project.ts exports a zod input schema (name and description required) and a hook accepting MutationConfig-typed mutationConfig",
+          "passed": true,
+          "evidence": "create-project.ts lines 10-13: `export const createProjectInputSchema = z.object({ name: z.string().min(1, 'Required'), description: z.string().min(1, 'Required') })` \u2014 both fields required, matching the fixture's createDiscussionInputSchema style. Lines 25-31: `type UseCreateProjectOptions = { mutationConfig?: MutationConfig<typeof createProject> }` consumed by `export const useCreateProject = ({ mutationConfig }: UseCreateProjectOptions = {})`. `CreateProjectInput` is derived via z.infer and used as the POST body type."
+        },
+        {
+          "text": "The create-project mutation's default onSuccess invalidates using getProjectsQueryOptions().queryKey and still forwards the caller's onSuccess",
+          "passed": true,
+          "evidence": "create-project.ts lines 34-45: `const { onSuccess, ...restConfig } = mutationConfig || {};` then `useMutation({ onSuccess: (...args) => { queryClient.invalidateQueries({ queryKey: getProjectsQueryOptions().queryKey }); onSuccess?.(...args); }, ...restConfig, mutationFn: createProject })`. Uses the typed query-key factory (no string-literal key \u2014 facts.json `string_literal_querykey` is empty) and forwards the caller's callback, with restConfig spread after so the caller cannot accidentally clobber the invalidation. Verified live: src/features/projects/components/create-project.tsx passes `mutationConfig: { onSuccess: () => addNotification(...) }` and relies on that forwarding."
+        },
+        {
+          "text": "A projects route is registered in src/app/router.tsx using the lazy + convert(queryClient) pattern",
+          "passed": true,
+          "evidence": "router.tsx lines 61-65, nested inside the ProtectedRoute `paths.app.root` children array: `{ path: paths.app.projects.path, lazy: () => import('./routes/app/projects/projects').then(convert(queryClient)) }`. The target file outputs/app/src/app/routes/app/projects/projects.tsx exists and exports both `clientLoader` (prefetching getProjectsQueryOptions via queryClient.fetchQuery, the pattern `convert` depends on) and a default ProjectsRoute component."
+        },
+        {
+          "text": "src/config/paths.ts gains a projects entry with path and getHref()",
+          "passed": true,
+          "evidence": "paths.ts lines 37-40 add `projects: { path: 'projects', getHref: () => '/app/projects' }` inside the `app` group, placed between `discussion` and `users` and matching the relative-path/absolute-href convention of the neighbouring discussions entry. Resolves to the required /app/projects URL because the route is nested under paths.app.root ('/app')."
+        },
+        {
+          "text": "A new zone entry for ./src/features/projects is added to import/no-restricted-paths in .eslintrc.cjs (the lint-clean trap)",
+          "passed": true,
+          "evidence": "Diff against fixtures/established-app/.eslintrc.cjs shows exactly one added zone, lines 67-71 of the output file: `{ target: './src/features/projects', from: './src/features', except: ['./projects'] }`, inserted in alphabetical order between the discussions and teams zones. All other zones and rules are byte-identical to the fixture (no collateral edits). facts.json `eslint_zone_mentions` confirms 'features/projects' now appears."
+        },
+        {
+          "text": "No cross-feature imports and no new feature-level barrel index.ts files",
+          "passed": true,
+          "evidence": "`find src/features -name index.ts*` returns nothing in the output app, identical to the fixture; facts.json reports `new_barrel_index_files: []` and `new_feature_barrels: []`. Every import in src/features/projects/** resolves to shared layers or its own feature: '@/lib/api-client', '@/lib/react-query', '@/types/api', '@/components/ui/{button,form,notifications,spinner,table}', '@/utils/format', plus intra-feature relatives './get-projects' and '../api/*'. No '@/features/<other>' import appears anywhere in the new code, and nothing imports from '@/features/projects' except src/app/routes/app/projects/projects.tsx (app -> features, the allowed direction)."
+        },
+        {
+          "text": "All new files/folders are kebab-case and imports use the @/ alias",
+          "passed": true,
+          "evidence": "All 7 new files are kebab-case (get-projects.ts, create-project.ts, projects-list.tsx, create-project.tsx, projects.tsx, projects.test.tsx, testing/mocks/handlers/projects.ts); new folders are `projects`, `api`, `components`, and `__tests__` (the latter explicitly exempted by the eslint folder-naming override `files: ['src/**/!(__tests__)/*']`). facts.json `non_kebab_new_files: []`. Cross-layer imports all use the @/ alias; the only relative imports are intra-feature siblings ('./get-projects', '../api/get-projects', '../api/create-project') and intra-testing ('../db', '../utils'), which is exactly the fixture convention \u2014 fixtures/established-app/src/features/discussions/components/discussions-list.tsx likewise uses '@/components/ui/table' plus '../api/get-discussions'. No '../../' escapes out of a module."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 8,
+        "failed": 0,
+        "total": 8,
+        "time_seconds": 293.1,
+        "tokens": 88213,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "A single shared API client instance lives in src/lib/api-client.ts (or equivalent lib path) \u2014 created once, imported everywhere",
+          "passed": true,
+          "evidence": "outputs/app/src/lib/api-client.ts:20 declares the only axios instance in the app: `export const api = Axios.create({ baseURL: env.API_URL });`. A grep for `axios.create|Axios.create` across src/ returns exactly one hit, so no component or route builds its own client. baseURL is taken from the validated `@/config/env` module rather than raw `import.meta.env` (grep confirms `import.meta.env` appears only inside src/config/env.ts). The instance is module-scope and exported for import; the app has no feature code yet (foundation-only task), so there are no consumers to count, but nothing bypasses it."
+        },
+        {
+          "text": "Request interceptor sets Accept header and withCredentials (cookie-based auth)",
+          "passed": true,
+          "evidence": "src/lib/api-client.ts:12-18 `authRequestInterceptor` sets `config.headers.Accept = 'application/json'` and `config.withCredentials = true`, registered at line 24 via `api.interceptors.request.use(authRequestInterceptor)`. The doc comment explains the cookie/HttpOnly rationale, so no token is read from JS storage."
+        },
+        {
+          "text": "Response interceptor unwraps response.data, surfaces a user-facing error notification on failure, and handles 401 (redirect/logout hook point)",
+          "passed": true,
+          "evidence": "src/lib/api-client.ts:26-49: success handler is `(response) => response.data`; the error handler derives `error.response?.data?.message || error.message` and calls `useNotifications.getState().addNotification({ type: 'error', title: 'Error', message })`; then `if (error.response?.status === 401)` it redirects via `window.location.href = paths.auth.login.getHref(redirectTo)`, preserving the current path as `redirectTo`, before `Promise.reject(error)`. The notification path is genuinely wired end-to-end: src/components/ui/notifications/notifications-store.ts implements a React-external store (useSyncExternalStore) writable from outside React, and `<Notifications />` is mounted in src/app/provider.tsx:23, so an interceptor-pushed notification actually renders. A /auth/login route exists (src/app/routes/auth/login.tsx, registered in router.tsx) so the redirect target is real."
+        },
+        {
+          "text": "react-query defaults (staleTime, retry, refetchOnWindowFocus) exported from a dedicated module (e.g. src/lib/react-query.ts)",
+          "passed": true,
+          "evidence": "src/lib/react-query.ts:19-25 exports `queryConfig` `satisfies DefaultOptions` with `refetchOnWindowFocus: false`, `retry: false`, `staleTime: 1000 * 60`. It is consumed in src/app/provider.tsx:16 (`new QueryClient({ defaultOptions: queryConfig })`), so the defaults are actually applied, not just declared. Comments justify each value."
+        },
+        {
+          "text": "Reusable QueryConfig/MutationConfig helper types are exported so future endpoint hooks are configurable without hand-written generics",
+          "passed": true,
+          "evidence": "src/lib/react-query.ts:32-48 exports `ApiFnReturnType<FnType>` = `Awaited<ReturnType<FnType>>`, `QueryConfig<T> = Omit<ReturnType<T>, 'queryKey' | 'queryFn'>` (the queryOptions-factory-derived form), and `MutationConfig<MutationFnType> = UseMutationOptions<ApiFnReturnType<MutationFnType>, Error, Parameters<MutationFnType>[0]>`. Types are inferred from the fetcher/options factory, so endpoint hooks need no per-endpoint generics."
+        },
+        {
+          "text": "Env is validated with zod in src/config/env.ts and produces a readable aggregate error listing missing/invalid variables",
+          "passed": true,
+          "evidence": "src/config/env.ts:12-47: `const EnvSchema = z.object({ API_URL: z.string().min(1, 'Required'), ENABLE_API_MOCKING: ... })`, variables collected by stripping the `VITE_APP_` prefix from `import.meta.env`, then `EnvSchema.safeParse(envVars)`. On failure it throws a multi-line message that enumerates every failing key: `Object.entries(parsedEnv.error.flatten().fieldErrors).map(([k, v]) => \\`- ${k}: ${v}\\`).join('\\n')` under the header \"The following variables are missing or invalid:\" plus a pointer to .env.example. Aggregate (all keys, not first-failure) and fail-fast at module load via `export const env = createEnv()`. Supporting .env.example documents the required var; zod ^3.23.8 in package.json supports `error.flatten().fieldErrors`."
+        },
+        {
+          "text": "QueryClient is created exactly once (module singleton or useState initializer) and wired through an app provider component",
+          "passed": true,
+          "evidence": "grep for `new QueryClient` across src/ returns exactly one hit: src/app/provider.tsx:15-17 `const [queryClient] = React.useState(() => new QueryClient({ defaultOptions: queryConfig }))` \u2014 a lazy useState initializer, not a per-render construction. It is passed to `<QueryClientProvider client={queryClient}>` inside `AppProvider`, which wraps `<AppRouter />` in src/app/app.tsx. src/app/router.tsx:42 reuses the same instance via `useQueryClient()` rather than constructing a second one for loaders."
+        },
+        {
+          "text": "No feature-level or lib-level barrel re-export files; new files are kebab-case (a composition-root index.tsx like src/app/index.tsx, or a shared ui component barrel, is acceptable \u2014 both match the reference app)",
+          "passed": true,
+          "evidence": "facts.json: `new_feature_barrels: []` and `non_kebab_new_files: []`. The only barrel is `src/components/ui/notifications/index.ts`, which is exactly the allowed shared-ui-component barrel (contents: `export * from './notifications'; export * from './notifications-store';` with a comment explaining why `./notification` stays internal). No index file exists under src/lib, src/config, or src/features. A full file listing of outputs/app confirms every new file is kebab-case (api-client.ts, react-query.ts, error-boundary.tsx, notifications-store.ts, not-found.tsx, etc.) and folders are kebab-case too."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 0,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.75,
+        "passed": 6,
+        "failed": 2,
+        "total": 8,
+        "time_seconds": 689.4,
+        "tokens": 122251,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Feature code lives in a dedicated feature module (src/features/tasks/...), not in flat top-level folders or App.tsx",
+          "passed": true,
+          "evidence": "facts.json new_files show src/features/tasks/{api/get-tasks.ts, api/create-task.ts, api/query-keys.ts, components/create-task-form.tsx, components/task-list.tsx, components/task-list-item.tsx, types.ts}; src/App.tsx is in deleted_files. The route file src/app/routes/tasks/tasks.tsx is a thin composer: 'export const TasksRoute = () => (<section...><CreateTaskForm /><TaskList /></section>)' with no data fetching or form state of its own. Shared, non-feature concerns (api client, react-query helpers, ui kit, config/paths) live under src/lib, src/components, src/config."
+        },
+        {
+          "text": "One API file per endpoint under the feature's api/ folder, each exporting a typed fetcher function that uses a shared API client instance",
+          "passed": true,
+          "evidence": "Two endpoints, two files: src/features/tasks/api/get-tasks.ts exports 'export const getTasks = async (): Promise<Task[]>' and src/features/tasks/api/create-task.ts exports 'export const createTask = async (data: CreateTaskInput): Promise<Task>'. Both import the single shared instance: 'import { apiClient } from \"@/lib/api-client\"', and src/lib/api-client.ts creates exactly one axios instance ('export const apiClient = axios.create({ baseURL: env.API_URL, ... })') with request/response interceptors. Responses are zod-parsed at the boundary (tasksSchema.parse / taskSchema.parse). Note: api/ also holds a non-endpoint query-keys.ts, which does not violate the assertion but deviates from the reference app's inline-key convention."
+        },
+        {
+          "text": "The list query exports a queryOptions factory and a hook that accepts a queryConfig override parameter (configurable hook)",
+          "passed": true,
+          "evidence": "src/features/tasks/api/get-tasks.ts: 'export const getTasksQueryOptions = () => queryOptions({ queryKey: taskKeys.lists(), queryFn: getTasks })' and 'export const useTasks = ({ queryConfig }: UseTasksOptions = {}) => useQuery({ ...getTasksQueryOptions(), ...queryConfig })' with 'queryConfig?: QueryConfig<typeof getTasksQueryOptions>'. The QueryConfig type in src/lib/react-query.ts is the reference-style 'Omit<ReturnType<T>, \"queryKey\" | \"queryFn\">', so the key and fetcher stay owned by the feature."
+        },
+        {
+          "text": "The create mutation validates input with an exported zod schema and its hook accepts a mutationConfig override parameter",
+          "passed": true,
+          "evidence": "src/features/tasks/types.ts exports 'createTaskInputSchema = z.object({ title: z.string().trim().min(1,...).max(120,...), description: ... })' with 'export type CreateTaskInput = z.infer<typeof createTaskInputSchema>'. createTask parses with it before the POST ('const payload = createTaskInputSchema.parse(data)'), and the form re-uses the same schema ('const result = createTaskInputSchema.safeParse(values)'). The hook is 'useCreateTask = ({ mutationConfig }: UseCreateTaskOptions = {})' with 'mutationConfig?: MutationConfig<typeof createTask>', spread as '...restConfig' after the internal onSuccess, and the caller's onSuccess is chained rather than dropped. Deviation from the reference: the schema sits in types.ts rather than beside the mutation, but it is exported and genuinely used for validation."
+        },
+        {
+          "text": "The query key is defined in exactly one place; mutation invalidation reuses the factory's queryKey instead of retyping a string-literal key",
+          "passed": true,
+          "evidence": "The literal 'tasks' appears exactly once as a cache key, in src/features/tasks/api/query-keys.ts: 'taskKeys = { all: [\"tasks\"] as const, lists: () => [...taskKeys.all, \"list\"] as const }'. getTasksQueryOptions consumes taskKeys.lists(); create-task.ts invalidates via the same imported factory: 'void queryClient.invalidateQueries({ queryKey: taskKeys.all })'. facts.json string_literal_querykey grep is empty \u2014 no retyped literal anywhere. Judged PASS on the assertion's substance (single source of truth, symbol-based invalidation); mechanism differs from the reference app, which reads the key off the queryOptions factory (getTasksQueryOptions().queryKey) instead of a separate key-factory module."
+        },
+        {
+          "text": "No barrel index.ts re-export files in the feature module \u2014 feature code is imported directly from defining files (shared ui component barrels are acceptable, matching the reference app)",
+          "passed": false,
+          "evidence": "facts.json new_feature_barrels lists src/features/tasks/index.ts, and the file is a real re-export barrel: 'export { CreateTaskForm } from \"./components/create-task-form\"; export { TaskList } from \"./components/task-list\"; export { useTasks, getTasksQueryOptions } from \"./api/get-tasks\"; export { useCreateTask } from \"./api/create-task\"; export { taskKeys } from \"./api/query-keys\"; export type { Task, CreateTaskInput } from \"./types\"'. It is not vestigial \u2014 the only cross-module consumer routes through it: src/app/routes/tasks/tasks.tsx line 1 is 'import { CreateTaskForm, TaskList } from \"@/features/tasks\"', and .eslintrc.cjs actively forbids the direct-import style the assertion requires ('@/features/*/*' patterns, message: 'Import a feature through its public API (\"@/features/tasks\"), not its internals'). The run deliberately adopted the public-API-barrel convention, the opposite of the reference app's no-feature-barrel rule. (src/components/ui/index.ts is the allowed shared-ui barrel and is not counted against this.)"
+        },
+        {
+          "text": "All new files and folders are kebab-case",
+          "passed": true,
+          "evidence": "facts.json non_kebab_new_files is empty. Confirmed by directory listing: every new file is lowercase/kebab (create-task-form.tsx, task-list-item.tsx, get-tasks.ts, query-keys.ts, main-layout.module.css, error-boundary.tsx, api-client.ts, react-query.ts, not-found.tsx, route-error.tsx), and every new folder is lowercase single-word (app, routes, tasks, features, components, errors, layouts, ui, config, lib, styles, types, utils, api). No PascalCase or camelCase paths remain \u2014 the fixture's src/App.tsx was deleted."
+        },
+        {
+          "text": "ESLint import/no-restricted-paths boundary zones are configured, including a zone entry protecting the tasks feature",
+          "passed": false,
+          "evidence": "facts.json eslint_has_no_restricted_paths is false, and .eslintrc.cjs contains no 'import/no-restricted-paths' rule and no 'zones' array; eslint-plugin-import is not in package.json devDependencies (only @typescript-eslint, react-hooks, react-refresh), so the rule could not run. Boundaries ARE enforced, by a different mechanism: core 'no-restricted-imports' with pattern groups plus file overrides \u2014 a global rule banning '@/features/*/*' and '@/features/*/**' (deep imports), an override for 'src/features/**' additionally banning '@/app', '@/app/*', '@/app/**', and an override for src/{components,hooks,lib,utils,types,config}/** banning both '@/app*' and '@/features*'. That covers the shared -> features -> app direction, but it is generic pattern matching, not import/no-restricted-paths zones, and there is no zone (or any rule entry) naming the tasks feature specifically \u2014 the only 'features/tasks' occurrences in the config are inside human-readable message strings. Judged against the assertion's actual wording: FAIL. Note also that the mechanism chosen enforces the opposite of assertion 6 (it mandates the feature barrel)."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 8,
+        "failed": 0,
+        "total": 8,
+        "time_seconds": 290.0,
+        "tokens": 98519,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "src/features/projects/api/get-projects.ts exists and mirrors the discussions query pattern: fetcher + exported queryOptions factory + hook accepting QueryConfig-typed queryConfig",
+          "passed": true,
+          "evidence": "outputs/app/src/features/projects/api/get-projects.ts is a line-for-line structural mirror of fixtures/established-app/src/features/discussions/api/get-discussions.ts: `getProjects(page = 1): Promise<{data: Project[]; meta: Meta}>` via `api.get('/projects', {params: {page}})`; exported factory `getProjectsQueryOptions({page} = {})` returning `queryOptions({queryKey: page ? ['projects', {page}] : ['projects'], queryFn: () => getProjects(page)})`; hook `useProjects({queryConfig, page}: UseProjectsOptions)` with `queryConfig?: QueryConfig<typeof getProjectsQueryOptions>` spread after the options. Imports resolve to real modules (@/lib/api-client, @/lib/react-query, @/types/api) and `Project` was added to src/types/api.ts."
+        },
+        {
+          "text": "src/features/projects/api/create-project.ts exports a zod input schema (name and description required) and a hook accepting MutationConfig-typed mutationConfig",
+          "passed": true,
+          "evidence": "create-project.ts lines 10-13: `export const createProjectInputSchema = z.object({ name: z.string().min(1, 'Required'), description: z.string().min(1, 'Required') })`, plus `export type CreateProjectInput = z.infer<...>`. Hook at lines 25-31: `type UseCreateProjectOptions = { mutationConfig?: MutationConfig<typeof createProject> }` and `useCreateProject({ mutationConfig }: UseCreateProjectOptions = {})`. The schema is genuinely consumed: components/create-project.tsx passes `schema={createProjectInputSchema}` to the shared `Form`."
+        },
+        {
+          "text": "The create-project mutation's default onSuccess invalidates using getProjectsQueryOptions().queryKey and still forwards the caller's onSuccess",
+          "passed": true,
+          "evidence": "create-project.ts lines 34-45: `const { onSuccess, ...restConfig } = mutationConfig || {};` then `useMutation({ onSuccess: (...args) => { queryClient.invalidateQueries({ queryKey: getProjectsQueryOptions().queryKey }); onSuccess?.(...args); }, ...restConfig, mutationFn: createProject })`. Uses the typed queryKey from the factory (not a string literal), and destructuring onSuccess out of restConfig means the spread cannot clobber the default handler \u2014 same ordering as the discussions original."
+        },
+        {
+          "text": "A projects route is registered in src/app/router.tsx using the lazy + convert(queryClient) pattern",
+          "passed": true,
+          "evidence": "src/app/router.tsx lines 61-65, inside the protected `paths.app.root` children array: `{ path: paths.app.projects.path, lazy: () => import('./routes/app/projects').then(convert(queryClient)) }`. The target src/app/routes/app/projects.tsx exists and exports both `clientLoader = (queryClient) => async ({request}) => ...` (prefetch/read of getProjectsQueryOptions) and a default `ProjectsRoute` component, which is exactly what `convert` destructures."
+        },
+        {
+          "text": "src/config/paths.ts gains a projects entry with path and getHref()",
+          "passed": true,
+          "evidence": "Diff vs fixture shows a new entry in `paths.app`: `projects: { path: 'projects', getHref: () => '/app/projects' }` (paths.ts lines 37-40), matching the relative-`path` + absolute-`getHref` convention of the sibling `discussions` entry. It is actually used: router.tsx uses `paths.app.projects.path` and dashboard-layout.tsx uses `paths.app.projects.getHref()`."
+        },
+        {
+          "text": "A new zone entry for ./src/features/projects is added to import/no-restricted-paths in .eslintrc.cjs (the lint-clean trap)",
+          "passed": true,
+          "evidence": "Diff of outputs/app/.eslintrc.cjs against fixtures/established-app/.eslintrc.cjs shows the only change is a new zone at lines 67-71: `{ target: './src/features/projects', from: './src/features', except: ['./projects'] }`, inserted in alphabetical position between the discussions and teams zones. facts.json corroborates: eslint_zone_mentions now includes 'features/projects'. The trap was hit deliberately, not by accident."
+        },
+        {
+          "text": "No cross-feature imports and no new feature-level barrel index.ts files",
+          "passed": true,
+          "evidence": "`find src/features -name 'index.ts*'` returns nothing anywhere in the app (facts.json: new_barrel_index_files: [], new_feature_barrels: []). The projects feature contains exactly 4 files (api/get-projects.ts, api/create-project.ts, components/create-project.tsx, components/projects-list.tsx). Grep for '@/features/' inside src/features/projects returns zero hits; the only @/features imports are from src/app/routes/app/projects.tsx (app -> feature, the allowed direction) and they are deep paths into api/ and components/, not a barrel. Within-feature imports are relative siblings ('../api/get-projects', '../api/create-project'), matching discussions-list.tsx in the fixture."
+        },
+        {
+          "text": "All new files/folders are kebab-case and imports use the @/ alias",
+          "passed": true,
+          "evidence": "All new paths are kebab-case: features/projects/{api,components}/{get-projects.ts,create-project.ts,create-project.tsx,projects-list.tsx}, app/routes/app/projects.tsx, app/routes/app/__tests__/projects.test.tsx (the __tests__ folder is explicitly exempted by the config's `files: ['src/**/!(__tests__)/*']` override), testing/mocks/handlers/projects.ts. facts.json non_kebab_new_files: []. Every cross-layer import uses the alias (@/components/ui/*, @/config/paths, @/lib/api-client, @/lib/react-query, @/types/api, @/utils/format, @/features/projects/...); facts.json relative_parent_imports is empty, i.e. no '../../' escapes out of a module."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 8,
+        "failed": 0,
+        "total": 8,
+        "time_seconds": 649.1,
+        "tokens": 102813,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "A single shared API client instance lives in src/lib/api-client.ts (or equivalent lib path) \u2014 created once, imported everywhere",
+          "passed": true,
+          "evidence": "src/lib/api-client.ts:30 `export const apiClient = axios.create({ baseURL: env.VITE_API_URL, withCredentials: true, timeout: 30_000, headers: {'Content-Type': 'application/json'} })`. A repo-wide grep for `axios.create` returns exactly one hit (that line), so there is no second client. The module also exports a typed `api` facade (get/post/put/patch/delete) built on that one instance, which is the surface future feature code imports. No feature consumers exist yet \u2014 expected, since the task was foundation-only."
+        },
+        {
+          "text": "Request interceptor sets Accept header and withCredentials (cookie-based auth)",
+          "passed": true,
+          "evidence": "src/lib/api-client.ts:39-42 `apiClient.interceptors.request.use((config: InternalAxiosRequestConfig) => { config.headers.Accept = 'application/json'; return config; })`. `withCredentials: true` is set on the instance at creation (line 32) rather than inside the interceptor \u2014 same effect on every outgoing request, and the file documents the cookie rationale ('The browser sends the session cookie because `withCredentials` is on ... the backend must answer with Access-Control-Allow-Credentials: true'). Outcome (every request carries Accept: application/json and credentials) is fully met."
+        },
+        {
+          "text": "Response interceptor unwraps response.data, surfaces a user-facing error notification on failure, and handles 401 (redirect/logout hook point)",
+          "passed": true,
+          "evidence": "Error path is in the interceptor: api-client.ts:62-81 normalises via `toApiError(error)`, raises `notify.error({ title: 'Request failed', message: apiError.message })` (honouring a per-request `skipErrorNotification` opt-out), and calls `redirectToLogin()` when `apiError.isUnauthorized` (api-error.ts:32 `return this.status === 401`). `redirectToLogin` (lines 44-55) guards against re-redirecting from the login route and preserves the return path via `paths.auth.login.getHref(`${pathname}${search}`)`. Unwrapping of `response.data` is done one layer out, in the exported `api` facade (lines 96-109, `.then((response) => response.data)`) rather than in the success handler (`(response) => response`); callers still never touch AxiosResponse, so the outcome holds, but the literal mechanism differs from the assertion's wording. Flagged in eval_feedback."
+        },
+        {
+          "text": "react-query defaults (staleTime, retry, refetchOnWindowFocus) exported from a dedicated module (e.g. src/lib/react-query.ts)",
+          "passed": true,
+          "evidence": "src/lib/react-query.ts:13-40 `export const queryConfig = { queries: { throwOnError: false, refetchOnWindowFocus: false, retry: (failureCount, error) => { if (error instanceof ApiError && error.isClientError) return false; return failureCount < 2; }, retryDelay: ..., staleTime: 60 * 1000, gcTime: 5 * 60 * 1000 }, mutations: { retry: false } } satisfies DefaultOptions`. All three named defaults present, plus a reasoned 4xx-no-retry policy and mutations retry: false."
+        },
+        {
+          "text": "Reusable QueryConfig/MutationConfig helper types are exported so future endpoint hooks are configurable without hand-written generics",
+          "passed": true,
+          "evidence": "src/lib/react-query.ts:49-75 exports `ApiFnReturnType<FnType>`, `QueryConfig<T> = Omit<ReturnType<T>, 'queryKey' | 'queryFn'>`, and `MutationConfig<MutationFnType> = UseMutationOptions<ApiFnReturnType<MutationFnType>, ApiError, Parameters<MutationFnType>[0]>`. Doc comment shows the intended call site: `type UseUserOptions = { userId: string; queryConfig?: QueryConfig<typeof getUserQueryOptions> }`. Error channel is typed to the normalised `ApiError`, so hooks get typed errors for free."
+        },
+        {
+          "text": "Env is validated with zod in src/config/env.ts and produces a readable aggregate error listing missing/invalid variables",
+          "passed": true,
+          "evidence": "src/config/env.ts:42-45 `const EnvSchema = z.object({ VITE_API_URL: apiUrlSchema, VITE_APP_NAME: z.string().min(1,...).default('My App') })`, parsed at module load via `safeParse` (line 66) and exported as `export const env = parseEnv()` (line 89). On failure it throws a multi-line message: 'Invalid environment configuration.' + 'The following variables are missing or invalid:' + `formatIssues` (lines 60-63), which maps over `error.flatten().fieldErrors` so ALL failing variables are listed as `  - NAME: reason`, plus a fix hint ('copy .env.example to .env ... restart the dev server') and a note that only VITE_-prefixed vars are exposed. `required_error` is valid for the pinned zod ^3.23.8. src/main.tsx:44-65 additionally awaits `import('@/config/env')` inside a try/catch and renders the message into the DOM, so the failure is visible rather than a blank screen. .env.example documents required vs optional."
+        },
+        {
+          "text": "QueryClient is created exactly once (module singleton or useState initializer) and wired through an app provider component",
+          "passed": true,
+          "evidence": "Grep shows exactly one `new QueryClient` in the tree: src/lib/react-query.ts:46 `export const createQueryClient = () => new QueryClient({ defaultOptions: queryConfig })`. src/app/provider.tsx:16 consumes it as a lazy useState initializer \u2014 `const [queryClient] = useState(createQueryClient)` (function reference, not `useState(createQueryClient())`, so no per-render construction) \u2014 and wraps children in `<QueryClientProvider client={queryClient}>` alongside `<Notifications />`. main.tsx renders `<AppProvider><AppRouter /></AppProvider>`."
+        },
+        {
+          "text": "No feature-level or lib-level barrel re-export files; new files are kebab-case (a composition-root index.tsx like src/app/index.tsx, or a shared ui component barrel, is acceptable \u2014 both match the reference app)",
+          "passed": true,
+          "evidence": "facts.json `new_barrel_index_files` lists exactly one file: src/components/ui/notifications/index.ts, which is a shared ui component barrel (`export { Notifications } from './notifications'; export { notify, useNotifications } from './notifications-store';` plus type re-exports) \u2014 explicitly allowed by the assertion. `new_feature_barrels` is empty and `non_kebab_new_files` is empty; all 18 new files (api-client.ts, api-error.ts, react-query.ts, notifications-store.ts, not-found.tsx, etc.) are kebab-case. No lib-level index.ts exists. api-client.ts contains a `export { ApiError, toApiError } from './api-error'` line, but it is a substantive module, not a barrel file."
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 1.0,
+        "stddev": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 356.0333,
+        "stddev": 113.8879,
+        "min": 287.5,
+        "max": 487.5
+      },
+      "tokens": {
+        "mean": 101049.3333,
+        "stddev": 13202.0586,
+        "min": 88213,
+        "max": 114589
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.9167,
+        "stddev": 0.1443,
+        "min": 0.75,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 542.8333,
+        "stddev": 219.8853,
+        "min": 290.0,
+        "max": 689.4
+      },
+      "tokens": {
+        "mean": 107861.0,
+        "stddev": 12645.6982,
+        "min": 98519,
+        "max": 122251
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.08",
+      "time_seconds": "-186.8",
+      "tokens": "-6812"
+    }
+  },
+  "notes": [
+    "Iteration 2 = the review-fixed skill (barrel rule rescoped to feature modules, real repo loader/ESLint config shapes, completeness gaps filled) vs a fresh no-skill baseline; same prompts as iteration 1.",
+    "Pass-rate delta doubled to +8pp, again entirely from eval-0 (bare app): the baseline this round built a LOAD-BEARING feature barrel (src/features/tasks/index.ts) and lint-banned direct imports \u2014 the exact inverse of the bulletproof convention \u2014 and again enforced boundaries with core no-restricted-imports rather than import/no-restricted-paths zones (6/8). The with-skill run followed the rescoped rule precisely: ui barrels only, none in the feature (8/8).",
+    "eval-1 (established app) tied 8/8 both arms and this time also tied on time (287s vs 290s) \u2014 grader notes the fixture makes every assertion satisfiable by mirroring the adjacent discussions folder; it measures copy-the-neighbor, not skill lift. Keep as regression guard.",
+    "eval-2 tied 8/8 but with-skill was 55% faster (293s vs 649s) and 14% cheaper in tokens; two baseline passes were on-outcome judgment calls (unwrap in an api facade instead of the interceptor; withCredentials on create() instead of the interceptor).",
+    "Efficiency: totals 1068s vs 1629s (-34% wall clock), 303k vs 324k tokens (-6%). Consistent with iteration 1 (-29%): the skill front-loads conventions the baseline re-derives.",
+    "The rescoped barrel assertion + content-based detector produced zero false positives this round (iteration-1 had one: a composition-root index.tsx flagged by filename).",
+    "Standing grader asks, unchanged from iteration 1: no compile/lint gate (fixtures ship without node_modules), no endpoint-URL or validated-env-usage checks, mock-backend wiring uncovered. These need either an npm-install step in the harness or accepting structural-only grading."
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "expectations": [
+    {
+      "text": "Feature code lives in a dedicated feature module (src/features/tasks/...), not in flat top-level folders or App.tsx",
+      "passed": true,
+      "evidence": "facts.json new_files show src/features/tasks/{api/get-tasks.ts, api/create-task.ts, api/query-keys.ts, components/create-task-form.tsx, components/task-list.tsx, components/task-list-item.tsx, types.ts}; src/App.tsx is in deleted_files. The route file src/app/routes/tasks/tasks.tsx is a thin composer: 'export const TasksRoute = () => (<section...><CreateTaskForm /><TaskList /></section>)' with no data fetching or form state of its own. Shared, non-feature concerns (api client, react-query helpers, ui kit, config/paths) live under src/lib, src/components, src/config."
+    },
+    {
+      "text": "One API file per endpoint under the feature's api/ folder, each exporting a typed fetcher function that uses a shared API client instance",
+      "passed": true,
+      "evidence": "Two endpoints, two files: src/features/tasks/api/get-tasks.ts exports 'export const getTasks = async (): Promise<Task[]>' and src/features/tasks/api/create-task.ts exports 'export const createTask = async (data: CreateTaskInput): Promise<Task>'. Both import the single shared instance: 'import { apiClient } from \"@/lib/api-client\"', and src/lib/api-client.ts creates exactly one axios instance ('export const apiClient = axios.create({ baseURL: env.API_URL, ... })') with request/response interceptors. Responses are zod-parsed at the boundary (tasksSchema.parse / taskSchema.parse). Note: api/ also holds a non-endpoint query-keys.ts, which does not violate the assertion but deviates from the reference app's inline-key convention."
+    },
+    {
+      "text": "The list query exports a queryOptions factory and a hook that accepts a queryConfig override parameter (configurable hook)",
+      "passed": true,
+      "evidence": "src/features/tasks/api/get-tasks.ts: 'export const getTasksQueryOptions = () => queryOptions({ queryKey: taskKeys.lists(), queryFn: getTasks })' and 'export const useTasks = ({ queryConfig }: UseTasksOptions = {}) => useQuery({ ...getTasksQueryOptions(), ...queryConfig })' with 'queryConfig?: QueryConfig<typeof getTasksQueryOptions>'. The QueryConfig type in src/lib/react-query.ts is the reference-style 'Omit<ReturnType<T>, \"queryKey\" | \"queryFn\">', so the key and fetcher stay owned by the feature."
+    },
+    {
+      "text": "The create mutation validates input with an exported zod schema and its hook accepts a mutationConfig override parameter",
+      "passed": true,
+      "evidence": "src/features/tasks/types.ts exports 'createTaskInputSchema = z.object({ title: z.string().trim().min(1,...).max(120,...), description: ... })' with 'export type CreateTaskInput = z.infer<typeof createTaskInputSchema>'. createTask parses with it before the POST ('const payload = createTaskInputSchema.parse(data)'), and the form re-uses the same schema ('const result = createTaskInputSchema.safeParse(values)'). The hook is 'useCreateTask = ({ mutationConfig }: UseCreateTaskOptions = {})' with 'mutationConfig?: MutationConfig<typeof createTask>', spread as '...restConfig' after the internal onSuccess, and the caller's onSuccess is chained rather than dropped. Deviation from the reference: the schema sits in types.ts rather than beside the mutation, but it is exported and genuinely used for validation."
+    },
+    {
+      "text": "The query key is defined in exactly one place; mutation invalidation reuses the factory's queryKey instead of retyping a string-literal key",
+      "passed": true,
+      "evidence": "The literal 'tasks' appears exactly once as a cache key, in src/features/tasks/api/query-keys.ts: 'taskKeys = { all: [\"tasks\"] as const, lists: () => [...taskKeys.all, \"list\"] as const }'. getTasksQueryOptions consumes taskKeys.lists(); create-task.ts invalidates via the same imported factory: 'void queryClient.invalidateQueries({ queryKey: taskKeys.all })'. facts.json string_literal_querykey grep is empty — no retyped literal anywhere. Judged PASS on the assertion's substance (single source of truth, symbol-based invalidation); mechanism differs from the reference app, which reads the key off the queryOptions factory (getTasksQueryOptions().queryKey) instead of a separate key-factory module."
+    },
+    {
+      "text": "No barrel index.ts re-export files in the feature module — feature code is imported directly from defining files (shared ui component barrels are acceptable, matching the reference app)",
+      "passed": false,
+      "evidence": "facts.json new_feature_barrels lists src/features/tasks/index.ts, and the file is a real re-export barrel: 'export { CreateTaskForm } from \"./components/create-task-form\"; export { TaskList } from \"./components/task-list\"; export { useTasks, getTasksQueryOptions } from \"./api/get-tasks\"; export { useCreateTask } from \"./api/create-task\"; export { taskKeys } from \"./api/query-keys\"; export type { Task, CreateTaskInput } from \"./types\"'. It is not vestigial — the only cross-module consumer routes through it: src/app/routes/tasks/tasks.tsx line 1 is 'import { CreateTaskForm, TaskList } from \"@/features/tasks\"', and .eslintrc.cjs actively forbids the direct-import style the assertion requires ('@/features/*/*' patterns, message: 'Import a feature through its public API (\"@/features/tasks\"), not its internals'). The run deliberately adopted the public-API-barrel convention, the opposite of the reference app's no-feature-barrel rule. (src/components/ui/index.ts is the allowed shared-ui barrel and is not counted against this.)"
+    },
+    {
+      "text": "All new files and folders are kebab-case",
+      "passed": true,
+      "evidence": "facts.json non_kebab_new_files is empty. Confirmed by directory listing: every new file is lowercase/kebab (create-task-form.tsx, task-list-item.tsx, get-tasks.ts, query-keys.ts, main-layout.module.css, error-boundary.tsx, api-client.ts, react-query.ts, not-found.tsx, route-error.tsx), and every new folder is lowercase single-word (app, routes, tasks, features, components, errors, layouts, ui, config, lib, styles, types, utils, api). No PascalCase or camelCase paths remain — the fixture's src/App.tsx was deleted."
+    },
+    {
+      "text": "ESLint import/no-restricted-paths boundary zones are configured, including a zone entry protecting the tasks feature",
+      "passed": false,
+      "evidence": "facts.json eslint_has_no_restricted_paths is false, and .eslintrc.cjs contains no 'import/no-restricted-paths' rule and no 'zones' array; eslint-plugin-import is not in package.json devDependencies (only @typescript-eslint, react-hooks, react-refresh), so the rule could not run. Boundaries ARE enforced, by a different mechanism: core 'no-restricted-imports' with pattern groups plus file overrides — a global rule banning '@/features/*/*' and '@/features/*/**' (deep imports), an override for 'src/features/**' additionally banning '@/app', '@/app/*', '@/app/**', and an override for src/{components,hooks,lib,utils,types,config}/** banning both '@/app*' and '@/features*'. That covers the shared -> features -> app direction, but it is generic pattern matching, not import/no-restricted-paths zones, and there is no zone (or any rule entry) naming the tasks feature specifically — the only 'features/tasks' occurrences in the config are inside human-readable message strings. Judged against the assertion's actual wording: FAIL. Note also that the mechanism chosen enforces the opposite of assertion 6 (it mandates the feature barrel)."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 2,
+    "total": 8,
+    "pass_rate": 0.75
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "ESLint import/no-restricted-paths boundary zones are configured, including a zone entry protecting the tasks feature",
+        "reason": "The assertion names a specific rule from eslint-plugin-import, but the fixture (fixtures/bare-vite-app) does not install that plugin — so passing requires the model to add a dependency it cannot verify is installable offline. This run produced a genuinely enforced boundary graph via core no-restricted-imports and still fails. Either (a) preinstall eslint-plugin-import in the fixture so the assertion is fairly reachable, or (b) split it into two assertions: 'lint config mechanically enforces the shared -> features -> app direction' (mechanism-agnostic) plus 'uses import/no-restricted-paths zones as the reference app does' (convention-specific). As written, one assertion conflates 'did the model think about boundaries' with 'did it match the reference mechanism'."
+      },
+      {
+        "assertion": "The query key is defined in exactly one place; mutation invalidation reuses the factory's queryKey instead of retyping a string-literal key",
+        "reason": "'the factory's queryKey' is ambiguous — it reads as the queryOptions factory (reference: getTasksQueryOptions().queryKey) but is also satisfiable by a separate key-factory module, which is what this run did. A more discriminating wording: 'the string \"tasks\" appears in exactly one file, and the create mutation's invalidateQueries references that key through an imported symbol, not a re-typed array'. That keeps the anti-duplication intent while making the verdict mechanical."
+      },
+      {
+        "reason": "No assertion checks that the app actually typechecks, builds, or renders. This output happens to be coherent (router lazy-loads the tasks route, main.tsx mounts app/index.tsx, App.tsx deleted, tsconfig/vite alias updated), but a structurally perfect and completely non-compiling scaffold would still score 6/8. Adding 'npm run typecheck and npm run build exit 0' would make the whole suite much harder to satisfy by pattern-matching alone."
+      },
+      {
+        "reason": "Assertions 6 and 8 can be in direct tension and no assertion detects that. Here the model built a coherent alternative architecture — feature public-API barrel plus lint rules mandating it — which is self-consistent and defensible, just not bulletproof-react. Consider one assertion phrased as 'the feature exposes no barrel AND lint forbids nothing that would require one' so the grader records the architectural choice as a single coherent decision rather than two independent misses."
+      },
+      {
+        "reason": "facts.json's greps have at least one false negative worth fixing for future runs: 'lazy_routes' is empty, but src/app/router.tsx does lazy-load ('lazy: async () => { const { TasksRoute } = await import(\"./routes/tasks/tasks\"); ... }'). Same class of issue for 'relative_parent_imports' (empty, yet feature components legitimately use '../api/get-tasks'). Graders told to trust facts.json for mechanical checks could draw wrong conclusions from these."
+      }
+    ],
+    "overall": "Assertions are mostly discriminating and this run separates cleanly: the model produced production-quality structure (typed fetchers on one shared axios client, queryOptions factory, queryConfig/mutationConfig overrides, zod at both the API and form boundary, kebab-case throughout, enforced dependency direction) but chose a feature-barrel public-API convention and core no-restricted-imports instead of the reference app's direct-import + import/no-restricted-paths zones. The two failures are exactly the bulletproof-react-specific conventions a doc-free baseline would not guess — good signal for the skill. Main gaps: nothing verifies the app compiles, and the ESLint assertion may be unreachable given the fixture's dependency set."
+  }
+}

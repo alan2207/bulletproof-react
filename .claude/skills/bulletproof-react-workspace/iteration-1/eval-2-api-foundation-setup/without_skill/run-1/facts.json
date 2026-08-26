@@ -1,0 +1,138 @@
+{
+  "run": "eval-2-api-foundation-setup/without_skill",
+  "new_files": [
+    ".env.example",
+    ".gitignore",
+    "src/app/index.tsx",
+    "src/app/provider.tsx",
+    "src/app/router.tsx",
+    "src/app/routes/home.tsx",
+    "src/app/routes/login.tsx",
+    "src/app/routes/not-found.tsx",
+    "src/components/errors/error-boundary.tsx",
+    "src/components/errors/main-error-fallback.tsx",
+    "src/components/errors/startup-error.tsx",
+    "src/components/ui/notifications/notifications-store.ts",
+    "src/components/ui/notifications/notifications.css",
+    "src/components/ui/notifications/notifications.tsx",
+    "src/config/env.ts",
+    "src/config/paths.ts",
+    "src/lib/api-client.ts",
+    "src/lib/react-query.ts",
+    "src/types/api.ts",
+    "src/vite-env.d.ts"
+  ],
+  "modified_files": [
+    "package.json",
+    "src/main.tsx",
+    "tsconfig.json",
+    "vite.config.ts"
+  ],
+  "deleted_files": [
+    "src/App.tsx"
+  ],
+  "new_barrel_index_files": [
+    "src/app/index.tsx"
+  ],
+  "non_kebab_new_files": [],
+  "eslint_has_no_restricted_paths": false,
+  "eslint_zone_mentions": [],
+  "greps": {
+    "queryOptions_factory": {
+      "src/lib/react-query.ts": [
+        "*   queryOptions({ queryKey: ['users', userId], queryFn: () => getUser({ userId }) });"
+      ]
+    },
+    "queryConfig_param": {
+      "src/lib/react-query.ts": [
+        "export const queryConfig = {",
+        "export const queryClient = new QueryClient({ defaultOptions: queryConfig });",
+        "*   queryConfig?: QueryConfig<typeof getUserQueryOptions>;"
+      ]
+    },
+    "mutationConfig_param": {},
+    "zod_schema": {
+      "src/config/env.ts": [
+        "const EnvSchema = z.object({"
+      ]
+    },
+    "invalidateQueries": {},
+    "string_literal_querykey": {
+      "src/lib/react-query.ts": [
+        "*   queryOptions({ queryKey: ['users', userId], queryFn: () => getUser({ userId }) });"
+      ]
+    },
+    "interceptors": {
+      "src/lib/api-client.ts": [
+        "apiClient.interceptors.request.use(authRequestInterceptor);",
+        "apiClient.interceptors.response.use("
+      ]
+    },
+    "withCredentials": {
+      "src/lib/api-client.ts": [
+        "withCredentials: true,"
+      ]
+    },
+    "response_unwrap": {
+      "src/lib/api-client.ts": [
+        "(response) => response.data,"
+      ]
+    },
+    "status_401": {
+      "src/app/router.tsx": [
+        "* router \u2014 the 401 handler in the API client, for example \u2014 can link to a route"
+      ],
+      "src/app/routes/login.tsx": [
+        "* answers 401, and a redirect to a route that does not exist is a confusing way"
+      ],
+      "src/config/paths.ts": [
+        "* code (like the 401 handler in the API client) redirect without hardcoding"
+      ],
+      "src/lib/api-client.ts": [
+        "/** Suppresses the redirect to login on a 401. */",
+        "// Guard against a redirect loop when the login page itself 401s.",
+        "// A 401 means the session is gone. Bounce to login instead of showing a",
+        "if (status === 401) {"
+      ]
+    },
+    "staleTime": {
+      "src/lib/react-query.ts": [
+        "staleTime: 60 * 1000,"
+      ]
+    },
+    "QueryConfig_type": {
+      "src/lib/react-query.ts": [
+        "export type ApiFnReturnType<",
+        "export type QueryConfig<TFn extends (...args: never[]) => unknown> = Omit<",
+        "export type MutationConfig<"
+      ]
+    },
+    "env_zod": {
+      "src/config/env.ts": [
+        "const EnvSchema = z.object({",
+        "export type Env = z.infer<typeof EnvSchema>;",
+        "const parsed = EnvSchema.safeParse(readRawEnv());"
+      ]
+    },
+    "queryclient_once": {
+      "src/lib/react-query.ts": [
+        "export const queryClient = new QueryClient({ defaultOptions: queryConfig });"
+      ]
+    },
+    "lazy_routes": {},
+    "paths_registry": {
+      "src/app/routes/not-found.tsx": [
+        "<Link to={paths.home.getHref()}>Go back home</Link>"
+      ],
+      "src/config/paths.ts": [
+        "* `path` is what the router matches on; `getHref` is what you navigate to.",
+        "getHref: () => '/',",
+        "getHref: (redirectTo?: string | null) =>"
+      ],
+      "src/lib/api-client.ts": [
+        "window.location.href = paths.auth.login.getHref(`${pathname}${search}`);"
+      ]
+    },
+    "relative_parent_imports": {}
+  }
+}

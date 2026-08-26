@@ -1,0 +1,15 @@
+node_modules
+dist
+dist-ssr
+*.local
+
+# Local env overrides. `.env.example` and `.env.development` are committed.
+.env
+.env.local
+.env.*.local
+
+.DS_Store
+*.log
+.vscode/*
+!.vscode/extensions.json
+.idea

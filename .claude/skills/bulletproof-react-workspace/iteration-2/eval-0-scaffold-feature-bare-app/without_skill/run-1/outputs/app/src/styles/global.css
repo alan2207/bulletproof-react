@@ -1,0 +1,90 @@
+/*
+ * Design tokens + a minimal reset. Component-level styling lives in colocated
+ * `*.module.css` files so class names can never collide across features.
+ */
+
+:root {
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif;
+
+  --color-bg: #f5f6f8;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f0f2f5;
+  --color-border: #dfe3e8;
+  --color-text: #16191d;
+  --color-text-muted: #5f6672;
+  --color-primary: #2f6feb;
+  --color-primary-hover: #2559c4;
+  --color-primary-contrast: #ffffff;
+  --color-danger: #b42318;
+  --color-danger-surface: #fef3f2;
+  --color-focus: #93b4fb;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+
+  --shadow-sm: 0 1px 2px rgb(16 24 40 / 6%);
+  --shadow-md: 0 4px 12px rgb(16 24 40 / 8%);
+
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #101216;
+    --color-surface: #181b21;
+    --color-surface-muted: #21252d;
+    --color-border: #2c313b;
+    --color-text: #eef0f4;
+    --color-text-muted: #9aa2b1;
+    --color-primary: #5b8dfb;
+    --color-primary-hover: #7ba3fc;
+    --color-primary-contrast: #0b0d11;
+    --color-danger: #f97066;
+    --color-danger-surface: #2a1614;
+    --color-focus: #3a63b8;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+p,
+figure {
+  margin: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}

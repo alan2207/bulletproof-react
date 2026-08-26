@@ -1,0 +1,73 @@
+{
+  "expectations": [
+    {
+      "text": "Feature code lives in a dedicated feature module (src/features/tasks/...), not in flat top-level folders or App.tsx",
+      "passed": true,
+      "evidence": "All task code sits under src/features/tasks/: api/get-tasks.ts, api/create-task.ts, components/create-task.tsx, components/tasks-list.tsx, components/task-list-item.tsx. facts.json lists src/App.tsx under deleted_files, and the route src/app/routes/app/tasks/tasks.tsx only composes feature components ('<CreateTask />', '<TasksList />'). No flat src/api or src/components/tasks folder exists (full src listing verified)."
+    },
+    {
+      "text": "One API file per endpoint under the feature's api/ folder, each exporting a typed fetcher function that uses a shared API client instance",
+      "passed": true,
+      "evidence": "Exactly two files in src/features/tasks/api/, one per endpoint. get-tasks.ts: 'export const getTasks = (): Promise<Task[]> => { return api.get('/tasks'); }'. create-task.ts: 'export const createTask = ({ data }: { data: CreateTaskInput }): Promise<Task> => { return api.post('/tasks', data); }'. Both import the shared instance via \"import { api } from '@/lib/api-client'\", and src/lib/api-client.ts defines a single 'Axios.create({ baseURL: env.API_URL })' with request/response interceptors — no per-file axios instances anywhere."
+    },
+    {
+      "text": "The list query exports a queryOptions factory and a hook that accepts a queryConfig override parameter (configurable hook)",
+      "passed": true,
+      "evidence": "src/features/tasks/api/get-tasks.ts:16-21 'export const getTasksQueryOptions = () => { return queryOptions({ queryKey: ['tasks'], queryFn: () => getTasks() }); }' and lines 23-32 'type UseTasksOptions = { queryConfig?: QueryConfig<typeof getTasksQueryOptions> }; export const useTasks = ({ queryConfig }: UseTasksOptions = {}) => useQuery({ ...getTasksQueryOptions(), ...queryConfig })'. The QueryConfig helper is real, not decorative: src/lib/react-query.ts:20-23 'export type QueryConfig<T extends (...args: any[]) => any> = Omit<ReturnType<T>, 'queryKey' | 'queryFn'>'. The factory is genuinely reused outside the hook — the route loader calls getTasksQueryOptions() to prefetch."
+    },
+    {
+      "text": "The create mutation validates input with an exported zod schema and its hook accepts a mutationConfig override parameter",
+      "passed": true,
+      "evidence": "src/features/tasks/api/create-task.ts:11-16 'export const createTaskInputSchema = z.object({ title: z.string().min(1, 'Required'), description: z.string().min(1, 'Required') }); export type CreateTaskInput = z.infer<typeof createTaskInputSchema>' — the fetcher payload type is derived from the schema. The schema is actually enforced, not just exported: create-task.tsx passes 'schema={createTaskInputSchema}' to Form, and src/components/ui/form/form.tsx:43-59 runs 'const result = schema.safeParse(values)' and returns early on failure. Hook override: 'type UseCreateTaskOptions = { mutationConfig?: MutationConfig<typeof createTask> }' with 'export const useCreateTask = ({ mutationConfig }: UseCreateTaskOptions = {})', and the caller in create-task.tsx supplies 'mutationConfig: { onSuccess: ... }' which is composed rather than clobbered (line 34 destructures onSuccess and re-invokes it after invalidation)."
+    },
+    {
+      "text": "The query key is defined in exactly one place; mutation invalidation reuses the factory's queryKey instead of retyping a string-literal key",
+      "passed": true,
+      "evidence": "Repo-wide grep for the literal 'tasks' as a query key returns a single definition: src/features/tasks/api/get-tasks.ts:18 \"queryKey: ['tasks'],\". Both consumers go through the factory: create-task.ts:38-40 'queryClient.invalidateQueries({ queryKey: getTasksQueryOptions().queryKey })' and the route loader src/app/routes/app/tasks/tasks.tsx:17 'queryClient.getQueryData(query.queryKey)'. No string-literal key is retyped anywhere (the only other 'tasks' string is the route path segment in src/config/paths.ts)."
+    },
+    {
+      "text": "No barrel index.ts re-export files anywhere in the new code",
+      "passed": true,
+      "evidence": "'find src -name \"index.ts\" -o -name \"index.tsx\"' returns nothing; facts.json new_barrel_index_files is []. Every import in the new code targets a concrete module path, e.g. \"import { useTasks } from '@/features/tasks/api/get-tasks'\" and \"import { Button } from '@/components/ui/button/button'\" — deep paths, not folder-level imports."
+    },
+    {
+      "text": "All new files and folders are kebab-case",
+      "passed": true,
+      "evidence": "facts.json non_kebab_new_files is []. Verified against the full src listing: multi-word names are all kebab (not-found.tsx, error-boundary.tsx, field-wrapper.tsx, content-layout.tsx, notifications-store.ts, api-client.ts, react-query.ts, task-list-item.tsx, tasks-list.tsx, create-task.ts/.tsx, get-tasks.ts); all folders are lowercase (app, routes, components, errors, layouts, ui, button, form, notifications, spinner, config, features, tasks, api, lib, types). The convention is also enforced, not just followed: .eslintrc.cjs:89-97 adds 'check-file/filename-naming-convention' KEBAB_CASE for '**/*.{ts,tsx}' and 'check-file/folder-naming-convention' KEBAB_CASE for 'src/**/!(__tests__)', with eslint-plugin-check-file added to package.json devDependencies."
+    },
+    {
+      "text": "ESLint import/no-restricted-paths boundary zones are configured, including a zone entry protecting the tasks feature",
+      "passed": true,
+      "evidence": "The fixture .eslintrc.cjs had no import rules at all (only react-refresh); the run's .eslintrc.cjs:31-63 adds 'import/no-restricted-paths': ['error', { zones: [...] }] with three real zones: (1) tasks-specific cross-feature block — \"{ target: './src/features/tasks', from: './src/features', except: ['./tasks'] }\"; (2) unidirectional flow — \"{ target: './src/features', from: './src/app' }\"; (3) shared-layer protection — target ['./src/components','./src/hooks','./src/lib','./src/types','./src/utils'] from ['./src/features','./src/app']. Supporting plugins (eslint-plugin-import, eslint-import-resolver-typescript) were added to package.json and the resolver/internal-regex settings are configured, so the rule can actually resolve '@/' imports."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "reason": "Nothing in the assertion set checks that the result compiles or that the feature is actually wired up and reachable. An output with perfect api/ files that were never rendered would score 8/8. This run did wire it (src/app/router.tsx registers paths.app.tasks lazily, src/app/provider.tsx mounts QueryClientProvider, src/main.tsx renders <App/>, src/App.tsx deleted) — but that came for free, not because an assertion demanded it. Suggest adding: 'The tasks page is registered in the router and reachable from the app entry (App.tsx no longer contains the feature)', and, if the harness can run it, 'npm run typecheck / npm run lint passes'. Note the harness cannot currently run either — there is no node_modules in outputs/app, and the run added devDependencies (eslint-plugin-check-file, eslint-plugin-import, eslint-plugin-jsx-a11y, eslint-plugin-prettier, eslint-plugin-react, @types/node, prettier) that were never installed, so the committed .eslintrc.cjs is unverified as runnable."
+      },
+      {
+        "assertion": "No barrel index.ts re-export files anywhere in the new code",
+        "reason": "Non-discriminating on its own — it is satisfied by doing nothing. A lazy answer that dumps `src/api/tasks.ts` plus one component, or even leaves most code in App.tsx, passes this and the kebab-case assertion too. Consider pairing it with a positive check that imports reference deep concrete paths (e.g. '@/features/tasks/api/get-tasks'), which is what the no-barrel rule is actually for, or folding it into the folder-structure assertion."
+      },
+      {
+        "assertion": "All new files and folders are kebab-case",
+        "reason": "Same weakness: single-word filenames trivially satisfy kebab-case, so a minimal output passes without any real convention adherence. Strengthen by requiring the convention to be enforced rather than merely observed — e.g. 'check-file/filename-naming-convention and folder-naming-convention rules are configured in ESLint' — which is a much harder bar and is what distinguishes this run."
+      },
+      {
+        "assertion": "The create mutation validates input with an exported zod schema and its hook accepts a mutationConfig override parameter",
+        "reason": "Ambiguous phrasing: 'the create mutation validates input' can read as the fetcher/mutationFn calling schema.parse before POST, or as the schema being exported and consumed by the form. This run does the latter (createTask posts data unparsed; Form runs safeParse). I graded it PASS on the broader reading, but the assertion should say which it wants, otherwise two different implementations get inconsistent verdicts across runs."
+      },
+      {
+        "reason": "No assertion covers the mutationConfig composition trap, which is the most common way this pattern is implemented wrongly: naively spreading '...mutationConfig' after a built-in onSuccess silently drops the caller's callback, or spreading it before drops the invalidation. This run handles it correctly (create-task.ts:34 'const { onSuccess, ...restConfig } = mutationConfig || {}' then re-invokes 'onSuccess?.(...args)' after invalidateQueries). That is a genuinely discriminating behavior worth asserting explicitly."
+      }
+    ],
+    "overall": "The output is substantive, not surface-compliant — every assertion is backed by real, wired-up code, and several conventions are enforced in ESLint rather than merely followed. All 8 pass. The assertion set is strong on architecture shape but weak on two axes: two assertions (no-barrels, kebab-case) are near-free to satisfy, and nothing verifies the app compiles, lints, or actually renders the feature. Adding a build/typecheck gate and a 'feature is reachable from the router' assertion would make the suite meaningfully harder to game."
+  }
+}

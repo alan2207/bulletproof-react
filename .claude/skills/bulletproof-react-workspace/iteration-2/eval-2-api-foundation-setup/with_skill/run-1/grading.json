@@ -1,0 +1,69 @@
+{
+  "expectations": [
+    {
+      "text": "A single shared API client instance lives in src/lib/api-client.ts (or equivalent lib path) — created once, imported everywhere",
+      "passed": true,
+      "evidence": "outputs/app/src/lib/api-client.ts:20 declares the only axios instance in the app: `export const api = Axios.create({ baseURL: env.API_URL });`. A grep for `axios.create|Axios.create` across src/ returns exactly one hit, so no component or route builds its own client. baseURL is taken from the validated `@/config/env` module rather than raw `import.meta.env` (grep confirms `import.meta.env` appears only inside src/config/env.ts). The instance is module-scope and exported for import; the app has no feature code yet (foundation-only task), so there are no consumers to count, but nothing bypasses it."
+    },
+    {
+      "text": "Request interceptor sets Accept header and withCredentials (cookie-based auth)",
+      "passed": true,
+      "evidence": "src/lib/api-client.ts:12-18 `authRequestInterceptor` sets `config.headers.Accept = 'application/json'` and `config.withCredentials = true`, registered at line 24 via `api.interceptors.request.use(authRequestInterceptor)`. The doc comment explains the cookie/HttpOnly rationale, so no token is read from JS storage."
+    },
+    {
+      "text": "Response interceptor unwraps response.data, surfaces a user-facing error notification on failure, and handles 401 (redirect/logout hook point)",
+      "passed": true,
+      "evidence": "src/lib/api-client.ts:26-49: success handler is `(response) => response.data`; the error handler derives `error.response?.data?.message || error.message` and calls `useNotifications.getState().addNotification({ type: 'error', title: 'Error', message })`; then `if (error.response?.status === 401)` it redirects via `window.location.href = paths.auth.login.getHref(redirectTo)`, preserving the current path as `redirectTo`, before `Promise.reject(error)`. The notification path is genuinely wired end-to-end: src/components/ui/notifications/notifications-store.ts implements a React-external store (useSyncExternalStore) writable from outside React, and `<Notifications />` is mounted in src/app/provider.tsx:23, so an interceptor-pushed notification actually renders. A /auth/login route exists (src/app/routes/auth/login.tsx, registered in router.tsx) so the redirect target is real."
+    },
+    {
+      "text": "react-query defaults (staleTime, retry, refetchOnWindowFocus) exported from a dedicated module (e.g. src/lib/react-query.ts)",
+      "passed": true,
+      "evidence": "src/lib/react-query.ts:19-25 exports `queryConfig` `satisfies DefaultOptions` with `refetchOnWindowFocus: false`, `retry: false`, `staleTime: 1000 * 60`. It is consumed in src/app/provider.tsx:16 (`new QueryClient({ defaultOptions: queryConfig })`), so the defaults are actually applied, not just declared. Comments justify each value."
+    },
+    {
+      "text": "Reusable QueryConfig/MutationConfig helper types are exported so future endpoint hooks are configurable without hand-written generics",
+      "passed": true,
+      "evidence": "src/lib/react-query.ts:32-48 exports `ApiFnReturnType<FnType>` = `Awaited<ReturnType<FnType>>`, `QueryConfig<T> = Omit<ReturnType<T>, 'queryKey' | 'queryFn'>` (the queryOptions-factory-derived form), and `MutationConfig<MutationFnType> = UseMutationOptions<ApiFnReturnType<MutationFnType>, Error, Parameters<MutationFnType>[0]>`. Types are inferred from the fetcher/options factory, so endpoint hooks need no per-endpoint generics."
+    },
+    {
+      "text": "Env is validated with zod in src/config/env.ts and produces a readable aggregate error listing missing/invalid variables",
+      "passed": true,
+      "evidence": "src/config/env.ts:12-47: `const EnvSchema = z.object({ API_URL: z.string().min(1, 'Required'), ENABLE_API_MOCKING: ... })`, variables collected by stripping the `VITE_APP_` prefix from `import.meta.env`, then `EnvSchema.safeParse(envVars)`. On failure it throws a multi-line message that enumerates every failing key: `Object.entries(parsedEnv.error.flatten().fieldErrors).map(([k, v]) => \\`- ${k}: ${v}\\`).join('\\n')` under the header \"The following variables are missing or invalid:\" plus a pointer to .env.example. Aggregate (all keys, not first-failure) and fail-fast at module load via `export const env = createEnv()`. Supporting .env.example documents the required var; zod ^3.23.8 in package.json supports `error.flatten().fieldErrors`."
+    },
+    {
+      "text": "QueryClient is created exactly once (module singleton or useState initializer) and wired through an app provider component",
+      "passed": true,
+      "evidence": "grep for `new QueryClient` across src/ returns exactly one hit: src/app/provider.tsx:15-17 `const [queryClient] = React.useState(() => new QueryClient({ defaultOptions: queryConfig }))` — a lazy useState initializer, not a per-render construction. It is passed to `<QueryClientProvider client={queryClient}>` inside `AppProvider`, which wraps `<AppRouter />` in src/app/app.tsx. src/app/router.tsx:42 reuses the same instance via `useQueryClient()` rather than constructing a second one for loaders."
+    },
+    {
+      "text": "No feature-level or lib-level barrel re-export files; new files are kebab-case (a composition-root index.tsx like src/app/index.tsx, or a shared ui component barrel, is acceptable — both match the reference app)",
+      "passed": true,
+      "evidence": "facts.json: `new_feature_barrels: []` and `non_kebab_new_files: []`. The only barrel is `src/components/ui/notifications/index.ts`, which is exactly the allowed shared-ui-component barrel (contents: `export * from './notifications'; export * from './notifications-store';` with a comment explaining why `./notification` stays internal). No index file exists under src/lib, src/config, or src/features. A full file listing of outputs/app confirms every new file is kebab-case (api-client.ts, react-query.ts, error-boundary.tsx, notifications-store.ts, not-found.tsx, etc.) and folders are kebab-case too."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "A single shared API client instance lives in src/lib/api-client.ts (or equivalent lib path) — created once, imported everywhere",
+        "reason": "The 'imported everywhere' half is unverifiable in a foundation-only task — there are no callers yet, so the clause is dead weight and the assertion reduces to 'the file exists with an axios.create'. The discriminating property for this prompt is instead the one no assertion states: the client's baseURL must come from the validated env module (`env.API_URL`), and `import.meta.env` must not be read anywhere outside src/config/env.ts. This run does both, but an output that hardcoded `import.meta.env.VITE_API_URL` in api-client.ts would pass all 8 assertions as written."
+      },
+      {
+        "assertion": "Response interceptor unwraps response.data, surfaces a user-facing error notification on failure, and handles 401 (redirect/logout hook point)",
+        "reason": "'Surfaces a notification' is satisfied by any call into a notification store, even if nothing renders it — a store with no mounted renderer would pass while showing the user nothing. Consider requiring that the notification store be writable from outside React (the interceptor is not a component) AND that its renderer be mounted in the app provider. Similarly, the 401 redirect target should be required to exist as a registered route; a redirect to a nonexistent /auth/login would pass today."
+      },
+      {
+        "reason": "Nothing checks that the produced app still compiles. The outputs directory has no node_modules, so neither `tsc --noEmit` nor `eslint` can be run at grading time, and every assertion is graded by reading source. A foundation that typechecks is the whole point of this eval; consider having the harness install deps once and record `tsc --noEmit` / `eslint` exit codes into facts.json so a plausible-looking but non-compiling scaffold cannot score 8/8."
+      },
+      {
+        "reason": "The prompt asks for env config that 'doesn't blow up mysteriously when a variable is missing', but no assertion covers the fail-fast timing or the developer-facing affordances around it — that parsing happens at module load (so the app dies at startup, not mid-request), and that a .env.example documents the required variables. This run does both (`export const env = createEnv()` at module scope, plus .env.example and a .gitignore that commits the example and ignores .env); an output that validated lazily inside a function called by nobody would still pass assertion 6."
+      }
+    ],
+    "overall": "All 8 assertions pass on genuine substance, not surface compliance — every claimed artifact was read and cross-checked (single axios instance, single `new QueryClient`, defaults actually applied to that client, notification store actually rendered, aggregate zod error, all-kebab filenames, only the allowed shared-ui barrel). The assertion set is well-targeted at bulletproof-react's foundation shape, but it is a source-shape checklist: it never verifies the output compiles, and it omits the prompt's own central requirement that the API base URL flow from the validated env module. Adding a compile/lint gate and an env-plumbing assertion would make the set meaningfully harder to satisfy without doing the work correctly."
+  }
+}
