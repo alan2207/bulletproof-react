@@ -1,0 +1,56 @@
+{
+  "skill_name": "bulletproof-react",
+  "evals": [
+    {
+      "id": 0,
+      "name": "scaffold-feature-bare-app",
+      "prompt": "I've got a fresh Vite + React + TypeScript app (deps already installed: @tanstack/react-query, axios, zod, react-router). I need a 'tasks' feature: a page that lists tasks from GET /tasks and lets you create one with POST /tasks (fields: title, description). Please structure the code the way you'd structure a production app that's going to grow to many features — set up whatever folder structure and conventions you think are right, don't just dump it all in App.tsx.",
+      "expected_output": "Feature-based structure: src/features/tasks/api/* with one file per endpoint (fetcher + queryOptions + configurable hook, zod schema for the mutation input), feature components, app-level route wiring, shared api client in lib/, no barrel index.ts files, kebab-case names, ESLint boundary zones registered.",
+      "files": ["fixtures/bare-vite-app"],
+      "assertions": [
+        "Feature code lives in a dedicated feature module (src/features/tasks/...), not in flat top-level folders or App.tsx",
+        "One API file per endpoint under the feature's api/ folder, each exporting a typed fetcher function that uses a shared API client instance",
+        "The list query exports a queryOptions factory and a hook that accepts a queryConfig override parameter (configurable hook)",
+        "The create mutation validates input with an exported zod schema and its hook accepts a mutationConfig override parameter",
+        "The query key is defined in exactly one place; mutation invalidation reuses the factory's queryKey instead of retyping a string-literal key",
+        "No barrel index.ts re-export files in the feature module — feature code is imported directly from defining files (shared ui component barrels are acceptable, matching the reference app)",
+        "All new files and folders are kebab-case",
+        "ESLint import/no-restricted-paths boundary zones are configured, including a zone entry protecting the tasks feature"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "add-feature-established-app",
+      "prompt": "Add a 'projects' feature to this app: users should be able to see a list of projects at /app/projects (GET /projects, paginated like discussions) and create a new project (POST /projects, fields: name, description — both required). Follow the existing conventions of the codebase.",
+      "expected_output": "New src/features/projects with api/get-projects.ts + api/create-project.ts matching the discussions patterns (queryOptions factory, QueryConfig/MutationConfig, invalidation via factory queryKey), components, route file under src/app/routes/app/projects registered in router.tsx with lazy+convert, paths.ts entry, AND a new zone entry for ./src/features/projects in .eslintrc.cjs import/no-restricted-paths.",
+      "files": ["fixtures/established-app"],
+      "assertions": [
+        "src/features/projects/api/get-projects.ts exists and mirrors the discussions query pattern: fetcher + exported queryOptions factory + hook accepting QueryConfig-typed queryConfig",
+        "src/features/projects/api/create-project.ts exports a zod input schema (name and description required) and a hook accepting MutationConfig-typed mutationConfig",
+        "The create-project mutation's default onSuccess invalidates using getProjectsQueryOptions().queryKey and still forwards the caller's onSuccess",
+        "A projects route is registered in src/app/router.tsx using the lazy + convert(queryClient) pattern",
+        "src/config/paths.ts gains a projects entry with path and getHref()",
+        "A new zone entry for ./src/features/projects is added to import/no-restricted-paths in .eslintrc.cjs (the lint-clean trap)",
+        "No cross-feature imports and no new feature-level barrel index.ts files",
+        "All new files/folders are kebab-case and imports use the @/ alias"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "api-foundation-setup",
+      "prompt": "This fresh Vite React TS app is going to talk to our REST backend (base URL comes from an env var). Before we build any features, set up the foundation properly: an API layer with auth'd requests (cookie based) and error notifications on failed calls, react-query with sensible defaults, and env config that doesn't blow up mysteriously when a variable is missing. Deps are already in package.json: @tanstack/react-query, axios, zod, react-router.",
+      "expected_output": "src/lib/api-client.ts (single axios instance, request interceptor with Accept header + withCredentials, response interceptor unwrapping data + error notification + 401 handling), src/lib/react-query.ts (queryConfig + QueryConfig/MutationConfig helper types), src/config/env.ts (zod-validated env with readable failure message), provider wiring with QueryClient created once, no barrels.",
+      "files": ["fixtures/bare-vite-app"],
+      "assertions": [
+        "A single shared API client instance lives in src/lib/api-client.ts (or equivalent lib path) — created once, imported everywhere",
+        "Request interceptor sets Accept header and withCredentials (cookie-based auth)",
+        "Response interceptor unwraps response.data, surfaces a user-facing error notification on failure, and handles 401 (redirect/logout hook point)",
+        "react-query defaults (staleTime, retry, refetchOnWindowFocus) exported from a dedicated module (e.g. src/lib/react-query.ts)",
+        "Reusable QueryConfig/MutationConfig helper types are exported so future endpoint hooks are configurable without hand-written generics",
+        "Env is validated with zod in src/config/env.ts and produces a readable aggregate error listing missing/invalid variables",
+        "QueryClient is created exactly once (module singleton or useState initializer) and wired through an app provider component",
+        "No feature-level or lib-level barrel re-export files; new files are kebab-case (a composition-root index.tsx like src/app/index.tsx, or a shared ui component barrel, is acceptable — both match the reference app)"
+      ]
+    }
+  ]
+}
