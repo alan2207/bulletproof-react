@@ -10,15 +10,9 @@ Protecting resources comprises two key components:
 
 Authentication is the process of verifying the identity of a user. In single-page applications (SPAs), the prevalent method of authenticating users is through JSON Web Tokens ([JWT](https://jwt.io/)). When a user logs in or registers, they receive a token that is stored within the application. Subsequently, for each authenticated request, the token is sent in the header or via a cookie along with the request to validate the user's identity and access permissions.
 
-The most secure practice is to store the token in the application state. However, it's important to note that if the user refreshes the application, the token will be reset. That can lead to the loss of the user's authentication status.
+Keeping a token only in memory avoids persistent browser storage, but JavaScript can still access it and it is lost when the page reloads. `localStorage` and `sessionStorage` are also JavaScript-readable and can expose tokens to cross-site scripting ([XSS](https://owasp.org/www-community/attacks/xss/)). For cookie-based browser sessions, the server should issue and verify the cookie with `HttpOnly` and deployment-appropriate `Secure` and `SameSite` attributes, with CSRF protections where needed. JavaScript cannot set the `HttpOnly` attribute or read an `HttpOnly` cookie.
 
-That is why tokens need to be stored in a cookie or `localStorage/sessionStorage`.
-
-#### `localStorage` vs cookie for storing tokens
-
-Storing authentication tokens in localStorage can pose a security risk, especially in the context of Cross-Site Scripting ([XSS](https://owasp.org/www-community/attacks/xss/)) vulnerabilities, potentially leading to token theft by malicious actors.
-
-Opting to store tokens in cookies, configured with the `HttpOnly` attribute, can enhance security as they are inaccessible to client-side JavaScript. In our sample app, we utilize js-cookie for cookie management, assuming the real API would enforce the HttpOnly attribute for enhanced security, and the application does not have access to the cookie from the client side.
+The React Vite sample uses js-cookie in its MSW authentication handlers only as a test workaround and also returns a simplified `Set-Cookie` response. This mock does not demonstrate `HttpOnly` behavior or serve as a production authentication implementation. A real API should manage the session cookie server-side; the client should send credentialed requests without reading the token cookie.
 
 In addition to securely storing tokens, it's crucial to protect the entire application from Cross-Site Scripting (XSS) attacks. One key strategy is to sanitize all user inputs before displaying them in the application. By carefully sanitizing inputs, you can reduce the risk of XSS vulnerabilities, making the application more resilient to malicious attacks and enhancing overall security for users.
 
